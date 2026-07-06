@@ -792,6 +792,42 @@
         "tr": { "stringUnit": { "state": "translated", "value": "Borç" } },
         "en": { "stringUnit": { "state": "translated", "value": "Payable" } }
       }
+    },
+    "people.search.placeholder": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "İsme göre ara..." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Search by name..." } }
+      }
+    },
+    "charts.netBalance.title": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Net Durum Grafiği" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Net Balance Chart" } }
+      }
+    },
+    "charts.direction.title": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Alacak / Borç Dağılımı" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Receivable vs Payable" } }
+      }
+    },
+    "charts.direction.receivable": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Alacak" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Receivable" } }
+      }
+    },
+    "charts.direction.payable": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Borç" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Payable" } }
+      }
+    },
+    "charts.unavailable": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Grafikler bu platformda kullanılamıyor." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Charts unavailable on this platform." } }
+      }
     }
   },
   "version": "1.0"

@@ -10,6 +10,7 @@ public struct PeopleListView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: PeopleListViewModel?
     @State private var showAddPerson = false
+    @State private var searchText = ""
 
     public init() {}
 
@@ -57,7 +58,10 @@ public struct PeopleListView: View {
             .padding(.vertical, Spacing.m)
 
             // List
-            if vm.filteredPersons.isEmpty {
+            let filtered = vm.filteredPersons.filter { item in
+                searchText.isEmpty || item.person.name.localizedCaseInsensitiveContains(searchText)
+            }
+            if filtered.isEmpty {
                 Spacer()
                 EmptyStateView(
                     title: String(localized: "people.empty.title", bundle: .module),
@@ -66,7 +70,7 @@ public struct PeopleListView: View {
                 Spacer()
             } else {
                 List {
-                    ForEach(vm.filteredPersons, id: \.person.id) { item in
+                    ForEach(filtered, id: \.person.id) { item in
                         NavigationLink {
                             PersonDetailView(person: item.person, modelContext: modelContext)
                         } label: {
@@ -96,6 +100,11 @@ public struct PeopleListView: View {
             }
         }
         .refreshable { await vm.loadPersons() }
+        .searchable(
+            text: $searchText,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: String(localized: "people.search.placeholder", bundle: .module)
+        )
     }
 }
 
