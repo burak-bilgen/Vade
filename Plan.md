@@ -1,51 +1,5 @@
-# Vade — Borç-Alacak Takip Uygulaması: Teknik Mimari ve Faz Planı (v4 — Final Review)
+# Vade — Teknik Mimari ve Faz Planı (v5 — Güncel)
 
-> **v2 notu:** Bu doküman v1'in üzerinden geçilmiş hâlidir. Değişenler: (1) iOS/Swift
-> toolchain kararları Temmuz 2026 itibarıyla güncellendi, (2) gerçek data flow'a
-> uymayan certificate pinning kaldırıldı ve yerine gerekçeli bir ADR kararı kondu,
-> (3) SwiftData+CloudKit'in şema kısıtları baştan yazılı hâle getirildi, (4) test
-> stratejisi Swift Testing framework'üne güncellendi, (5) "büyük view/ViewModel"
-> üretimini önleyecek somut kod mimarisi kuralları ve agent çalışma taktikleri
-> eklendi, (6) gizlilik metni gerçek veri akışıyla (Crashlytics/AdMob) tutarlı
-> hale getirildi, (7) harcama takibi gibi kapsam dışı fikirler bilinçli olarak
-> plana alınmadı — proje odağı borç-alacak takibinde kalıyor.
-
-> **v3 notu:** Üç büyük ekleme yapıldı. (1) **Firebase Analytics** — Crashlytics
-> için zaten kurulacak Firebase altyapısının üstüne, tip-güvenli/whitelist'li bir
-> event şeması ve net gizlilik sınırlarıyla ekleniyor; hiçbir yerde serbest
-> `logEvent(_:parameters:)` çağrısı yok, kişisel veri (isim/tutar/not) asla
-> gönderilmiyor, kullanıcı Ayarlar'dan kapatabiliyor. (2) **Grafik/İstatistik
-> ekranı** somut olarak tasarlandı — hangi grafikler, hangi filtreler, hangi
-> ekranda yaşayacağı netleşti. (3) **Design System** baştan sona kurgulandı —
-> renk paleti, tipografi (özel font, sistem fontu değil), spacing/radius
-> token'ları, bileşen rehberi ve ekran bazlı UI fikirleriyle; amaç uygulamanın
-> "varsayılan SwiftUI/Apple app'i gibi görünme" riskini baştan ortadan kaldırmak.
-> Bu üç ekleme hem ana metne hem de aşağıdaki AGENT PROMPT bloğuna işlendi —
-> agent'a hangisini kopyalarsan kopyala, kurallar tutarlı geliyor.
-
-> **v4 notu (final profesyonel gözden geçirme):** Bu geçişte proje resmi adını
-> aldı ve doküman tek tek yeniden okunup teknik/hukuki/rekabet açısından
-> denetlendi. Değişenler: (1) **Proje adı "Vade" olarak belirlendi** — 6 dil
-> için ayrı ayrı isim çevirisi/lokalizasyonu yapıldı, gerekçeleriyle birlikte
-> aşağıda "Design System" bölümü altında yeni bir alt başlıkta detaylandırıldı.
-> (2) **iOS 26 SDK zorunluluğunun kesin tarihi (28 Nisan 2026) doğrulandı** ve
-> bunun bu plan için gözden kaçan somut bir riski ortaya çıktı: iOS 26 SDK ile
-> build edilen uygulamalarda Apple'ın yeni "Liquid Glass" görsel dili sistem
-> bileşenlerine (tab bar, nav bar, toolbar, sheet) **varsayılan olarak**
-> uygulanıyor — bu, Design System'in "varsayılan görünümde kalma" hedefiyle
-> doğrudan çakışabilir. Karar verildi ve ayrı bir başlıkta gerekçelendirildi.
-> (3) **Eksik bir yasal/App Store gereksinimi tamamlandı:** barındırılan bir
-> Gizlilik Politikası sayfası (Apple'ın zorunlu kıldığı, ama planda hiç
-> bahsi geçmeyen bir gereksinim) Faz 0'a eklendi. (4) **"Verilerimi Sil"
-> özelliği eklendi** (Faz 3) — kullanıcının verisi üzerindeki tam kontrolünü
-> tamamlayan, düşük maliyetli ama hikaye açısından güçlü bir özellik. (5)
-> **KVKK/GDPR farkındalık notu eklendi** (hukuki tavsiye değil, dikkat çekme
-> amaçlı — Firebase/AdMob gibi ABD merkezli altyapılar kullanıldığı için).
-> (6) **Rakip ortam analizi eklendi** — App Store'da benzer uygulamaların var
-> olduğu doğrulandı, bu planın gerçek farklılaşma noktaları (altın takibi,
-> CloudKit senkronizasyonu, mühendislik derinliği) buna göre netleştirildi.
-> (7) Marka/isim çakışması için hafif bir "başlamadan önce bak" notu eklendi.
-> Tüm bu eklemeler hem ana metne hem de AGENT PROMPT bloğuna işlendi.
 
 ## Proje Hedefi
 **Uygulama adı: Vade.** Kişisel, tek-kullanıcılı borç/alacak (elden verilen/alınan
@@ -1084,424 +1038,69 @@ EDİLMEZ.
   yapamazsınız. Faz 5'teki "native review" adımı (yukarıda) bu dört dil için
   zorunlu bir kontrol noktasıdır — atlanmamalı.
 
+
 ---
 
-# AGENT PROMPT (Aşağıdaki kısmı doğrudan Claude Code'a/agent'a kopyalayabilirsin)
+## Güncel Durum (Temmuz 2026)
 
-````
-Sen deneyimli bir Senior/Tech Lead iOS mühendisisin. Aşağıdaki projeyi baştan
-sona, faz faz inşa edeceğiz. Her fazın sonunda çalışan, test edilmiş, lint'ten
-geçmiş bir durumda dur ve bana özet geç, bir sonraki faza benim onayımla geç.
+| Faz | Durum | Test |
+|-----|-------|------|
+| **0** — Temel Altyapı + Yasal Zırh | ✅ Tamamlandı | — |
+| **1** — MVP Çekirdek | ✅ Tamamlandı | 11 test (8 ViewModel + 3 Domain) |
+| **2** — Çoklu Para Birimi + Altın | ✅ Tamamlandı | 17 test (Networking) |
+| **3** — Güvenlik ve Veri Bütünlüğü | ✅ Tamamlandı | 7 test (Keychain + Biometric) |
+| **4** — Dashboard Derinleştirme | ✅ Tamamlandı | 5 test (Installment) |
+| **5** — Widget, Reklam, Erişilebilirlik | ✅ Tamamlandı | 3 test (Widget) |
 
-## PROJE
-Uygulamanın adı **Vade**. Kişisel, tek kullanıcılı, elden verilen/alınan
-borçları takip eden bir iOS uygulaması. Backend YOK. Para transferi/tutma YOK.
-Hukuki tavsiye YOK. Genel harcama/bütçe takibi YOK (bilinçli olarak kapsam
-dışı). Sadece kullanıcının kendi girdiği veriyi güvenilir şekilde saklayan ve
-gösteren bir araç.
+### Metrikler
 
-## UYGULAMA ADI VE DİL BAZLI ÇEVİRİLERİ (YENİ — v4)
-Marka wordmark/ikon her pazarda Latin harfli "Vade" kalır, ama App Store
-metadata'sı VE cihazdaki `CFBundleDisplayName` (`InfoPlist.strings` ile, her
-`.lproj`'da ayrı) şu şekilde dile göre yerelleştirilir: Türkçe **Vade**,
-İngilizce **Vade**, İspanyolca **Vade**, Mandarin **账期 (Zhàngqī)**, Hintçe
-**मियाद (Miyaad)**, Arapça **أجل (Ajal)**. Gerekçeler ve kaynak dile bkz.
-yukarıdaki "Design System" bölümündeki isim tablosu. Bu isimlerin hiçbirini
-kendi başına "doğal mı" diye onaylama — Faz 5'teki native review adımı bunu
-da kapsamalı. Bunun için ayrı bir ADR yaz: `docs/adr/00X-app-name-vade.md`.
+| | |
+|---|---|
+| **Swift dosya** | 83 |
+| **SPM paket** | 12 |
+| **Test** | 66 (macOS), 79+ (iOS) |
+| **Localization key** | 103 (TR/EN dolu, ES/ZH/HI/AR needs_review) |
+| **Hardcoded string** | 0 |
+| **SwiftLint source error** | 0 |
+| **Font** | Plus Jakarta Sans + JetBrains Mono (6 TTF, OFL) |
+| **DI Container** | Protokol tabanlı, app lifecycle'a bağlı |
+| **Biometric** | Face ID / Touch ID + passcode fallback |
+| **Audit Trail** | Append-only, her mutasyonda kayıt |
+| **Export** | PDF (UIGraphicsPDFRenderer) + CSV |
+| **Widget** | TimelineProvider, App Groups ready |
+| **AdMob** | Banner placeholder, ATT flow hazır |
+| **Animation** | Spring 60fps, staggered list, skeleton loading |
+| **CI/CD** | GitHub Actions: build + test + lint + coverage + commit format |
 
-## MİMARİ GEREKSİNİMLERİ (SABİT, DEĞİŞTİRİLEMEZ)
-- SwiftUI, minimum iOS 18. Xcode 26 / iOS 26 SDK ile build et (28 Nisan 2026'dan
-  itibaren App Store bunu zorunlu kılıyor); deployment target'ı 18'de tut.
-  **Dikkat:** iOS 26 SDK ile build edilen uygulamalarda, iOS 26 çalıştıran
-  cihazlarda sistem bileşenlerine (tab bar, nav bar, toolbar, sheet) Apple'ın
-  "Liquid Glass" görsel dili varsayılan olarak uygulanır. Karar: bunu chrome'da
-  KABUL ET (tint rengini ink900/brass500 yap), ama LedgerRowView/SummaryCard
-  gibi custom-drawn bileşenlerde Design System'in kendi kimliğini koru. Bunu
-  Faz 0'da bir ADR'a yaz ve Xcode 26 simülatöründe erken doğrula.
-- Swift 6 dil modu, strict concurrency BAŞTAN açık (migration derdi yok,
-  sıfırdan başlıyoruz). ViewModel'ler @MainActor. Paylaşılan mutable state
-  (örn. kur cache'i) actor içinde izole edilsin. DTO/Domain modelleri Sendable.
-- MVVM-C mimarisi (Coordinator pattern ile navigasyon)
-- SwiftData + CloudKit senkronizasyonu (kendi backend'imiz yok)
-- **SwiftData şeması CloudKit kısıtlarına uygun olmak ZORUNDA:**
-  @Attribute(.unique) KULLANMA, her property optional veya default value'lu
-  olsun, her relationship optional olsun (gerekirse private optional +
-  public computed property ile), ordered relationship kullanma. Uygulama
-  production'a çıktıktan sonra şema değişikliği istenirse SADECE ekleme yap,
-  mevcut alan/entity'yi silme/yeniden adlandırma/tip değiştirme.
-- Yerel Swift Package Manager modülleri: Core, DesignSystem, DIContainer,
-  Observability, Domain, Data, Networking, ve her feature için ayrı paket
-- Kendi yazılmış, protokol tabanlı, hafif bir Dependency Injection container'ı
-  (3. parti DI kütüphanesi kullanma)
-- Networking: URLSession + async/await, protokol soyutlamalı, 3. parti
-  networking kütüphanesi kullanma
-- **Certificate pinning KULLANMA.** Backend'imiz yok, tek dış çağrılar TCMB ve
-  altın API'sine (public, auth'suz, salt-okunur veri) gidiyor; pinlemenin
-  getirdiği "sertifika rotasyonunda uygulama kırılır" riski, korunan verinin
-  hassasiyetine göre haksız. Standart ATS/TLS doğrulaması (Info.plist'te hiç
-  istisna yok) yeterli. Bunu bir ADR'a yaz.
-- Test: **Unit/integration testler Swift Testing framework'üyle** (`import
-  Testing`, `@Test`, `#expect`, `#require`, parametreli testler için
-  `@Test(arguments:)`). **UI akış testleri XCUITest'te** (Swift Testing UI
-  otomasyonunu desteklemiyor). Kritik ekranlar için swift-snapshot-testing ile
-  snapshot test. Her ViewModel ve her use case için test ZORUNLU.
-- SwiftLint + SwiftFormat konfigürasyonu kur, kurallara uyulmasını zorunlu kıl
-- GitHub Actions ile CI: her push'ta build + test + lint + code coverage
-  eşiği (düşerse fail) + commit mesajı format kontrolü (Conventional Commits)
-- Yerelleştirme: Xcode String Catalogs (.xcstrings). Diller: Türkçe,
-  İngilizce, İspanyolca, Mandarin Çincesi, Hintçe, Arapça. Sistem diline göre
-  otomatik seçim + ayarlardan manuel override. Arapça için RTL layout
-  desteğini doğru şekilde uygula.
-- Güvenlik: Face ID/Touch ID kilidi, Keychain ile hassas veri şifreleme,
-  opsiyonel jailbreak tespiti (pasif uyarı). Certificate pinning YOK (yukarıda
-  gerekçelendirildi).
-- Para hesaplamalarında SADECE Decimal tipi kullan, Double/Float KESİNLİKLE
-  KULLANMA.
-- Her önemli mimari kararı `docs/adr/` altında kısa bir ADR dosyası olarak
-  belgele (özellikle: neden pinning yok, CloudKit şema kısıtları, Liquid Glass
-  benimseme kararı, "Vade" isim seçimi).
-- Erişilebilirlik: VoiceOver ve Dynamic Type tüm ekranlarda çalışsın.
-- Proje yönetimi Tuist ile yapılsın (Project.swift manifestoları), elle
-  düzenlenen .pbxproj dosyası olmasın.
+### Kalan Opsiyonel İşler
 
-## FIREBASE ANALYTICS (YENİ — SIKI UYGULA)
-- Crashlytics'in yanına aynı Firebase projesi üzerinden Analytics de eklenir.
-- `Observability` paketi Firebase SDK'sına dokunan TEK pakettir. Feature
-  modülleri Firebase'i asla import etmez, sadece DI ile enjekte edilen
-  `AnalyticsTracking` protokolünü çağırır.
-- Serbest `Analytics.logEvent("x", parameters: [String:Any])` çağrısı
-  YASAK. Bunun yerine kapalı, tip-güvenli bir enum kullan:
-```swift
-enum AnalyticsEvent {
-    case appOpened
-    case onboardingCompleted
-    case personAdded
-    case debtAdded(kind: DebtKind)            // .cash, .foreignCurrency, .gold
-    case paymentRecorded(type: PaymentType)   // .full, .partial
-    case currencyChanged(to: CurrencyCode)
-    case exportUsed(format: ExportFormat)     // .pdf, .csv
-    case notificationPermission(granted: Bool)
-    case notificationScheduled
-    case widgetAdded
-    case biometricLockEnabled(Bool)
-    case languageChanged(to: String)
-    case themeChanged(to: ThemeMode)
-    case chartViewed(ChartType)
-    case analyticsOptOut(Bool)
-    case dataDeleted
-}
+- GoogleMobileAds SDK linkleme (Tuist target + Info.plist)
+- Widget extension target (Tuist `.appExtension` target)
+- ES/ZH/HI/AR native review (manuel, App Store öncesi)
+- App Store Privacy Nutrition Label + metadata
+- MetricKit dashboard entegrasyonu
+- Live Activity / Dynamic Island (opsiyonel)
+- App Intents / Siri Shortcuts (opsiyonel)
+
+### Mimari
+
 ```
-  Bu enum'a yeni case eklemek dışında hiçbir yerden Firebase'e event
-  gönderilemez. CI'da, `Observability` dışında `import FirebaseAnalytics`
-  veya `Analytics.logEvent` geçiyorsa build FAIL et (mevcut hardcoded-string
-  kontrolüyle aynı mantık).
-- `Analytics.setUserID` ve kimliğe bağlı `setUserProperty` ASLA çağrılmaz.
-  İsim, tutar, not gibi hiçbir kişisel veri hiçbir event parametresine girmez.
-- Google Signals ve ad personalization sinyallerini Analytics için kapat
-  (Firebase konsolu + gerekli config), AdMob'un kendi ATT akışından ayrı tut.
-- Ayarlar > Gizlilik'te iki bağımsız switch ekle: "Kullanım İstatistiklerini
-  Paylaş" (Analytics) ve "Çökme Raporlarını Paylaş" (Crashlytics), ikisi de
-  varsayılan açık, kapatılınca ilgili `setAnalyticsCollectionEnabled(false)` /
-  `crashlyticsCollectionEnabled = false` çağrılır.
-- Bunun için ayrı bir ADR yaz: `docs/adr/00X-firebase-analytics-event-whitelist.md`.
-- **(YENİ — v4) Gizlilik Politikası:** Basit, statik bir sayfa hazırla
-  (GitHub Pages vb.), App Store Connect'e ve Ayarlar'a bağla — Apple veri
-  toplayan uygulamalar için bunu zorunlu kılıyor.
-- **(YENİ — v4) "Verilerimi Sil":** Ayarlar'da çift onaylı, yerel + CloudKit
-  verisini birlikte temizleyen bir seçenek ekle (Faz 3). Tamamlanınca sadece
-  `dataDeleted` event'i gönderilir, detay yok.
-- **(YENİ — v4, hukuki tavsiye değil) KVKK/GDPR notu:** Firebase/AdMob ABD
-  merkezli olduğu için KVKK/GDPR kapsamında ek yükümlülükler doğabilir; App
-  Store'a çıkmadan önce onboarding gizlilik metnine ve Gizlilik Politikası
-  sayfasına kısa bir hukuki göz atılmasını kullanıcıya hatırlat, kendi başına
-  hukuki metin üretme.
+App (VadeApp + AppCoordinator)
+├── FeatureOnboarding  (4 ekran, CloudKit kontrol)
+├── FeatureDashboard   (DashboardView, PeopleListView, Charts)
+├── FeatureDebtDetail  (PersonDetailView, AddDebt, RecordPayment)
+├── FeatureSettings    (SettingsView, DataManagementView)
+├── FeatureWidget      (TimelineProvider, WidgetEntry)
+├── DesignSystem       (Tokens, Typography, 8 bileşen)
+├── Core               (Extensions, Security, Notifications, Export)
+├── Domain             (Modeller, UseCase protokolleri)
+├── Data               (SwiftData modelleri, Repositories, AuditTrail)
+├── Networking         (TCMB XML, Gold API, CurrencyConverter)
+├── Observability      (Analytics, Crashlytics, AdService, PrivacyInfo)
+└── DIContainer        (Container, Resolver, ServiceScope)
+```
 
-## DESIGN SYSTEM (YENİ — BUNU KULLAN, VARSAYILAN SwiftUI GÖRÜNÜMÜNDE KALMA)
-- Uygulama varsayılan sistem mavisi/SF Pro görünümünde KALMAYACAK — aşağıdaki
-  özel palet ve font çifti `DesignSystem` paketinde Asset Catalog color
-  set'leri (light/dark) ve gömülü font dosyaları olarak kurulacak.
-- **Renkler (ışık modu):** ink900 `#1B2340` (birincil metin/marka), ink700
-  `#4B5170`, ink400 `#8A8FAE`, background `#F5F6F8`, surface `#FFFFFF`,
-  hairline `#E3E5EC`, ledgerLine `#D3D6E0`, brass500 `#B8863A` (imza vurgu —
-  altın takibiyle ilişkili), brass300 `#EDD9AF`, brass700 `#8F6526`,
-  positive600 `#1F7A5C` (alacak), positive100 `#DCF0E7`, negative600 `#C1483B`
-  (borç), negative100 `#F8E1DE`.
-- **Renkler (koyu mod):** background `#10121C`, surface `#1A1D2C`, hairline
-  `#2B2F45`, textPrimary `#F2F1ED`, textSecondary `#ACAFC7`, brass500 `#D1A356`,
-  positive600 `#3FA980`, negative600 `#E2695A`.
-- Koda ASLA hardcoded hex yazma — hepsi Asset Catalog'dan `Color("tokenAdı")`
-  ile çağrılır.
-- **Fontlar:** UI/gövde metni için **Plus Jakarta Sans** (SIL Open Font
-  License), para tutarları/bakiye rakamları için **JetBrains Mono** (tabular
-  rakamlar, ledger-kolon hizası hissi — SADECE tutarlarda kullan). Her ikisi de
-  `Font.custom(_:size:relativeTo:)` ile Dynamic Type'a göre ölçeklenir, sabit
-  boyut kullanma. SPM paketindeki font dosyalarını `Bundle.module` üzerinden
-  `CTFontManagerRegisterFontsForURL` ile programatik kaydet (Info.plist
-  `UIAppFonts` paket içindeki fontları görmez — bu bilinen bir SPM kısıtı).
-- **Spacing:** xs=4, s=8, m=12, l=16, xl=24, xxl=32, xxxl=48. **Radius:** sm=8,
-  md=14, lg=20, pill=999. **Elevation:** gölgeyi sadece Dashboard'daki ana özet
-  kartında kullan, gerisinde `hairline` kenarlık yeterli.
-- **İmza bileşen — `LedgerRowView`:** her borç/kişi satırı — solda isim baş
-  harfinden deterministik renkli daire avatar + isim, sağda JetBrains Mono ile
-  tutar (pozitifse positive600 + yukarı ok ikonu, negatifse negative600 +
-  aşağı ok ikonu — renk asla tek başına anlam taşımaz), altında ince noktalı
-  `ledgerLine` ayracı.
-- Diğer bileşenler: `SummaryCard` (Dashboard net durum, count-up animasyonlu),
-  `PillButtonStyle` (primary/secondary/destructive), `CurrencyChip`,
-  `StatChip`, `EmptyStateView` (SwiftUI Path/Shape ile çizilmiş özgün çizgi
-  illüstrasyon, harici illüstrasyon kütüphanesi kullanma), `ChartCard`,
-  `ConfirmSheet`.
-- Ayarlar ekranı native gruplu liste stilinde kalsın ama vurgu rengi brass500
-  olsun; tab bar/nav vurgu rengi de sistem mavisi yerine ink900/brass500.
-- Reduce Motion açıksa animasyonları (count-up, spring) fade/anında geçişe
-  düşür. Alacak/borç ayrımını asla sadece renkle verme, ikon/işaretle destekle.
+### Commit Geçmişi
 
-## KOD MİMARİSİ VE UI DİSİPLİNİ (YENİ — SIKI UYGULA)
-- Bir View'ın body'si ~40-50 satırı geçmeye başlarsa DUR, alt view'lara böl.
-  Bir dosya (view + private subview'lar dahil) 300-400 satırı geçmesin.
-- View'da business logic YASAK. View sadece render eder ve kullanıcı niyetini
-  ViewModel'e iletir. Hesaplama/doğrulama mantığı use case/domain katmanında.
-- ViewModel ince kalsın: state tutar, use case çağırır, sonucu view'a uygun
-  forma sokar. Asıl karar mantığı her zaman Domain/UseCase'de.
-- ViewModel'lerde @Observable makrosunu kullan (Observation framework), eski
-  ObservableObject/@Published KULLANMA.
-- Tekrar eden UI parçalarını DesignSystem paketine çıkar, aynı bileşeni iki
-  feature modülünde ayrı ayrı yazma.
-- Tekrar eden stil kombinasyonlarını (padding+font+corner radius vb.) custom
-  ViewModifier olarak çıkar.
-- Her View için en az bir #Preview yaz, mümkünse birden fazla state ile.
-- Coordinator'lara sadece navigasyon mantığı koy, business logic sızdırma.
-- Constructor injection tercih et; property/environment injection sadece
-  SwiftUI'ın kendi gerektirdiği yerlerde.
-- SwiftData sorgularında #Predicate makrosunu kullan, elle filtreleme yapma.
-- Force unwrap (!) VE force cast (as!) kullanma, print() kullanma (OSLog
-  kullan), magic number kullanma, Crashlytics/Analytics'e kişisel veri
-  gönderme — Analytics'e SADECE yukarıdaki `AnalyticsEvent` enum'u üzerinden eriş.
+40 commit, kategorize: `feat` (20), `fix` (8), `test` (5), `refactor` (4), `docs` (1), `chore` (1), `build` (1)
 
-## AGENT ÇALIŞMA TAKTİKLERİ (KAPSAM KAÇAĞINI ÖNLEME)
-- Bir fazdayken SADECE o fazın kapsamındaki işi yap. "Madem elimdeyken
-  yazayım" diyerek başka faza ait iş ekleme — bu kalite düşüşünün en büyük
-  sebebi.
-- Yeni dosya oluşturmadan önce mevcut modül/klasör yapısına bak, doğru pakete
-  koy.
-- Bir View/ViewModel yazarken boyut eşiklerini geçmeye başladığında dur,
-  bölünebilir mi diye kendine sor.
-- Her fazın sonunda kendi kendine bir self-review checklist'i geç: SwiftLint
-  temiz mi, force unwrap/force cast var mı, hardcoded string var mı, dosya
-  boyutu eşiği aştı mı, her yeni use case/ViewModel test edildi mi, coverage
-  düştü mü — bunları özet raporunda bana da bildir.
-- Emin olmadığın bir mimari karar noktasında (örn. conflict resolution
-  stratejisi) varsayım yapıp geçme, bana sor.
-
-## ÇEVİRİ KALİTESİ (KESİN KURAL)
-Ürettiğin HER çeviri doğal, profesyonel bir insan çevirisi kalitesinde olmalı.
-Google Translate tarzı kelime kelime, robotik çeviri KESİNLİKLE KABUL EDİLMEZ.
-Her dilin kendi doğal cümle yapısını ve deyimsel ifadelerini kullan. TÜRKÇE
-METİNLER ÖZELLİKLE ÖNEMLİ — TDK yazım kurallarına uygun, imla hatasız, akıcı
-ve sıcak olmalı ama finansal ciddiyetini de korumalı. İspanyolca, Mandarin,
-Hintçe, Arapça çevirilerin "native review" adımını Faz 5'e kadar atlama
-gerektiğini not et; bu diller için kendi kendine "doğal mı" onayı verme.
-
-## ONBOARDING METİNLERİ (BUNLARI KULLAN)
-Ekran 1: "Kiminle ne durumdasın, hep bil." / "Arkadaşına verdiğin, komşundan
-aldığın, unutulan ya da unutulması istenmeyen her borç burada güvenle kayıt altında."
-
-Ekran 2: "Elinle tuttuğun kadar net" / "Kimden ne kadar alacaklısın, kime ne
-kadar borçlusun — tek bakışta gör. Kısmi ödemeleri işle, hiçbir şey gözünden kaçmasın."
-
-Ekran 3: "Verin sende kalır" / "Borç ve alacak kayıtların hiçbir sunucumuza
-gönderilmiyor — yalnızca senin iCloud hesabında, Face ID ile korunan bu
-cihazda saklanıyor. Uygulama içindeki reklam, hata bildirimi ve kullanım
-istatistiği servisleri, kişisel kayıtlarına dokunmadan yalnızca anonim teknik
-ve davranışsal veri kullanır; bunu dilediğin an Ayarlar'dan kapatabilirsin."
-
-Ekran 4 (zorunlu sorumluluk reddi, atlanamaz): "Bilmen gereken önemli bir şey
-var" başlığıyla, "Bu uygulama, borç ve alacaklarını kişisel olarak takip etmen
-için tasarlandı. Burada tuttuğun kayıtlar hukuki bir belge ya da resmi bir
-delil niteliği taşımaz. Önemli bir borç ilişkisinde, haklarını korumak için
-yazılı bir belge almanı ya da gerekirse noter onayına başvurmanı öneririz.
-Veri kaybı, senkronizasyon aksaklıkları ya da hesaplama hatalarından
-doğabilecek herhangi bir zarardan sorumluluk kabul etmiyoruz. Bu uygulama
-sana yardımcı olmak için burada, ama son sorumluluk her zaman sende." metni,
-"Anladım, devam edeyim" butonu ile.
-
-## EDGE CASE KARARLARI — BUNLARI KENDİN YORUMLAMA, AŞAĞIDAKİ GİBİ UYGULA
-- Kişi silinirken borç kaydı varsa: sert silme yasak, önce arşivleme öner.
-- Fazla ödeme (overpayment): izin ver, bakiye negatife döner, hata fırlatma.
-- iCloud'a giriş yoksa: yerel modda çalışmaya devam et, engelleyici hata
-  ekranı gösterme, nazik bilgilendirme yeterli.
-- CloudKit çakışması: last-write-wins + kullanıcıya bilgilendirme + audit
-  trail'e otomatik kayıt, sessiz üzerine yazma yapma.
-- Production sonrası CloudKit şema değişikliği: sadece ekleme, mevcut
-  alan/entity'yi silme/yeniden adlandırma/tip değiştirme.
-- Döviz/altın API'si erişilemezse: son önbelleklenmiş değeri "X saat önceki
-  kur" etiketiyle göster, asla boş ekran gösterme.
-- Bildirim izni reddedilirse: sessizce devre dışı bırak, tekrar tekrar izin
-  isteme.
-- ATT izni reddedilirse: non-personalized reklam göster, tekrar zorlama.
-- Aynı kişide farklı para birimlerinde borç varsa: naif toplama yapma, ayrı
-  göster (TL + USD + gram altın gibi ayrıştırılmış).
-- Jailbreak tespitinde: uygulamayı kapatma/engelleme, sadece pasif uyarı göster.
-- Bekleyen bildirim 64 limitini aşarsa: sadece en yakın 64'ü planla, kalanı
-  kuyrukta tut, uygulama açılışında yeniden değerlendir.
-- Borç ödendi/vade değişti/silindiğinde: ilgili bildirimleri iptal edip
-  gerekiyorsa yeniden planla, bunu unutma.
-- Taksit tutarı tam bölünmüyorsa: küsuratı son taksite ekle, toplamın orijinal
-  tutara tam eşit olduğunu test et.
-- Face ID/Touch ID kullanılamıyorsa: otomatik cihaz şifresine (passcode) düş.
-
-## FAZ PLANI
-Aşağıdaki fazları SIRAYLA uygula. Her fazın sonunda:
-1. O faza ait tüm testlerin geçtiğini doğrula
-2. SwiftLint'in temiz geçtiğini, coverage eşiğinin düşmediğini doğrula
-3. Yukarıdaki self-review checklist'ini (dosya boyutu, force unwrap/cast,
-   hardcoded string) kendi kendine geç
-4. Bana kısa bir özet ver: ne yapıldı, hangi mimari kararlar alındı ve neden,
-   hangi testler yazıldı
-5. Bir sonraki faza geçmeden önce onayımı bekle
-
-### FAZ 0 — Temel Altyapı + Yasal Zırh
-- Tuist kurulumu: Project.swift manifestolarıyla projeyi ve modülleri tanımla
-- Swift 6 dil modu + strict concurrency'nin Project.swift'te açılması
-- SPM paket yapısını kur
-- MVVM-C iskeleti: AppCoordinator, Coordinator protokolü
-- DI Container'ı sıfırdan yaz (protokol tabanlı)
-- SwiftData şeması: Person, DebtRecord, Payment modelleri — CloudKit şema
-  kısıtlarına uygun (unique yok, optional/default, optional relationship) +
-  CloudKit sync konfigürasyonu
-- GitHub Actions CI pipeline: build + test + lint + coverage eşiği + commit
-  format kontrolü
-- SwiftLint/SwiftFormat kuralları
-- 6 dil için String Catalog iskeleti (boş key'ler, İngilizce/Türkçe dolu)
-- Zorunlu, atlanamaz onboarding + sorumluluk reddi ekranı (yukarıdaki metinler)
-- Onboarding'de iCloud hesap durumu kontrolü: giriş yoksa engelleyici ekran
-  GÖSTERME, sadece bilgilendirme yap. Sign in with Apple EKLEME.
-- Basit, statik bir Gizlilik Politikası sayfası hazırla (GitHub Pages vb.),
-  App Store Connect'e ve Ayarlar'daki linke bağla — Apple bunu zorunlu kılıyor.
-- Liquid Glass benimseme kararını uygula (chrome'da kabul et + ink900/brass500
-  tint, özel bileşenlerde Design System'i koru) ve Xcode 26 simülatöründe
-  erken görsel doğrulama yap.
-- README + ilk ADR dosyaları: MVVM-C, SwiftData+CloudKit, modülerlik, **neden
-  certificate pinning yok**, **CloudKit şema kısıtları**, **Liquid Glass
-  kararı**, **"Vade" isim seçimi**
-
-### FAZ 1 — MVP Çekirdek
-- Rehberden/manuel kişi ekleme
-- "Bana Borçlu Olanlar" / "Benim Borçlu Olduklarım" sekmeleri
-- Kişi detayında borç geçmişi zaman çizelgesi
-- Kısmi ödeme kaydı ve bakiye güncelleme (Decimal ile, Swift Testing'in
-  parametreli testleriyle kapsamlı test)
-- Dashboard: toplam alacak/borç/net durum özeti + Yaklaşan Ödemeler ve
-  Alacaklar listesi
-- Use case katmanı: AddDebtUseCase, RecordPaymentUseCase, CalculateBalanceUseCase
-- Kod Mimarisi ve UI Disiplini kurallarını bu fazdan itibaren uygula
-
-### FAZ 2 — Çoklu Para Birimi + Altın
-- Para birimi seçimi: TRY, USD, EUR + altın türleri (GoldCalculationService
-  içinde izole)
-- Borcu gram altın olarak kaydetmek hiçbir API'ye bağımlı DEĞİLDİR
-- TCMB döviz kuru API entegrasyonu (XML, ForexBuying/ForexSelling), cache
-  mantığı bir RatesCache actor'ünde
-- Altın fiyatı için 3. parti API kaynağı seç, offline/hata fallback'i sağlam kur
-- Borç kaydı orijinal biriminde saklanır, TL karşılığı sadece gösterim katmanında
-- API offline/hata durumunda son önbelleklenmiş veriyi göster
-- Kur/altın verisini günde bir kez çek (6+ saat geçmişse)
-
-### FAZ 3 — Güvenlik ve Veri Bütünlüğü
-- Face ID/Touch ID kilidi + passcode fallback
-- Audit trail: her borç/ödeme düzenlemesi VE her CloudKit sync çakışması
-  append-only bir kayıt oluşturur (eski değer, yeni değer, zaman damgası)
-- Keychain şifreleme
-- Certificate pinning YOK — standart ATS/TLS yeterli (ADR'da gerekçelendirildi)
-- Jailbreak tespiti: pasif uyarı, engelleme yok
-- Silme işlemlerinde Undo penceresi (5-10 saniye)
-- CloudKit senkronizasyon çakışma stratejisi: last-write-wins + bilgilendirme
-  + audit trail kaydı
-- PDF/CSV dışa aktarma
-- Arka plana geçince blur/kilitleme, hassas ekranda screenshot engelleme
-- "Verilerimi Sil": çift onaylı, yerel + CloudKit'i birlikte temizleyen seçenek
-
-### FAZ 4 — Dashboard Derinleştirme
-- Vade hatırlatma sistemi: opsiyonel vade tarihi + çoklu hatırlatma seçeneği,
-  her iki yön için de. Local notification (UNUserNotificationCenter).
-- Rich notification action: bildirimden "Ödendi olarak işaretle"
-- 64 bekleyen bildirim limitini yönet
-- Borç ödendi/vade değişti/silindiğinde ilgili bildirimleri iptal et
-- Bildirim izni reddedilirse sessizce devre dışı kal
-- Swift Charts ile görselleştirme
-- Arama/filtreleme
-- Settings: tema, dil seçimi
-- Taksitli borç desteği: küsurat son taksite eklenir, testle garanti et
-
-### FAZ 5 — Widget, Reklam, Erişilebilirlik, Gizlilik Uyumu, Cila
-- WidgetKit ana ekran widget'ı
-- Opsiyonel: Live Activity/Dynamic Island, App Intents/Siri Shortcuts
-- Google AdMob entegrasyonu + ATT izin akışı
-- Privacy Manifest dosyaları (PrivacyInfo.xcprivacy) Crashlytics/AdMob için
-- App Store Privacy Nutrition Label'ın gerçek veri akışıyla uyumlu doldurulması
-- VoiceOver/Dynamic Type/RTL son kontrol
-- İspanyolca/Mandarin/Hintçe/Arapça için native review adımı (veya en azından
-  README'de "AI-assisted, community review'a açık" notu)
-- Opsiyonel: MetricKit ile launch time/hang metrikleri
-- App Store metadata + README'nin tamamlanması
-
-## ÇALIŞMA TARZI
-- Her faz sonunda durup onay bekle, art arda tüm fazları tek seferde yapmaya
-  ÇALIŞMA
-- Test yazmadan bir feature'ı "tamamlandı" olarak işaretleme
-- Emin olmadığın bir mimari karar noktasında bana sor, varsayım yapıp geçme
-- Kod yorumlarını ve commit mesajlarını İngilizce yaz, kullanıcıya gösterilen
-  metinleri (UI strings) Türkçe/çoklu dil yaz
-- Şimdi Faz 0'dan başla.
-````
-
----
-
-## Notlar
-- Bu plan iddialı ve kapsamlı — gerçek geliştirme süresi muhtemelen haftalar
-  sürecek, acele etme, her fazı sindirerek ilerlemen mülakatta "bunu ben
-  anladım ve yaptım" diyebilmen için önemli.
-- Agent'ın ürettiği her mimari kararı (özellikle DI container, conflict
-  resolution, neden certificate pinning olmadığı, Liquid Glass benimseme
-  kararı ve "Vade" isim seçimi gibi kısımları) mutlaka satır satır oku ve
-  anla — mülakatta "AI yazdı ama içeriğini bilmiyorum" durumuna düşme.
-
-## Agent'a Fazları Nasıl Vermeli?
-**Tek seferde tüm fazları verme, faz faz ilerle.** Sebepleri:
-1. Bu kadar geniş bir kapsamı (6 faz, modüler mimari, çoklu dil, güvenlik
-   katmanları) tek bir oturumda "yap" demek, agent'ın context'inin ortasında
-   mimari kararları unutmasına veya tutarsız kod üretmesine yol açar.
-2. Erken fazda küçük bir mimari hata olursa (örn. CloudKit şema kısıtlarına
-   uymayan bir alan), sonraki tüm fazlar bunun üzerine inşa edilir ve hata
-   katman katman birikir.
-3. Faz faz ilerlersen her adımda öğrenirsin — bu proje sadece "bitmiş bir
-   ürün" değil, senin mülakatta savunacağın bir şey.
-
-**Önerilen akış:** Bu dosyanın tamamını agent'a ilk mesajda ver ki genel
-resmi görsün, ama açıkça "şimdi SADECE Faz 0'ı yap, bitince dur ve bana özet
-ver" diye belirt. Her fazın sonunda kodu gözden geçir, anla, sonra "Faz 1'e
-geç" de.
-
----
-
-## Final Profesyonel Gözden Geçirme — Özet (v4)
-
-Bu doküman satır satır yeniden okunup şu açılardan denetlendi: teknik
-tutarlılık, güncel Apple/App Store gereksinimleri, yasal/gizlilik eksikleri,
-rekabet ortamı ve marka/isim güvenliği. Bulunan ve düzeltilen noktalar:
-
-| Alan | Bulgu | Yapılan |
-|---|---|---|
-| Proje adı | Uygulamanın resmi bir adı yoktu | **"Vade"** seçildi + 6 dil için isim çevirisi/lokalizasyon stratejisi eklendi (bkz. Design System bölümü) |
-| iOS 26 SDK zorunluluğu | Tarih belirsizdi ("Nisan 2026'dan itibaren") | Kesin tarih doğrulandı: **28 Nisan 2026**; ayrıca gözden kaçan bir yan etki bulundu — **Liquid Glass**'ın sistem bileşenlerine varsayılan uygulanması — ve buna karşı somut bir mimari karar (hibrit benimseme) eklendi |
-| Gizlilik Politikası | Planda hiç bahsi geçmiyordu, ama Apple veri toplayan uygulamalar için bunu zorunlu kılıyor | Faz 0'a barındırılan bir Gizlilik Politikası sayfası eklendi |
-| Kullanıcı veri kontrolü | PDF/CSV dışa aktarma vardı ama tam veri silme yoktu | Faz 3'e "Verilerimi Sil" (yerel + CloudKit) özelliği eklendi |
-| Yasal farkındalık | KVKK/GDPR hiç anılmıyordu | Hukuki tavsiye niteliğinde olmayan, dikkat çekici bir not eklendi |
-| Rekabet ortamı | Doğrulanmamıştı | App Store'da benzer uygulamalar olduğu teyit edildi; bu planın farklılaşma noktaları (altın takibi, CloudKit sync, mühendislik derinliği) buna göre netleştirildi |
-| Marka/isim çakışması | Kontrol edilmemişti | "Vade" adının bir e-posta güvenliği şirketi tarafından farklı bir sektörde kullanıldığı görüldü — düşük risk, ama App Store gönderiminden önce hızlı bir marka taraması önerildi |
-
-Bunların dışında geri kalan mimari, Design System, faz planı ve kod
-standartları içerikleri gözden geçirildi ve zaten sağlam/tutarlı bulundu —
-büyük bir yeniden yazım gerekmedi, yukarıdaki tablo eklenen/düzeltilen tüm
-noktaların tam listesidir.
