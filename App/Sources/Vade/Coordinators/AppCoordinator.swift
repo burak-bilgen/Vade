@@ -3,6 +3,7 @@ import SwiftData
 import FeatureOnboarding
 import FeatureDashboard
 import FeatureDebtDetail
+import FeatureSettings
 import DesignSystem
 
 /// Root coordinator that owns the entire navigation graph.
@@ -66,7 +67,7 @@ final class AppCoordinator: Coordinator {
             }
 
             NavigationStack {
-                Text(String(localized: "tab.settings"))
+                SettingsView()
             }
             .tabItem {
                 Label(

@@ -30,3 +30,4 @@ struct VadeApp: App {
         .modelContainer(sharedModelContainer)
     }
 }
+sa
