@@ -1,10 +1,12 @@
 import Foundation
+import Core
 
 // MARK: - Protocols
 
 public protocol ExchangeRateProviding: Sendable {
-    func fetchTRYEquivalent(for currency: String) async throws -> Decimal?
+    func fetchRate(for currency: String) async throws -> Decimal?
     func fetchGoldRatePerGram() async throws -> Decimal?
+    func lastUpdateDate() async -> Date?
 }
 
 // MARK: - Rate Cache Actor
@@ -22,7 +24,17 @@ public actor RatesCache {
         lastUpdated = Date()
     }
 
+    public func setRates(_ newRates: [String: Decimal]) {
+        rates.merge(newRates) { _, new in new }
+        lastUpdated = Date()
+    }
+
     public func lastUpdateDate() -> Date? { lastUpdated }
+
+    public func isStale(validityInterval: TimeInterval) -> Bool {
+        guard let lastUpdated else { return true }
+        return Date().timeIntervalSince(lastUpdated) >= validityInterval
+    }
 
     public func clear() {
         rates.removeAll()
@@ -30,9 +42,109 @@ public actor RatesCache {
     }
 }
 
+// MARK: - TCMB XML Parser
+
+enum TCMBParser {
+    private static let tcmbURL = "https://www.tcmb.gov.tr/kurlar/today.xml"
+    private static let goldURL = "https://api.genelpara.com/embed/altin.json"
+
+    /// Parses TCMB daily XML and returns [currencyCode: forexSellingRate]
+    static func parseExchangeRates(from xmlData: Data) throws -> [String: Decimal] {
+        let parser = TCMBXMLParser()
+        parser.parse(xmlData)
+        if let error = parser.parserError {
+            throw error
+        }
+        return parser.rates
+    }
+
+    /// Parses gold rate from genelpara.com JSON API.
+    /// Response format: { "USD": { "alis": "...", "satis": "..." }, "GA": { "alis": "...", "satis": "..." } }
+    static func parseGoldRate(from jsonData: Data) throws -> Decimal {
+        let decoder = JSONDecoder()
+        struct GoldResponse: Decodable {
+            struct Rate: Decodable {
+                let satis: String
+            }
+            let GA: Rate?
+        }
+        let response = try decoder.decode(GoldResponse.self, from: jsonData)
+        guard let ga = response.GA,
+              let value = Decimal(string: ga.satis) else {
+            throw ExchangeRateError.invalidResponse
+        }
+        return value
+    }
+
+    static var exchangeRatesURL: URL { URL(string: tcmbURL)! }
+    static var goldRatesURL: URL { URL(string: goldURL)! }
+}
+
+// MARK: - TCMB XML Parser (SAX-style via FoundationXML)
+
+private final class TCMBXMLParser: NSObject, XMLParserDelegate {
+    var rates: [String: Decimal] = [:]
+    var parserError: Error?
+
+    private var currentCurrencyCode: String?
+    private var currentElement: String?
+    private var currentForexSelling: String?
+
+    func parse(_ data: Data) {
+        let parser = XMLParser(data: data)
+        parser.delegate = self
+        parser.parse()
+    }
+
+    func parser(
+        _ parser: XMLParser,
+        didStartElement elementName: String,
+        namespaceURI: String?,
+        qualifiedName: String?,
+        attributes: [String: String] = [:]
+    ) {
+        currentElement = elementName
+        if elementName == "Currency", let code = attributes["CurrencyCode"] {
+            currentCurrencyCode = code
+            currentForexSelling = nil
+        }
+    }
+
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        guard currentElement == "ForexSelling", let _ = currentCurrencyCode else { return }
+        if currentForexSelling == nil {
+            currentForexSelling = string.trimmingCharacters(in: .whitespacesAndNewlines)
+        } else {
+            currentForexSelling? += string.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
+
+    func parser(
+        _ parser: XMLParser,
+        didEndElement elementName: String,
+        namespaceURI: String?,
+        qualifiedName: String?
+    ) {
+        if elementName == "Currency",
+           let code = currentCurrencyCode,
+           let sellingStr = currentForexSelling,
+           let rate = Decimal(string: sellingStr.replacingOccurrences(of: ",", with: ".")) {
+            rates[code] = rate
+        }
+        if elementName == "ForexSelling" {
+            // already captured in foundCharacters
+        }
+        currentElement = nil
+    }
+
+    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+        parserError = parseError
+    }
+}
+
 // MARK: - Exchange Rate Client
 
-public final class ExchangeRateClient: ExchangeRateProviding {
+public final class ExchangeRateClient: ExchangeRateProviding, @unchecked Sendable {
     private let cache = RatesCache()
     private let session: URLSession
     private let cacheValidityInterval: TimeInterval = 6 * 3600
@@ -41,16 +153,66 @@ public final class ExchangeRateClient: ExchangeRateProviding {
         self.session = session
     }
 
-    public func fetchTRYEquivalent(for currency: String) async throws -> Decimal? {
-        if let lastUpdate = await cache.lastUpdateDate(),
-           Date().timeIntervalSince(lastUpdate) < cacheValidityInterval,
-           let cached = await cache.getRate(for: currency) {
+    // MARK: - Fetch Rate
+
+    public func fetchRate(for currency: String) async throws -> Decimal? {
+        // Return cached rate if fresh
+        if let cached = await cache.getRate(for: currency),
+           await !cache.isStale(validityInterval: cacheValidityInterval) {
             return cached
         }
-        return nil
+
+        // Fetch fresh rates from TCMB
+        return try await fetchAndCacheTCMBRates(for: currency)
     }
 
     public func fetchGoldRatePerGram() async throws -> Decimal? {
-        return nil
+        let key = "GOLD_GRAM"
+        if let cached = await cache.getRate(for: key),
+           await !cache.isStale(validityInterval: cacheValidityInterval) {
+            return cached
+        }
+
+        return try await fetchAndCacheGoldRate()
     }
+
+    public func lastUpdateDate() async -> Date? {
+        await cache.lastUpdateDate()
+    }
+
+    // MARK: - Private
+
+    private func fetchAndCacheTCMBRates(for currency: String) async throws -> Decimal? {
+        let (data, response) = try await session.data(from: TCMBParser.exchangeRatesURL)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw ExchangeRateError.invalidResponse
+        }
+
+        let parsed = try TCMBParser.parseExchangeRates(from: data)
+        await cache.setRates(parsed)
+        AppLog.networking.info("[ExchangeRate] Fetched \(parsed.count) rates from TCMB")
+        return parsed[currency]
+    }
+
+    private func fetchAndCacheGoldRate() async throws -> Decimal? {
+        let (data, response) = try await session.data(from: TCMBParser.goldRatesURL)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw ExchangeRateError.invalidResponse
+        }
+
+        let rate = try TCMBParser.parseGoldRate(from: data)
+        await cache.setRate(rate, for: "GOLD_GRAM")
+        AppLog.networking.info("[ExchangeRate] Fetched gold rate: \(rate)")
+        return rate
+    }
+}
+
+// MARK: - Errors
+
+public enum ExchangeRateError: Error, Sendable {
+    case invalidResponse
+    case parseFailure
+    case rateNotFound
 }
