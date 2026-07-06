@@ -24,6 +24,9 @@ let infoPlist: InfoPlist = .extendingDefault(with: [
     "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
     "ITSAppUsesNonExemptEncryption": false,
     "CFBundleDevelopmentRegion": "tr",
+    "NSContactsUsageDescription": "Vade needs access to your contacts so you can quickly add people you owe money to or who owe you.",
+    "NSFaceIDUsageDescription": "Vade uses Face ID to protect your financial data from unauthorized access.",
+    "NSUserTrackingUsageDescription": "Your data helps us improve Vade and show relevant ads. You can disable this in Settings.",
 ])
 
 // MARK: - App Target

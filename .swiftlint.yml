@@ -52,6 +52,17 @@ cyclomatic_complexity:
 
 excluded:
   - .git
-  - Packages/*/Tests
+  - Packages/Core/Tests
+  - Packages/Data/Tests
+  - Packages/DesignSystem/Tests
+  - Packages/DIContainer/Tests
+  - Packages/Domain/Tests
+  - Packages/FeatureDashboard/Tests
+  - Packages/FeatureDebtDetail/Tests
+  - Packages/FeatureOnboarding/Tests
+  - Packages/FeatureSettings/Tests
+  - Packages/FeatureWidget/Tests
+  - Packages/Networking/Tests
+  - Packages/Observability/Tests
   - DerivedData
   - .build

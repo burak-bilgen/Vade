@@ -1,0 +1,8 @@
+{
+  "name": "background-execution",
+  "description": "Reviews and writes Swift background-execution code: BGTaskScheduler, background URLSession, beginBackgroundTask assertions, silent/VoIP push, and background modes",
+  "version": "1.0.0",
+  "author": "Anton Novoselov",
+  "license": "MIT",
+  "repository": "https://github.com/n0an/Background-Execution-Agent-Skill"
+}

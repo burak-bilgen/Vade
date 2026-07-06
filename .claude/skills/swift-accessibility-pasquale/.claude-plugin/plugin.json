@@ -1,0 +1,31 @@
+{
+  "name": "swift-accessibility-skill",
+  "version": "0.2.0",
+  "description": "Platform accessibility guidance for SwiftUI, UIKit, and AppKit UI tasks, audits, and Nutrition Label readiness.",
+  "author": {
+    "name": "Pasquale Vittoriosi"
+  },
+  "repository": "https://github.com/PasqualeVittoriosi/swift-accessibility-skill",
+  "license": "MIT",
+  "keywords": [
+    "swift",
+    "swiftui",
+    "uikit",
+    "appkit",
+    "accessibility",
+    "a11y",
+    "voiceover",
+    "ios",
+    "macos",
+    "watchos",
+    "tvos",
+    "visionos",
+    "wcag",
+    "nutrition-labels",
+    "dynamic-type",
+    "voice-control"
+  ],
+  "skills": [
+    "./swift-accessibility-skill"
+  ]
+}
