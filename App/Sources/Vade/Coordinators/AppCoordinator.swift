@@ -41,15 +41,15 @@ final class AppCoordinator: Coordinator {
 
     private var placeholderDashboardView: some View {
         TabView {
-            Text("Dashboard")
+            Text(String(localized: "tab.dashboard"))
                 .tabItem {
                     Label(String(localized: "tab.dashboard"), systemImage: "house")
                 }
-            Text("Kişiler")
+            Text(String(localized: "tab.people"))
                 .tabItem {
                     Label(String(localized: "tab.people"), systemImage: "person.2")
                 }
-            Text("Ayarlar")
+            Text(String(localized: "tab.settings"))
                 .tabItem {
                     Label(String(localized: "tab.settings"), systemImage: "gearshape")
                 }

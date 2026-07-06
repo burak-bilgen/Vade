@@ -50,5 +50,5 @@ struct VadeApp: App {
 // MARK: - Preview
 
 #Preview {
-    Text("Vade App — Preview placeholder")
+    Text(String(localized: "Vade App — Preview placeholder"))
 }
