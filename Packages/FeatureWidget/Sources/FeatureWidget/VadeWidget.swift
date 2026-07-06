@@ -1,4 +1,5 @@
 import Foundation
+import Core
 import Domain
 import Observability
 
@@ -54,11 +55,11 @@ public struct VadeTimelineProvider: TimelineProvider {
     public func getTimeline(in context: Context, completion: @escaping (Timeline<VadeWidgetEntry>) -> Void) {
         // Read shared data from App Groups UserDefaults
         // Store Decimal as String to avoid Double precision loss in UserDefaults
-        let defaults = UserDefaults(suiteName: "group.com.vade.app")
-        let balance = Decimal(string: defaults?.string(forKey: "widget.netBalance") ?? "0") ?? .zero
-        let receivable = Decimal(string: defaults?.string(forKey: "widget.totalReceivable") ?? "0") ?? .zero
-        let payable = Decimal(string: defaults?.string(forKey: "widget.totalPayable") ?? "0") ?? .zero
-        let count = defaults?.integer(forKey: "widget.personCount") ?? 0
+        let defaults = UserDefaults(suiteName: UserDefaultsKeys.appGroupSuite)
+        let balance = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetNetBalance) ?? "0") ?? .zero
+        let receivable = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetTotalReceivable) ?? "0") ?? .zero
+        let payable = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetTotalPayable) ?? "0") ?? .zero
+        let count = defaults?.integer(forKey: UserDefaultsKeys.widgetPersonCount) ?? 0
 
         let entry = VadeWidgetEntry(
             date: Date(),
@@ -69,11 +70,11 @@ public struct VadeTimelineProvider: TimelineProvider {
         )
 
         // Track widget added once (first time timeline is requested after install)
-        let hasTrackedWidget = defaults?.bool(forKey: "widget.hasTrackedAdded") ?? false
+        let hasTrackedWidget = defaults?.bool(forKey: UserDefaultsKeys.widgetHasTrackedAdded) ?? false
         if !hasTrackedWidget {
             let analytics: any AnalyticsTracking = AnalyticsService()
             analytics.track(.widgetAdded)
-            defaults?.set(true, forKey: "widget.hasTrackedAdded")
+            defaults?.set(true, forKey: UserDefaultsKeys.widgetHasTrackedAdded)
         }
 
         // Refresh every hour

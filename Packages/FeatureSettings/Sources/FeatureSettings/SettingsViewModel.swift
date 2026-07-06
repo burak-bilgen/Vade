@@ -1,5 +1,6 @@
 import SwiftUI
 import Observation
+import Core
 import Domain
 import Observability
 
@@ -18,15 +19,15 @@ public final class SettingsViewModel {
     public init(analytics: any AnalyticsTracking = AnalyticsService()) {
         self.analytics = analytics
         // Read from AppStorage via UserDefaults
-        self.isBiometricEnabled = UserDefaults.standard.bool(forKey: "biometric_enabled")
-        self.isAnalyticsEnabled = !UserDefaults.standard.bool(forKey: "analytics_opt_out")
-        self.isCrashlyticsEnabled = !UserDefaults.standard.bool(forKey: "crashlytics_opt_out")
-        self.selectedLanguage = UserDefaults.standard.string(forKey: "app_language") ?? "tr"
+        self.isBiometricEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.biometricEnabled)
+        self.isAnalyticsEnabled = !UserDefaults.standard.bool(forKey: UserDefaultsKeys.analyticsOptOut)
+        self.isCrashlyticsEnabled = !UserDefaults.standard.bool(forKey: UserDefaultsKeys.crashlyticsOptOut)
+        self.selectedLanguage = UserDefaults.standard.string(forKey: UserDefaultsKeys.appLanguage) ?? Locale.current.language.languageCode?.identifier ?? "tr"
     }
 
     public func setBiometric(_ enabled: Bool) {
         isBiometricEnabled = enabled
-        UserDefaults.standard.set(enabled, forKey: "biometric_enabled")
+        UserDefaults.standard.set(enabled, forKey: UserDefaultsKeys.biometricEnabled)
         analytics.track(.biometricLockEnabled(enabled))
     }
 
@@ -36,17 +37,17 @@ public final class SettingsViewModel {
         if let service = analytics as? AnalyticsService {
             service.setOptOut(!enabled)
         }
-        UserDefaults.standard.set(!enabled, forKey: "analytics_opt_out")
+        UserDefaults.standard.set(!enabled, forKey: UserDefaultsKeys.analyticsOptOut)
     }
 
     public func setCrashlytics(_ enabled: Bool) {
         isCrashlyticsEnabled = enabled
-        UserDefaults.standard.set(!enabled, forKey: "crashlytics_opt_out")
+        UserDefaults.standard.set(!enabled, forKey: UserDefaultsKeys.crashlyticsOptOut)
     }
 
     public func setLanguage(_ lang: String) {
         selectedLanguage = lang
-        UserDefaults.standard.set(lang, forKey: "app_language")
+        UserDefaults.standard.set(lang, forKey: UserDefaultsKeys.appLanguage)
         analytics.track(.languageChanged(to: lang))
     }
 }

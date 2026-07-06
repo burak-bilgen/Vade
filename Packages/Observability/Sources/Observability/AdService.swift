@@ -1,4 +1,5 @@
 import Foundation
+import Core
 import OSLog
 
 #if canImport(AppTrackingTransparency)
@@ -28,11 +29,11 @@ public final class AdService: AdProviding, @unchecked Sendable {
     }
 
     public var isAdsEnabled: Bool {
-        defaults.bool(forKey: "vade.ads.enabled")
+        defaults.bool(forKey: UserDefaultsKeys.adsEnabled)
     }
 
     public func setAdsEnabled(_ enabled: Bool) {
-        defaults.set(enabled, forKey: "vade.ads.enabled")
+        defaults.set(enabled, forKey: UserDefaultsKeys.adsEnabled)
         logger.info("[AdService] Ads \(enabled ? "enabled" : "disabled")")
     }
 }

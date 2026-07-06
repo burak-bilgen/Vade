@@ -57,11 +57,11 @@ public final class DashboardViewModel {
         netBalance = receivable - payable
 
         // Write widget data to shared App Group UserDefaults
-        if let defaults = UserDefaults(suiteName: "group.com.vade.app") {
-            defaults.set(netBalance.description, forKey: "widget.netBalance")
-            defaults.set(totalReceivable.description, forKey: "widget.totalReceivable")
-            defaults.set(totalPayable.description, forKey: "widget.totalPayable")
-            defaults.set(persons.count, forKey: "widget.personCount")
+        if let defaults = UserDefaults(suiteName: UserDefaultsKeys.appGroupSuite) {
+            defaults.set(netBalance.description, forKey: UserDefaultsKeys.widgetNetBalance)
+            defaults.set(totalReceivable.description, forKey: UserDefaultsKeys.widgetTotalReceivable)
+            defaults.set(totalPayable.description, forKey: UserDefaultsKeys.widgetTotalPayable)
+            defaults.set(persons.count, forKey: UserDefaultsKeys.widgetPersonCount)
         }
     }
 
