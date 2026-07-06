@@ -212,13 +212,15 @@ public struct DashboardView: View {
                 ("🪙", "GA", rates.goldRate),
             ].filter { $0.2 != nil }
             if !pills.isEmpty {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(pills, id: \.1) { (flag, code, rate) in
-                            ratePill(flag: flag, code: code, rate: rate!)
+                NavigationLink { RatesView() } label: {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(pills, id: \.1) { (flag, code, rate) in
+                                ratePill(flag: flag, code: code, rate: rate!)
+                            }
                         }
+                        .padding(.horizontal, 20)
                     }
-                    .padding(.horizontal, 20)
                 }
             }
         }
