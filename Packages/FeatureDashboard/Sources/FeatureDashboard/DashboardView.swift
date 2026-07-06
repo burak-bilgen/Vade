@@ -37,6 +37,55 @@ public struct DashboardView: View {
                     quickActionsRow(vm)
                         .padding(.horizontal, Spacing.l)
 
+                    // MARK: - Monthly Overview
+                    if vm.monthlyStats.totalPersonCount > 0 {
+                        HStack(spacing: Spacing.m) {
+                            statTile(
+                                value: "\(vm.monthlyStats.activePersonCount)",
+                                label: String(localized: "dashboard.month.activePeople")
+                            )
+                            statTile(
+                                value: "\(vm.monthlyStats.pendingDebtCount)",
+                                label: String(localized: "dashboard.month.pendingDebts")
+                            )
+                            statTile(
+                                value: "\(vm.monthlyStats.totalPersonCount)",
+                                label: String(localized: "dashboard.month.totalPeople")
+                            )
+                        }
+                        .padding(.horizontal, Spacing.l)
+                    }
+
+                    // MARK: - Currency Distribution
+                    if !vm.currencyDistribution.isEmpty {
+                        VStack(alignment: .leading, spacing: Spacing.m) {
+                            SectionHeader(String(localized: "dashboard.currency.title"))
+                                .padding(.horizontal, Spacing.l)
+
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: Spacing.s) {
+                                    ForEach(vm.currencyDistribution, id: \.kind) { item in
+                                        currencyChip(item)
+                                    }
+                                }
+                                .padding(.horizontal, Spacing.l)
+                            }
+                        }
+                    }
+
+                    // MARK: - Recent Activity
+                    if !vm.recentActivity.isEmpty {
+                        VStack(alignment: .leading, spacing: Spacing.m) {
+                            SectionHeader(String(localized: "dashboard.recent.title"))
+                                .padding(.horizontal, Spacing.l)
+
+                            ForEach(vm.recentActivity) { item in
+                                activityRow(item)
+                                    .padding(.horizontal, Spacing.l)
+                            }
+                        }
+                    }
+
                     // MARK: - Upcoming
                     VStack(alignment: .leading, spacing: Spacing.m) {
                         SectionHeader(String(localized: "dashboard.upcoming.title"))
@@ -228,6 +277,78 @@ public struct DashboardView: View {
                 .foregroundStyle(ColorTokens.positive)
         }
         .padding(Spacing.l)
+        .background(ColorTokens.surface)
+        .clipShape(.rect(cornerRadius: Radius.md))
+    }
+
+    // MARK: - Monthly Stat Tile
+
+    private func statTile(value: String, label: String) -> some View {
+        VStack(spacing: Spacing.xs) {
+            Text(value)
+                .font(Typography.font(for: .title2))
+                .foregroundStyle(ColorTokens.textPrimary)
+            Text(label)
+                .font(.system(size: 11))
+                .foregroundStyle(ColorTokens.textTertiary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, Spacing.l)
+        .background(ColorTokens.surface)
+        .clipShape(.rect(cornerRadius: Radius.md))
+    }
+
+    // MARK: - Currency Chip
+
+    private func currencyChip(_ item: (kind: CurrencyKind, total: Decimal)) -> some View {
+        VStack(spacing: Spacing.xs) {
+            Text(item.kind.rawValue)
+                .font(Typography.font(for: .caption))
+                .foregroundStyle(ColorTokens.textSecondary)
+            Text(item.total.formatted())
+                .font(Typography.font(for: .amount))
+                .foregroundStyle(ColorTokens.textPrimary)
+        }
+        .padding(.horizontal, Spacing.l)
+        .padding(.vertical, Spacing.m)
+        .background(ColorTokens.surface)
+        .clipShape(.rect(cornerRadius: Radius.md))
+    }
+
+    // MARK: - Activity Row
+
+    private func activityRow(_ item: ActivityItem) -> some View {
+        HStack(spacing: Spacing.m) {
+            Image(systemName: item.direction == .receivable ? "arrow.down.left" : "arrow.up.right")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
+                .frame(width: 32, height: 32)
+                .background(
+                    (item.direction == .receivable ? ColorTokens.positiveLight : ColorTokens.negativeLight)
+                        .opacity(0.15)
+                )
+                .clipShape(.circle)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(item.personName)
+                    .font(Typography.font(for: .headline))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                Text(item.date, format: .relative(presentation: .named))
+                    .font(.system(size: 11))
+                    .foregroundStyle(ColorTokens.textTertiary)
+            }
+
+            Spacer()
+
+            Text(item.direction == .receivable
+                ? "+\(item.amount.formatted())"
+                : "-\(item.amount.formatted())"
+            )
+            .font(Typography.font(for: .amount))
+            .foregroundStyle(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
+        }
+        .padding(Spacing.m)
         .background(ColorTokens.surface)
         .clipShape(.rect(cornerRadius: Radius.md))
     }

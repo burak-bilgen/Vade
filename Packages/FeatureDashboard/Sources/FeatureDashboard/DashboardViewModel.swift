@@ -14,6 +14,9 @@ public final class DashboardViewModel {
     public var totalPayable: Decimal = .zero
     public var netBalance: Decimal = .zero
     public var upcomingItems: [(id: UUID, person: Person, amount: Decimal, dueDate: Date?)] = []
+    public var recentActivity: [ActivityItem] = []
+    public var currencyDistribution: [(kind: CurrencyKind, total: Decimal)] = []
+    public var monthlyStats: MonthlyStats = .empty
     public var isLoading = false
 
     private let personRepo: PersonRepository
@@ -34,6 +37,9 @@ public final class DashboardViewModel {
             persons = try await personRepo.execute(includeArchived: false)
             await refreshBalances()
             await loadUpcoming()
+            await loadRecentActivity()
+            await loadCurrencyDistribution()
+            await loadMonthlyStats()
         } catch {
             AppLog.data.error("[DashboardViewModel] Load failed: \(error.localizedDescription)")
         }
@@ -75,4 +81,73 @@ public final class DashboardViewModel {
         }
         upcomingItems = items.sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
     }
+
+    private func loadRecentActivity() async {
+        var items: [ActivityItem] = []
+        for person in persons {
+            guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
+            for debt in debts {
+                items.append(ActivityItem(
+                    personName: person.name,
+                    amount: debt.amount,
+                    kind: debt.kind,
+                    direction: debt.direction,
+                    date: debt.createdAt,
+                    note: debt.note
+                ))
+            }
+        }
+        recentActivity = items.sorted { $0.date > $1.date }.prefix(5).map { $0 }
+    }
+
+    private func loadCurrencyDistribution() async {
+        var dist: [CurrencyKind: Decimal] = [:]
+        for person in persons {
+            guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
+            for debt in debts where debt.status == .pending {
+                dist[debt.kind, default: .zero] += debt.amount
+            }
+        }
+        currencyDistribution = dist.map { ($0.key, $0.value) }
+            .sorted { $0.total > $1.total }
+    }
+
+    private func loadMonthlyStats() async {
+        let calendar = Calendar.current
+        let now = Date()
+        guard let monthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: now)) else { return }
+
+        var activeCount = 0
+        for person in persons {
+            guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
+            let monthDebts = debts.filter { $0.createdAt >= monthStart }
+            if !monthDebts.isEmpty { activeCount += 1 }
+        }
+
+        monthlyStats = MonthlyStats(
+            activePersonCount: activeCount,
+            totalPersonCount: persons.count,
+            pendingDebtCount: upcomingItems.count
+        )
+    }
+}
+
+// MARK: - Supporting Types
+
+public struct ActivityItem: Identifiable, Sendable {
+    public let id = UUID()
+    public let personName: String
+    public let amount: Decimal
+    public let kind: CurrencyKind
+    public let direction: DebtDirection
+    public let date: Date
+    public let note: String?
+}
+
+public struct MonthlyStats: Sendable {
+    public let activePersonCount: Int
+    public let totalPersonCount: Int
+    public let pendingDebtCount: Int
+
+    public static let empty = MonthlyStats(activePersonCount: 0, totalPersonCount: 0, pendingDebtCount: 0)
 }

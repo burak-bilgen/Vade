@@ -4470,6 +4470,61 @@
           }
         }
       }
+    },
+    "dashboard.month.activePeople": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktif Kişi"
+          }
+        }
+      }
+    },
+    "dashboard.month.pendingDebts": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekleyen"
+          }
+        }
+      }
+    },
+    "dashboard.month.totalPeople": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toplam Kişi"
+          }
+        }
+      }
+    },
+    "dashboard.currency.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Döviz Dağılımı"
+          }
+        }
+      }
+    },
+    "dashboard.recent.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son İşlemler"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
