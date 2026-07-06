@@ -311,6 +311,17 @@
         "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
       }
     },
+    "people.add.fromContacts": {
+      "comment": "Add person — import from contacts button",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Rehberden Seç" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Choose from Contacts" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
     "people.add.cancel": {
       "comment": "Add person — cancel button",
       "localizations": {

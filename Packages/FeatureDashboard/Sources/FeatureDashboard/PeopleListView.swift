@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import DesignSystem
 import Domain
+import Core
 
 // MARK: - People List View
 
@@ -105,8 +106,12 @@ private struct AddPersonSheet: View {
     @State private var name = ""
     @State private var phoneNumber = ""
     @State private var notes = ""
+    @State private var showContactsPicker = false
+    @State private var contacts: [ContactInfo] = []
+    @State private var contactsLoaded = false
 
     let onSave: (String, String?, String?) async -> Void
+    private let contactsService = ContactsService()
 
     var body: some View {
         NavigationStack {
@@ -126,6 +131,23 @@ private struct AddPersonSheet: View {
                         text: $notes
                     )
                 }
+
+                Section {
+                    Button {
+                        Task {
+                            await loadContacts()
+                            showContactsPicker = true
+                        }
+                    } label: {
+                        Label(
+                            String(localized: "people.add.fromContacts", bundle: .module),
+                            systemImage: "person.crop.circle.badge.plus"
+                        )
+                    }
+                }
+            }
+            .sheet(isPresented: $showContactsPicker) {
+                contactsPickerSheet
             }
             .navigationTitle(String(localized: "people.add.title", bundle: .module))
             .navigationBarTitleDisplayMode(.inline)
@@ -146,6 +168,44 @@ private struct AddPersonSheet: View {
                         }
                     }
                     .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
+                }
+            }
+        }
+    }
+
+    private func loadContacts() async {
+        guard !contactsLoaded else { return }
+        _ = await contactsService.requestPermission()
+        contacts = (try? await contactsService.fetchAll()) ?? []
+        contactsLoaded = true
+    }
+
+    private var contactsPickerSheet: some View {
+        NavigationStack {
+            List(contacts, id: \.name) { contact in
+                Button {
+                    name = contact.name
+                    phoneNumber = contact.phoneNumber ?? ""
+                    showContactsPicker = false
+                } label: {
+                    VStack(alignment: .leading) {
+                        Text(contact.name)
+                            .font(Typography.font(for: .body))
+                            .foregroundColor(Color("ink900", bundle: .module))
+                        if let phone = contact.phoneNumber {
+                            Text(phone)
+                                .font(Typography.font(for: .caption))
+                                .foregroundColor(Color("ink400", bundle: .module))
+                        }
+                    }
+                }
+            }
+            .navigationTitle(String(localized: "people.add.fromContacts", bundle: .module))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(String(localized: "people.add.cancel", bundle: .module)) {
+                        showContactsPicker = false
+                    }
                 }
             }
         }
