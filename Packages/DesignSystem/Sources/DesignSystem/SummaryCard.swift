@@ -14,7 +14,7 @@ public struct SummaryCard: View {
 
     public var body: some View {
         VStack(spacing: Spacing.l) {
-            Text(String(localized: "Net Durumun", bundle: .module, comment: "Summary card title"))
+            Text(String(localized: "dashboard.summary.netBalance", bundle: .module, comment: "Summary card title"))
                 .font(Typography.font(for: .caption))
                 .foregroundColor(Color("ink700", bundle: .module))
                 .textCase(.uppercase)
@@ -23,9 +23,9 @@ public struct SummaryCard: View {
                 .foregroundColor(netColor)
             Rectangle().fill(Color("brass500", bundle: .module)).frame(width: 40, height: 2)
             HStack(spacing: Spacing.xxl) {
-                statView(label: String(localized: "Toplam Alacak", bundle: .module, comment: "Total receivable amount"), amount: totalReceivable,
+                statView(label: String(localized: "dashboard.summary.totalReceivable", bundle: .module, comment: "Total receivable amount"), amount: totalReceivable,
                          color: Color("positive600", bundle: .module))
-                statView(label: String(localized: "Toplam Borç", bundle: .module, comment: "Total payable amount"), amount: totalPayable,
+                statView(label: String(localized: "dashboard.summary.totalPayable", bundle: .module, comment: "Total payable amount"), amount: totalPayable,
                          color: Color("negative600", bundle: .module))
             }
         }

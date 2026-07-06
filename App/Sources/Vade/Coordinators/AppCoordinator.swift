@@ -43,15 +43,15 @@ final class AppCoordinator: Coordinator {
         TabView {
             Text("Dashboard")
                 .tabItem {
-                    Label("Dashboard", systemImage: "house")
+                    Label(String(localized: "tab.dashboard"), systemImage: "house")
                 }
             Text("Kişiler")
                 .tabItem {
-                    Label("Kişiler", systemImage: "person.2")
+                    Label(String(localized: "tab.people"), systemImage: "person.2")
                 }
             Text("Ayarlar")
                 .tabItem {
-                    Label("Ayarlar", systemImage: "gearshape")
+                    Label(String(localized: "tab.settings"), systemImage: "gearshape")
                 }
         }
         .tint(Color("brass500", bundle: .main))

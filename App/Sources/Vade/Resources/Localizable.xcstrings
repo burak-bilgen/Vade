@@ -71,7 +71,8 @@
         "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
       }
     },
-    "Net Durumun": {
+    "dashboard.summary.netBalance": {
+      "comment": "Summary card — net balance title",
       "localizations": {
         "tr": { "stringUnit": { "state": "translated", "value": "Net Durumun" } },
         "en": { "stringUnit": { "state": "translated", "value": "Your Net Balance" } },
@@ -81,7 +82,8 @@
         "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
       }
     },
-    "Toplam Alacak": {
+    "dashboard.summary.totalReceivable": {
+      "comment": "Summary card — total receivable label",
       "localizations": {
         "tr": { "stringUnit": { "state": "translated", "value": "Toplam Alacak" } },
         "en": { "stringUnit": { "state": "translated", "value": "Total Receivable" } },
@@ -91,10 +93,44 @@
         "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
       }
     },
-    "Toplam Borç": {
+    "dashboard.summary.totalPayable": {
+      "comment": "Summary card — total payable label",
       "localizations": {
         "tr": { "stringUnit": { "state": "translated", "value": "Toplam Borç" } },
         "en": { "stringUnit": { "state": "translated", "value": "Total Payable" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "tab.dashboard": {
+      "comment": "Tab bar — dashboard tab title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Dashboard" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Dashboard" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "tab.people": {
+      "comment": "Tab bar — people tab title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kişiler" } },
+        "en": { "stringUnit": { "state": "translated", "value": "People" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "tab.settings": {
+      "comment": "Tab bar — settings tab title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Ayarlar" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Settings" } },
         "es": { "stringUnit": { "state": "needs_review", "value": "" } },
         "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
         "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
