@@ -1,0 +1,50 @@
+# Vade — SwiftLint Configuration
+
+disabled_rules:
+  - trailing_whitespace
+  - line_length
+  - type_name
+  - file_header
+
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - closure_spacing
+  - explicit_init
+  - first_where
+  - operator_usage_whitespace
+  - prohibited_super_call
+  - redundant_nil_coalescing
+  - sorted_imports
+
+force_unwrapping:
+  severity: error
+
+force_cast:
+  severity: error
+
+identifier_name:
+  min_length: 2
+  max_length: 50
+
+type_body_length:
+  warning: 400
+  error: 500
+
+function_body_length:
+  warning: 60
+  error: 100
+
+file_length:
+  warning: 400
+  error: 500
+
+cyclomatic_complexity:
+  warning: 10
+  error: 15
+
+excluded:
+  - .git
+  - Packages/*/Tests
+  - DerivedData
+  - .build

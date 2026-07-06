@@ -1,0 +1,126 @@
+{
+  "sourceLanguage": "tr",
+  "strings": {
+    "Devam": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Devam" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Next" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Okudum, anladım ve kabul ediyorum": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Okudum, anladım ve kabul ediyorum" } },
+        "en": { "stringUnit": { "state": "translated", "value": "I have read, understood, and agree" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Anladım, devam edeyim": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Anladım, devam edeyim" } },
+        "en": { "stringUnit": { "state": "translated", "value": "I understand, let me continue" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Kiminle ne durumdasın, hep bil.": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kiminle ne durumdasın, hep bil." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Always know who stands where." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Elinle tuttuğun kadar net": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Elinle tuttuğun kadar net" } },
+        "en": { "stringUnit": { "state": "translated", "value": "As clear as pen on paper" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Verin sende kalır": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Verin sende kalır" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Your data stays with you" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Bilmen gereken önemli bir şey var": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Bilmen gereken önemli bir şey var" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Something important you should know" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Net Durumun": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Net Durumun" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Your Net Balance" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Toplam Alacak": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Toplam Alacak" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Total Receivable" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Toplam Borç": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Toplam Borç" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Total Payable" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Henüz kimseyle bir hesabın yok": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Henüz kimseyle bir hesabın yok" } },
+        "en": { "stringUnit": { "state": "translated", "value": "No balances with anyone yet" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "iCloud hesabına giriş yaparsan verilerin diğer cihazlarınla otomatik senkronize olur. Şimdilik yalnızca bu cihazda saklanıyor.": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "iCloud hesabına giriş yaparsan verilerin diğer cihazlarınla otomatik senkronize olur. Şimdilik yalnızca bu cihazda saklanıyor." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Sign in to iCloud to automatically sync your data across devices. For now, data is stored only on this device." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    }
+  },
+  "version": "1.0"
+}

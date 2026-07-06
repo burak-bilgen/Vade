@@ -1,0 +1,117 @@
+import Foundation
+import SwiftData
+import Domain
+
+// MARK: - Person Repository
+
+public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase {
+    private let modelContext: ModelContext
+
+    public init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
+
+    public func execute(name: String, phoneNumber: String?, notes: String?) async throws -> Person {
+        let entity = PersonModel(name: name, phoneNumber: phoneNumber, notes: notes)
+        modelContext.insert(entity)
+        try modelContext.save()
+        return entity.toDomain()
+    }
+
+    public func execute(includeArchived: Bool = false) async throws -> [Person] {
+        let descriptor = FetchDescriptor<PersonModel>(
+            predicate: includeArchived ? nil : #Predicate { !$0.isArchived },
+            sortBy: [SortDescriptor(\.name)]
+        )
+        return try modelContext.fetch(descriptor).map { $0.toDomain() }
+    }
+}
+
+// MARK: - Debt Repository
+
+public final class DebtRepository: AddDebtUseCase {
+    private let modelContext: ModelContext
+
+    public init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
+
+    public func execute(
+        personID: UUID,
+        amount: Decimal,
+        kind: CurrencyKind,
+        direction: DebtDirection,
+        note: String?,
+        dueDate: Date?
+    ) async throws -> DebtRecord {
+        let entity = DebtRecordModel(
+            personID: personID,
+            amount: amount,
+            kindRawValue: kind.rawValue,
+            directionRawValue: direction.rawValue,
+            note: note,
+            dueDate: dueDate
+        )
+        modelContext.insert(entity)
+        try modelContext.save()
+        return entity.toDomain()
+    }
+}
+
+// MARK: - Balance Repository
+
+public final class BalanceRepository: CalculateBalanceUseCase {
+    private let modelContext: ModelContext
+
+    public init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
+
+    public func execute(for personID: UUID) async throws -> Decimal {
+        let descriptor = FetchDescriptor<DebtRecordModel>(
+            predicate: #Predicate { $0.personID == personID && $0.statusRawValue == "pending" }
+        )
+        let records = try modelContext.fetch(descriptor)
+        return records.reduce(Decimal.zero) { total, record in
+            let signed = record.directionRawValue == "receivable" ? record.amount : -record.amount
+            return total + signed - record.payments.reduce(Decimal.zero) { $0 + $1.amount }
+        }
+    }
+
+    public func netBalance() async throws -> Decimal {
+        let descriptor = FetchDescriptor<DebtRecordModel>(
+            predicate: #Predicate { $0.statusRawValue == "pending" }
+        )
+        let records = try modelContext.fetch(descriptor)
+        return records.reduce(Decimal.zero) { total, record in
+            let signed = record.directionRawValue == "receivable" ? record.amount : -record.amount
+            return total + signed - record.payments.reduce(Decimal.zero) { $0 + $1.amount }
+        }
+    }
+}
+
+// MARK: - Mappers
+
+public extension PersonModel {
+    func toDomain() -> Person {
+        Person(id: id, name: name, phoneNumber: phoneNumber, notes: notes,
+               createdAt: createdAt, isArchived: isArchived)
+    }
+}
+
+public extension DebtRecordModel {
+    func toDomain() -> DebtRecord {
+        DebtRecord(
+            id: id,
+            personID: personID,
+            amount: amount,
+            kind: CurrencyKind(rawValue: kindRawValue) ?? .tryCoin,
+            direction: DebtDirection(rawValue: directionRawValue) ?? .receivable,
+            note: note,
+            dueDate: dueDate,
+            status: DebtStatus(rawValue: statusRawValue) ?? .pending,
+            createdAt: createdAt,
+            updatedAt: updatedAt
+        )
+    }
+}

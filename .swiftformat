@@ -1,0 +1,13 @@
+# Vade — SwiftFormat Configuration
+
+--indent 4
+--wraparguments before-first
+--wrapcollections before-first
+--closingparen same-line
+--stripunusedargs always
+--self insert
+--importgrouping testable-bottom
+--maxwidth 110
+--commas inline
+--semicolons inline
+--disable blankLinesBetweenScopes
