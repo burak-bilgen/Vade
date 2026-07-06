@@ -33,10 +33,12 @@ public struct DashboardView: View {
         ScrollView {
             VStack(spacing: Spacing.xl) {
                 summarySection(vm)
+                    .transition(.scale(scale: 0.95).combined(with: .opacity))
                 upcomingSection(vm)
                 quickActionsSection
             }
             .padding(Spacing.l)
+            .animation(.spring(response: 0.45, dampingFraction: 0.75), value: vm.netBalance)
         }
         .background(Color("background"))
         .refreshable { await vm.loadData() }

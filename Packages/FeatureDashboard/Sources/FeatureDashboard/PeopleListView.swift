@@ -70,7 +70,7 @@ public struct PeopleListView: View {
                 Spacer()
             } else {
                 List {
-                    ForEach(filtered, id: \.person.id) { item in
+                    ForEach(Array(filtered.enumerated()), id: \.element.person.id) { index, item in
                         NavigationLink {
                             PersonDetailView(person: item.person, modelContext: modelContext)
                         } label: {
@@ -83,6 +83,11 @@ public struct PeopleListView: View {
                         }
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                        .animation(
+                            .spring(response: 0.4, dampingFraction: 0.8)
+                            .delay(Double(index) * 0.05),
+                            value: filtered.count
+                        )
                     }
                 }
                 .listStyle(.plain)
