@@ -690,6 +690,108 @@
         "tr": { "stringUnit": { "state": "translated", "value": "Gizlilik Politikası" } },
         "en": { "stringUnit": { "state": "translated", "value": "Privacy Policy" } }
       }
+    },
+    "data.navigationTitle": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Veri Yönetimi" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Data Management" } }
+      }
+    },
+    "data.section.export": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Dışa Aktar" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Export" } }
+      }
+    },
+    "data.section.danger": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Tehlikeli Bölge" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Danger Zone" } }
+      }
+    },
+    "data.export.csv": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "CSV Olarak Dışa Aktar" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Export as CSV" } }
+      }
+    },
+    "data.export.pdf": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "PDF Olarak Dışa Aktar" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Export as PDF" } }
+      }
+    },
+    "data.delete.allData": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Tüm Verilerimi Sil" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Delete All My Data" } }
+      }
+    },
+    "data.delete.confirmTitle": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Emin misin?" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Are you sure?" } }
+      }
+    },
+    "data.delete.confirmMessage": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Bu işlem geri alınamaz. Tüm borç, alacak ve kişi kayıtların silinecek." } },
+        "en": { "stringUnit": { "state": "translated", "value": "This cannot be undone. All debt, credit, and person records will be deleted." } }
+      }
+    },
+    "data.delete.continue": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Devam Et" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Continue" } }
+      }
+    },
+    "data.delete.finalTitle": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Son kez soruyorum" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Final confirmation" } }
+      }
+    },
+    "data.delete.finalMessage": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Tüm verilerin kalıcı olarak silinecek. Bu işlemi geri alamazsın." } },
+        "en": { "stringUnit": { "state": "translated", "value": "All your data will be permanently deleted. You cannot undo this." } }
+      }
+    },
+    "data.delete.confirm": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Verilerimi Sil" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Delete My Data" } }
+      }
+    },
+    "data.delete.cancel": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "İptal" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Cancel" } }
+      }
+    },
+    "data.delete.undoMessage": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Veriler silindi" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Data deleted" } }
+      }
+    },
+    "data.delete.undo": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Geri Al" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Undo" } }
+      }
+    },
+    "export.direction.receivable": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Alacak" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Receivable" } }
+      }
+    },
+    "export.direction.payable": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Borç" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Payable" } }
+      }
     }
   },
   "version": "1.0"

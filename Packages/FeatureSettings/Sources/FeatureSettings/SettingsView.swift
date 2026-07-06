@@ -61,8 +61,8 @@ public struct SettingsView: View {
 
                 // Data
                 Section {
-                    Button(role: .destructive) {
-                        // Data deletion flow — Phase 3
+                    NavigationLink {
+                        DataManagementView()
                     } label: {
                         Label(
                             String(localized: "settings.deleteData.button"),
