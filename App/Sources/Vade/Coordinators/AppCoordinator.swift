@@ -7,8 +7,6 @@ import FeatureSettings
 import DesignSystem
 import DIContainer
 
-/// Root coordinator that owns the entire navigation graph.
-/// This is the composition root — the ONLY place where the DI container is assembled.
 @MainActor
 final class AppCoordinator: Coordinator {
     weak var parentCoordinator: Coordinator? = nil
@@ -16,7 +14,7 @@ final class AppCoordinator: Coordinator {
 
     private let modelContainer: ModelContainer
     private let diContainer: Container
-    private var hasCompletedOnboarding = false
+    @State private var onboardingDone = false
 
     init(modelContainer: ModelContainer, container: Container) {
         self.modelContainer = modelContainer
@@ -26,60 +24,29 @@ final class AppCoordinator: Coordinator {
     func start() -> AnyView {
         AnyView(
             Group {
-                if hasCompletedOnboarding {
+                if onboardingDone {
                     mainTabView
                 } else {
-                    onboardingView
+                    OnboardingView {
+                        self.onboardingDone = true
+                    }
                 }
             }
+            .modelContainer(modelContainer)
         )
     }
-
-    // MARK: - Onboarding
-
-    private var onboardingView: some View {
-        OnboardingView(
-            onComplete: { [weak self] in
-                self?.hasCompletedOnboarding = true
-            }
-        )
-    }
-
-    // MARK: - Main Tab View
 
     private var mainTabView: some View {
         TabView {
-            NavigationStack {
-                DashboardView()
-            }
-            .tabItem {
-                Label(
-                    String(localized: "tab.dashboard"),
-                    systemImage: "house"
-                )
-            }
+            NavigationStack { DashboardView() }
+                .tabItem { Label(String(localized: "tab.dashboard"), systemImage: "house") }
 
-            NavigationStack {
-                PeopleListView()
-            }
-            .tabItem {
-                Label(
-                    String(localized: "tab.people"),
-                    systemImage: "person.2"
-                )
-            }
+            NavigationStack { PeopleListView() }
+                .tabItem { Label(String(localized: "tab.people"), systemImage: "person.2") }
 
-            NavigationStack {
-                SettingsView()
-            }
-            .tabItem {
-                Label(
-                    String(localized: "tab.settings"),
-                    systemImage: "gearshape"
-                )
-            }
+            NavigationStack { SettingsView() }
+                .tabItem { Label(String(localized: "tab.settings"), systemImage: "gearshape") }
         }
         .tint(Color.vdBrass500)
-        .modelContainer(modelContainer)
     }
 }
