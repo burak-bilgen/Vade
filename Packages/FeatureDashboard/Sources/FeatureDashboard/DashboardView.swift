@@ -86,7 +86,6 @@ public struct DashboardView: View {
             }
             .padding(Spacing.l)
         }
-        .background(ColorTokens.background)
         .navigationTitle(String(localized: "tab.dashboard"))
         .task {
             let vm = DashboardViewModel(modelContext: modelContext)

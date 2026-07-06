@@ -39,7 +39,7 @@ public struct CoordinatorRootView: View {
 
     public var body: some View {
         ZStack {
-            ColorTokens.surface.ignoresSafeArea()
+            ColorTokens.background.ignoresSafeArea()
             if onboardingDone {
                 MainTabView()
             } else {

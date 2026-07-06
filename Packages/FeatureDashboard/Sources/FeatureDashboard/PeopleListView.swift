@@ -59,7 +59,6 @@ public struct PeopleListView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(ColorTokens.background)
         .navigationTitle(String(localized: "people.navigationTitle"))
         .searchable(text: $searchText, prompt: String(localized: "people.search.placeholder"))
         .toolbar {
