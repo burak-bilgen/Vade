@@ -10,9 +10,11 @@
 		07EDA51FB6C65F471AD9D743 /* Data.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = F51990510BA8AFE78478F1ED /* Data.framework */; };
 		09CA566494360740B920EE92 /* FeatureSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5755660C44D75FC31DE0F981 /* FeatureSettings.framework */; };
 		23DFB6374740A880B85E37F3 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51990510BA8AFE78478F1ED /* Data.framework */; };
+		276FEFB66246F66B9F78A23D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F096FA050398D6FA60B4B1 /* SettingsViewModel.swift */; };
 		2A3AF1034A9689F640203E8D /* DesignSystem.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 69B5DC4DD3B7CF64C00A5A4A /* DesignSystem.framework */; };
 		362CBE0C7F7A2A51110A0203 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C8FE63AE035581F7812690 /* Domain.framework */; };
 		37D97FEA2631D2DCFB9439F6 /* DIContainer.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = EC646D38663CC57B2FAEC9C1 /* DIContainer.framework */; };
+		4BEE6F5AC0437F4C56ED12D8 /* Observability.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 93F17A400A690CFACBACC683 /* Observability.framework */; };
 		4DFE7855A5D820CAEA688DE1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4672829BBA52DC207A0BC /* SettingsView.swift */; };
 		58465EDBF3A1D3B2B8B246A3 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B5DC4DD3B7CF64C00A5A4A /* DesignSystem.framework */; };
 		663E52FCDD539268FE0614B0 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0426D261CBBCECF3FDF09 /* SettingsViewModelTests.swift */; };
@@ -22,6 +24,7 @@
 		7F05C62088A0462D8508C0C7 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE127C1268B12D54593633A /* Core.framework */; };
 		AB4992162875AB7C720A3716 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8E19C3716E22EACED643B2EC /* DesignSystem_DesignSystem.bundle */; };
 		B875C8E391384B0D0342C753 /* Domain.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D8C8FE63AE035581F7812690 /* Domain.framework */; };
+		B8FA8AE4475D721A44B2CE7C /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F17A400A690CFACBACC683 /* Observability.framework */; };
 		F36AD67C3C975B610C4FEAF6 /* DataManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B44BEAA5FF01EE942F5AD /* DataManagementView.swift */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +79,7 @@
 				07EDA51FB6C65F471AD9D743 /* Data.framework in Dependencies */,
 				2A3AF1034A9689F640203E8D /* DesignSystem.framework in Dependencies */,
 				B875C8E391384B0D0342C753 /* Domain.framework in Dependencies */,
+				4BEE6F5AC0437F4C56ED12D8 /* Observability.framework in Dependencies */,
 			);
 			name = Dependencies;
 			runOnlyForDeploymentPostprocessing = 1;
@@ -85,9 +89,11 @@
 /* Begin PBXFileReference section */
 		15A0426D261CBBCECF3FDF09 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
 		15B4672829BBA52DC207A0BC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		48F096FA050398D6FA60B4B1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		5755660C44D75FC31DE0F981 /* FeatureSettings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureSettings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B5DC4DD3B7CF64C00A5A4A /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E19C3716E22EACED643B2EC /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		93F17A400A690CFACBACC683 /* Observability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1C29F2EA2D3A6EC68F2931B /* FeatureSettingsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureSettingsTests-Info.plist"; sourceTree = "<group>"; };
 		B64F81E76ED6CA77AD24B81F /* FeatureSettingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureSettingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE127C1268B12D54593633A /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +115,7 @@
 				58465EDBF3A1D3B2B8B246A3 /* DesignSystem.framework in Frameworks */,
 				362CBE0C7F7A2A51110A0203 /* Domain.framework in Frameworks */,
 				09CA566494360740B920EE92 /* FeatureSettings.framework in Frameworks */,
+				B8FA8AE4475D721A44B2CE7C /* Observability.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +140,7 @@
 				D8C8FE63AE035581F7812690 /* Domain.framework */,
 				5755660C44D75FC31DE0F981 /* FeatureSettings.framework */,
 				B64F81E76ED6CA77AD24B81F /* FeatureSettingsTests.xctest */,
+				93F17A400A690CFACBACC683 /* Observability.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,6 +209,7 @@
 			children = (
 				FF5B44BEAA5FF01EE942F5AD /* DataManagementView.swift */,
 				15B4672829BBA52DC207A0BC /* SettingsView.swift */,
+				48F096FA050398D6FA60B4B1 /* SettingsViewModel.swift */,
 			);
 			path = FeatureSettings;
 			sourceTree = "<group>";
@@ -306,6 +315,7 @@
 			files = (
 				F36AD67C3C975B610C4FEAF6 /* DataManagementView.swift in Sources */,
 				4DFE7855A5D820CAEA688DE1 /* SettingsView.swift in Sources */,
+				276FEFB66246F66B9F78A23D /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

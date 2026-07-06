@@ -14,10 +14,12 @@
 		502923C3867376DC6CDF5DB4 /* DIContainer.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = BCF2818D6ED57F4A3B9E966D /* DIContainer.framework */; };
 		5AE92128FCA2959809F49144 /* Domain.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 3B159A3D99B8257467A1AB18 /* Domain.framework */; };
 		6FDC1DA98F6BB136CCB19EAD /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B159A3D99B8257467A1AB18 /* Domain.framework */; };
+		7BFD4B6E5ED7493CFADEEDD8 /* Observability.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 88E248FAC7BB85DD8A52DDAC /* Observability.framework */; };
 		7ECF9F06606AC5793FCABD94 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A22E5A6E1779FF425CA0CCD /* DesignSystem.framework */; };
 		81B9760CE171B15C49772F1F /* PersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC177C756C2666CCFF18AC2 /* PersonDetailView.swift */; };
 		939347531FA8548CDBA0672A /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2258DA060DCC834E52C94933 /* DesignSystem_DesignSystem.bundle */; };
 		A7EA45D3FDC74443CB884045 /* PersonDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C3313B3C9529D1D26B988C /* PersonDetailViewModelTests.swift */; };
+		A97906C478B1B8918C88C44E /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E248FAC7BB85DD8A52DDAC /* Observability.framework */; };
 		B858992830CA19DD8E93E557 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CCAC67C9F168680B5341CE3 /* Data.framework */; };
 		C45769A54B800AE6E0A92CA9 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 149575509E9282FC1C78E3F6 /* Core.framework */; };
 		D9521C20664AEF65546B5A80 /* Data.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 9CCAC67C9F168680B5341CE3 /* Data.framework */; };
@@ -66,6 +68,7 @@
 				D9521C20664AEF65546B5A80 /* Data.framework in Dependencies */,
 				2C2A3CF8383346275613FE32 /* DesignSystem.framework in Dependencies */,
 				5AE92128FCA2959809F49144 /* Domain.framework in Dependencies */,
+				7BFD4B6E5ED7493CFADEEDD8 /* Observability.framework in Dependencies */,
 			);
 			name = Dependencies;
 			runOnlyForDeploymentPostprocessing = 1;
@@ -91,6 +94,7 @@
 		33EF9CD2FF9A7CF0D305C61C /* FeatureDebtDetailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureDebtDetailTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A22E5A6E1779FF425CA0CCD /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B159A3D99B8257467A1AB18 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		88E248FAC7BB85DD8A52DDAC /* Observability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CCAC67C9F168680B5341CE3 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCF2818D6ED57F4A3B9E966D /* DIContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DIContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D03119B4893ABF7C86016713 /* PersonDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailViewModel.swift; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 				7ECF9F06606AC5793FCABD94 /* DesignSystem.framework in Frameworks */,
 				6FDC1DA98F6BB136CCB19EAD /* Domain.framework in Frameworks */,
 				E3A086678F6FCE2DAB7EC12C /* FeatureDebtDetail.framework in Frameworks */,
+				A97906C478B1B8918C88C44E /* Observability.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +172,7 @@
 				3B159A3D99B8257467A1AB18 /* Domain.framework */,
 				F3EBD96B1F53EE1228302A2A /* FeatureDebtDetail.framework */,
 				33EF9CD2FF9A7CF0D305C61C /* FeatureDebtDetailTests.xctest */,
+				88E248FAC7BB85DD8A52DDAC /* Observability.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";

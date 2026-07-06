@@ -4,15 +4,21 @@ import SwiftData
 // NOTE: @Relationship inverse keypaths only declared on the "child" side
 // to avoid circular @Model macro resolution. SwiftData infers the parent-side
 // inverse from the child's explicit declaration.
+//
+// CloudKit requires that ALL non-optional properties have either:
+// 1. A default value at the property declaration, OR
+// 2. Be marked optional (?).
+// This is because CloudKit creates instances via decoding/reflection,
+// NOT via our init methods. Property-level defaults are mandatory.
 
 // MARK: - SwiftData Payment Model (CloudKit-safe)
 
 @Model
 public final class PaymentModel {
-    public var id: UUID
-    public var debtRecordID: UUID
-    public var amount: Decimal
-    public var date: Date
+    public var id: UUID = UUID()
+    public var debtRecordID: UUID = UUID()
+    public var amount: Decimal = 0
+    public var date: Date = Date()
     public var note: String?
 
     @Relationship(inverse: \DebtRecordModel._payments)
@@ -37,16 +43,16 @@ public final class PaymentModel {
 
 @Model
 public final class DebtRecordModel {
-    public var id: UUID
-    public var personID: UUID
-    public var amount: Decimal
-    public var kindRawValue: String
-    public var directionRawValue: String
+    public var id: UUID = UUID()
+    public var personID: UUID = UUID()
+    public var amount: Decimal = 0
+    public var kindRawValue: String = "TRY"
+    public var directionRawValue: String = "receivable"
     public var note: String?
     public var dueDate: Date?
-    public var statusRawValue: String
-    public var createdAt: Date
-    public var updatedAt: Date
+    public var statusRawValue: String = "pending"
+    public var createdAt: Date = Date()
+    public var updatedAt: Date = Date()
 
     @Relationship(inverse: \PersonModel._debtRecords)
     public var person: PersonModel?
@@ -87,12 +93,12 @@ public final class DebtRecordModel {
 
 @Model
 public final class PersonModel {
-    public var id: UUID
-    public var name: String
+    public var id: UUID = UUID()
+    public var name: String = ""
     public var phoneNumber: String?
     public var notes: String?
-    public var createdAt: Date
-    public var isArchived: Bool
+    public var createdAt: Date = Date()
+    public var isArchived: Bool = false
 
     @Relationship(deleteRule: .cascade)  // inverse inferred from DebtRecordModel.person
     var _debtRecords: [DebtRecordModel]?
@@ -122,12 +128,12 @@ public final class PersonModel {
 
 @Model
 public final class AuditEntryModel {
-    public var id: UUID
-    public var debtRecordID: UUID
-    public var oldValue: String
-    public var newValue: String
-    public var reasonRawValue: String
-    public var timestamp: Date
+    public var id: UUID = UUID()
+    public var debtRecordID: UUID = UUID()
+    public var oldValue: String = ""
+    public var newValue: String = ""
+    public var reasonRawValue: String = "manualEdit"
+    public var timestamp: Date = Date()
 
     public init(
         id: UUID = UUID(),

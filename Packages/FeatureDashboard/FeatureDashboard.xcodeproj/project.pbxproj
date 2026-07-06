@@ -10,6 +10,7 @@
 		1B11CBD657337D78AFF1C2FD /* FeatureDebtDetail.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D7D059EA699DA821815DF984 /* FeatureDebtDetail.framework */; };
 		26FB410ACE0BEFA1277EB1F6 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEFD0701DBB68AB660AB472 /* DashboardViewModelTests.swift */; };
 		3130861D0C62EE3529410BE5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C43634E77AF26473D30AE519 /* Data.framework */; };
+		3446853C9F22750828493947 /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AD14681BE4ED154ECFCC73D /* Observability.framework */; };
 		3BF68C462F5FD111099F227B /* FeatureDebtDetail.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7D059EA699DA821815DF984 /* FeatureDebtDetail.framework */; };
 		4580AC4F8EAF232A11C9F679 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69F1700C18C321512CE6CB /* DashboardView.swift */; };
 		462FE9B8BE5685FECD40DE60 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC5CADB6B7241646A08EB52 /* DashboardViewModel.swift */; };
@@ -19,13 +20,17 @@
 		8ECA489F1DDABB4B4774ED8E /* PeopleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644C27BD2632AF8797AC0229 /* PeopleListViewModel.swift */; };
 		9189994C264A800F500DB41C /* Data.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = C43634E77AF26473D30AE519 /* Data.framework */; };
 		9509A9AB675A0345381730C3 /* PeopleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097AC04B229D832E93F7D61A /* PeopleListView.swift */; };
+		9D08041567C7A7098016D53E /* ChartsHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF63A713E53F5B12C0555822 /* ChartsHostView.swift */; };
+		A265DD7850D3C2E8DF0A15D3 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2990D3F30640390748ECC08 /* Networking.framework */; };
 		A73B727607F9FF3CC02AD31E /* DIContainer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEC090540F9FB449D4FA8F03 /* DIContainer.framework */; };
 		B037D7074921560DA15B9482 /* DesignSystem.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 2484A09C04D9FA9A15535687 /* DesignSystem.framework */; };
+		B54349280B4FECBC336A7B4C /* Networking.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = E2990D3F30640390748ECC08 /* Networking.framework */; };
 		B9F1D5A9BC1F46542A2A1C13 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D54F422C503F06B7F1BBD38 /* Core.framework */; };
 		C42B08A37E5355A39625B3BF /* ChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B8508BE9646A315573A314 /* ChartsView.swift */; };
 		D4391F6681CAC8A122E2EA42 /* PeopleListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25E0A26BFD631CDFC2A6E2 /* PeopleListViewModelTests.swift */; };
 		D5DE0F152E0D77038FDBBD00 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B23AAFAC93BAFDC9C8370A /* Domain.framework */; };
 		D6BA2AD0BC3D852A416ED538 /* FeatureDashboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99DF9330778FA73385C52FB9 /* FeatureDashboard.framework */; };
+		D95AA16B400515F8B03B9F98 /* Observability.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 6AD14681BE4ED154ECFCC73D /* Observability.framework */; };
 		DDBB307ADC14E66FC1183598 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */; };
 		DDCDCF3E075857B3F8DE1426 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 1D54F422C503F06B7F1BBD38 /* Core.framework */; };
 		EE5EAE7032BBD8C35509CBCD /* DesignSystem_DesignSystem.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = 9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */; };
@@ -63,6 +68,8 @@
 				B037D7074921560DA15B9482 /* DesignSystem.framework in Dependencies */,
 				50B85ABA8BA5ECD6AE90F730 /* Domain.framework in Dependencies */,
 				1B11CBD657337D78AFF1C2FD /* FeatureDebtDetail.framework in Dependencies */,
+				B54349280B4FECBC336A7B4C /* Networking.framework in Dependencies */,
+				D95AA16B400515F8B03B9F98 /* Observability.framework in Dependencies */,
 			);
 			name = Dependencies;
 			runOnlyForDeploymentPostprocessing = 1;
@@ -97,6 +104,7 @@
 		42A9B73923B44FDB482B56CF /* FeatureDashboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureDashboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B8508BE9646A315573A314 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
 		644C27BD2632AF8797AC0229 /* PeopleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewModel.swift; sourceTree = "<group>"; };
+		6AD14681BE4ED154ECFCC73D /* Observability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		978D72E1B7B8A6E06B66B8FA /* FeatureDashboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureDashboard-Info.plist"; sourceTree = "<group>"; };
 		99DF9330778FA73385C52FB9 /* FeatureDashboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureDashboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +115,8 @@
 		D7D059EA699DA821815DF984 /* FeatureDebtDetail.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureDebtDetail.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEC090540F9FB449D4FA8F03 /* DIContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DIContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEC5CADB6B7241646A08EB52 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		E2990D3F30640390748ECC08 /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF63A713E53F5B12C0555822 /* ChartsHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsHostView.swift; sourceTree = "<group>"; };
 		F9B23AAFAC93BAFDC9C8370A /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -129,6 +139,8 @@
 				D5DE0F152E0D77038FDBBD00 /* Domain.framework in Frameworks */,
 				D6BA2AD0BC3D852A416ED538 /* FeatureDashboard.framework in Frameworks */,
 				3BF68C462F5FD111099F227B /* FeatureDebtDetail.framework in Frameworks */,
+				A265DD7850D3C2E8DF0A15D3 /* Networking.framework in Frameworks */,
+				3446853C9F22750828493947 /* Observability.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +202,8 @@
 				99DF9330778FA73385C52FB9 /* FeatureDashboard.framework */,
 				42A9B73923B44FDB482B56CF /* FeatureDashboardTests.xctest */,
 				D7D059EA699DA821815DF984 /* FeatureDebtDetail.framework */,
+				E2990D3F30640390748ECC08 /* Networking.framework */,
+				6AD14681BE4ED154ECFCC73D /* Observability.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,6 +228,7 @@
 		D1BFBECBD019A6C15644A1F9 /* FeatureDashboard */ = {
 			isa = PBXGroup;
 			children = (
+				EF63A713E53F5B12C0555822 /* ChartsHostView.swift */,
 				52B8508BE9646A315573A314 /* ChartsView.swift */,
 				BD69F1700C18C321512CE6CB /* DashboardView.swift */,
 				DEC5CADB6B7241646A08EB52 /* DashboardViewModel.swift */,
@@ -322,6 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D08041567C7A7098016D53E /* ChartsHostView.swift in Sources */,
 				C42B08A37E5355A39625B3BF /* ChartsView.swift in Sources */,
 				4580AC4F8EAF232A11C9F679 /* DashboardView.swift in Sources */,
 				462FE9B8BE5685FECD40DE60 /* DashboardViewModel.swift in Sources */,

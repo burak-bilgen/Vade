@@ -32,7 +32,24 @@ struct VadeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if let container = modelContainer {
+            if let error = containerError {
+                ZStack {
+                    ColorTokens.background.ignoresSafeArea()
+                    VStack(spacing: Spacing.l) {
+                        Image(systemName: "exclamationmark.triangle")
+                            .font(Typography.font(for: .hero))
+                            .foregroundStyle(ColorTokens.negative)
+                        Text(String(localized: "app.error.containerFailed"))
+                            .font(Typography.font(for: .headline))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                        Text(error)
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textTertiary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(Spacing.xl)
+                }
+            } else if let container = modelContainer {
                 if isBiometricEnabled && !isAuthenticated && biometricAuth.isBiometryAvailable {
                     lockedView
                 } else {
@@ -44,8 +61,17 @@ struct VadeApp: App {
                     .modelContainer(container)
                 }
             } else {
-                ProgressView()
-                    .task {
+                ZStack {
+                    ColorTokens.background.ignoresSafeArea()
+                    VStack(spacing: Spacing.l) {
+                        ProgressView()
+                            .scaleEffect(1.2)
+                        Text(String(localized: "Yükleniyor…"))
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textTertiary)
+                    }
+                }
+                .task {
                         assembleContainer()
                         do {
                             modelContainer = try ModelContainerFactory.create()
