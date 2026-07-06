@@ -1,38 +1,35 @@
 import Foundation
 import SwiftData
 
-// MARK: - SwiftData Person Model (CloudKit-safe)
+// NOTE: @Relationship inverse keypaths only declared on the "child" side
+// to avoid circular @Model macro resolution. SwiftData infers the parent-side
+// inverse from the child's explicit declaration.
+
+// MARK: - SwiftData Payment Model (CloudKit-safe)
 
 @Model
-public final class PersonModel {
+public final class PaymentModel {
     public var id: UUID
-    public var name: String
-    public var phoneNumber: String?
-    public var notes: String?
-    public var createdAt: Date
-    public var isArchived: Bool
+    public var debtRecordID: UUID
+    public var amount: Decimal
+    public var date: Date
+    public var note: String?
 
-    @Relationship(deleteRule: .cascade)
-    private var _debtRecords: [DebtRecordModel]?
-
-    public var debtRecords: [DebtRecordModel] {
-        _debtRecords ?? []
-    }
+    @Relationship(inverse: \DebtRecordModel._payments)
+    public var debtRecord: DebtRecordModel?
 
     public init(
         id: UUID = UUID(),
-        name: String,
-        phoneNumber: String? = nil,
-        notes: String? = nil,
-        createdAt: Date = Date(),
-        isArchived: Bool = false
+        debtRecordID: UUID = UUID(),
+        amount: Decimal = .zero,
+        date: Date = Date(),
+        note: String? = nil
     ) {
         self.id = id
-        self.name = name
-        self.phoneNumber = phoneNumber
-        self.notes = notes
-        self.createdAt = createdAt
-        self.isArchived = isArchived
+        self.debtRecordID = debtRecordID
+        self.amount = amount
+        self.date = date
+        self.note = note
     }
 }
 
@@ -50,10 +47,12 @@ public final class DebtRecordModel {
     public var statusRawValue: String
     public var createdAt: Date
     public var updatedAt: Date
-    public var sortIndex: Int
 
-    @Relationship(deleteRule: .cascade)
-    private var _payments: [PaymentModel]?
+    @Relationship(inverse: \PersonModel._debtRecords)
+    public var person: PersonModel?
+
+    @Relationship(deleteRule: .cascade)  // inverse inferred from PaymentModel.debtRecord
+    var _payments: [PaymentModel]?
 
     public var payments: [PaymentModel] {
         _payments ?? []
@@ -61,16 +60,15 @@ public final class DebtRecordModel {
 
     public init(
         id: UUID = UUID(),
-        personID: UUID,
-        amount: Decimal,
+        personID: UUID = UUID(),
+        amount: Decimal = .zero,
         kindRawValue: String = "TRY",
         directionRawValue: String = "receivable",
         note: String? = nil,
         dueDate: Date? = nil,
         statusRawValue: String = "pending",
         createdAt: Date = Date(),
-        updatedAt: Date = Date(),
-        sortIndex: Int = 0
+        updatedAt: Date = Date()
     ) {
         self.id = id
         self.personID = personID
@@ -82,32 +80,41 @@ public final class DebtRecordModel {
         self.statusRawValue = statusRawValue
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        self.sortIndex = sortIndex
     }
 }
 
-// MARK: - SwiftData Payment Model (CloudKit-safe)
+// MARK: - SwiftData Person Model (CloudKit-safe)
 
 @Model
-public final class PaymentModel {
+public final class PersonModel {
     public var id: UUID
-    public var debtRecordID: UUID
-    public var amount: Decimal
-    public var date: Date
-    public var note: String?
+    public var name: String
+    public var phoneNumber: String?
+    public var notes: String?
+    public var createdAt: Date
+    public var isArchived: Bool
+
+    @Relationship(deleteRule: .cascade)  // inverse inferred from DebtRecordModel.person
+    var _debtRecords: [DebtRecordModel]?
+
+    public var debtRecords: [DebtRecordModel] {
+        _debtRecords ?? []
+    }
 
     public init(
         id: UUID = UUID(),
-        debtRecordID: UUID,
-        amount: Decimal,
-        date: Date = Date(),
-        note: String? = nil
+        name: String = "",
+        phoneNumber: String? = nil,
+        notes: String? = nil,
+        createdAt: Date = Date(),
+        isArchived: Bool = false
     ) {
         self.id = id
-        self.debtRecordID = debtRecordID
-        self.amount = amount
-        self.date = date
-        self.note = note
+        self.name = name
+        self.phoneNumber = phoneNumber
+        self.notes = notes
+        self.createdAt = createdAt
+        self.isArchived = isArchived
     }
 }
 
@@ -124,9 +131,9 @@ public final class AuditEntryModel {
 
     public init(
         id: UUID = UUID(),
-        debtRecordID: UUID,
-        oldValue: String,
-        newValue: String,
+        debtRecordID: UUID = UUID(),
+        oldValue: String = "",
+        newValue: String = "",
         reasonRawValue: String = "manualEdit",
         timestamp: Date = Date()
     ) {

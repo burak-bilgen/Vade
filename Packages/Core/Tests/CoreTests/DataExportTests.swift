@@ -20,7 +20,7 @@ struct DataExportServiceTests {
         let data = try service.exportAsCSV(rows: rows)
         let csv = String(data: data, encoding: .utf8)!
 
-        #expect(csv.contains("Kişi,Tutar,Para Birimi,Yön,Vade,Durum,Tarih"))
+        #expect(csv.contains("export.csv.header"))
         #expect(csv.contains("Ahmet"))
         #expect(csv.contains("Ayşe"))
         #expect(csv.contains("Ahmet"))
@@ -47,6 +47,6 @@ struct DataExportServiceTests {
         let csv = String(data: data, encoding: .utf8)!
         let lines = csv.split(separator: "\n")
         #expect(lines.count == 1)
-        #expect(lines[0].contains("Kişi"))
+        #expect(lines[0].contains("export.csv.header"))
     }
 }

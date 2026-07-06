@@ -9,8 +9,8 @@ import DIContainer
 
 @MainActor
 final class AppCoordinator: Coordinator {
-    weak var parentCoordinator: Coordinator? = nil
-    var childCoordinators: [Coordinator] = []
+    weak var parentCoordinator: (any Coordinator)? = nil
+    var childCoordinators: [any Coordinator] = []
 
     private let modelContainer: ModelContainer
     private let diContainer: Container
@@ -23,7 +23,7 @@ final class AppCoordinator: Coordinator {
 
     func start() -> AnyView {
         AnyView(
-            Group {
+            ZStack {
                 if onboardingDone {
                     mainTabView
                 } else {
@@ -32,7 +32,7 @@ final class AppCoordinator: Coordinator {
                     }
                 }
             }
-            .modelContainer(modelContainer)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         )
     }
 
@@ -47,6 +47,6 @@ final class AppCoordinator: Coordinator {
             NavigationStack { SettingsView() }
                 .tabItem { Label(String(localized: "tab.settings"), systemImage: "gearshape") }
         }
-        .tint(Color.vdBrass500)
+        .tint(ColorTokens.accent)
     }
 }

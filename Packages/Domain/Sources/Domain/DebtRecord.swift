@@ -11,6 +11,17 @@ public enum CurrencyKind: String, CaseIterable, Sendable, Codable {
     case goldYarim = "YARIM"
     case goldTam = "TAM"
     case goldCumhuriyet = "CUMHURIYET"
+
+    /// Maps to the analytics-safe `CurrencyCode` for event tracking.
+    /// All gold subtypes collapse into `.gold` — analytics only needs top-level categorization.
+    public var analyticsCode: CurrencyCode {
+        switch self {
+        case .tryCoin: return .tryCoin
+        case .usd: return .usd
+        case .eur: return .eur
+        case .goldGram, .goldCeyrek, .goldYarim, .goldTam, .goldCumhuriyet: return .gold
+        }
+    }
 }
 
 // MARK: - Debt Record Status

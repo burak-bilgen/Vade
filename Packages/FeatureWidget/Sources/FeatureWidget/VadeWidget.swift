@@ -51,10 +51,11 @@ public struct VadeTimelineProvider: TimelineProvider {
 
     public func getTimeline(in context: Context, completion: @escaping (Timeline<VadeWidgetEntry>) -> Void) {
         // Read shared data from App Groups UserDefaults
+        // Store Decimal as String to avoid Double precision loss in UserDefaults
         let defaults = UserDefaults(suiteName: "group.com.vade.app")
-        let balance = Decimal(defaults?.double(forKey: "widget.netBalance") ?? 0)
-        let receivable = Decimal(defaults?.double(forKey: "widget.totalReceivable") ?? 0)
-        let payable = Decimal(defaults?.double(forKey: "widget.totalPayable") ?? 0)
+        let balance = Decimal(string: defaults?.string(forKey: "widget.netBalance") ?? "0") ?? .zero
+        let receivable = Decimal(string: defaults?.string(forKey: "widget.totalReceivable") ?? "0") ?? .zero
+        let payable = Decimal(string: defaults?.string(forKey: "widget.totalPayable") ?? "0") ?? .zero
         let count = defaults?.integer(forKey: "widget.personCount") ?? 0
 
         let entry = VadeWidgetEntry(
@@ -84,27 +85,32 @@ public struct VadeWidgetEntryView: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(verbatim: "Vade")
-                .font(.headline)
-                .foregroundColor(Color.vdInk900)
+                .font(Typography.font(for: .caption))
+                .foregroundStyle(ColorTokens.textPrimary)
+                .minimumScaleFactor(0.85)
 
             Text(entry.netBalance.formatted())
-                .font(.largeTitle)
-                .foregroundColor(entry.netBalance >= 0
-                    ? Color.vdPositive600
-                    : Color.vdNegative600)
+                .font(Typography.font(for: .title1))
+                .foregroundStyle(entry.netBalance >= 0
+                    ? ColorTokens.positive
+                    : ColorTokens.negative)
+                .minimumScaleFactor(0.7)
 
             HStack {
                 Label("\(entry.totalReceivable.formatted())", systemImage: "arrow.up")
-                    .font(.caption)
-                    .foregroundColor(Color.vdPositive600)
+                    .font(Typography.font(for: .caption))
+                    .foregroundStyle(ColorTokens.positive)
+                    .minimumScaleFactor(0.85)
                 Label("\(entry.totalPayable.formatted())", systemImage: "arrow.down")
-                    .font(.caption)
-                    .foregroundColor(Color.vdNegative600)
+                    .font(Typography.font(for: .caption))
+                    .foregroundStyle(ColorTokens.negative)
+                    .minimumScaleFactor(0.85)
             }
 
-            Text("\(entry.personCount) kişi")
-                .font(.caption2)
-                .foregroundColor(Color.vdInk400)
+            Text("\(entry.personCount) \(String(localized: "widget.personCount"))")
+                .font(Typography.font(for: .caption))
+                .foregroundStyle(ColorTokens.textTertiary)
+                .minimumScaleFactor(0.85)
         }
         .padding()
         .containerBackground(.fill.tertiary, for: .widget)
@@ -127,8 +133,8 @@ public struct VadeWidget: Widget {
         ) { entry in
             VadeWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Vade Özet")
-        .description("Net borç/alacak durumunu tek bakışta gör.")
+        .configurationDisplayName(String(localized: "widget.displayName"))
+        .description(String(localized: "widget.description"))
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

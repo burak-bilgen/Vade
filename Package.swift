@@ -24,6 +24,20 @@ let package = Package(
     targets: [
         .target(
             name: "VadeApp",
+            dependencies: [
+                "Core",
+                "DesignSystem",
+                "DIContainer",
+                "Observability",
+                "Domain",
+                "Data",
+                "Networking",
+                "FeatureOnboarding",
+                "FeatureDashboard",
+                "FeatureDebtDetail",
+                "FeatureSettings",
+                "FeatureWidget",
+            ],
             path: "App/Sources/Vade",
             resources: [
                 .process("Resources"),

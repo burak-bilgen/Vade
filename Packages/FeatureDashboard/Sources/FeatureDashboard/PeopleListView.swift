@@ -23,6 +23,7 @@ public struct PeopleListView: View {
                 Text(String(localized: "people.segment.payable")).tag(PeopleSegment.payable)
             }
             .pickerStyle(.segmented)
+            .tint(ColorTokens.accent)
             .padding(.horizontal, Spacing.l)
             .padding(.vertical, Spacing.m)
 
@@ -60,7 +61,8 @@ public struct PeopleListView: View {
                 .listStyle(.plain)
             }
         }
-        .background(Color.vdBackground)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(ColorTokens.background)
         .navigationTitle(String(localized: "people.navigationTitle"))
         .searchable(text: $searchText, prompt: String(localized: "people.search.placeholder"))
         .toolbar {

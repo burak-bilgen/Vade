@@ -6,75 +6,94 @@ import Data
 
 public struct DashboardView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var netBalance: Decimal = .zero
-    @State private var totalReceivable: Decimal = .zero
-    @State private var totalPayable: Decimal = .zero
-    @State private var personCount: Int = 0
+    @State private var viewModel: DashboardViewModel?
 
     public init() {}
 
     public var body: some View {
         ScrollView {
             VStack(spacing: Spacing.xl) {
-                SummaryCard(
-                    netAmount: netBalance,
-                    totalReceivable: totalReceivable,
-                    totalPayable: totalPayable
-                )
-
-                VStack(alignment: .leading, spacing: Spacing.m) {
-                    Text(String(localized: "dashboard.upcoming.title"))
-                        .font(Typography.font(for: .title2))
-                        .foregroundColor(Color.vdInk900)
-
-                    EmptyStateView(
-                        title: String(localized: "dashboard.upcoming.emptyTitle"),
-                        subtitle: String(localized: "dashboard.upcoming.emptySubtitle")
+                if let vm = viewModel {
+                    SummaryCard(
+                        netAmount: vm.netBalance,
+                        totalReceivable: vm.totalReceivable,
+                        totalPayable: vm.totalPayable
                     )
-                }
 
-                NavigationLink {
-                    PeopleListView()
-                } label: {
-                    HStack {
-                        Image(systemName: "person.2.fill")
-                        Text(String(localized: "dashboard.action.people"))
-                            .font(Typography.font(for: .caption))
-                        Spacer()
-                        Text("\(personCount)")
-                            .font(Typography.font(for: .amount))
-                            .foregroundColor(Color.vdBrass500)
+                    // Yaklasan Odemeler section
+                    VStack(alignment: .leading, spacing: Spacing.m) {
+                        Text(String(localized: "dashboard.upcoming.title"))
+                            .font(Typography.font(for: .title2))
+                            .foregroundStyle(ColorTokens.textPrimary)
+
+                        if vm.upcomingItems.isEmpty {
+                            EmptyStateView(
+                                title: String(localized: "dashboard.upcoming.emptyTitle"),
+                                subtitle: String(localized: "dashboard.upcoming.emptySubtitle")
+                            )
+                        } else {
+                            ForEach(Array(vm.upcomingItems.enumerated()), id: \.offset) { _, item in
+                                upcomingRow(item)
+                            }
+                        }
                     }
-                    .padding(Spacing.l)
-                    .background(RoundedRectangle(cornerRadius: Radius.md).fill(Color.vdSurface))
-                    .overlay(RoundedRectangle(cornerRadius: Radius.md).stroke(Color.vdHairline, lineWidth: 1))
+
+                    // People count card
+                    NavigationLink {
+                        PeopleListView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "person.2.fill")
+                            Text(String(localized: "dashboard.action.people"))
+                                .font(Typography.font(for: .caption))
+                            Spacer()
+                            Text("\(vm.persons.count)")
+                                .font(Typography.font(for: .amount))
+                                .foregroundStyle(ColorTokens.accent)
+                                .minimumScaleFactor(0.85)
+                        }
+                        .padding(Spacing.l)
+                        .background(RoundedRectangle(cornerRadius: Radius.md).fill(ColorTokens.surface))
+                        .overlay(RoundedRectangle(cornerRadius: Radius.md).stroke(ColorTokens.border, lineWidth: 1))
+                    }
+                    .foregroundStyle(ColorTokens.textPrimary)
                 }
-                .foregroundColor(Color.vdInk900)
             }
             .padding(Spacing.l)
         }
-        .background(Color.vdBackground)
+        .background(ColorTokens.background)
         .navigationTitle(String(localized: "tab.dashboard"))
-        .task { await refresh() }
-        .refreshable { await refresh() }
+        .task {
+            let vm = DashboardViewModel(modelContext: modelContext)
+            viewModel = vm
+            await vm.loadData()
+        }
+        .refreshable {
+            await viewModel?.loadData()
+        }
     }
 
-    private func refresh() async {
-        let personRepo = PersonRepository(modelContext: modelContext)
-        let balanceRepo = BalanceRepository(modelContext: modelContext)
-        guard let persons = try? await personRepo.execute(includeArchived: false) else { return }
-        personCount = persons.count
-        var receivable: Decimal = .zero
-        var payable: Decimal = .zero
-        for person in persons {
-            if let balance = try? await balanceRepo.execute(for: person.id) {
-                if balance > 0 { receivable += balance }
-                else if balance < 0 { payable += balance.magnitude }
+    private func upcomingRow(_ item: (person: Person, amount: Decimal, dueDate: Date?)) -> some View {
+        HStack(spacing: Spacing.m) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Text(item.person.name)
+                    .font(Typography.font(for: .headline))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                    .minimumScaleFactor(0.85)
+                if let dueDate = item.dueDate {
+                    Text(dueDate.formatted(date: .abbreviated, time: .omitted))
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.textTertiary)
+                }
             }
+            Spacer()
+            Text(item.amount.formatted())
+                .font(Typography.font(for: .amount))
+                .foregroundStyle(ColorTokens.positive)
+                .minimumScaleFactor(0.85)
         }
-        totalReceivable = receivable
-        totalPayable = payable
-        netBalance = receivable - payable
+        .padding(Spacing.m)
+        .background(RoundedRectangle(cornerRadius: Radius.sm).fill(ColorTokens.surface))
     }
 }
 

@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 
 #if canImport(Contacts)
 import Contacts
@@ -26,7 +27,8 @@ public protocol ContactsProviding: Sendable {
 
 // MARK: - Contacts Service
 
-public final class ContactsService: ContactsProviding, @unchecked Sendable {
+public final class ContactsService: ContactsProviding, Sendable {
+    private let logger = Logger(subsystem: "com.vade.core", category: "contacts")
 
     public init() {}
 
@@ -44,6 +46,7 @@ public final class ContactsService: ContactsProviding, @unchecked Sendable {
         do {
             return try await store.requestAccess(for: .contacts)
         } catch {
+            logger.error("[Contacts] Permission request failed: \(error.localizedDescription)")
             return false
         }
         #else

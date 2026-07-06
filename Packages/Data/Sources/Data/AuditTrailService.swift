@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 import Domain
+import OSLog
 
 // MARK: - Audit Trail Protocol
 
@@ -13,8 +14,9 @@ public protocol AuditTrailRecording: Sendable {
 
 /// Append-only audit trail — every mutation and CloudKit conflict is recorded.
 /// Entries are never modified or deleted.
-public final class AuditTrailService: AuditTrailRecording, @unchecked Sendable {
+public final class AuditTrailService: AuditTrailRecording {
     private let modelContainer: ModelContainer
+    private let logger = Logger(subsystem: "com.vade.data", category: "audit")
 
     public init(modelContainer: ModelContainer) {
         self.modelContainer = modelContainer
@@ -34,7 +36,11 @@ public final class AuditTrailService: AuditTrailRecording, @unchecked Sendable {
             reasonRawValue: reason.rawValue
         )
         context.insert(entry)
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            logger.error("[AuditTrail] Failed to save edit record for debt \(debtRecordID): \(error.localizedDescription)")
+        }
     }
 
     public func recordSyncConflict(
@@ -50,6 +56,10 @@ public final class AuditTrailService: AuditTrailRecording, @unchecked Sendable {
             reasonRawValue: AuditReason.cloudKitConflict.rawValue
         )
         context.insert(entry)
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            logger.error("[AuditTrail] Failed to save sync conflict for debt \(debtRecordID): \(error.localizedDescription)")
+        }
     }
 }

@@ -35,7 +35,7 @@ public struct NetBalanceChart: View {
         VStack(alignment: .leading, spacing: Spacing.m) {
             Text(String(localized: "charts.netBalance.title"))
                 .font(Typography.font(for: .title2))
-                .foregroundColor(Color.vdInk900)
+                .foregroundStyle(ColorTokens.textPrimary)
 
             #if canImport(Charts)
             Chart(dataPoints) { point in
@@ -51,7 +51,7 @@ public struct NetBalanceChart: View {
             .frame(height: 200)
             #else
             Text(String(localized: "charts.unavailable"))
-                .foregroundColor(Color.vdInk400)
+                .foregroundStyle(ColorTokens.textTertiary)
             #endif
         }
     }
@@ -72,19 +72,19 @@ public struct DirectionPieChart: View {
         VStack(alignment: .leading, spacing: Spacing.m) {
             Text(String(localized: "charts.direction.title"))
                 .font(Typography.font(for: .title2))
-                .foregroundColor(Color.vdInk900)
+                .foregroundStyle(ColorTokens.textPrimary)
 
             #if canImport(Charts)
             let data: [ChartDataPoint] = [
                 ChartDataPoint(
                     label: String(localized: "charts.direction.receivable"),
                     value: receivable,
-                    color: Color.vdPositive600
+                    color: ColorTokens.positive
                 ),
                 ChartDataPoint(
                     label: String(localized: "charts.direction.payable"),
                     value: payable,
-                    color: Color.vdNegative600
+                    color: ColorTokens.negative
                 ),
             ]
 
@@ -99,7 +99,7 @@ public struct DirectionPieChart: View {
             .frame(height: 200)
             #else
             Text(String(localized: "charts.unavailable"))
-                .foregroundColor(Color.vdInk400)
+                .foregroundStyle(ColorTokens.textTertiary)
             #endif
         }
     }

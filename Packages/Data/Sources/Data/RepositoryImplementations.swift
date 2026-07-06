@@ -5,7 +5,8 @@ import OSLog
 
 // MARK: - Person Repository
 
-public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase, @unchecked Sendable {
+@MainActor
+public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase {
     private let modelContext: ModelContext
 
     public init(modelContext: ModelContext) {
@@ -30,7 +31,8 @@ public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase, @unc
 
 // MARK: - Debt Repository
 
-public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase, @unchecked Sendable {
+@MainActor
+public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
     private let modelContext: ModelContext
     private let auditTrail: AuditTrailRecording?
     private let logger = Logger(subsystem: "com.vade.data", category: "debt")
@@ -80,7 +82,8 @@ public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase, @
 
 // MARK: - Payment Repository
 
-public final class PaymentRepository: RecordPaymentUseCase, @unchecked Sendable {
+@MainActor
+public final class PaymentRepository: RecordPaymentUseCase {
     private let modelContext: ModelContext
     private let auditTrail: AuditTrailRecording?
     private let logger = Logger(subsystem: "com.vade.data", category: "payment")
@@ -108,7 +111,8 @@ public final class PaymentRepository: RecordPaymentUseCase, @unchecked Sendable 
 
 // MARK: - Balance Repository
 
-public final class BalanceRepository: CalculateBalanceUseCase, @unchecked Sendable {
+@MainActor
+public final class BalanceRepository: CalculateBalanceUseCase {
     private let modelContext: ModelContext
 
     public init(modelContext: ModelContext) {
@@ -161,15 +165,50 @@ public extension PaymentModel {
 
 public extension DebtRecordModel {
     func toDomain() -> DebtRecord {
-        DebtRecord(
-            id: id,
+        let rawKind = self.kindRawValue
+        let rawDirection = self.directionRawValue
+        let rawStatus = self.statusRawValue
+        let debtID = self.id
+
+        guard let kind = CurrencyKind(rawValue: rawKind) else {
+            Logger(subsystem: "com.vade.data", category: "mapper")
+                .warning("[Mapper] Unknown CurrencyKind rawValue '\(rawKind)' for debt \(debtID) — falling back to .tryCoin")
+            return DebtRecord(
+                id: debtID, personID: personID, amount: amount, kind: .tryCoin,
+                direction: DebtDirection(rawValue: rawDirection) ?? .receivable,
+                note: note, dueDate: dueDate,
+                status: DebtStatus(rawValue: rawStatus) ?? .pending,
+                createdAt: createdAt, updatedAt: updatedAt
+            )
+        }
+        guard let direction = DebtDirection(rawValue: rawDirection) else {
+            Logger(subsystem: "com.vade.data", category: "mapper")
+                .warning("[Mapper] Unknown DebtDirection rawValue '\(rawDirection)' for debt \(debtID) — falling back to .receivable")
+            return DebtRecord(
+                id: debtID, personID: personID, amount: amount, kind: kind,
+                direction: .receivable, note: note, dueDate: dueDate,
+                status: DebtStatus(rawValue: rawStatus) ?? .pending,
+                createdAt: createdAt, updatedAt: updatedAt
+            )
+        }
+        guard let status = DebtStatus(rawValue: rawStatus) else {
+            Logger(subsystem: "com.vade.data", category: "mapper")
+                .warning("[Mapper] Unknown DebtStatus rawValue '\(rawStatus)' for debt \(debtID) — falling back to .pending")
+            return DebtRecord(
+                id: debtID, personID: personID, amount: amount, kind: kind,
+                direction: direction, note: note, dueDate: dueDate,
+                status: .pending, createdAt: createdAt, updatedAt: updatedAt
+            )
+        }
+        return DebtRecord(
+            id: debtID,
             personID: personID,
             amount: amount,
-            kind: CurrencyKind(rawValue: kindRawValue) ?? .tryCoin,
-            direction: DebtDirection(rawValue: directionRawValue) ?? .receivable,
+            kind: kind,
+            direction: direction,
             note: note,
             dueDate: dueDate,
-            status: DebtStatus(rawValue: statusRawValue) ?? .pending,
+            status: status,
             createdAt: createdAt,
             updatedAt: updatedAt
         )

@@ -16,6 +16,7 @@ public struct DataManagementView: View {
     @State private var exportedData: Data?
     @State private var showShareSheet = false
     @State private var showUndo = false
+    @State private var deletedDataBackup: DeletedDataBackup?
 
     private let exportService = DataExportService()
 
@@ -88,8 +89,8 @@ public struct DataManagementView: View {
                 UndoToastView(
                     message: String(localized: "data.delete.undoMessage"),
                     undoLabel: String(localized: "data.delete.undo"),
-                    undoAction: { showUndo = false },
-                    onDismiss: { showUndo = false }
+                    undoAction: { Task { await undoDelete() } },
+                    onDismiss: { showUndo = false; deletedDataBackup = nil }
                 )
             }
         }
@@ -125,23 +126,41 @@ public struct DataManagementView: View {
     private func deleteAllData() async {
         let context = modelContext
         do {
-            // Fetch and delete each type individually
+            // Backup all data before deletion for undo support
             let persons = try context.fetch(FetchDescriptor<PersonModel>())
-            for person in persons { context.delete(person) }
-
             let debts = try context.fetch(FetchDescriptor<DebtRecordModel>())
-            for debt in debts { context.delete(debt) }
-
             let payments = try context.fetch(FetchDescriptor<PaymentModel>())
-            for payment in payments { context.delete(payment) }
-
             let audits = try context.fetch(FetchDescriptor<AuditEntryModel>())
+
+            deletedDataBackup = DeletedDataBackup(
+                persons: persons, debts: debts, payments: payments, audits: audits
+            )
+
+            for person in persons { context.delete(person) }
+            for debt in debts { context.delete(debt) }
+            for payment in payments { context.delete(payment) }
             for audit in audits { context.delete(audit) }
 
             try context.save()
             showUndo = true
         } catch {
             AppLog.data.error("[DataManagement] Delete failed: \(error.localizedDescription)")
+        }
+    }
+
+    private func undoDelete() async {
+        guard let backup = deletedDataBackup else { return }
+        let context = modelContext
+        for person in backup.persons { context.insert(person) }
+        for debt in backup.debts { context.insert(debt) }
+        for payment in backup.payments { context.insert(payment) }
+        for audit in backup.audits { context.insert(audit) }
+        do {
+            try context.save()
+            deletedDataBackup = nil
+            showUndo = false
+        } catch {
+            AppLog.data.error("[DataManagement] Undo failed: \(error.localizedDescription)")
         }
     }
 
@@ -170,6 +189,15 @@ public struct DataManagementView: View {
         }
         return rows
     }
+}
+
+// MARK: - Deleted Data Backup (for undo)
+
+private struct DeletedDataBackup {
+    let persons: [PersonModel]
+    let debts: [DebtRecordModel]
+    let payments: [PaymentModel]
+    let audits: [AuditEntryModel]
 }
 
 // MARK: - Share Sheet (UIKit bridge)

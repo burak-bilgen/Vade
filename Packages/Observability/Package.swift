@@ -14,6 +14,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "Observability", dependencies: ["Core", "Domain", "DesignSystem"]),
-        .testTarget(name: "ObservabilityTests", dependencies: ["Observability"]),
+        .testTarget(name: "ObservabilityTests", dependencies: ["Observability", "Domain"]),
     ]
 )

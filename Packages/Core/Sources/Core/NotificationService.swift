@@ -5,6 +5,17 @@ import OSLog
 import UserNotifications
 #endif
 
+// MARK: - Notification Constants
+
+public enum NotificationConstants {
+    public static let debtReminderCategory = "DEBT_REMINDER"
+    public static let markAsPaidAction = "MARK_AS_PAID"
+    public static let debtIDKey = "debtID"
+    public static let markAsPaidDebtIDKey = "markAsPaidDebtID"
+    public static let actionKey = "action"
+    public static let actionMarkAsPaid = "markAsPaid"
+}
+
 // MARK: - Notification Service Protocol
 
 public protocol NotificationScheduling: Sendable {
@@ -12,26 +23,6 @@ public protocol NotificationScheduling: Sendable {
     func scheduleReminder(for debtID: UUID, personName: String, amount: Decimal, dueDate: Date) async
     func cancelReminder(for debtID: UUID) async
     func registerRichActions()
-}
-
-/// Called by the notification content extension to handle "Mark as Paid" action.
-public func handleMarkAsPaidAction(debtID: String) {
-    let logger = Logger(subsystem: "com.vade.core", category: "notifications")
-    logger.info("[Notifications] Mark as Paid action received for debt: \(debtID)")
-    // The host app's NotificationServiceDelegate will process this
-    // by posting a local notification that the app observes on foreground.
-    #if canImport(UserNotifications)
-    let content = UNMutableNotificationContent()
-    content.title = "Vade"
-    content.body = "Borç ödendi olarak işaretlendi."
-    content.userInfo = ["markAsPaidDebtID": debtID, "action": "markAsPaid"]
-    let request = UNNotificationRequest(
-        identifier: "mark-paid-\(debtID)",
-        content: content,
-        trigger: nil
-    )
-    UNUserNotificationCenter.current().add(request)
-    #endif
 }
 
 // MARK: - Notification Service
@@ -54,12 +45,12 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
     public func registerRichActions() {
         #if canImport(UserNotifications)
         let markAsPaid = UNNotificationAction(
-            identifier: "MARK_AS_PAID",
-            title: "Ödendi Olarak İşaretle",
+            identifier: NotificationConstants.markAsPaidAction,
+            title: String(localized: "notification.action.markAsPaid"),
             options: .foreground
         )
         let category = UNNotificationCategory(
-            identifier: "DEBT_REMINDER",
+            identifier: NotificationConstants.debtReminderCategory,
             actions: [markAsPaid],
             intentIdentifiers: [],
             options: []
@@ -99,11 +90,11 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
         }
 
         let content = UNMutableNotificationContent()
-        content.title = String(format: "Vade — %@", personName)
-        content.body = String(format: "%@ tutarında ödeme vadesi yaklaşıyor.", amount.formatted())
+        content.title = String(localized: "notification.reminder.title \(personName)")
+        content.body = String(localized: "notification.reminder.body \(amount.formatted())")
         content.sound = .default
-        content.categoryIdentifier = "DEBT_REMINDER"
-        content.userInfo = ["debtID": debtID.uuidString]
+        content.categoryIdentifier = NotificationConstants.debtReminderCategory
+        content.userInfo = [NotificationConstants.debtIDKey: debtID.uuidString]
 
         // Trigger at 9 AM on the due date
         let triggerDate = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: dueDate) ?? dueDate
@@ -127,6 +118,27 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
         let identifier = "debt-reminder-\(debtID.uuidString)"
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
         logger.info("[Notifications] Cancelled reminder \(identifier)")
+        #endif
+    }
+
+    /// Called by the notification content extension to handle "Mark as Paid" action.
+    public static func handleMarkAsPaidAction(debtID: String) {
+        let logger = Logger(subsystem: "com.vade.core", category: "notifications")
+        logger.info("[Notifications] Mark as Paid action received for debt: \(debtID)")
+        #if canImport(UserNotifications)
+        let content = UNMutableNotificationContent()
+        content.title = String(localized: "notification.markAsPaid.title")
+        content.body = String(localized: "notification.markAsPaid.body")
+        content.userInfo = [
+            NotificationConstants.markAsPaidDebtIDKey: debtID,
+            NotificationConstants.actionKey: NotificationConstants.actionMarkAsPaid,
+        ]
+        let request = UNNotificationRequest(
+            identifier: "mark-paid-\(debtID)",
+            content: content,
+            trigger: nil
+        )
+        UNUserNotificationCenter.current().add(request)
         #endif
     }
 }

@@ -4,9 +4,10 @@ import CloudKit
 /// Checks iCloud account status during onboarding.
 /// Does NOT block the user — only informs if not signed in.
 @MainActor
-final class CloudKitStatusChecker: ObservableObject {
-    @Published var accountStatus: CKAccountStatus = .couldNotDetermine
-    @Published var hasChecked = false
+@Observable
+final class CloudKitStatusChecker {
+    var accountStatus: CKAccountStatus = .couldNotDetermine
+    var hasChecked = false
 
     func checkStatus() async {
         do {
@@ -28,10 +29,10 @@ struct iCloudInfoBanner: View {
         if status != .available {
             HStack(spacing: 12) {
                 Image(systemName: "icloud.slash")
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                 Text(String(localized: "iCloud hesabına giriş yaparsan verilerin diğer cihazlarınla otomatik senkronize olur. Şimdilik yalnızca bu cihazda saklanıyor."))
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundStyle(.white.opacity(0.8))
                 Spacer()
             }
             .padding()

@@ -34,10 +34,10 @@ public final class BiometricAuthService: BiometricAuthProviding, @unchecked Send
         let context = contextProvider()
         _ = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
         switch context.biometryType {
-        case .faceID: return "Face ID"
-        case .touchID: return "Touch ID"
-        case .opticID: return "Optic ID"
-        default: return "Passcode"
+        case .faceID: return String(localized: "biometry.faceID")
+        case .touchID: return String(localized: "biometry.touchID")
+        case .opticID: return String(localized: "biometry.opticID")
+        default: return String(localized: "biometry.passcode")
         }
     }
 
@@ -63,8 +63,14 @@ public protocol KeychainProviding: Sendable {
 public final class KeychainWrapper: KeychainProviding, @unchecked Sendable {
     private let service: String
 
-    public init(service: String = "com.vade.keychain") {
-        self.service = service
+    public init(service: String? = nil) {
+        if let service {
+            self.service = service
+        } else if let bundleID = Bundle.main.bundleIdentifier {
+            self.service = bundleID + ".keychain"
+        } else {
+            self.service = "com.vade.keychain"
+        }
     }
 
     public func save(_ data: Data, forKey key: String) throws {
@@ -128,11 +134,11 @@ public enum JailbreakDetector {
         #if targetEnvironment(simulator)
             return false
         #else
+            // Only check for Cydia and MobileSubstrate — the most reliable jailbreak indicators.
+            // /bin/bash, /usr/sbin/sshd exist on stock iOS rootfs and cause false positives.
             let paths = [
                 "/Applications/Cydia.app",
                 "/Library/MobileSubstrate/MobileSubstrate.dylib",
-                "/bin/bash",
-                "/usr/sbin/sshd",
                 "/etc/apt",
                 "/private/var/lib/apt",
             ]

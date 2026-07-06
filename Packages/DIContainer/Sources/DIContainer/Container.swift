@@ -86,6 +86,12 @@ extension Container: Resolver {
     }
 
     public func resolve<Service>(_ type: Service.Type, name: String) -> Service? {
-        resolve(type)
+        let matching = registrations.values.filter { $0.name == name }
+        guard let registration = matching.first,
+              let instance = registration.factory(self) as? Service
+        else {
+            return nil
+        }
+        return instance
     }
 }

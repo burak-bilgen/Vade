@@ -12,12 +12,25 @@ public extension Decimal {
     }
 
     func formatted(using locale: Locale = .current) -> String {
+        Self.cachedFormatter(for: locale).string(from: self as NSDecimalNumber) ?? "\(self)"
+    }
+
+    nonisolated(unsafe) private static var formatterCache: [Locale: NumberFormatter] = [:]
+    private static let formatterLock = NSLock()
+
+    private static func cachedFormatter(for locale: Locale) -> NumberFormatter {
+        formatterLock.lock()
+        defer { formatterLock.unlock() }
+        if let cached = formatterCache[locale] {
+            return cached
+        }
         let formatter = NumberFormatter()
         formatter.locale = locale
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
-        return formatter.string(from: self as NSDecimalNumber) ?? "\(self)"
+        formatterCache[locale] = formatter
+        return formatter
     }
 
     var isEffectivelyZero: Bool { rounded() == 0 }
@@ -40,6 +53,14 @@ public extension String {
     var firstCharacter: String {
         guard let first else { return "" }
         return String(first)
+    }
+}
+
+// MARK: - Bundle Helpers
+
+public extension Bundle {
+    var releaseVersionNumber: String {
+        infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
 }
 

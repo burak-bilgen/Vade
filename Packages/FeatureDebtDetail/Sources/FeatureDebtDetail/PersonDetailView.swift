@@ -50,21 +50,24 @@ public struct PersonDetailView: View {
     @ViewBuilder
     private func contentView(_ vm: PersonDetailViewModel) -> some View {
         List {
-            // Balance header
+            // Balance header — modern card style
             Section {
-                HStack {
-                    Spacer()
-                    VStack(spacing: Spacing.s) {
-                        Text(String(localized: "personDetail.balance.label"))
-                            .font(Typography.font(for: .caption))
-                            .foregroundColor(Color.vdInk400)
-                        Text(vm.balance.formatted())
-                            .font(Typography.font(for: .display))
-                            .foregroundColor(balanceColor(vm.balance))
-                    }
-                    Spacer()
+                VStack(spacing: Spacing.s) {
+                    Text(String(localized: "personDetail.balance.label"))
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.textTertiary)
+                        .textCase(.uppercase)
+                    Text(vm.balance.formatted())
+                        .font(Typography.font(for: .display))
+                        .foregroundStyle(balanceColor(vm.balance))
+                        .minimumScaleFactor(0.85)
                 }
+                .frame(maxWidth: .infinity)
+                .padding(Spacing.xl)
+                .background(RoundedRectangle(cornerRadius: Radius.lg).fill(ColorTokens.surface))
+                .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(ColorTokens.border, lineWidth: 1))
                 .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
             }
 
             // Debt timeline
@@ -88,11 +91,13 @@ public struct PersonDetailView: View {
             } header: {
                 Text(String(localized: "personDetail.history.title"))
                     .font(Typography.font(for: .headline))
-                    .foregroundColor(Color.vdInk700)
+                    .foregroundStyle(ColorTokens.textSecondary)
             }
         }
+        #if os(iOS)
         .listStyle(.insetGrouped)
-        .background(Color.vdBackground)
+        #endif
+        .background(ColorTokens.background)
         .navigationTitle(person.name)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -109,36 +114,41 @@ public struct PersonDetailView: View {
     // MARK: - Debt Row
 
     private func debtRow(_ debt: DebtRecord) -> some View {
-        HStack {
+        HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(debt.note ?? debt.kind.rawValue)
                     .font(Typography.font(for: .body))
-                    .foregroundColor(Color.vdInk900)
+                    .foregroundStyle(ColorTokens.textPrimary)
+                    .minimumScaleFactor(0.85)
+                    .fixedSize(horizontal: false, vertical: true)
                 if let dueDate = debt.dueDate {
                     Text(dueDate.formatted(date: .abbreviated, time: .omitted))
                         .font(Typography.font(for: .caption))
-                        .foregroundColor(Color.vdInk400)
+                        .foregroundStyle(ColorTokens.textTertiary)
+                        .minimumScaleFactor(0.85)
                 }
             }
-            Spacer()
+            Spacer(minLength: Spacing.m)
             VStack(alignment: .trailing, spacing: Spacing.xs) {
                 Text(debt.amount.formatted())
                     .font(Typography.font(for: .amount))
-                    .foregroundColor(debt.direction == .receivable
-                        ? Color.vdPositive600
-                        : Color.vdNegative600)
+                    .foregroundStyle(debt.direction == .receivable
+                        ? ColorTokens.positive
+                        : ColorTokens.negative)
+                    .minimumScaleFactor(0.85)
                 Text(statusLabel(debt.status))
                     .font(Typography.font(for: .caption))
-                    .foregroundColor(Color.vdInk400)
+                    .foregroundStyle(ColorTokens.textTertiary)
             }
+            .fixedSize(horizontal: true, vertical: false)
         }
     }
 
     // MARK: - Helpers
 
     private func balanceColor(_ balance: Decimal) -> Color {
-        if balance.isEffectivelyZero { return Color.vdInk900 }
-        return balance > 0 ? Color.vdPositive600 : Color.vdNegative600
+        if balance.isEffectivelyZero { return ColorTokens.textPrimary }
+        return balance > 0 ? ColorTokens.positive : ColorTokens.negative
     }
 
     private func statusLabel(_ status: DebtStatus) -> String {
@@ -179,7 +189,9 @@ private struct AddDebtSheet: View {
                         String(localized: "debt.add.amountPlaceholder"),
                         text: $amountText
                     )
+                    #if os(iOS)
                     .keyboardType(.decimalPad)
+                    #endif
 
                     Picker(
                         String(localized: "debt.add.kind.label"),
@@ -223,7 +235,9 @@ private struct AddDebtSheet: View {
                 }
             }
             .navigationTitle(String(localized: "debt.add.title"))
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(localized: "debt.add.cancel")) {
@@ -281,7 +295,9 @@ private struct RecordPaymentSheet: View {
                         String(localized: "payment.amountPlaceholder"),
                         text: $amountText
                     )
+                    #if os(iOS)
                     .keyboardType(.decimalPad)
+                    #endif
 
                     TextField(
                         String(localized: "payment.notePlaceholder"),
@@ -290,7 +306,9 @@ private struct RecordPaymentSheet: View {
                 }
             }
             .navigationTitle(String(localized: "payment.title"))
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(localized: "payment.cancel")) {
@@ -315,18 +333,27 @@ private struct RecordPaymentSheet: View {
 }
 
 #if DEBUG
-private let previewModelContainer: ModelContainer = {
+private let previewModelContainer: ModelContainer? = {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    // swiftlint:disable:next force_try
-    return try! ModelContainer(for: PersonModel.self, DebtRecordModel.self, PaymentModel.self, configurations: config)
+    do {
+        return try ModelContainer(for: PersonModel.self, DebtRecordModel.self, PaymentModel.self, configurations: config)
+    } catch {
+        print("Failed to create preview ModelContainer: \(error.localizedDescription)")
+        return nil
+    }
 }()
 
 #Preview {
     NavigationStack {
-        PersonDetailView(
-            person: Person(name: "Ahmet"),
-            modelContext: previewModelContainer.mainContext
-        )
+        if let container = previewModelContainer {
+            PersonDetailView(
+                person: Person(name: "Ahmet"),
+                modelContext: container.mainContext
+            )
+        } else {
+            Text("Preview container could not be created")
+                .foregroundStyle(ColorTokens.textTertiary)
+        }
     }
 }
 #endif

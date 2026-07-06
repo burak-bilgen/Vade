@@ -1,5 +1,7 @@
 import SwiftUI
 import DesignSystem
+import Core
+import Foundation
 
 // MARK: - Settings View
 
@@ -34,8 +36,8 @@ public struct SettingsView: View {
                             systemImage: "globe"
                         )
                         Spacer()
-                        Text(selectedLanguage == "tr" ? "Türkçe" : "English")
-                            .foregroundColor(Color.vdInk400)
+                        Text(selectedLanguage == "tr" ? String(localized: "settings.language.turkish") : String(localized: "settings.language.english"))
+                            .foregroundStyle(ColorTokens.textTertiary)
                     }
                 } header: {
                     Text(String(localized: "settings.section.preferences"))
@@ -77,9 +79,11 @@ public struct SettingsView: View {
                 Section {
                     HStack {
                         Text(String(localized: "settings.about.version"))
+                            .minimumScaleFactor(0.85)
                         Spacer()
-                        Text("1.0.0")
-                            .foregroundColor(Color.vdInk400)
+                        Text(Bundle.main.releaseVersionNumber)
+                            .foregroundStyle(ColorTokens.textTertiary)
+                            .minimumScaleFactor(0.85)
                     }
                     if let privacyURL = URL(string: "https://vade.app/privacy") {
                         Link(
@@ -92,7 +96,8 @@ public struct SettingsView: View {
                 }
             }
             .navigationTitle(String(localized: "settings.navigationTitle"))
-            .background(Color.vdBackground)
+            .scrollContentBackground(.hidden)
+            .background(ColorTokens.background)
         }
     }
 }

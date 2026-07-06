@@ -23,12 +23,12 @@ public struct BannerAdView: View {
         // GADBannerViewRepresentable(adUnitID: adUnitID)
         //     .frame(height: 50)
         Rectangle()
-            .fill(Color.vdHairline)
+            .fill(ColorTokens.border)
             .frame(height: 50)
             .overlay {
                 Text(String(localized: "ads.placeholder"))
                     .font(.caption)
-                    .foregroundColor(Color.vdInk400)
+                    .foregroundStyle(ColorTokens.textTertiary)
             }
     }
 }

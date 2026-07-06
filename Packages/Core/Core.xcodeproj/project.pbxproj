@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		132DDF90FADB835A53D9B5FE /* DisplayNameProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6080723F628C88FF3507B781 /* DisplayNameProviding.swift */; };
 		178C99A830CAF3705E6F8431 /* DecimalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7CEFE26BA02CDDD26F5AF /* DecimalTests.swift */; };
 		21CFB70C371C288D05BD184E /* MetricKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59081C1CED0A58F721C03F0D /* MetricKitService.swift */; };
 		4C3B6A481EBE2E3C52D1FD49 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF370E1E600380553A42C54 /* NotificationService.swift */; };
@@ -63,7 +62,6 @@
 		4BF370E1E600380553A42C54 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		56163017B3E6CB96C83AC2F1 /* DataExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExportService.swift; sourceTree = "<group>"; };
 		59081C1CED0A58F721C03F0D /* MetricKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricKitService.swift; sourceTree = "<group>"; };
-		6080723F628C88FF3507B781 /* DisplayNameProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayNameProviding.swift; sourceTree = "<group>"; };
 		714F1E62C2227DFC24DF38F6 /* CoreExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreExtensions.swift; sourceTree = "<group>"; };
 		997DE1E7870CCCCF4C2B2BF5 /* ScreenProtector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenProtector.swift; sourceTree = "<group>"; };
 		AB2FA63840DB3AF5B31DD211 /* SecurityServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityServices.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				C7D13724CFC59E22AF45E5C5 /* ContactsService.swift */,
 				714F1E62C2227DFC24DF38F6 /* CoreExtensions.swift */,
 				56163017B3E6CB96C83AC2F1 /* DataExportService.swift */,
-				6080723F628C88FF3507B781 /* DisplayNameProviding.swift */,
 				59081C1CED0A58F721C03F0D /* MetricKitService.swift */,
 				4BF370E1E600380553A42C54 /* NotificationService.swift */,
 				997DE1E7870CCCCF4C2B2BF5 /* ScreenProtector.swift */,
@@ -285,7 +282,6 @@
 				AA0C4B1F0208B5D14BF871DD /* ContactsService.swift in Sources */,
 				7A0C067787F9955B090FBE32 /* CoreExtensions.swift in Sources */,
 				4F2C7883A2BF7496637250C5 /* DataExportService.swift in Sources */,
-				132DDF90FADB835A53D9B5FE /* DisplayNameProviding.swift in Sources */,
 				21CFB70C371C288D05BD184E /* MetricKitService.swift in Sources */,
 				4C3B6A481EBE2E3C52D1FD49 /* NotificationService.swift in Sources */,
 				5D341FB224051412EFDD84FB /* ScreenProtector.swift in Sources */,

@@ -51,7 +51,8 @@ public final class DataExportService: DataExporting, @unchecked Sendable {
     // MARK: - CSV
 
     public func exportAsCSV(rows: [ExportRow]) throws -> Data {
-        var csv = "Kişi,Tutar,Para Birimi,Yön,Vade,Durum,Tarih\n"
+        let header = String(localized: "export.csv.header")
+        var csv = header + "\n"
         let formatter = ISO8601DateFormatter()
 
         for row in rows {
@@ -84,8 +85,8 @@ public final class DataExportService: DataExporting, @unchecked Sendable {
         guard let text = String(data: csvData, encoding: .utf8) else {
             throw ExportError.encodingFailed
         }
-        // Wrap CSV in a basic text document
-        let pdfContent = "Vade — Borç/Alacak Raporu\n\n\(text)"
+        let title = String(localized: "export.pdf.title")
+        let pdfContent = "\(title)\n\n\(text)"
         guard let data = pdfContent.data(using: .utf8) else {
             throw ExportError.encodingFailed
         }

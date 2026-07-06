@@ -15,7 +15,9 @@ struct VadeApp: App {
     private let biometricAuth = BiometricAuthService()
     private let screenProtector = ScreenProtector()
     private let notificationService = NotificationService()
+    private let metricKitService = MetricKitService()
     @State private var diContainer = Container()
+    @State private var containerError: String?
 
     var body: some Scene {
         WindowGroup {
@@ -37,7 +39,7 @@ struct VadeApp: App {
                         do {
                             modelContainer = try ModelContainerFactory.create()
                         } catch {
-                            fatalError("Could not create ModelContainer: \(error)")
+                            containerError = error.localizedDescription
                         }
                         FontRegistrar.registerFonts()
                         _ = await notificationService.requestPermission()
@@ -64,12 +66,15 @@ struct VadeApp: App {
     // MARK: - Locked View
 
     private var lockedView: some View {
-        VStack(spacing: 32) {
+        VStack(spacing: Spacing.xxl) {
+            Spacer()
             Image(systemName: "lock.shield")
-                .font(.system(size: 56))
-                .foregroundColor(Color.vdBrass500)
+                .font(Typography.font(for: .hero))
+                .foregroundStyle(ColorTokens.accent)
             Text(String(localized: "app.locked.title"))
-                .font(.title2)
+                .font(Typography.font(for: .title2))
+                .multilineTextAlignment(.center)
+                .minimumScaleFactor(0.85)
             Button(String(localized: "app.locked.unlock")) {
                 Task {
                     let success = try? await biometricAuth.authenticate(
@@ -79,18 +84,18 @@ struct VadeApp: App {
                 }
             }
             .buttonStyle(.brassPill)
+            Spacer()
         }
-        .padding(48)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(ColorTokens.background)
     }
 
     // MARK: - DI Assembly
 
     private func assembleContainer() {
-        diContainer.registerInstance(BiometricAuthProviding.self, instance: biometricAuth)
-        diContainer.registerInstance(ScreenProtecting.self, instance: screenProtector)
-        diContainer.registerInstance(NotificationScheduling.self, instance: notificationService)
-        _ = MetricKitService()
-        _ = CloudKitSyncObserver()
+        diContainer.registerInstance((any BiometricAuthProviding).self, instance: biometricAuth)
+        diContainer.registerInstance((any ScreenProtecting).self, instance: screenProtector)
+        diContainer.registerInstance((any NotificationScheduling).self, instance: notificationService)
     }
 }
 
