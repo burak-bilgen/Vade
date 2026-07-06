@@ -596,6 +596,89 @@
         "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
         "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
       }
+    },
+    "settings.navigationTitle": {
+      "comment": "Settings — navigation title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Ayarlar" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Settings" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "settings.section.security": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Güvenlik" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Security" } }
+      }
+    },
+    "settings.section.preferences": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Tercihler" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Preferences" } }
+      }
+    },
+    "settings.section.privacy": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Gizlilik" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Privacy" } }
+      }
+    },
+    "settings.section.data": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Veri" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Data" } }
+      }
+    },
+    "settings.section.about": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Hakkında" } },
+        "en": { "stringUnit": { "state": "translated", "value": "About" } }
+      }
+    },
+    "settings.biometric.toggle": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Face ID / Touch ID Kilidi" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Face ID / Touch ID Lock" } }
+      }
+    },
+    "settings.language.label": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Dil" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Language" } }
+      }
+    },
+    "settings.analytics.toggle": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kullanım İstatistikleri" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Usage Statistics" } }
+      }
+    },
+    "settings.crashlytics.toggle": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Çökme Raporları" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Crash Reports" } }
+      }
+    },
+    "settings.deleteData.button": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Verilerimi Sil" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Delete My Data" } }
+      }
+    },
+    "settings.about.version": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Sürüm" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Version" } }
+      }
+    },
+    "settings.about.privacyPolicy": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Gizlilik Politikası" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Privacy Policy" } }
+      }
     }
   },
   "version": "1.0"
