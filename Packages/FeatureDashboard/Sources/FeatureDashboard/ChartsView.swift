@@ -1,5 +1,7 @@
 import SwiftUI
 import DesignSystem
+import Domain
+import Observability
 
 #if canImport(Charts)
 import Charts
@@ -25,6 +27,7 @@ public struct ChartDataPoint: Identifiable, Sendable {
 public struct NetBalanceChart: View {
     let dataPoints: [ChartDataPoint]
     let netBalance: Decimal
+    @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     public init(dataPoints: [ChartDataPoint], netBalance: Decimal) {
         self.dataPoints = dataPoints
@@ -54,6 +57,9 @@ public struct NetBalanceChart: View {
                 .foregroundStyle(ColorTokens.textTertiary)
             #endif
         }
+        .onAppear {
+            analytics.track(.chartViewed(.netTimeline))
+        }
     }
 }
 
@@ -62,6 +68,7 @@ public struct NetBalanceChart: View {
 public struct DirectionPieChart: View {
     let receivable: Decimal
     let payable: Decimal
+    @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     public init(receivable: Decimal, payable: Decimal) {
         self.receivable = receivable
@@ -101,6 +108,9 @@ public struct DirectionPieChart: View {
             Text(String(localized: "charts.unavailable"))
                 .foregroundStyle(ColorTokens.textTertiary)
             #endif
+        }
+        .onAppear {
+            analytics.track(.chartViewed(.receivableVsPayable))
         }
     }
 }

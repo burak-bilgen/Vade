@@ -6,6 +6,8 @@ import FeatureDebtDetail
 import FeatureSettings
 import DesignSystem
 import DIContainer
+import Domain
+import Observability
 
 @MainActor
 final class AppCoordinator: Coordinator {
@@ -15,6 +17,7 @@ final class AppCoordinator: Coordinator {
     private let modelContainer: ModelContainer
     private let diContainer: Container
     @State private var onboardingDone = false
+    @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     init(modelContainer: ModelContainer, container: Container) {
         self.modelContainer = modelContainer
@@ -29,6 +32,7 @@ final class AppCoordinator: Coordinator {
                 } else {
                     OnboardingView {
                         self.onboardingDone = true
+                        self.analytics.track(.onboardingCompleted)
                     }
                 }
             }

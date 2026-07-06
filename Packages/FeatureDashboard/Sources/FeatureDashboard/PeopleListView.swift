@@ -2,63 +2,60 @@ import SwiftUI
 import SwiftData
 import DesignSystem
 import Domain
-import Core
-import Data
 import FeatureDebtDetail
+import Core
+import Observability
 
 public struct PeopleListView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var persons: [Person] = []
-    @State private var balances: [UUID: Decimal] = [:]
-    @State private var selectedSegment: PeopleSegment = .receivable
+    @State private var viewModel: PeopleListViewModel?
     @State private var searchText = ""
     @State private var showAddPerson = false
+    @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     public init() {}
 
     public var body: some View {
         VStack(spacing: 0) {
-            Picker("", selection: $selectedSegment) {
-                Text(String(localized: "people.segment.receivable")).tag(PeopleSegment.receivable)
-                Text(String(localized: "people.segment.payable")).tag(PeopleSegment.payable)
-            }
-            .pickerStyle(.segmented)
-            .tint(ColorTokens.accent)
-            .padding(.horizontal, Spacing.l)
-            .padding(.vertical, Spacing.m)
-
-            let filtered = persons.compactMap { person -> (Person, Decimal)? in
-                guard let balance = balances[person.id], searchText.isEmpty || person.name.localizedCaseInsensitiveContains(searchText) else { return nil }
-                switch selectedSegment {
-                case .receivable: return balance > 0 ? (person, balance) : nil
-                case .payable: return balance < 0 ? (person, balance.magnitude) : nil
+            if let vm = viewModel {
+                Picker("", selection: Binding(get: { vm.selectedSegment }, set: { vm.selectedSegment = $0 })) {
+                    Text(String(localized: "people.segment.receivable")).tag(PeopleSegment.receivable)
+                    Text(String(localized: "people.segment.payable")).tag(PeopleSegment.payable)
                 }
-            }
+                .pickerStyle(.segmented)
+                .tint(ColorTokens.accent)
+                .padding(.horizontal, Spacing.l)
+                .padding(.vertical, Spacing.m)
 
-            if filtered.isEmpty {
-                Spacer()
-                EmptyStateView(
-                    title: String(localized: "people.empty.title"),
-                    subtitle: String(localized: "people.empty.subtitle")
-                )
-                Spacer()
-            } else {
-                List {
-                    ForEach(filtered, id: \.0.id) { person, balance in
-                        NavigationLink {
-                            PersonDetailView(person: person, modelContext: modelContext)
-                        } label: {
-                            LedgerRowView(
-                                name: person.name,
-                                amount: balance,
-                                subtitle: person.phoneNumber ?? person.notes,
-                                isPositive: selectedSegment == .receivable
-                            )
+                let filtered = vm.filteredPersons.filter { person, _ in
+                    searchText.isEmpty || person.name.localizedCaseInsensitiveContains(searchText)
+                }
+
+                if filtered.isEmpty {
+                    Spacer()
+                    EmptyStateView(
+                        title: String(localized: "people.empty.title"),
+                        subtitle: String(localized: "people.empty.subtitle")
+                    )
+                    Spacer()
+                } else {
+                    List {
+                        ForEach(filtered, id: \.person.id) { person, balance in
+                            NavigationLink {
+                                PersonDetailView(person: person, modelContext: modelContext)
+                            } label: {
+                                LedgerRowView(
+                                    name: person.name,
+                                    amount: balance,
+                                    subtitle: person.phoneNumber ?? person.notes,
+                                    isPositive: vm.selectedSegment == .receivable
+                                )
+                            }
+                            .listRowSeparator(.hidden)
                         }
-                        .listRowSeparator(.hidden)
                     }
+                    .listStyle(.plain)
                 }
-                .listStyle(.plain)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -71,26 +68,17 @@ public struct PeopleListView: View {
             }
         }
         .sheet(isPresented: $showAddPerson) {
-            AddPersonWrapper(isPresented: $showAddPerson, modelContext: modelContext) {
-                await load()
+            AddPersonWrapper(isPresented: $showAddPerson, modelContext: modelContext, analytics: analytics) {
+                await viewModel?.loadPersons()
             }
         }
-        .task { await load() }
-        .refreshable { await load() }
-    }
-
-    private func load() async {
-        let repo = PersonRepository(modelContext: modelContext)
-        let balanceRepo = BalanceRepository(modelContext: modelContext)
-        guard let list = try? await repo.execute(includeArchived: false) else { return }
-        persons = list
-        var b: [UUID: Decimal] = [:]
-        for p in list {
-            b[p.id] = (try? await balanceRepo.execute(for: p.id)) ?? .zero
+        .task {
+            let vm = PeopleListViewModel(modelContext: modelContext, analytics: analytics)
+            viewModel = vm
+            await vm.loadPersons()
         }
-        balances = b
+        .refreshable { await viewModel?.loadPersons() }
     }
-
 }
 
 // MARK: - AddPersonWrapper
@@ -98,13 +86,48 @@ public struct PeopleListView: View {
 private struct AddPersonWrapper: View {
     @Binding var isPresented: Bool
     let modelContext: ModelContext
+    let analytics: any AnalyticsTracking
     let onDone: () async -> Void
     @State private var name = ""
+    @State private var contacts: [ContactInfo] = []
+    @State private var showContactPicker = false
 
     var body: some View {
         NavigationStack {
             Form {
                 TextField(String(localized: "people.add.namePlaceholder"), text: $name)
+
+                Button(String(localized: "people.add.fromContacts")) {
+                    Task {
+                        contacts = (try? await ContactsService().fetchAll()) ?? []
+                        showContactPicker = true
+                    }
+                }
+            }
+            .sheet(isPresented: $showContactPicker) {
+                NavigationStack {
+                    List(contacts, id: \.name) { contact in
+                        Button {
+                            name = contact.name
+                            showContactPicker = false
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text(contact.name)
+                                if let phone = contact.phoneNumber {
+                                    Text(phone)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                    }
+                    .navigationTitle(String(localized: "people.add.contactPickerTitle"))
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(String(localized: "people.add.cancel")) { showContactPicker = false }
+                        }
+                    }
+                }
             }
             .navigationTitle(String(localized: "people.add.title"))
             .toolbar {
@@ -116,8 +139,8 @@ private struct AddPersonWrapper: View {
                         let trimmed = name.trimmingCharacters(in: .whitespaces)
                         guard !trimmed.isEmpty else { return }
                         Task {
-                            let repo = PersonRepository(modelContext: modelContext)
-                            _ = try? await repo.execute(name: trimmed, phoneNumber: nil, notes: nil)
+                            let vm = PeopleListViewModel(modelContext: modelContext, analytics: analytics)
+                            await vm.addPerson(name: trimmed, phoneNumber: nil, notes: nil)
                             isPresented = false
                             await onDone()
                         }

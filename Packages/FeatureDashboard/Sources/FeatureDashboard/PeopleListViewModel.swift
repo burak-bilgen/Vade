@@ -3,6 +3,7 @@ import SwiftData
 import Domain
 import Core
 import Data
+import Observability
 
 // MARK: - People List ViewModel
 
@@ -16,10 +17,12 @@ public final class PeopleListViewModel {
 
     private let personRepo: PersonRepository
     private let balanceRepo: BalanceRepository
+    private let analytics: any AnalyticsTracking
 
-    public init(modelContext: ModelContext) {
+    public init(modelContext: ModelContext, analytics: any AnalyticsTracking = AnalyticsService()) {
         self.personRepo = PersonRepository(modelContext: modelContext)
         self.balanceRepo = BalanceRepository(modelContext: modelContext)
+        self.analytics = analytics
     }
 
     public var filteredPersons: [(person: Person, balance: Decimal)] {
@@ -55,6 +58,7 @@ public final class PeopleListViewModel {
     public func addPerson(name: String, phoneNumber: String?, notes: String?) async {
         do {
             _ = try await personRepo.execute(name: name, phoneNumber: phoneNumber, notes: notes)
+            analytics.track(.personAdded)
             await loadPersons()
         } catch {
             AppLog.data.error("[PeopleListViewModel] Add person failed: \(error.localizedDescription)")

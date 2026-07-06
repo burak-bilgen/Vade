@@ -22,6 +22,15 @@ public enum CurrencyKind: String, CaseIterable, Sendable, Codable {
         case .goldGram, .goldCeyrek, .goldYarim, .goldTam, .goldCumhuriyet: return .gold
         }
     }
+
+    /// Maps to the analytics-safe `DebtKind` for the `debtAdded(kind:)` event.
+    public var analyticsDebtKind: DebtKind {
+        switch self {
+        case .tryCoin: return .cash
+        case .usd, .eur: return .foreignCurrency
+        case .goldGram, .goldCeyrek, .goldYarim, .goldTam, .goldCumhuriyet: return .gold
+        }
+    }
 }
 
 // MARK: - Debt Record Status

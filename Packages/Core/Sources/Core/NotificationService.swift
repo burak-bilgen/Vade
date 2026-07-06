@@ -32,8 +32,25 @@ public protocol NotificationScheduling: Sendable {
 public final class NotificationService: NSObject, NotificationScheduling, @unchecked Sendable {
     private let logger = Logger(subsystem: "com.vade.core", category: "notifications")
     private let maxPendingLimit = 64
+    private let onPermissionRequested: ((Bool) -> Void)?
+    private let onScheduled: (() -> Void)?
 
     public override init() {
+        self.onPermissionRequested = nil
+        self.onScheduled = nil
+        super.init()
+        #if canImport(UserNotifications)
+        UNUserNotificationCenter.current().delegate = self
+        registerRichActions()
+        #endif
+    }
+
+    public init(
+        onPermissionRequested: ((Bool) -> Void)? = nil,
+        onScheduled: (() -> Void)? = nil
+    ) {
+        self.onPermissionRequested = onPermissionRequested
+        self.onScheduled = onScheduled
         super.init()
         #if canImport(UserNotifications)
         UNUserNotificationCenter.current().delegate = self
@@ -66,9 +83,11 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
             let granted = try await UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge])
             logger.info("[Notifications] Permission granted: \(granted)")
+            onPermissionRequested?(granted)
             return granted
         } catch {
             logger.error("[Notifications] Permission error: \(error.localizedDescription)")
+            onPermissionRequested?(false)
             return false
         }
         #else
@@ -107,6 +126,7 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
         do {
             try await UNUserNotificationCenter.current().add(request)
             logger.info("[Notifications] Scheduled reminder for \(identifier)")
+            onScheduled?()
         } catch {
             logger.error("[Notifications] Failed to schedule: \(error.localizedDescription)")
         }

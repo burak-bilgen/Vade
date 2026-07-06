@@ -3,6 +3,7 @@ import SwiftData
 import DesignSystem
 import Domain
 import Data
+import Observability
 
 // MARK: - Person Detail View
 
@@ -12,6 +13,7 @@ public struct PersonDetailView: View {
     @State private var viewModel: PersonDetailViewModel?
     @State private var showAddDebt = false
     @State private var selectedDebt: DebtRecord?
+    @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     public init(person: Person, modelContext: ModelContext) {
         self.person = person
@@ -25,14 +27,14 @@ public struct PersonDetailView: View {
             } else {
                 ProgressView()
                     .task {
-                        let vm = PersonDetailViewModel(person: person, modelContext: modelContext)
+                        let vm = PersonDetailViewModel(person: person, modelContext: modelContext, analytics: analytics)
                         viewModel = vm
                         await vm.loadData()
                     }
             }
         }
         .sheet(isPresented: $showAddDebt) {
-            AddDebtSheet(person: person) { amount, kind, direction, note, dueDate in
+            AddDebtSheet(person: person, analytics: analytics) { amount, kind, direction, note, dueDate in
                 await viewModel?.addDebt(amount: amount, kind: kind, direction: direction, note: note, dueDate: dueDate)
                 showAddDebt = false
             }
@@ -175,6 +177,7 @@ private struct AddDebtSheet: View {
     @State private var dueDate = Date()
 
     let person: Person
+    let analytics: any AnalyticsTracking
     let onSave: (Decimal, CurrencyKind, DebtDirection, String?, Date?) async -> Void
 
     var parsedAmount: Decimal? {
@@ -238,6 +241,9 @@ private struct AddDebtSheet: View {
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
+            .onChange(of: selectedKind) { _, newKind in
+                analytics.track(.currencyChanged(to: newKind.analyticsCode))
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(localized: "debt.add.cancel")) {

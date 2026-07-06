@@ -4,6 +4,8 @@ import DesignSystem
 import Data
 import Core
 import DIContainer
+import Domain
+import Observability
 
 @main
 struct VadeApp: App {
@@ -14,10 +16,19 @@ struct VadeApp: App {
 
     private let biometricAuth = BiometricAuthService()
     private let screenProtector = ScreenProtector()
-    private let notificationService = NotificationService()
+    private let notificationService = NotificationService(
+        onPermissionRequested: { granted in
+            AnalyticsService().track(.notificationPermission(granted: granted))
+        },
+        onScheduled: {
+            AnalyticsService().track(.notificationScheduled)
+        }
+    )
     private let metricKitService = MetricKitService()
     @State private var diContainer = Container()
     @State private var containerError: String?
+    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    @State private var hasTrackedAppOpen = false
 
     var body: some Scene {
         WindowGroup {
@@ -55,6 +66,10 @@ struct VadeApp: App {
                 screenProtector.enableBlurOnBackground()
             case .active:
                 screenProtector.disableBlurOnBackground()
+                if !hasTrackedAppOpen {
+                    hasTrackedAppOpen = true
+                    analytics.track(.appOpened)
+                }
             case .inactive:
                 break
             @unknown default:

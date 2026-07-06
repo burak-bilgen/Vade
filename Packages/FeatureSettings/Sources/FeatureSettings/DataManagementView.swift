@@ -4,6 +4,7 @@ import DesignSystem
 import Core
 import Domain
 import Data
+import Observability
 
 // MARK: - Data Management View
 
@@ -19,6 +20,7 @@ public struct DataManagementView: View {
     @State private var deletedDataBackup: DeletedDataBackup?
 
     private let exportService = DataExportService()
+    @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     public init() {}
 
@@ -111,6 +113,7 @@ public struct DataManagementView: View {
         if let data = try? exportService.exportAsCSV(rows: rows) {
             exportedData = data
             showShareSheet = true
+            analytics.track(.exportUsed(format: .csv))
         }
     }
 
@@ -120,6 +123,7 @@ public struct DataManagementView: View {
         if let data = try? exportService.exportAsPDF(rows: rows) {
             exportedData = data
             showShareSheet = true
+            analytics.track(.exportUsed(format: .pdf))
         }
     }
 
@@ -143,6 +147,7 @@ public struct DataManagementView: View {
 
             try context.save()
             showUndo = true
+            analytics.track(.dataDeleted)
         } catch {
             AppLog.data.error("[DataManagement] Delete failed: \(error.localizedDescription)")
         }

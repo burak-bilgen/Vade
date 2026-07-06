@@ -2,14 +2,13 @@ import SwiftUI
 import DesignSystem
 import Core
 import Foundation
+import Domain
+import Observability
 
 // MARK: - Settings View
 
 public struct SettingsView: View {
-    @AppStorage("vade.biometric.enabled") private var isBiometricEnabled = false
-    @AppStorage("vade.language") private var selectedLanguage = "tr"
-    @AppStorage("vade.analytics.enabled") private var isAnalyticsEnabled = true
-    @AppStorage("vade.crashlytics.enabled") private var isCrashlyticsEnabled = true
+    @State private var viewModel = SettingsViewModel()
 
     public init() {}
 
@@ -18,7 +17,10 @@ public struct SettingsView: View {
             List {
                 // Security
                 Section {
-                    Toggle(isOn: $isBiometricEnabled) {
+                    Toggle(isOn: Binding(
+                        get: { viewModel.isBiometricEnabled },
+                        set: { viewModel.setBiometric($0) }
+                    )) {
                         Label(
                             String(localized: "settings.biometric.toggle"),
                             systemImage: "faceid"
@@ -30,14 +32,19 @@ public struct SettingsView: View {
 
                 // Preferences
                 Section {
-                    HStack {
+                    Picker(selection: Binding(
+                        get: { viewModel.selectedLanguage },
+                        set: { viewModel.setLanguage($0) }
+                    )) {
+                        Text(String(localized: "settings.language.turkish"))
+                            .tag("tr")
+                        Text(String(localized: "settings.language.english"))
+                            .tag("en")
+                    } label: {
                         Label(
                             String(localized: "settings.language.label"),
                             systemImage: "globe"
                         )
-                        Spacer()
-                        Text(selectedLanguage == "tr" ? String(localized: "settings.language.turkish") : String(localized: "settings.language.english"))
-                            .foregroundStyle(ColorTokens.textTertiary)
                     }
                 } header: {
                     Text(String(localized: "settings.section.preferences"))
@@ -45,13 +52,19 @@ public struct SettingsView: View {
 
                 // Privacy
                 Section {
-                    Toggle(isOn: $isAnalyticsEnabled) {
+                    Toggle(isOn: Binding(
+                        get: { viewModel.isAnalyticsEnabled },
+                        set: { viewModel.setAnalytics($0) }
+                    )) {
                         Label(
                             String(localized: "settings.analytics.toggle"),
                             systemImage: "chart.bar"
                         )
                     }
-                    Toggle(isOn: $isCrashlyticsEnabled) {
+                    Toggle(isOn: Binding(
+                        get: { viewModel.isCrashlyticsEnabled },
+                        set: { viewModel.setCrashlytics($0) }
+                    )) {
                         Label(
                             String(localized: "settings.crashlytics.toggle"),
                             systemImage: "exclamationmark.bubble"

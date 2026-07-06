@@ -1,4 +1,6 @@
 import Foundation
+import Domain
+import Observability
 
 #if canImport(WidgetKit)
 import WidgetKit
@@ -65,6 +67,14 @@ public struct VadeTimelineProvider: TimelineProvider {
             totalPayable: payable,
             personCount: count
         )
+
+        // Track widget added once (first time timeline is requested after install)
+        let hasTrackedWidget = defaults?.bool(forKey: "widget.hasTrackedAdded") ?? false
+        if !hasTrackedWidget {
+            let analytics: any AnalyticsTracking = AnalyticsService()
+            analytics.track(.widgetAdded)
+            defaults?.set(true, forKey: "widget.hasTrackedAdded")
+        }
 
         // Refresh every hour
         let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: Date()) ?? Date()

@@ -14,9 +14,10 @@ let package = Package(
         .package(path: "../Domain"),
         .package(path: "../Data"),
         .package(path: "../FeatureDebtDetail"),
+        .package(path: "../Observability"),
     ],
     targets: [
-        .target(name: "FeatureDashboard", dependencies: ["Core", "DesignSystem", "DIContainer", "Domain", "Data", "FeatureDebtDetail"]),
+        .target(name: "FeatureDashboard", dependencies: ["Core", "DesignSystem", "DIContainer", "Domain", "Data", "FeatureDebtDetail", "Observability"]),
         .testTarget(name: "FeatureDashboardTests", dependencies: ["FeatureDashboard", "Data"]),
     ]
 )
