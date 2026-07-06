@@ -34,4 +34,19 @@ struct FeatureSettingsTests {
         let text = try #require(String(data: data, encoding: .utf8))
         #expect(text.contains("Test"))
     }
+
+    @Test("SettingsViewModel defaults to TRY as preferred currency")
+    @MainActor
+    func testDefaultPreferredCurrency() {
+        let vm = SettingsViewModel()
+        #expect(vm.preferredCurrency == .tryCoin)
+    }
+
+    @Test("SettingsViewModel updates preferred currency")
+    @MainActor
+    func testSetPreferredCurrency() {
+        let vm = SettingsViewModel()
+        vm.setCurrency(.usd)
+        #expect(vm.preferredCurrency == .usd)
+    }
 }

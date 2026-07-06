@@ -222,4 +222,47 @@ struct EdgeCaseTests {
         _ = person as Sendable
         #expect(Bool(true))
     }
+
+    // MARK: - CurrencyKind label & formatting
+
+    @Test("CurrencyKind fiat symbols are correct",
+          arguments: [
+            (CurrencyKind.tryCoin, "\u{20BA}"),
+            (CurrencyKind.usd, "$"),
+            (CurrencyKind.eur, "\u{20AC}"),
+          ])
+    func testFiatSymbols(kind: CurrencyKind, expected: String) {
+        #expect(kind.label == expected)
+    }
+
+    @Test("CurrencyKind.isFiat returns true only for fiat")
+    func testIsFiat() {
+        #expect(CurrencyKind.tryCoin.isFiat)
+        #expect(CurrencyKind.usd.isFiat)
+        #expect(CurrencyKind.eur.isFiat)
+        #expect(!CurrencyKind.goldGram.isFiat)
+        #expect(!CurrencyKind.goldQuarter.isFiat)
+    }
+
+    @Test("CurrencyKind.format prefixes fiat with symbol")
+    func testFormatFiat() {
+        let amount: Decimal = 1500
+        #expect(CurrencyKind.tryCoin.format(amount).hasPrefix("\u{20BA}"))
+        #expect(CurrencyKind.usd.format(amount).hasPrefix("$"))
+    }
+
+    @Test("CurrencyKind.format suffixes gold with label")
+    func testFormatGold() {
+        let amount: Decimal = 5
+        let result = CurrencyKind.goldGram.format(amount)
+        #expect(result.contains("gr") || result.contains("g"))
+    }
+
+    @Test("CurrencyKind.gramEquivalent returns correct values")
+    func testGramEquivalent() {
+        #expect(CurrencyKind.tryCoin.gramEquivalent == 1)
+        #expect(CurrencyKind.goldGram.gramEquivalent == 1)
+        #expect(CurrencyKind.goldQuarter.gramEquivalent == Decimal(175) / Decimal(100))
+        #expect(CurrencyKind.goldFull.gramEquivalent == 7)
+    }
 }

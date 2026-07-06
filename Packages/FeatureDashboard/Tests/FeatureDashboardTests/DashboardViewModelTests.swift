@@ -87,4 +87,73 @@ struct DashboardViewModelTests {
         #expect(vm.upcomingItems.count == 1)
         #expect(vm.upcomingItems.first?.amount == 2000)
     }
+
+    @MainActor
+    @Test("Recent activity contains debt records sorted by date")
+    func testRecentActivity() async throws {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(
+            for: PersonModel.self, DebtRecordModel.self, PaymentModel.self,
+            configurations: config
+        )
+        let context = container.mainContext
+        let person = PersonModel(name: "Ahmet")
+        context.insert(person)
+        let debt = DebtRecordModel(personID: person.id, amount: 500,
+                                    kindRawValue: "TRY", directionRawValue: "receivable")
+        context.insert(debt)
+        try context.save()
+
+        let vm = DashboardViewModel(modelContext: context)
+        await vm.loadData()
+
+        #expect(!vm.recentActivity.isEmpty)
+        #expect(vm.recentActivity.first?.personName == "Ahmet")
+    }
+
+    @MainActor
+    @Test("Monthly stats track person and debt counts")
+    func testMonthlyStats() async throws {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(
+            for: PersonModel.self, DebtRecordModel.self, PaymentModel.self,
+            configurations: config
+        )
+        let context = container.mainContext
+        let person = PersonModel(name: "Test")
+        context.insert(person)
+        let debt = DebtRecordModel(personID: person.id, amount: 300,
+                                    kindRawValue: "USD", directionRawValue: "payable")
+        context.insert(debt)
+        try context.save()
+
+        let vm = DashboardViewModel(modelContext: context)
+        await vm.loadData()
+
+        #expect(vm.monthlyStats.totalPersonCount == 1)
+        #expect(vm.monthlyStats.activePersonCount >= 1)
+    }
+
+    @MainActor
+    @Test("Currency distribution groups by CurrencyKind")
+    func testCurrencyDistribution() async throws {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(
+            for: PersonModel.self, DebtRecordModel.self, PaymentModel.self,
+            configurations: config
+        )
+        let context = container.mainContext
+        let person = PersonModel(name: "Test")
+        context.insert(person)
+        let tryDebt = DebtRecordModel(personID: person.id, amount: 1000,
+                                       kindRawValue: "TRY", directionRawValue: "receivable")
+        context.insert(tryDebt)
+        try context.save()
+
+        let vm = DashboardViewModel(modelContext: context)
+        await vm.loadData()
+
+        #expect(!vm.currencyDistribution.isEmpty)
+        #expect(vm.currencyDistribution.contains(where: { $0.kind == .tryCoin }))
+    }
 }
