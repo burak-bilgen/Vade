@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B11CBD657337D78AFF1C2FD /* FeatureDebtDetail.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D7D059EA699DA821815DF984 /* FeatureDebtDetail.framework */; };
+		230E0F710B954610E52E46ED /* QuickAddSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F7D1F34A9B8BBCCB8C4D17 /* QuickAddSheet.swift */; };
 		26FB410ACE0BEFA1277EB1F6 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEFD0701DBB68AB660AB472 /* DashboardViewModelTests.swift */; };
 		3130861D0C62EE3529410BE5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C43634E77AF26473D30AE519 /* Data.framework */; };
 		3446853C9F22750828493947 /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AD14681BE4ED154ECFCC73D /* Observability.framework */; };
@@ -100,6 +101,7 @@
 /* Begin PBXFileReference section */
 		097AC04B229D832E93F7D61A /* PeopleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListView.swift; sourceTree = "<group>"; };
 		0DEFD0701DBB68AB660AB472 /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
+		12F7D1F34A9B8BBCCB8C4D17 /* QuickAddSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddSheet.swift; sourceTree = "<group>"; };
 		1D54F422C503F06B7F1BBD38 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2484A09C04D9FA9A15535687 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A9B73923B44FDB482B56CF /* FeatureDashboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureDashboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,6 +238,7 @@
 				DEC5CADB6B7241646A08EB52 /* DashboardViewModel.swift */,
 				097AC04B229D832E93F7D61A /* PeopleListView.swift */,
 				644C27BD2632AF8797AC0229 /* PeopleListViewModel.swift */,
+				12F7D1F34A9B8BBCCB8C4D17 /* QuickAddSheet.swift */,
 				C757ABE3899189A499E67D5D /* RatesView.swift */,
 			);
 			path = FeatureDashboard;
@@ -346,6 +349,7 @@
 				462FE9B8BE5685FECD40DE60 /* DashboardViewModel.swift in Sources */,
 				9509A9AB675A0345381730C3 /* PeopleListView.swift in Sources */,
 				8ECA489F1DDABB4B4774ED8E /* PeopleListViewModel.swift in Sources */,
+				230E0F710B954610E52E46ED /* QuickAddSheet.swift in Sources */,
 				3854F076D2BF6294DC254281 /* RatesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
