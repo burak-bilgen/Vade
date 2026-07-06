@@ -24,6 +24,7 @@ public final class AnalyticsService: @unchecked Sendable, AnalyticsTracking {
 
     // MARK: - Event Mapping
 
+    // swiftlint:disable:next cyclomatic_complexity
     private func map(_ event: AnalyticsEvent) -> (String, [String: Any]?) {
         switch event {
         case .appOpened: return ("app_opened", nil)
