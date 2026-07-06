@@ -1,6 +1,10 @@
 import Foundation
 import OSLog
 
+#if canImport(AppTrackingTransparency)
+import AppTrackingTransparency
+#endif
+
 // MARK: - Ad Service Protocol
 
 public protocol AdProviding: Sendable {
@@ -40,13 +44,15 @@ public final class AdService: AdProviding, @unchecked Sendable {
 public enum ATTrackingFlow {
     private static let logger = Logger(subsystem: "com.vade.observability", category: "att")
 
+    #if canImport(AppTrackingTransparency)
     public static func requestPermission() async -> Bool {
-        #if canImport(AppTrackingTransparency)
         let status = await ATTrackingManager.requestTrackingAuthorization()
         logger.info("[ATT] Status: \(status.rawValue)")
         return status == .authorized
-        #else
-        return false
-        #endif
     }
+    #else
+    public static func requestPermission() async -> Bool {
+        return false
+    }
+    #endif
 }

@@ -82,7 +82,7 @@ public struct VadeWidgetEntryView: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Vade")
+            Text(verbatim: "Vade")
                 .font(.headline)
                 .foregroundColor(Color("ink900"))
 
