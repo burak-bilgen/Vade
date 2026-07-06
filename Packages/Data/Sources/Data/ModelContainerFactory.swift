@@ -14,13 +14,13 @@ public enum ModelContainerFactory {
             AuditEntryModel.self,
         ])
 
-        #if os(iOS) && !targetEnvironment(simulator)
+        #if !targetEnvironment(simulator)
             let config = ModelConfiguration(
                 isStoredInMemoryOnly: false,
                 cloudKitContainerIdentifier: cloudKitContainerID
             )
         #else
-            // iOS simulators and macOS don't support CloudKit container identifier.
+            // iOS simulators don't support CloudKit container identifier.
             // CloudKit sync works on real devices only.
             let config = ModelConfiguration(
                 isStoredInMemoryOnly: false

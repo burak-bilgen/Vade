@@ -17,6 +17,8 @@ public protocol AdProviding: Sendable {
 /// Manages AdMob banner display and ATT (App Tracking Transparency) flow.
 /// Google Mobile Ads SDK must be added to the main app target via SPM.
 /// Ad unit IDs are configured in the app's Info.plist.
+/// AdService is @unchecked Sendable because UserDefaults is documented as thread-safe
+/// but not annotated as Sendable by Apple.
 public final class AdService: AdProviding, @unchecked Sendable {
     private let logger = Logger(subsystem: "com.vade.observability", category: "ads")
     private let defaults: UserDefaults

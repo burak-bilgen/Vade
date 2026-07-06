@@ -32,22 +32,12 @@ public protocol NotificationScheduling: Sendable {
 public final class NotificationService: NSObject, NotificationScheduling, @unchecked Sendable {
     private let logger = Logger(subsystem: "com.vade.core", category: "notifications")
     private let maxPendingLimit = 64
-    private let onPermissionRequested: ((Bool) -> Void)?
-    private let onScheduled: (() -> Void)?
-
-    public override init() {
-        self.onPermissionRequested = nil
-        self.onScheduled = nil
-        super.init()
-        #if canImport(UserNotifications)
-        UNUserNotificationCenter.current().delegate = self
-        registerRichActions()
-        #endif
-    }
+    private let onPermissionRequested: (@Sendable (Bool) -> Void)?
+    private let onScheduled: (@Sendable () -> Void)?
 
     public init(
-        onPermissionRequested: ((Bool) -> Void)? = nil,
-        onScheduled: (() -> Void)? = nil
+        onPermissionRequested: (@Sendable (Bool) -> Void)? = nil,
+        onScheduled: (@Sendable () -> Void)? = nil
     ) {
         self.onPermissionRequested = onPermissionRequested
         self.onScheduled = onScheduled
@@ -115,8 +105,9 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
         content.categoryIdentifier = NotificationConstants.debtReminderCategory
         content.userInfo = [NotificationConstants.debtIDKey: debtID.uuidString]
 
-        // Trigger at 9 AM on the due date
-        let triggerDate = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: dueDate) ?? dueDate
+        // Trigger at 9 AM on the due date (reminderHour configurable for future preferences)
+        let reminderHour = 9
+        let triggerDate = Calendar.current.date(bySettingHour: reminderHour, minute: 0, second: 0, of: dueDate) ?? dueDate
         let components = Calendar.current.dateComponents([.year, .month, .day], from: triggerDate)
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
 

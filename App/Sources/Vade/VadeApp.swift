@@ -62,7 +62,7 @@ struct VadeApp: App {
                     VStack(spacing: Spacing.l) {
                         ProgressView()
                             .scaleEffect(1.2)
-                        Text(String(localized: "Yükleniyor…"))
+                        Text(String(localized: "app.loading"))
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textTertiary)
                     }

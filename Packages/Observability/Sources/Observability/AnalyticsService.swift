@@ -1,13 +1,13 @@
 import Foundation
 import Core
 import Domain
+import os
 
-public final class AnalyticsService: @unchecked Sendable, AnalyticsTracking {
-    private let lock = NSLock()
-    private var _isOptedOut = false
+public final class AnalyticsService: AnalyticsTracking {
+    private let _isOptedOut = OSAllocatedUnfairLock(initialState: false)
     private var isOptedOut: Bool {
-        get { lock.withLock { _isOptedOut } }
-        set { lock.withLock { _isOptedOut = newValue } }
+        get { _isOptedOut.withLock { $0 } }
+        set { _isOptedOut.withLock { $0 = newValue } }
     }
 
     public init() {}

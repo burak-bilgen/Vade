@@ -76,18 +76,20 @@ enum TCMBParser {
         return value
     }
 
-    static var exchangeRatesURL: URL {
+    /// Exchange rates URL — crashes at launch if constant is malformed (caught in testing).
+    static let exchangeRatesURL: URL = {
         guard let url = URL(string: tcmbURL) else {
-            fatalError("Invalid TCMB URL: \(tcmbURL)")
+            preconditionFailure("Invalid TCMB URL: \(tcmbURL)")
         }
         return url
-    }
-    static var goldRatesURL: URL {
+    }()
+    /// Gold rates URL — crashes at launch if constant is malformed (caught in testing).
+    static let goldRatesURL: URL = {
         guard let url = URL(string: goldURL) else {
-            fatalError("Invalid gold URL: \(goldURL)")
+            preconditionFailure("Invalid gold URL: \(goldURL)")
         }
         return url
-    }
+    }()
 }
 
 // MARK: - TCMB XML Parser (SAX-style via FoundationXML)
@@ -154,7 +156,7 @@ private final class TCMBXMLParser: NSObject, XMLParserDelegate {
 
 // MARK: - Exchange Rate Client
 
-public final class ExchangeRateClient: ExchangeRateProviding, @unchecked Sendable {
+public final class ExchangeRateClient: ExchangeRateProviding {
     private let cache = RatesCache()
     private let session: URLSession
     private let cacheValidityInterval: TimeInterval = 6 * 3600

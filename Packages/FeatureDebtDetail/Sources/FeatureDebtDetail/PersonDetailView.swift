@@ -184,7 +184,7 @@ private struct AddDebtSheet: View {
     let onSave: (Decimal, CurrencyKind, DebtDirection, String?, Date?) async -> Void
 
     var parsedAmount: Decimal? {
-        Decimal(string: amountText.replacingOccurrences(of: ",", with: "."))
+        Decimal(string: amountText)
     }
 
     var body: some View {
@@ -284,7 +284,7 @@ private struct RecordPaymentSheet: View {
     let onSave: (Decimal, String?) async -> Void
 
     var parsedAmount: Decimal? {
-        Decimal(string: amountText.replacingOccurrences(of: ",", with: "."))
+        Decimal(string: amountText)
     }
 
     var body: some View {

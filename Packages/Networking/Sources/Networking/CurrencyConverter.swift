@@ -6,7 +6,7 @@ import Domain
 /// Converts debt amounts to TRY equivalents using cached exchange rates.
 /// Gold rates: converts grams to TL using gold gram rate.
 /// Fiat currencies: converts to TL using TCMB ForexSelling rate.
-public final class CurrencyConverter: CurrencyConverting, @unchecked Sendable {
+public final class CurrencyConverter: CurrencyConverting {
     private let rateProvider: ExchangeRateProviding
 
     public init(rateProvider: ExchangeRateProviding) {
@@ -21,16 +21,8 @@ public final class CurrencyConverter: CurrencyConverting, @unchecked Sendable {
             return try await convertFiat(amount: amount, code: "USD")
         case .eur:
             return try await convertFiat(amount: amount, code: "EUR")
-        case .goldGram:
-            return try await convertGold(amount: amount, gramMultiplier: 1)
-        case .goldCeyrek:
-            return try await convertGold(amount: amount, gramMultiplier: Decimal(175) / Decimal(100))
-        case .goldYarim:
-            return try await convertGold(amount: amount, gramMultiplier: Decimal(35) / Decimal(10))
-        case .goldTam:
-            return try await convertGold(amount: amount, gramMultiplier: 7)
-        case .goldCumhuriyet:
-            return try await convertGold(amount: amount, gramMultiplier: Decimal(7216) / Decimal(1000))
+        case .goldGram, .goldCeyrek, .goldYarim, .goldTam, .goldCumhuriyet:
+            return try await convertGold(amount: amount, gramMultiplier: currency.gramEquivalent)
         }
     }
 

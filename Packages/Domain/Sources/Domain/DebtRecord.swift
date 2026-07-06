@@ -31,6 +31,18 @@ public enum CurrencyKind: String, CaseIterable, Sendable, Codable {
         case .goldGram, .goldCeyrek, .goldYarim, .goldTam, .goldCumhuriyet: return .gold
         }
     }
+
+    /// Gram equivalent for gold subtypes. Fiat currencies return 1 (no conversion needed).
+    /// Values: Ceyrek=1.75g, Yarim=3.5g, Tam=7g, Cumhuriyet=7.216g, Gram=1g.
+    public var gramEquivalent: Decimal {
+        switch self {
+        case .goldCeyrek: return Decimal(175) / Decimal(100)
+        case .goldYarim: return Decimal(35) / Decimal(10)
+        case .goldTam: return 7
+        case .goldCumhuriyet: return Decimal(7216) / Decimal(1000)
+        default: return 1
+        }
+    }
 }
 
 // MARK: - Debt Record Status

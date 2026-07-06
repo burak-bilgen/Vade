@@ -126,7 +126,9 @@ public final class BalanceRepository: CalculateBalanceUseCase {
         let records = try modelContext.fetch(descriptor)
         return records.reduce(Decimal.zero) { total, record in
             let signed = record.directionRawValue == "receivable" ? record.amount : -record.amount
-            return total + signed - record.payments.reduce(Decimal.zero) { $0 + $1.amount }
+            let paymentTotal = record.payments.reduce(Decimal.zero) { $0 + $1.amount }
+            let adjustment = record.directionRawValue == "receivable" ? -paymentTotal : +paymentTotal
+            return total + signed + adjustment
         }
     }
 
@@ -137,7 +139,9 @@ public final class BalanceRepository: CalculateBalanceUseCase {
         let records = try modelContext.fetch(descriptor)
         return records.reduce(Decimal.zero) { total, record in
             let signed = record.directionRawValue == "receivable" ? record.amount : -record.amount
-            return total + signed - record.payments.reduce(Decimal.zero) { $0 + $1.amount }
+            let paymentTotal = record.payments.reduce(Decimal.zero) { $0 + $1.amount }
+            let adjustment = record.directionRawValue == "receivable" ? -paymentTotal : +paymentTotal
+            return total + signed + adjustment
         }
     }
 }

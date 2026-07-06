@@ -12,26 +12,28 @@ public extension Decimal {
     }
 
     func formatted(using locale: Locale = .current) -> String {
-        Self.cachedFormatter(for: locale).string(from: self as NSDecimalNumber) ?? "\(self)"
+        let formatter: NumberFormatter
+        Self.formatterLock.lock()
+        if let cached = Self.formatterCache[locale] {
+            formatter = cached
+            Self.formatterLock.unlock()
+        } else {
+            Self.formatterLock.unlock()
+            let newFormatter = NumberFormatter()
+            newFormatter.locale = locale
+            newFormatter.numberStyle = .decimal
+            newFormatter.minimumFractionDigits = 2
+            newFormatter.maximumFractionDigits = 2
+            Self.formatterLock.lock()
+            Self.formatterCache[locale] = newFormatter
+            Self.formatterLock.unlock()
+            formatter = newFormatter
+        }
+        return formatter.string(from: self as NSDecimalNumber) ?? "\(self)"
     }
 
     nonisolated(unsafe) private static var formatterCache: [Locale: NumberFormatter] = [:]
     private static let formatterLock = NSLock()
-
-    private static func cachedFormatter(for locale: Locale) -> NumberFormatter {
-        formatterLock.lock()
-        defer { formatterLock.unlock() }
-        if let cached = formatterCache[locale] {
-            return cached
-        }
-        let formatter = NumberFormatter()
-        formatter.locale = locale
-        formatter.numberStyle = .decimal
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-        formatterCache[locale] = formatter
-        return formatter
-    }
 
     var isEffectivelyZero: Bool { rounded() == 0 }
     var absoluteValue: Decimal { magnitude }

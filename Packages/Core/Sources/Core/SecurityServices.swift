@@ -60,7 +60,7 @@ public protocol KeychainProviding: Sendable {
     func delete(key: String) throws
 }
 
-public final class KeychainWrapper: KeychainProviding, @unchecked Sendable {
+public final class KeychainWrapper: KeychainProviding {
     private let service: String
 
     public init(service: String? = nil) {

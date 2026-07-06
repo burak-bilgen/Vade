@@ -22,7 +22,7 @@ public struct UndoToastView: View {
         self.onDismiss = onDismiss
     }
 
-    @State private var dismissWorkItem: DispatchWorkItem?
+    @State private var dismissTask: Task<Void, Never>?
 
     public var body: some View {
         HStack(spacing: Spacing.m) {
@@ -48,13 +48,9 @@ public struct UndoToastView: View {
         )
         .padding(.horizontal, Spacing.l)
         .padding(.bottom, Spacing.l)
-        .onAppear {
-            let work = DispatchWorkItem { onDismiss() }
-            dismissWorkItem = work
-            DispatchQueue.main.asyncAfter(deadline: .now() + 8, execute: work)
-        }
-        .onDisappear {
-            dismissWorkItem?.cancel()
+        .task {
+            try? await Task.sleep(for: .seconds(8))
+            onDismiss()
         }
     }
 }

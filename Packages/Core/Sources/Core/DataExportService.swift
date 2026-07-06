@@ -2,6 +2,9 @@ import Foundation
 
 // MARK: - Export Format
 
+/// Duplicated from Domain/AnalyticsEvent.swift: ExportFormat.
+/// Both packages must stay in sync — Domain cannot import Core due to dependency rules.
+/// If adding a case, update BOTH definitions.
 public enum ExportFormat: String, Sendable, CaseIterable {
     case pdf
     case csv
@@ -44,7 +47,7 @@ public protocol DataExporting: Sendable {
     func exportAsPDF(rows: [ExportRow]) throws -> Data
 }
 
-public final class DataExportService: DataExporting, @unchecked Sendable {
+public final class DataExportService: DataExporting {
 
     public init() {}
 
