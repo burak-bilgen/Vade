@@ -3,6 +3,15 @@ import Testing
 import SwiftData
 @testable import FeatureDashboard
 @testable import Data
+@testable import Networking
+
+// MARK: - Mock Rate Provider
+
+private actor MockRateProvider: ExchangeRateProviding {
+    func fetchRate(for currency: String) async throws -> Decimal? { nil }
+    func fetchGoldRatePerGram() async throws -> Decimal? { nil }
+    func lastUpdateDate() async -> Date? { nil }
+}
 
 @Suite("DashboardViewModel")
 struct DashboardViewModelTests {
@@ -15,7 +24,7 @@ struct DashboardViewModelTests {
             for: PersonModel.self, DebtRecordModel.self, PaymentModel.self,
             configurations: config
         )
-        let vm = DashboardViewModel(modelContext: container.mainContext)
+        let vm = DashboardViewModel(modelContext: container.mainContext, rateClient: MockRateProvider())
         await vm.loadData()
 
         #expect(vm.persons.isEmpty)
@@ -47,7 +56,7 @@ struct DashboardViewModelTests {
         context.insert(payable)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context)
+        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
         await vm.loadData()
 
         #expect(vm.totalReceivable == 1000)
@@ -80,10 +89,9 @@ struct DashboardViewModelTests {
         context.insert(debtNoDue)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context)
+        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
         await vm.loadData()
 
-        // Only debts with due dates appear in upcoming
         #expect(vm.upcomingItems.count == 1)
         #expect(vm.upcomingItems.first?.amount == 2000)
     }
@@ -104,7 +112,7 @@ struct DashboardViewModelTests {
         context.insert(debt)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context)
+        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
         await vm.loadData()
 
         #expect(!vm.recentActivity.isEmpty)
@@ -127,7 +135,7 @@ struct DashboardViewModelTests {
         context.insert(debt)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context)
+        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
         await vm.loadData()
 
         #expect(vm.monthlyStats.totalPersonCount == 1)
@@ -150,7 +158,7 @@ struct DashboardViewModelTests {
         context.insert(tryDebt)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context)
+        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
         await vm.loadData()
 
         #expect(!vm.currencyDistribution.isEmpty)

@@ -3,6 +3,7 @@ import SwiftData
 import Domain
 import Core
 import Data
+import Networking
 
 // MARK: - Dashboard ViewModel
 
@@ -17,16 +18,19 @@ public final class DashboardViewModel {
     public var recentActivity: [ActivityItem] = []
     public var currencyDistribution: [(kind: CurrencyKind, total: Decimal)] = []
     public var monthlyStats: MonthlyStats = .empty
+    public var exchangeRates: ExchangeRateSnapshot?
     public var isLoading = false
 
     private let personRepo: PersonRepository
     private let debtRepo: DebtRepository
     private let balanceRepo: BalanceRepository
+    private let rateClient: ExchangeRateProviding
 
-    public init(modelContext: ModelContext) {
+    public init(modelContext: ModelContext, rateClient: ExchangeRateProviding = ExchangeRateClient()) {
         self.personRepo = PersonRepository(modelContext: modelContext)
         self.debtRepo = DebtRepository(modelContext: modelContext)
         self.balanceRepo = BalanceRepository(modelContext: modelContext)
+        self.rateClient = rateClient
     }
 
     public func loadData() async {
@@ -40,6 +44,7 @@ public final class DashboardViewModel {
             await loadRecentActivity()
             await loadCurrencyDistribution()
             await loadMonthlyStats()
+            await loadExchangeRates()
         } catch {
             AppLog.data.error("[DashboardViewModel] Load failed: \(error.localizedDescription)")
         }
@@ -112,6 +117,23 @@ public final class DashboardViewModel {
             .sorted { $0.total > $1.total }
     }
 
+    private func loadExchangeRates() async {
+        do {
+            let usdRate = try await rateClient.fetchRate(for: "USD")
+            let eurRate = try await rateClient.fetchRate(for: "EUR")
+            let goldRate = try await rateClient.fetchGoldRatePerGram()
+            let lastUpdate = await rateClient.lastUpdateDate()
+            exchangeRates = ExchangeRateSnapshot(
+                usdRate: usdRate,
+                eurRate: eurRate,
+                goldRate: goldRate,
+                lastUpdate: lastUpdate
+            )
+        } catch {
+            AppLog.networking.error("[Dashboard] Rates fetch failed: \(error.localizedDescription)")
+        }
+    }
+
     private func loadMonthlyStats() async {
         let calendar = Calendar.current
         let now = Date()
@@ -150,4 +172,11 @@ public struct MonthlyStats: Sendable {
     public let pendingDebtCount: Int
 
     public static let empty = MonthlyStats(activePersonCount: 0, totalPersonCount: 0, pendingDebtCount: 0)
+}
+
+public struct ExchangeRateSnapshot: Sendable {
+    public let usdRate: Decimal?
+    public let eurRate: Decimal?
+    public let goldRate: Decimal?
+    public let lastUpdate: Date?
 }
