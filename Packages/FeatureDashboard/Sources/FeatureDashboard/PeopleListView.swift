@@ -55,6 +55,7 @@ public struct PeopleListView: View {
                         }
                     }
                     .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                 }
             }
         }

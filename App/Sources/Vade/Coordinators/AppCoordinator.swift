@@ -60,25 +60,30 @@ private struct MainTabView: View {
             Tab(String(localized: "tab.dashboard"), systemImage: "house") {
                 NavigationStack {
                     DashboardView()
-                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbarBackground(.visible, for: .navigationBar)
+                        .toolbarBackground(ColorTokens.background, for: .navigationBar)
                 }
                 .tint(ColorTokens.accent)
             }
             Tab(String(localized: "tab.people"), systemImage: "person.2") {
                 NavigationStack {
                     PeopleListView()
-                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbarBackground(.visible, for: .navigationBar)
+                        .toolbarBackground(ColorTokens.background, for: .navigationBar)
                 }
                 .tint(ColorTokens.accent)
             }
             Tab(String(localized: "tab.settings"), systemImage: "gearshape") {
                 NavigationStack {
                     SettingsView()
-                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbarBackground(.visible, for: .navigationBar)
+                        .toolbarBackground(ColorTokens.background, for: .navigationBar)
                 }
                 .tint(ColorTokens.accent)
             }
         }
         .tint(ColorTokens.accent)
+        .toolbarBackground(.visible, for: .tabBar)
+        .toolbarBackground(ColorTokens.background, for: .tabBar)
     }
 }
