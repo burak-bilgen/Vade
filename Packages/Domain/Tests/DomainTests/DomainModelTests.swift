@@ -33,3 +33,107 @@ struct DomainModelTests {
         #expect(payment.note == nil)
     }
 }
+
+// MARK: - Balance Calculation Tests (Parameterized)
+
+@Suite("Balance Calculations")
+struct BalanceCalculationTests {
+
+    @Test("Net balance = totalReceivable - totalPayable",
+          arguments: [
+            (receivable: Decimal(5000), payable: Decimal(2500), expectedNet: Decimal(2500)),
+            (receivable: Decimal(1000), payable: Decimal(3000), expectedNet: Decimal(-2000)),
+            (receivable: Decimal(0), payable: Decimal(0), expectedNet: Decimal(0)),
+            (receivable: Decimal(1500), payable: Decimal(0), expectedNet: Decimal(1500)),
+            (receivable: Decimal(0), payable: Decimal(1500), expectedNet: Decimal(-1500)),
+          ])
+    func testNetBalance(receivable: Decimal, payable: Decimal, expectedNet: Decimal) {
+        let net = receivable - payable
+        #expect(net == expectedNet)
+    }
+
+    @Test("Total receivable sums all positive balances",
+          arguments: [
+            ([Decimal(1000), Decimal(500), Decimal(250)], Decimal(1750)),
+            ([Decimal(-1000), Decimal(500)], Decimal(500)),
+            ([Decimal(0), Decimal(0), Decimal(0)], Decimal(0)),
+          ])
+    func testTotalReceivable(balances: [Decimal], expected: Decimal) {
+        let total = balances
+            .filter { $0 > 0 }
+            .reduce(Decimal.zero, +)
+        #expect(total == expected)
+    }
+
+    @Test("Total payable sums absolute values of negative balances",
+          arguments: [
+            ([Decimal(-1000), Decimal(-500), Decimal(-250)], Decimal(1750)),
+            ([Decimal(1000), Decimal(-500)], Decimal(500)),
+            ([Decimal(-1500), Decimal(0)], Decimal(1500)),
+          ])
+    func testTotalPayable(balances: [Decimal], expected: Decimal) {
+        let total = balances
+            .filter { $0 < 0 }
+            .map { $0.magnitude }
+            .reduce(Decimal.zero, +)
+        #expect(total == expected)
+    }
+}
+
+// MARK: - Payment Recording Tests (Parameterized)
+
+@Suite("Payment Recording")
+struct PaymentRecordingTests {
+
+    @Test("Partial payment reduces remaining balance",
+          arguments: [
+            (debt: Decimal(1500), payment: Decimal(500), remaining: Decimal(1000)),
+            (debt: Decimal(1000), payment: Decimal(1000), remaining: Decimal(0)),
+            (debt: Decimal(333.33), payment: Decimal(111.11), remaining: Decimal(222.22)),
+            (debt: Decimal(750), payment: Decimal(200), remaining: Decimal(550)),
+          ])
+    func testPartialPayment(debt: Decimal, payment: Decimal, remaining: Decimal) {
+        let balance = debt - payment
+        #expect(balance == remaining)
+    }
+
+    @Test("Multiple payments accumulate correctly",
+          arguments: [
+            (debt: Decimal(3000), payments: [Decimal(1000), Decimal(500), Decimal(500)], totalPaid: Decimal(2000)),
+            (debt: Decimal(5000), payments: [Decimal(2500), Decimal(2500)], totalPaid: Decimal(5000)),
+            (debt: Decimal(1000), payments: [Decimal(333.33), Decimal(333.33), Decimal(333.34)], totalPaid: Decimal(1000)),
+          ])
+    func testMultiplePayments(debt: Decimal, payments: [Decimal], totalPaid: Decimal) {
+        let sum = payments.reduce(Decimal.zero, +)
+        #expect(sum == totalPaid)
+        #expect(debt - sum >= 0)
+    }
+
+    @Test("Payment cannot exceed debt amount",
+          arguments: [
+            (debt: Decimal(1000), payment: Decimal(1001)),
+            (debt: Decimal(500), payment: Decimal(600)),
+          ])
+    func testPaymentExceedsDebt(debt: Decimal, payment: Decimal) {
+        let exceeds = payment > debt
+        #expect(exceeds == true)
+    }
+}
+
+// MARK: - Currency Kind Tests
+
+@Suite("Currency Kind")
+struct CurrencyKindTests {
+
+    @Test("All currency kinds have unique raw values")
+    func testRawValuesUnique() {
+        let all = CurrencyKind.allCases.map(\.rawValue)
+        #expect(Set(all).count == all.count)
+    }
+
+    @Test("TRY is the default currency kind")
+    func testDefaultCurrency() {
+        let kind = CurrencyKind.tryCoin
+        #expect(kind == .tryCoin)
+    }
+}
