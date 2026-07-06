@@ -880,6 +880,27 @@
         "en": { "stringUnit": { "state": "translated", "value": "Charts unavailable on this platform." } }
       }
     },
+    "app.locked.title": {
+      "comment": "Lock screen — title when biometric auth is required",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Vade kilitli" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Vade is locked" } }
+      }
+    },
+    "app.locked.unlock": {
+      "comment": "Lock screen — unlock button",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kilidi Aç" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Unlock" } }
+      }
+    },
+    "app.locked.biometryReason": {
+      "comment": "Lock screen — biometric auth reason string",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Vade uygulamasının kilidini açmak için kimlik doğrulaması gerekiyor." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Authenticate to unlock Vade." } }
+      }
+    },
     "accessibility.receivable": {
       "localizations": {
         "tr": { "stringUnit": { "state": "translated", "value": "Alacak" } },

@@ -5,6 +5,7 @@ import FeatureDashboard
 import FeatureDebtDetail
 import FeatureSettings
 import DesignSystem
+import DIContainer
 
 /// Root coordinator that owns the entire navigation graph.
 /// This is the composition root — the ONLY place where the DI container is assembled.
@@ -14,10 +15,12 @@ final class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
 
     private let modelContainer: ModelContainer
+    private let diContainer: Container
     private var hasCompletedOnboarding = false
 
-    init(modelContainer: ModelContainer) {
+    init(modelContainer: ModelContainer, container: Container) {
         self.modelContainer = modelContainer
+        self.diContainer = container
     }
 
     func start() -> AnyView {
