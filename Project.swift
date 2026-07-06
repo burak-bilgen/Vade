@@ -69,19 +69,5 @@ let appTarget = Target.target(
 
 let project = Project(
     name: "Vade",
-    packages: [
-        .package(path: "Packages/Core"),
-        .package(path: "Packages/DesignSystem"),
-        .package(path: "Packages/DIContainer"),
-        .package(path: "Packages/Observability"),
-        .package(path: "Packages/Domain"),
-        .package(path: "Packages/Data"),
-        .package(path: "Packages/Networking"),
-        .package(path: "Packages/FeatureOnboarding"),
-        .package(path: "Packages/FeatureDashboard"),
-        .package(path: "Packages/FeatureDebtDetail"),
-        .package(path: "Packages/FeatureSettings"),
-        .package(path: "Packages/FeatureWidget"),
-    ],
     targets: [appTarget]
 )
