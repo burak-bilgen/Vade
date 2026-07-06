@@ -55,6 +55,7 @@ public final class SettingsViewModel {
     public func setLanguage(_ lang: String) {
         selectedLanguage = lang
         UserDefaults.standard.set(lang, forKey: UserDefaultsKeys.appLanguage)
+        UserDefaults.standard.set([lang], forKey: "AppleLanguages")
         analytics.track(.languageChanged(to: lang))
     }
 }

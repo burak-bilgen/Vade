@@ -37,14 +37,30 @@ public struct SettingsView: View {
                         get: { viewModel.selectedLanguage },
                         set: { viewModel.setLanguage($0) }
                     )) {
-                        Text(String(localized: "settings.language.turkish"))
-                            .tag("tr")
-                        Text(String(localized: "settings.language.english"))
-                            .tag("en")
+                        Text("Türkçe").tag("tr")
+                        Text("English").tag("en")
+                        Text("Español").tag("es")
+                        Text("中文").tag("zh")
+                        Text("हिन्दी").tag("hi")
+                        Text("العربية").tag("ar")
                     } label: {
                         Label(
                             String(localized: "settings.language.label"),
                             systemImage: "globe"
+                        )
+                    }
+
+                    Picker(selection: Binding(
+                        get: { viewModel.preferredCurrency },
+                        set: { viewModel.setCurrency($0) }
+                    )) {
+                        ForEach([CurrencyKind.tryCoin, .usd, .eur], id: \.self) { c in
+                            Text(c.label).tag(c)
+                        }
+                    } label: {
+                        Label(
+                            String(localized: "settings.preferredCurrency"),
+                            systemImage: "dollarsign.circle"
                         )
                     }
                 } header: {

@@ -9,25 +9,44 @@ import Data
 public struct DashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: DashboardViewModel?
+    @State private var showAdd = false
 
     public init() {}
 
     public var body: some View {
         ScrollView {
-            VStack(spacing: Spacing.l) {
+            VStack(spacing: 24) {
                 if let vm = viewModel {
-                    rateTicker(vm)
-                    balanceCard(vm)
-                    statGrid(vm)
-                    actionRow(vm)
-                    if !vm.currencyDistribution.isEmpty { currencyRow(vm) }
-                    if !vm.recentActivity.isEmpty { activityList(vm) }
-                    if !vm.upcomingItems.isEmpty { upcomingList(vm) }
+                    greetingHeader
+                    balanceHero(vm)
+                    quickActions(vm)
+                    if !vm.currencyDistribution.isEmpty { currencyStrip(vm) }
+                    rateStrip(vm)
+                    if !vm.recentActivity.isEmpty { activityTimeline(vm) }
+                    if !vm.upcomingItems.isEmpty { upcomingCards(vm) }
                 }
             }
-            .padding(.bottom, Spacing.xxxl)
+            .padding(.bottom, 48)
         }
         .background(ColorTokens.background)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Vade")
+                    .font(.system(size: 17, weight: .semibold))
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button { showAdd = true } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 22))
+                        .foregroundStyle(ColorTokens.accent)
+                        .symbolRenderingMode(.hierarchical)
+                }
+            }
+        }
+        .sheet(isPresented: $showAdd) {
+            QuickAddSheet { await viewModel?.loadData() }
+        }
         .task {
             let vm = DashboardViewModel(modelContext: modelContext)
             viewModel = vm
@@ -36,250 +55,337 @@ public struct DashboardView: View {
         .refreshable { await viewModel?.loadData() }
     }
 
-    // MARK: Rate Ticker
+    // MARK: Greeting
 
-    private func rateTicker(_ vm: DashboardViewModel) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: Spacing.s) {
-                if let rates = vm.exchangeRates {
-                    tick(flag: "🇺🇸", code: "USD", rate: rates.usdRate)
-                    tick(flag: "🇪🇺", code: "EUR", rate: rates.eurRate)
-                    tick(flag: "🪙", code: "XAU", rate: rates.goldRate)
+    private var greetingHeader: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(timeGreeting)
+                    .font(.system(size: 28, weight: .bold))
+                if let vm = viewModel {
+                    Text(String(localized: "dashboard.summary \(vm.persons.count) \(vm.monthlyStats.pendingDebtCount)"))
+                        .font(.system(size: 15))
+                        .foregroundStyle(.secondary)
                 }
             }
-            .padding(.horizontal, Spacing.l)
+            Spacer()
         }
-        .padding(.top, Spacing.s)
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
     }
 
-    private func tick(flag: String, code: String, rate: Decimal?) -> some View {
-        HStack(spacing: 4) {
-            Text(flag)
-            Text(code)
-                .font(Typography.font(for: .caption))
-                .foregroundStyle(.secondary)
-            if let rate {
-                Text(rate, format: .number.precision(.fractionLength(2)))
-                    .font(Typography.font(for: .amount))
-            }
+    private var timeGreeting: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 6..<12: return String(localized: "dashboard.greeting.morning")
+        case 12..<18: return String(localized: "dashboard.greeting.afternoon")
+        default: return String(localized: "dashboard.greeting.evening")
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 6)
-        .background(.ultraThinMaterial)
-        .clipShape(.capsule)
     }
 
-    // MARK: Balance Card
+    // MARK: Balance Hero
 
-    private func balanceCard(_ vm: DashboardViewModel) -> some View {
-        VStack(spacing: Spacing.m) {
+    private func balanceHero(_ vm: DashboardViewModel) -> some View {
+        VStack(spacing: 8) {
             Text(String(localized: "dashboard.netBalance"))
-                .font(Typography.font(for: .caption))
+                .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(.secondary)
                 .textCase(.uppercase)
+                .tracking(1.5)
 
             Text(vm.netBalance, format: .number.precision(.fractionLength(2)))
-                .font(Typography.font(for: .display))
+                .font(.system(size: 42, weight: .light, design: .monospaced))
                 .foregroundStyle(balanceColor(vm.netBalance))
                 .contentTransition(.numericText())
 
-            Text(vm.netBalance >= 0
-                ? String(localized: "dashboard.youAreOwed")
-                : String(localized: "dashboard.youOwe")
-            )
-            .font(Typography.font(for: .caption))
-            .foregroundStyle(.secondary)
-
-            Divider().padding(.horizontal, Spacing.xxl)
-
-            HStack(spacing: 0) {
-                metric(value: vm.totalReceivable, label: String(localized: "dashboard.receivable"), color: ColorTokens.positive)
-                metric(value: vm.totalPayable, label: String(localized: "dashboard.payable"), color: ColorTokens.negative)
+            HStack(spacing: 24) {
+                VStack(spacing: 2) {
+                    Text(vm.totalReceivable, format: .number.precision(.fractionLength(2)))
+                        .font(.system(size: 17, weight: .medium, design: .monospaced))
+                        .foregroundStyle(ColorTokens.positive)
+                    Text(String(localized: "dashboard.receivable"))
+                        .font(.system(size: 11))
+                        .foregroundStyle(.tertiary)
+                }
+                VStack(spacing: 2) {
+                    Text(vm.totalPayable, format: .number.precision(.fractionLength(2)))
+                        .font(.system(size: 17, weight: .medium, design: .monospaced))
+                        .foregroundStyle(ColorTokens.negative)
+                    Text(String(localized: "dashboard.payable"))
+                        .font(.system(size: 11))
+                        .foregroundStyle(.tertiary)
+                }
             }
         }
-        .padding(Spacing.xl)
-        .background(ColorTokens.surface, in: .rect(cornerRadius: Radius.xl))
-        .shadow(color: .black.opacity(0.04), radius: 16, y: 4)
-        .padding(.horizontal, Spacing.l)
-    }
-
-    private func metric(value: Decimal, label: String, color: Color) -> some View {
-        VStack(spacing: 2) {
-            Text(value, format: .number.precision(.fractionLength(2)))
-                .font(Typography.font(for: .amount))
-                .foregroundStyle(color)
-            Text(label)
-                .font(Typography.font(for: .label))
-                .foregroundStyle(.tertiary)
-        }
         .frame(maxWidth: .infinity)
+        .padding(.vertical, 32)
+        .background(ColorTokens.surface, in: .rect(cornerRadius: 16))
+        .padding(.horizontal, 20)
     }
 
-    // MARK: Stats
+    // MARK: Quick Actions
 
-    private func statGrid(_ vm: DashboardViewModel) -> some View {
-        HStack(spacing: Spacing.s) {
-            stat(icon: "person.2.fill", value: "\(vm.monthlyStats.totalPersonCount)", label: String(localized: "dashboard.month.people"))
-            stat(icon: "clock.fill", value: "\(vm.monthlyStats.pendingDebtCount)", label: String(localized: "dashboard.month.pending"))
-            stat(icon: "bolt.fill", value: "\(vm.monthlyStats.activePersonCount)", label: String(localized: "dashboard.month.active"))
-        }
-        .padding(.horizontal, Spacing.l)
-    }
-
-    private func stat(icon: String, value: String, label: String) -> some View {
-        VStack(spacing: 6) {
-            Image(systemName: icon)
-                .font(.system(size: 15))
-                .foregroundStyle(ColorTokens.accent)
-            Text(value)
-                .font(Typography.font(for: .headline))
-            Text(label)
-                .font(Typography.font(for: .label))
-                .foregroundStyle(.tertiary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, Spacing.l)
-        .background(ColorTokens.surface, in: .rect(cornerRadius: Radius.lg))
-    }
-
-    // MARK: Actions
-
-    private func actionRow(_ vm: DashboardViewModel) -> some View {
-        HStack(spacing: Spacing.m) {
+    private func quickActions(_ vm: DashboardViewModel) -> some View {
+        HStack(spacing: 12) {
             NavigationLink { PeopleListView() } label: {
-                action(icon: "person.badge.plus", title: String(localized: "dashboard.action.people"))
+                VStack(spacing: 8) {
+                    Image(systemName: "person.2.fill")
+                        .font(.system(size: 20))
+                        .foregroundStyle(ColorTokens.accent)
+                        .frame(width: 48, height: 48)
+                        .background(ColorTokens.accent.opacity(0.1), in: .circle)
+                    Text(String(localized: "dashboard.action.people"))
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(ColorTokens.surface, in: .rect(cornerRadius: 12))
             }
+
             NavigationLink {
                 ChartsHostView(totalReceivable: vm.totalReceivable, totalPayable: vm.totalPayable, netBalance: vm.netBalance)
             } label: {
-                action(icon: "chart.line.uptrend.xyaxis", title: String(localized: "dashboard.action.charts"))
+                VStack(spacing: 8) {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .font(.system(size: 20))
+                        .foregroundStyle(ColorTokens.accent)
+                        .frame(width: 48, height: 48)
+                        .background(ColorTokens.accent.opacity(0.1), in: .circle)
+                    Text(String(localized: "dashboard.action.charts"))
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(ColorTokens.surface, in: .rect(cornerRadius: 12))
+            }
+
+            Button {
+                showAdd = true
+            } label: {
+                VStack(spacing: 8) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundStyle(.white)
+                        .frame(width: 48, height: 48)
+                        .background(ColorTokens.accent, in: .circle)
+                    Text(String(localized: "dashboard.action.newDebt"))
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(ColorTokens.surface, in: .rect(cornerRadius: 12))
             }
         }
-        .padding(.horizontal, Spacing.l)
+        .padding(.horizontal, 20)
     }
 
-    private func action(icon: String, title: String) -> some View {
-        HStack(spacing: Spacing.s) {
-            Image(systemName: icon)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundStyle(ColorTokens.accent)
-            Text(title)
-                .font(Typography.font(for: .headline))
-            Spacer()
-            Image(systemName: "chevron.right")
-                .font(.system(size: 11, weight: .bold))
-                .foregroundStyle(.tertiary)
-        }
-        .padding(Spacing.l)
-        .frame(maxWidth: .infinity)
-        .background(ColorTokens.surface, in: .rect(cornerRadius: Radius.lg))
-    }
+    // MARK: Currency Strip
 
-    // MARK: Currency
-
-    private func currencyRow(_ vm: DashboardViewModel) -> some View {
-        VStack(alignment: .leading, spacing: Spacing.m) {
+    private func currencyStrip(_ vm: DashboardViewModel) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
             Text(String(localized: "dashboard.currency.title"))
-                .font(Typography.font(for: .title2))
-                .padding(.horizontal, Spacing.l)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+                .tracking(1.5)
+                .padding(.horizontal, 20)
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: Spacing.s) {
+                HStack(spacing: 8) {
                     ForEach(vm.currencyDistribution, id: \.kind) { item in
                         VStack(spacing: 4) {
-                            Text(item.kind.format(item.total))
-                                .font(Typography.font(for: .amount))
-                            Text(item.kind.rawValue)
-                                .font(Typography.font(for: .label))
-                                .foregroundStyle(.tertiary)
+                            Text(item.kind.label)
+                                .font(.system(size: 11))
+                                .foregroundStyle(.secondary)
+                            Text(item.total, format: .number.precision(.fractionLength(2)))
+                                .font(.system(size: 15, weight: .medium, design: .monospaced))
                         }
-                        .padding(.horizontal, Spacing.l)
-                        .padding(.vertical, Spacing.m)
-                        .background(ColorTokens.surface, in: .rect(cornerRadius: Radius.md))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(ColorTokens.surface, in: .rect(cornerRadius: 10))
                     }
                 }
-                .padding(.horizontal, Spacing.l)
+                .padding(.horizontal, 20)
             }
         }
     }
 
-    // MARK: Activity
+    // MARK: Rate Strip
 
-    private func activityList(_ vm: DashboardViewModel) -> some View {
-        VStack(alignment: .leading, spacing: Spacing.m) {
+    private func rateStrip(_ vm: DashboardViewModel) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                if let rates = vm.exchangeRates {
+                    ratePill(flag: "🇺🇸", code: "USD", rate: rates.usdRate)
+                    ratePill(flag: "🇪🇺", code: "EUR", rate: rates.eurRate)
+                    ratePill(flag: "🪙", code: "GA", rate: rates.goldRate)
+                }
+            }
+            .padding(.horizontal, 20)
+        }
+    }
+
+    private func ratePill(flag: String, code: String, rate: Decimal?) -> some View {
+        HStack(spacing: 4) {
+            Text(flag)
+            Text(code).font(.system(size: 11)).foregroundStyle(.secondary)
+            if let rate {
+                Text(rate, format: .number.precision(.fractionLength(2)))
+                    .font(.system(size: 13, weight: .medium, design: .monospaced))
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(ColorTokens.surface, in: .capsule)
+    }
+
+    // MARK: Activity Timeline
+
+    private func activityTimeline(_ vm: DashboardViewModel) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
             Text(String(localized: "dashboard.recent.title"))
-                .font(Typography.font(for: .title2))
-                .padding(.horizontal, Spacing.l)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+                .tracking(1.5)
+                .padding(.horizontal, 20)
 
             VStack(spacing: 0) {
                 ForEach(Array(vm.recentActivity.enumerated()), id: \.element.id) { i, item in
-                    activityRow(item)
-                    if i < vm.recentActivity.count - 1 { Divider().padding(.leading, 48) }
+                    HStack(spacing: 12) {
+                        Circle()
+                            .fill(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
+                            .frame(width: 8, height: 8)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(item.personName)
+                                .font(.system(size: 15, weight: .medium))
+                            Text(item.date, format: .relative(presentation: .named))
+                                .font(.system(size: 12))
+                                .foregroundStyle(.tertiary)
+                        }
+                        Spacer()
+                        Text(item.direction == .receivable ? "+\(item.kind.format(item.amount))" : "-\(item.kind.format(item.amount))")
+                            .font(.system(size: 15, weight: .medium, design: .monospaced))
+                            .foregroundStyle(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 14)
+                    if i < vm.recentActivity.count - 1 {
+                        Divider().padding(.leading, 40)
+                    }
                 }
             }
-            .background(ColorTokens.surface, in: .rect(cornerRadius: Radius.lg))
-            .padding(.horizontal, Spacing.l)
+            .background(ColorTokens.surface, in: .rect(cornerRadius: 12))
+            .padding(.horizontal, 20)
         }
-    }
-
-    private func activityRow(_ item: ActivityItem) -> some View {
-        HStack(spacing: Spacing.m) {
-            Image(systemName: item.direction == .receivable ? "arrow.down.left" : "arrow.up.right")
-                .font(.system(size: 12, weight: .heavy))
-                .foregroundStyle(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
-                .frame(width: 28, height: 28)
-                .background((item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative).opacity(0.12), in: .circle)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(item.personName).font(Typography.font(for: .headline))
-                Text(item.date, format: .relative(presentation: .named))
-                    .font(Typography.font(for: .label)).foregroundStyle(.tertiary)
-            }
-            Spacer()
-            Text(item.direction == .receivable ? "+\(item.kind.format(item.amount))" : "-\(item.kind.format(item.amount))")
-                .font(Typography.font(for: .amount))
-                .foregroundStyle(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
-        }
-        .padding(Spacing.m)
     }
 
     // MARK: Upcoming
 
-    private func upcomingList(_ vm: DashboardViewModel) -> some View {
-        VStack(alignment: .leading, spacing: Spacing.m) {
+    private func upcomingCards(_ vm: DashboardViewModel) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
             Text(String(localized: "dashboard.upcoming.title"))
-                .font(Typography.font(for: .title2))
-                .padding(.horizontal, Spacing.l)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+                .tracking(1.5)
+                .padding(.horizontal, 20)
 
             VStack(spacing: 0) {
                 ForEach(Array(vm.upcomingItems.enumerated()), id: \.element.id) { i, item in
-                    HStack(spacing: Spacing.m) {
-                        AvatarView(name: item.person.name, size: 36)
+                    HStack(spacing: 12) {
+                        AvatarView(name: item.person.name, size: 40)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(item.person.name).font(Typography.font(for: .headline))
+                            Text(item.person.name).font(.system(size: 15, weight: .medium))
                             if let due = item.dueDate {
                                 Text(due, format: .dateTime.day().month(.abbreviated))
-                                    .font(Typography.font(for: .label)).foregroundStyle(.tertiary)
+                                    .font(.system(size: 12)).foregroundStyle(.tertiary)
                             }
                         }
                         Spacer()
-                        Text(item.amount.formatted())
-                            .font(Typography.font(for: .amount))
+                        Text(item.amount, format: .number.precision(.fractionLength(2)))
+                            .font(.system(size: 15, weight: .medium, design: .monospaced))
                             .foregroundStyle(ColorTokens.positive)
                     }
-                    .padding(Spacing.m)
-                    if i < vm.upcomingItems.count - 1 { Divider().padding(.leading, 52) }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 14)
+                    if i < vm.upcomingItems.count - 1 {
+                        Divider().padding(.leading, 56)
+                    }
                 }
             }
-            .background(ColorTokens.surface, in: .rect(cornerRadius: Radius.lg))
-            .padding(.horizontal, Spacing.l)
+            .background(ColorTokens.surface, in: .rect(cornerRadius: 12))
+            .padding(.horizontal, 20)
         }
     }
 
     // MARK: Helpers
 
     private func balanceColor(_ balance: Decimal) -> Color {
-        balance.isEffectivelyZero ? ColorTokens.textPrimary : balance > 0 ? ColorTokens.positive : ColorTokens.negative
+        if balance.isEffectivelyZero { return .primary }
+        return balance > 0 ? ColorTokens.positive : ColorTokens.negative
+    }
+}
+
+// MARK: - Quick Add Sheet
+
+private struct QuickAddSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @State private var name = ""
+    @State private var amount = ""
+    @State private var kind: CurrencyKind = .tryCoin
+    @State private var direction: DebtDirection = .receivable
+    let onDone: () async -> Void
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField(String(localized: "quickAdd.person"), text: $name)
+                    TextField(String(localized: "quickAdd.amount"), text: $amount)
+                        .keyboardType(.decimalPad)
+                }
+                Section {
+                    Picker(String(localized: "quickAdd.type"), selection: $kind) {
+                        ForEach(CurrencyKind.allCases, id: \.self) { k in
+                            Text(k.rawValue).tag(k)
+                        }
+                    }
+                    Picker(String(localized: "quickAdd.direction"), selection: $direction) {
+                        Text(String(localized: "quickAdd.receivable")).tag(DebtDirection.receivable)
+                        Text(String(localized: "quickAdd.payable")).tag(DebtDirection.payable)
+                    }
+                }
+            }
+            .navigationTitle(String(localized: "quickAdd.title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(String(localized: "quickAdd.cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(String(localized: "quickAdd.save")) {
+                        guard !name.isEmpty, let amt = Decimal(string: amount), amt > 0 else { return }
+                        let person = Person(name: name)
+                        let model = PersonModel(name: person.name, phoneNumber: person.phoneNumber, notes: person.notes)
+                        modelContext.insert(model)
+                        let debt = DebtRecordModel(personID: model.id, amount: amt,
+                                                     kindRawValue: kind.rawValue,
+                                                     directionRawValue: direction == .receivable ? "receivable" : "payable")
+                        modelContext.insert(debt)
+                        try? modelContext.save()
+                        dismiss()
+                        Task { await onDone() }
+                    }
+                    .disabled(name.isEmpty || (Decimal(string: amount) ?? .zero) <= .zero)
+                }
+            }
+        }
     }
 }
 
