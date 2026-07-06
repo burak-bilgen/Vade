@@ -21,6 +21,7 @@ public struct SummaryCard: View {
             Text(netAmount.formatted())
                 .font(Typography.font(for: .display))
                 .foregroundColor(netColor)
+                .animation(.spring(response: 0.4, dampingFraction: 0.7), value: netAmount)
             Rectangle().fill(Color("brass500")).frame(width: 40, height: 2)
             HStack(spacing: Spacing.xxl) {
                 statView(label: String(localized: "dashboard.summary.totalReceivable", comment: "Total receivable amount"), amount: totalReceivable,

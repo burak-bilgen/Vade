@@ -4,10 +4,10 @@ import DesignSystem
 // MARK: - Settings View
 
 public struct SettingsView: View {
-    @State private var isBiometricEnabled = false
-    @State private var selectedLanguage = "tr"
-    @State private var isAnalyticsEnabled = true
-    @State private var isCrashlyticsEnabled = true
+    @AppStorage("vade.biometric.enabled") private var isBiometricEnabled = false
+    @AppStorage("vade.language") private var selectedLanguage = "tr"
+    @AppStorage("vade.analytics.enabled") private var isAnalyticsEnabled = true
+    @AppStorage("vade.crashlytics.enabled") private var isCrashlyticsEnabled = true
 
     public init() {}
 
