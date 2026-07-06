@@ -34,7 +34,7 @@ let infoPlist: InfoPlist = .extendingDefault(with: [
 
 let appTarget = Target.target(
     name: "Vade",
-    destinations: .iOS,
+    destinations: [.iPhone],
     product: .app,
     bundleId: "com.vade.app",
     deploymentTargets: .iOS("18.0"),
@@ -42,6 +42,7 @@ let appTarget = Target.target(
     sources: ["App/Sources/Vade/**"],
     resources: [
         "App/Sources/Vade/Resources/**",
+        "Vade/Assets.xcassets",
     ],
     entitlements: .file(path: "Vade/Vade.entitlements"),
     dependencies: [

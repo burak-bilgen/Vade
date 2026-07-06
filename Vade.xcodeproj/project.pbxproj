@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		0F63D81FA78516F1CA7D99EF /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A35BE75E61364E802DA4BD8 /* Domain.framework */; };
 		18781D3B67CA2400002C1563 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9957458A16D64AFC05214609 /* DesignSystem.framework */; };
+		1FB1C810576AE665EB0BFEA2 /* TuistAssets+Vade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF177E7F5CB9715ABA0CC87 /* TuistAssets+Vade.swift */; };
 		2D7B591B6671871CDA937394 /* FeatureWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9C9EBB3D53E21DC96756A4 /* FeatureWidget.framework */; };
 		3A324F17DAEB5095AA7F5CA8 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 575ABC238E195F0C0DAC1076 /* Data.framework */; };
 		4CDDCE7B0A33ACBA86526D69 /* FeatureDebtDetail.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4B99C6B77796EB276507B4 /* FeatureDebtDetail.framework */; };
+		51911F1831C71B3786507BEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBE71EC9A28DB9B72491CD5B /* Assets.xcassets */; };
 		7CA097180BCBEBD122A1712D /* VadeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C056F86B066D899C63D6D76A /* VadeApp.swift */; };
 		8B230559D01FF30E7DFAE759 /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D590E6C861B2BFCC5F7ABB9 /* Observability.framework */; };
 		8FE2FD035B4061697BE6436D /* TuistBundle+Vade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D4B208A05A9F3BD7D22DBF /* TuistBundle+Vade.swift */; };
@@ -56,6 +58,7 @@
 		2DAC686C307DB1567FEBAE27 /* DIContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DIContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A67A83A1799A720675D7D22 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9C9EBB3D53E21DC96756A4 /* FeatureWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AF177E7F5CB9715ABA0CC87 /* TuistAssets+Vade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+Vade.swift"; sourceTree = "<group>"; };
 		4D590E6C861B2BFCC5F7ABB9 /* Observability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52484BABDAD957812AC807B9 /* FeatureDashboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureDashboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		55587468F80B77C80CD9E28C /* Vade.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vade.entitlements; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 		94940C72284D4283EE883218 /* Localizable.xcstrings */ = {isa = PBXFileReference; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		9957458A16D64AFC05214609 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99D4B208A05A9F3BD7D22DBF /* TuistBundle+Vade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+Vade.swift"; sourceTree = "<group>"; };
+		BBE71EC9A28DB9B72491CD5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C056F86B066D899C63D6D76A /* VadeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VadeApp.swift; sourceTree = "<group>"; };
 		D0CABBB33683612C73703BC3 /* Vade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D21CBB0AB4A8F584883080EB /* FeatureSettings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureSettings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +105,7 @@
 		20252B8B9344C8C02F8810DA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3AF177E7F5CB9715ABA0CC87 /* TuistAssets+Vade.swift */,
 				99D4B208A05A9F3BD7D22DBF /* TuistBundle+Vade.swift */,
 			);
 			path = Sources;
@@ -145,6 +150,7 @@
 		984FB26DE4998885445EFB66 /* Vade */ = {
 			isa = PBXGroup;
 			children = (
+				BBE71EC9A28DB9B72491CD5B /* Assets.xcassets */,
 				55587468F80B77C80CD9E28C /* Vade.entitlements */,
 			);
 			path = Vade;
@@ -271,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9E2549F0C6C442599910B5F /* Localizable.xcstrings in Resources */,
+				51911F1831C71B3786507BEE /* Assets.xcassets in Resources */,
 				9379425726636786F98DD5B4 /* DesignSystem_DesignSystem.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,6 +292,7 @@
 				BB24D010F101A3BCE6501B40 /* AppCoordinator.swift in Sources */,
 				B292ECCCE72514CCA7745E0D /* Coordinator.swift in Sources */,
 				7CA097180BCBEBD122A1712D /* VadeApp.swift in Sources */,
+				1FB1C810576AE665EB0BFEA2 /* TuistAssets+Vade.swift in Sources */,
 				8FE2FD035B4061697BE6436D /* TuistBundle+Vade.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,14 +322,14 @@
 				PRODUCT_NAME = Vade;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -347,7 +355,7 @@
 				PRODUCT_NAME = Vade;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
 					"$(inherited)",
@@ -358,7 +366,7 @@
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
