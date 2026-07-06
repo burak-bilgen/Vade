@@ -2,6 +2,8 @@
 
 Personal debt/credit tracking app — offline-first, iCloud-synced, built for the Turkish market with multi-currency and gold tracking.
 
+> **Status:** Phase 0–5 complete · 55 tests passing · 12 SPM packages · Zero hardcoded strings
+
 ## Features
 - Track money lent to and borrowed from contacts (manual or from address book)
 - Multi-currency support: TRY, USD, EUR + physical gold types (gram, çeyrek, yarım, tam, cumhuriyet)
