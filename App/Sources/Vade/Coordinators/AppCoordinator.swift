@@ -1,5 +1,9 @@
 import SwiftUI
 import SwiftData
+import FeatureOnboarding
+import FeatureDashboard
+import FeatureDebtDetail
+import DesignSystem
 
 /// Root coordinator that owns the entire navigation graph.
 /// This is the composition root — the ONLY place where the DI container is assembled.
@@ -19,7 +23,7 @@ final class AppCoordinator: Coordinator {
         AnyView(
             Group {
                 if hasCompletedOnboarding {
-                    placeholderDashboardView
+                    mainTabView
                 } else {
                     onboardingView
                 }
@@ -37,23 +41,41 @@ final class AppCoordinator: Coordinator {
         )
     }
 
-    // MARK: - Placeholder Dashboard
+    // MARK: - Main Tab View
 
-    private var placeholderDashboardView: some View {
+    private var mainTabView: some View {
         TabView {
-            Text(String(localized: "tab.dashboard"))
-                .tabItem {
-                    Label(String(localized: "tab.dashboard"), systemImage: "house")
-                }
-            Text(String(localized: "tab.people"))
-                .tabItem {
-                    Label(String(localized: "tab.people"), systemImage: "person.2")
-                }
-            Text(String(localized: "tab.settings"))
-                .tabItem {
-                    Label(String(localized: "tab.settings"), systemImage: "gearshape")
-                }
+            NavigationStack {
+                DashboardView()
+            }
+            .tabItem {
+                Label(
+                    String(localized: "tab.dashboard"),
+                    systemImage: "house"
+                )
+            }
+
+            NavigationStack {
+                PeopleListView()
+            }
+            .tabItem {
+                Label(
+                    String(localized: "tab.people"),
+                    systemImage: "person.2"
+                )
+            }
+
+            NavigationStack {
+                Text(String(localized: "tab.settings"))
+            }
+            .tabItem {
+                Label(
+                    String(localized: "tab.settings"),
+                    systemImage: "gearshape"
+                )
+            }
         }
         .tint(Color("brass500", bundle: .main))
+        .modelContainer(modelContainer)
     }
 }
