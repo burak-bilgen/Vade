@@ -828,6 +828,18 @@
         "tr": { "stringUnit": { "state": "translated", "value": "Grafikler bu platformda kullanılamıyor." } },
         "en": { "stringUnit": { "state": "translated", "value": "Charts unavailable on this platform." } }
       }
+    },
+    "accessibility.receivable": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Alacak" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Receivable" } }
+      }
+    },
+    "accessibility.payable": {
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Borç" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Payable" } }
+      }
     }
   },
   "version": "1.0"

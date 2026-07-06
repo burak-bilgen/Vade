@@ -43,6 +43,11 @@ public struct LedgerRowView: View {
         .padding(.horizontal, Spacing.l)
         .padding(.vertical, Spacing.m)
         .background(Color("surface", bundle: .module))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(name), \(amount.formatted())")
+        .accessibilityHint(isPositive
+            ? String(localized: "accessibility.receivable")
+            : String(localized: "accessibility.payable"))
         .overlay(alignment: .bottom) {
             Rectangle()
                 .fill(Color("ledgerLine", bundle: .module))

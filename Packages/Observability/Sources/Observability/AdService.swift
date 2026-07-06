@@ -1,0 +1,52 @@
+import Foundation
+import OSLog
+
+// MARK: - Ad Service Protocol
+
+public protocol AdProviding: Sendable {
+    var isAdsEnabled: Bool { get }
+    func setAdsEnabled(_ enabled: Bool)
+}
+
+// MARK: - Ad Service (Placeholder — GoogleAdMob SDK integration point)
+
+/// Manages AdMob banner display and ATT (App Tracking Transparency) flow.
+/// Google Mobile Ads SDK must be added to the main app target via SPM.
+/// Ad unit IDs are configured in the app's Info.plist.
+public final class AdService: AdProviding, @unchecked Sendable {
+    private let logger = Logger(subsystem: "com.vade.observability", category: "ads")
+    private let defaults: UserDefaults
+
+    public init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+    }
+
+    public var isAdsEnabled: Bool {
+        defaults.bool(forKey: "vade.ads.enabled")
+    }
+
+    public func setAdsEnabled(_ enabled: Bool) {
+        defaults.set(enabled, forKey: "vade.ads.enabled")
+        logger.info("[AdService] Ads \(enabled ? "enabled" : "disabled")")
+    }
+}
+
+// MARK: - ATT Flow Placeholder
+
+/// Wraps App Tracking Transparency authorization request.
+/// Call `requestTrackingPermission()` before showing personalized ads.
+/// Requires NSUserTrackingUsageDescription in Info.plist.
+@MainActor
+public enum ATTrackingFlow {
+    private static let logger = Logger(subsystem: "com.vade.observability", category: "att")
+
+    public static func requestPermission() async -> Bool {
+        #if canImport(AppTrackingTransparency)
+        let status = await ATTrackingManager.requestTrackingAuthorization()
+        logger.info("[ATT] Status: \(status.rawValue)")
+        return status == .authorized
+        #else
+        return false
+        #endif
+    }
+}
