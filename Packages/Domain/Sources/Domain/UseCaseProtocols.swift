@@ -27,6 +27,10 @@ public protocol RecordPaymentUseCase {
     func execute(debtRecordID: UUID, amount: Decimal, note: String?) async throws -> Payment
 }
 
+public protocol FetchDebtsForPersonUseCase {
+    func execute(for personID: UUID) async throws -> [DebtRecord]
+}
+
 public protocol CalculateBalanceUseCase {
     func execute(for personID: UUID) async throws -> Decimal
     func netBalance() async throws -> Decimal

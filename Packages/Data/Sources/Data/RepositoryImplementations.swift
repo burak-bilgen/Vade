@@ -29,7 +29,7 @@ public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase {
 
 // MARK: - Debt Repository
 
-public final class DebtRepository: AddDebtUseCase {
+public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
     private let modelContext: ModelContext
 
     public init(modelContext: ModelContext) {
@@ -55,6 +55,31 @@ public final class DebtRepository: AddDebtUseCase {
         modelContext.insert(entity)
         try modelContext.save()
         return entity.toDomain()
+    }
+
+    public func execute(for personID: UUID) async throws -> [DebtRecord] {
+        let descriptor = FetchDescriptor<DebtRecordModel>(
+            predicate: #Predicate { $0.personID == personID },
+            sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+        )
+        return try modelContext.fetch(descriptor).map { $0.toDomain() }
+    }
+}
+
+// MARK: - Payment Repository
+
+public final class PaymentRepository: RecordPaymentUseCase {
+    private let modelContext: ModelContext
+
+    public init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
+
+    public func execute(debtRecordID: UUID, amount: Decimal, note: String?) async throws -> Payment {
+        let payment = PaymentModel(debtRecordID: debtRecordID, amount: amount, note: note)
+        modelContext.insert(payment)
+        try modelContext.save()
+        return payment.toDomain()
     }
 }
 
@@ -96,6 +121,18 @@ public extension PersonModel {
     func toDomain() -> Person {
         Person(id: id, name: name, phoneNumber: phoneNumber, notes: notes,
                createdAt: createdAt, isArchived: isArchived)
+    }
+}
+
+public extension PaymentModel {
+    func toDomain() -> Payment {
+        Payment(
+            id: id,
+            debtRecordID: debtRecordID,
+            amount: amount,
+            date: date,
+            note: note
+        )
     }
 }
 
