@@ -17,53 +17,35 @@ public final class CurrencyConverter: CurrencyConverting, @unchecked Sendable {
         switch currency {
         case .tryCoin:
             return amount
-
         case .usd:
-            guard let rate = try await rateProvider.fetchRate(for: "USD") else {
-                throw ConversionError.rateUnavailable(currency.rawValue)
-            }
-            return amount * rate
-
+            return try await convertFiat(amount: amount, code: "USD")
         case .eur:
-            guard let rate = try await rateProvider.fetchRate(for: "EUR") else {
-                throw ConversionError.rateUnavailable(currency.rawValue)
-            }
-            return amount * rate
-
+            return try await convertFiat(amount: amount, code: "EUR")
         case .goldGram:
-            guard let rate = try await rateProvider.fetchGoldRatePerGram() else {
-                throw ConversionError.rateUnavailable("GOLD_GRAM")
-            }
-            return amount * rate
-
+            return try await convertGold(amount: amount, gramMultiplier: 1)
         case .goldCeyrek:
-            guard let rate = try await rateProvider.fetchGoldRatePerGram() else {
-                throw ConversionError.rateUnavailable("GOLD_GRAM")
-            }
-            // 1 çeyrek = 1.75 gram
-            return amount * Decimal(175) / Decimal(100) * rate
-
+            return try await convertGold(amount: amount, gramMultiplier: Decimal(175) / Decimal(100))
         case .goldYarim:
-            guard let rate = try await rateProvider.fetchGoldRatePerGram() else {
-                throw ConversionError.rateUnavailable("GOLD_GRAM")
-            }
-            // 1 yarım = 3.5 gram
-            return amount * Decimal(35) / Decimal(10) * rate
-
+            return try await convertGold(amount: amount, gramMultiplier: Decimal(35) / Decimal(10))
         case .goldTam:
-            guard let rate = try await rateProvider.fetchGoldRatePerGram() else {
-                throw ConversionError.rateUnavailable("GOLD_GRAM")
-            }
-            // 1 tam = 7.0 gram
-            return amount * 7 * rate
-
+            return try await convertGold(amount: amount, gramMultiplier: 7)
         case .goldCumhuriyet:
-            guard let rate = try await rateProvider.fetchGoldRatePerGram() else {
-                throw ConversionError.rateUnavailable("GOLD_GRAM")
-            }
-            // 1 cumhuriyet = 7.216 gram = 7216/1000
-            return amount * Decimal(7216) / Decimal(1000) * rate
+            return try await convertGold(amount: amount, gramMultiplier: Decimal(7216) / Decimal(1000))
         }
+    }
+
+    private func convertFiat(amount: Decimal, code: String) async throws -> Decimal {
+        guard let rate = try await rateProvider.fetchRate(for: code) else {
+            throw ConversionError.rateUnavailable(code)
+        }
+        return amount * rate
+    }
+
+    private func convertGold(amount: Decimal, gramMultiplier: Decimal) async throws -> Decimal {
+        guard let rate = try await rateProvider.fetchGoldRatePerGram() else {
+            throw ConversionError.rateUnavailable("GOLD_GRAM")
+        }
+        return amount * gramMultiplier * rate
     }
 
     public func lastUpdateDate() async -> Date? {

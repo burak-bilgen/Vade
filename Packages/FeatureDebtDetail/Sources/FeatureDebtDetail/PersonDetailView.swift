@@ -242,7 +242,7 @@ private struct AddDebtSheet: View {
                             )
                         }
                     }
-                    .disabled(parsedAmount == nil || parsedAmount! <= 0)
+                    .disabled(!(parsedAmount.map { $0 > 0 } ?? false))
                 }
             }
         }
@@ -306,21 +306,26 @@ private struct RecordPaymentSheet: View {
                             )
                         }
                     }
-                    .disabled(parsedAmount == nil || parsedAmount! <= 0)
+                    .disabled(!(parsedAmount.map { $0 > 0 } ?? false))
                 }
             }
         }
     }
 }
 
+#if DEBUG
+private let previewModelContainer: ModelContainer = {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    // swiftlint:disable:next force_try
+    return try! ModelContainer(for: PersonModel.self, DebtRecordModel.self, PaymentModel.self, configurations: config)
+}()
+
 #Preview {
     NavigationStack {
         PersonDetailView(
             person: Person(name: "Ahmet"),
-            modelContext: try! ModelContainer(
-                for: PersonModel.self, DebtRecordModel.self, PaymentModel.self,
-                configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-            ).mainContext
+            modelContext: previewModelContainer.mainContext
         )
     }
 }
+#endif

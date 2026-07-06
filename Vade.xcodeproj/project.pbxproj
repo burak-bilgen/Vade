@@ -3,335 +3,358 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 110;
+	objectVersion = 55;
 	objects = {
 
-/* Begin PBXContainerItemProxy section */
-		6764F2322FFBB118008C3413 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6764F2182FFBB117008C3413 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6764F21F2FFBB117008C3413;
-			remoteInfo = Vade;
+/* Begin PBXBuildFile section */
+		0F63D81FA78516F1CA7D99EF /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A35BE75E61364E802DA4BD8 /* Domain.framework */; };
+		18781D3B67CA2400002C1563 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9957458A16D64AFC05214609 /* DesignSystem.framework */; };
+		2D7B591B6671871CDA937394 /* FeatureWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9C9EBB3D53E21DC96756A4 /* FeatureWidget.framework */; };
+		3A324F17DAEB5095AA7F5CA8 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 575ABC238E195F0C0DAC1076 /* Data.framework */; };
+		4CDDCE7B0A33ACBA86526D69 /* FeatureDebtDetail.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4B99C6B77796EB276507B4 /* FeatureDebtDetail.framework */; };
+		7CA097180BCBEBD122A1712D /* VadeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C056F86B066D899C63D6D76A /* VadeApp.swift */; };
+		8B230559D01FF30E7DFAE759 /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D590E6C861B2BFCC5F7ABB9 /* Observability.framework */; };
+		8FE2FD035B4061697BE6436D /* TuistBundle+Vade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D4B208A05A9F3BD7D22DBF /* TuistBundle+Vade.swift */; };
+		9FF74ADB6B79B9C3408FFEFD /* FeatureDashboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52484BABDAD957812AC807B9 /* FeatureDashboard.framework */; };
+		B292ECCCE72514CCA7745E0D /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113A5B001A602BDFDD92FABD /* Coordinator.swift */; };
+		BB24D010F101A3BCE6501B40 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F995A70A83635D1F2BE74894 /* AppCoordinator.swift */; };
+		CFFD3B42D98573B6E0F67356 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F634A80D7E07AB06C6BDC00C /* Networking.framework */; };
+		D6229774EE1245526C6823A7 /* FeatureOnboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596BC3A81735962537836959 /* FeatureOnboarding.framework */; };
+		E72A26D3231E2069E25CDE3C /* DIContainer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DAC686C307DB1567FEBAE27 /* DIContainer.framework */; };
+		E96E9690D938565538EDDC90 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A67A83A1799A720675D7D22 /* Core.framework */; };
+		E9E2549F0C6C442599910B5F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 94940C72284D4283EE883218 /* Localizable.xcstrings */; };
+		EF951B0053E6FF8239EEC087 /* FeatureSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D21CBB0AB4A8F584883080EB /* FeatureSettings.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A3D708EF189D66303749975A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6764F23C2FFBB118008C3413 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6764F2182FFBB117008C3413 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6764F21F2FFBB117008C3413;
-			remoteInfo = Vade;
-		};
-/* End PBXContainerItemProxy section */
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6764F2202FFBB117008C3413 /* Vade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vade.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6764F2312FFBB118008C3413 /* VadeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VadeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6764F23B2FFBB118008C3413 /* VadeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VadeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		113A5B001A602BDFDD92FABD /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		2DAC686C307DB1567FEBAE27 /* DIContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DIContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A67A83A1799A720675D7D22 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A9C9EBB3D53E21DC96756A4 /* FeatureWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D590E6C861B2BFCC5F7ABB9 /* Observability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52484BABDAD957812AC807B9 /* FeatureDashboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureDashboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		55587468F80B77C80CD9E28C /* Vade.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vade.entitlements; sourceTree = "<group>"; };
+		575ABC238E195F0C0DAC1076 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		596BC3A81735962537836959 /* FeatureOnboarding.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureOnboarding.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A35BE75E61364E802DA4BD8 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94940C72284D4283EE883218 /* Localizable.xcstrings */ = {isa = PBXFileReference; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		9957458A16D64AFC05214609 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		99D4B208A05A9F3BD7D22DBF /* TuistBundle+Vade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+Vade.swift"; sourceTree = "<group>"; };
+		C056F86B066D899C63D6D76A /* VadeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VadeApp.swift; sourceTree = "<group>"; };
+		D0CABBB33683612C73703BC3 /* Vade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vade.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D21CBB0AB4A8F584883080EB /* FeatureSettings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureSettings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF4B99C6B77796EB276507B4 /* FeatureDebtDetail.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureDebtDetail.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F634A80D7E07AB06C6BDC00C /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F995A70A83635D1F2BE74894 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		FC21FDE0CA7ED97498F1FFE6 /* Vade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Vade-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6764F2412FFBB118008C3413 /* Exceptions for "Vade" folder in "Vade" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 6764F21F2FFBB117008C3413 /* Vade */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		6764F2222FFBB117008C3413 /* Vade */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				6764F2412FFBB118008C3413 /* Exceptions for "Vade" folder in "Vade" target */,
-			);
-			path = Vade;
-			sourceTree = "<group>";
-		};
-		6764F2342FFBB118008C3413 /* VadeTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = VadeTests;
-			sourceTree = "<group>";
-		};
-		6764F23E2FFBB118008C3413 /* VadeUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = VadeUITests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
-		6764F21D2FFBB117008C3413 /* Frameworks */ = {
+		5ECE441FDFE3FC978B4BF2CC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
+				E96E9690D938565538EDDC90 /* Core.framework in Frameworks */,
+				E72A26D3231E2069E25CDE3C /* DIContainer.framework in Frameworks */,
+				3A324F17DAEB5095AA7F5CA8 /* Data.framework in Frameworks */,
+				18781D3B67CA2400002C1563 /* DesignSystem.framework in Frameworks */,
+				0F63D81FA78516F1CA7D99EF /* Domain.framework in Frameworks */,
+				9FF74ADB6B79B9C3408FFEFD /* FeatureDashboard.framework in Frameworks */,
+				4CDDCE7B0A33ACBA86526D69 /* FeatureDebtDetail.framework in Frameworks */,
+				D6229774EE1245526C6823A7 /* FeatureOnboarding.framework in Frameworks */,
+				EF951B0053E6FF8239EEC087 /* FeatureSettings.framework in Frameworks */,
+				2D7B591B6671871CDA937394 /* FeatureWidget.framework in Frameworks */,
+				CFFD3B42D98573B6E0F67356 /* Networking.framework in Frameworks */,
+				8B230559D01FF30E7DFAE759 /* Observability.framework in Frameworks */,
 			);
-		};
-		6764F22E2FFBB118008C3413 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			files = (
-			);
-		};
-		6764F2382FFBB118008C3413 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			files = (
-			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6764F2172FFBB117008C3413 = {
+		20252B8B9344C8C02F8810DA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6764F2222FFBB117008C3413 /* Vade */,
-				6764F2342FFBB118008C3413 /* VadeTests */,
-				6764F23E2FFBB118008C3413 /* VadeUITests */,
-				6764F2212FFBB117008C3413 /* Products */,
+				99D4B208A05A9F3BD7D22DBF /* TuistBundle+Vade.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		266F0AF719AB567DD8925ECE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AE7B9884993174EC947416A5 /* Sources */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		87E6FB811EBC6FD7C5A6BF9E /* Derived */ = {
+			isa = PBXGroup;
+			children = (
+				E409BAC4DEC4EB3221170D1B /* InfoPlists */,
+				20252B8B9344C8C02F8810DA /* Sources */,
+			);
+			path = Derived;
+			sourceTree = "<group>";
+		};
+		8B86D669E9A0405EEDC6A27B /* Vade */ = {
+			isa = PBXGroup;
+			children = (
+				904D95A21553A4E4539BA9B7 /* Coordinators */,
+				E98EDCB50575B606499133FE /* Resources */,
+				C056F86B066D899C63D6D76A /* VadeApp.swift */,
+			);
+			path = Vade;
+			sourceTree = "<group>";
+		};
+		904D95A21553A4E4539BA9B7 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				F995A70A83635D1F2BE74894 /* AppCoordinator.swift */,
+				113A5B001A602BDFDD92FABD /* Coordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		984FB26DE4998885445EFB66 /* Vade */ = {
+			isa = PBXGroup;
+			children = (
+				55587468F80B77C80CD9E28C /* Vade.entitlements */,
+			);
+			path = Vade;
+			sourceTree = "<group>";
+		};
+		AE7B9884993174EC947416A5 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8B86D669E9A0405EEDC6A27B /* Vade */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		B0F4AEE65EB3A613D6F1F023 = {
+			isa = PBXGroup;
+			children = (
+				F322C26A63911DF2AE0AA92E /* Products */,
+				FDA78B2CA9A792D9A7A34133 /* Project */,
 			);
 			sourceTree = "<group>";
 		};
-		6764F2212FFBB117008C3413 /* Products */ = {
+		E409BAC4DEC4EB3221170D1B /* InfoPlists */ = {
 			isa = PBXGroup;
 			children = (
-				6764F2202FFBB117008C3413 /* Vade.app */,
-				6764F2312FFBB118008C3413 /* VadeTests.xctest */,
-				6764F23B2FFBB118008C3413 /* VadeUITests.xctest */,
+				FC21FDE0CA7ED97498F1FFE6 /* Vade-Info.plist */,
+			);
+			path = InfoPlists;
+			sourceTree = "<group>";
+		};
+		E98EDCB50575B606499133FE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				94940C72284D4283EE883218 /* Localizable.xcstrings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F322C26A63911DF2AE0AA92E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3A67A83A1799A720675D7D22 /* Core.framework */,
+				575ABC238E195F0C0DAC1076 /* Data.framework */,
+				9957458A16D64AFC05214609 /* DesignSystem.framework */,
+				2DAC686C307DB1567FEBAE27 /* DIContainer.framework */,
+				6A35BE75E61364E802DA4BD8 /* Domain.framework */,
+				52484BABDAD957812AC807B9 /* FeatureDashboard.framework */,
+				DF4B99C6B77796EB276507B4 /* FeatureDebtDetail.framework */,
+				596BC3A81735962537836959 /* FeatureOnboarding.framework */,
+				D21CBB0AB4A8F584883080EB /* FeatureSettings.framework */,
+				3A9C9EBB3D53E21DC96756A4 /* FeatureWidget.framework */,
+				F634A80D7E07AB06C6BDC00C /* Networking.framework */,
+				4D590E6C861B2BFCC5F7ABB9 /* Observability.framework */,
+				D0CABBB33683612C73703BC3 /* Vade.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FDA78B2CA9A792D9A7A34133 /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				266F0AF719AB567DD8925ECE /* App */,
+				87E6FB811EBC6FD7C5A6BF9E /* Derived */,
+				984FB26DE4998885445EFB66 /* Vade */,
+			);
+			name = Project;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6764F21F2FFBB117008C3413 /* Vade */ = {
+		83F45C612FBA717E568DF8DA /* Vade */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6764F2422FFBB118008C3413 /* Build configuration list for PBXNativeTarget "Vade" */;
+			buildConfigurationList = 6EF1328ADB04D13A2D6BA34B /* Build configuration list for PBXNativeTarget "Vade" */;
 			buildPhases = (
-				6764F21C2FFBB117008C3413 /* Sources */,
-				6764F21D2FFBB117008C3413 /* Frameworks */,
-				6764F21E2FFBB117008C3413 /* Resources */,
+				849A1F1ABD1D9C85A55B47F2 /* Sources */,
+				570298863E71D1FEA65F61D8 /* Resources */,
+				5ECE441FDFE3FC978B4BF2CC /* Frameworks */,
+				A3D708EF189D66303749975A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
-			fileSystemSynchronizedGroups = (
-				6764F2222FFBB117008C3413 /* Vade */,
+			dependencies = (
 			);
 			name = Vade;
+			packageProductDependencies = (
+			);
 			productName = Vade;
-			productReference = 6764F2202FFBB117008C3413 /* Vade.app */;
+			productReference = D0CABBB33683612C73703BC3 /* Vade.app */;
 			productType = "com.apple.product-type.application";
-		};
-		6764F2302FFBB118008C3413 /* VadeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6764F2472FFBB118008C3413 /* Build configuration list for PBXNativeTarget "VadeTests" */;
-			buildPhases = (
-				6764F22D2FFBB118008C3413 /* Sources */,
-				6764F22E2FFBB118008C3413 /* Frameworks */,
-				6764F22F2FFBB118008C3413 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6764F2332FFBB118008C3413 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				6764F2342FFBB118008C3413 /* VadeTests */,
-			);
-			name = VadeTests;
-			productName = VadeTests;
-			productReference = 6764F2312FFBB118008C3413 /* VadeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		6764F23A2FFBB118008C3413 /* VadeUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6764F24A2FFBB118008C3413 /* Build configuration list for PBXNativeTarget "VadeUITests" */;
-			buildPhases = (
-				6764F2372FFBB118008C3413 /* Sources */,
-				6764F2382FFBB118008C3413 /* Frameworks */,
-				6764F2392FFBB118008C3413 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6764F23D2FFBB118008C3413 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				6764F23E2FFBB118008C3413 /* VadeUITests */,
-			);
-			name = VadeUITests;
-			productName = VadeUITests;
-			productReference = 6764F23B2FFBB118008C3413 /* VadeUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		6764F2182FFBB117008C3413 /* Project object */ = {
+		FE927D2D809CBA8C81983591 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2700;
-				LastUpgradeCheck = 2700;
+				BuildIndependentTargetsInParallel = YES;
 				TargetAttributes = {
-					6764F21F2FFBB117008C3413 = {
-						CreatedOnToolsVersion = 27.0;
-					};
-					6764F2302FFBB118008C3413 = {
-						CreatedOnToolsVersion = 27.0;
-						TestTargetID = 6764F21F2FFBB117008C3413;
-					};
-					6764F23A2FFBB118008C3413 = {
-						CreatedOnToolsVersion = 27.0;
-						TestTargetID = 6764F21F2FFBB117008C3413;
-					};
 				};
 			};
-			buildConfigurationList = 6764F21B2FFBB117008C3413 /* Build configuration list for PBXProject "Vade" */;
+			buildConfigurationList = AAAF646431829ED4EDE8FBA4 /* Build configuration list for PBXProject "Vade" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = 6764F2172FFBB117008C3413;
-			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
-			productRefGroup = 6764F2212FFBB117008C3413 /* Products */;
+			mainGroup = B0F4AEE65EB3A613D6F1F023;
+			productRefGroup = F322C26A63911DF2AE0AA92E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6764F21F2FFBB117008C3413 /* Vade */,
-				6764F2302FFBB118008C3413 /* VadeTests */,
-				6764F23A2FFBB118008C3413 /* VadeUITests */,
+				83F45C612FBA717E568DF8DA /* Vade */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6764F21E2FFBB117008C3413 /* Resources */ = {
+		570298863E71D1FEA65F61D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
+				E9E2549F0C6C442599910B5F /* Localizable.xcstrings in Resources */,
 			);
-		};
-		6764F22F2FFBB118008C3413 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			files = (
-			);
-		};
-		6764F2392FFBB118008C3413 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			files = (
-			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6764F21C2FFBB117008C3413 /* Sources */ = {
+		849A1F1ABD1D9C85A55B47F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
+				BB24D010F101A3BCE6501B40 /* AppCoordinator.swift in Sources */,
+				B292ECCCE72514CCA7745E0D /* Coordinator.swift in Sources */,
+				7CA097180BCBEBD122A1712D /* VadeApp.swift in Sources */,
+				8FE2FD035B4061697BE6436D /* TuistBundle+Vade.swift in Sources */,
 			);
-		};
-		6764F22D2FFBB118008C3413 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			files = (
-			);
-		};
-		6764F2372FFBB118008C3413 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			files = (
-			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		6764F2332FFBB118008C3413 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6764F21F2FFBB117008C3413 /* Vade */;
-			targetProxy = 6764F2322FFBB118008C3413 /* PBXContainerItemProxy */;
-		};
-		6764F23D2FFBB118008C3413 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6764F21F2FFBB117008C3413 /* Vade */;
-			targetProxy = 6764F23C2FFBB118008C3413 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		6764F2432FFBB118008C3413 /* Debug configuration for PBXNativeTarget "Vade" */ = {
+		19A585CCD35771E8FC8FE10E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Vade/Vade.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Z8P38BHKU6;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Vade/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_FILE = "Derived/InfoPlists/Vade-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = bilgenworks.apps.Vade;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		6764F2442FFBB118008C3413 /* Release configuration for PBXNativeTarget "Vade" */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Vade/Vade.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Z8P38BHKU6;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Vade/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
+				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"@executable_path/Frameworks",
+					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = bilgenworks.apps.Vade;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vade.app;
+				PRODUCT_NAME = Vade;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		6764F2452FFBB118008C3413 /* Debug configuration for PBXProject "Vade" */ = {
+		23CB08C240036E36F6F5275E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Vade/Vade.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "Derived/InfoPlists/Vade-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.vade.app;
+				PRODUCT_NAME = Vade;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2FCE343056D4C01F79946011 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -358,12 +381,64 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5A1693943DFBFEF5223634E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = Z8P38BHKU6;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -377,195 +452,34 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
-		};
-		6764F2462FFBB118008C3413 /* Release configuration for PBXProject "Vade" */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Z8P38BHKU6;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		6764F2482FFBB118008C3413 /* Debug configuration for PBXNativeTarget "VadeTests" */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Z8P38BHKU6;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = bilgenworks.apps.VadeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vade.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vade";
-			};
-			name = Debug;
-		};
-		6764F2492FFBB118008C3413 /* Release configuration for PBXNativeTarget "VadeTests" */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Z8P38BHKU6;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = bilgenworks.apps.VadeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vade.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vade";
-			};
-			name = Release;
-		};
-		6764F24B2FFBB118008C3413 /* Debug configuration for PBXNativeTarget "VadeUITests" */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Z8P38BHKU6;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = bilgenworks.apps.VadeUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Vade;
-			};
-			name = Debug;
-		};
-		6764F24C2FFBB118008C3413 /* Release configuration for PBXNativeTarget "VadeUITests" */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Z8P38BHKU6;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = bilgenworks.apps.VadeUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Vade;
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6764F21B2FFBB117008C3413 /* Build configuration list for PBXProject "Vade" */ = {
+		6EF1328ADB04D13A2D6BA34B /* Build configuration list for PBXNativeTarget "Vade" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6764F2452FFBB118008C3413 /* Debug configuration for PBXProject "Vade" */,
-				6764F2462FFBB118008C3413 /* Release configuration for PBXProject "Vade" */,
+				23CB08C240036E36F6F5275E /* Debug */,
+				19A585CCD35771E8FC8FE10E /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6764F2422FFBB118008C3413 /* Build configuration list for PBXNativeTarget "Vade" */ = {
+		AAAF646431829ED4EDE8FBA4 /* Build configuration list for PBXProject "Vade" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6764F2432FFBB118008C3413 /* Debug configuration for PBXNativeTarget "Vade" */,
-				6764F2442FFBB118008C3413 /* Release configuration for PBXNativeTarget "Vade" */,
+				5A1693943DFBFEF5223634E0 /* Debug */,
+				2FCE343056D4C01F79946011 /* Release */,
 			);
-			defaultConfigurationName = Release;
-		};
-		6764F2472FFBB118008C3413 /* Build configuration list for PBXNativeTarget "VadeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6764F2482FFBB118008C3413 /* Debug configuration for PBXNativeTarget "VadeTests" */,
-				6764F2492FFBB118008C3413 /* Release configuration for PBXNativeTarget "VadeTests" */,
-			);
-			defaultConfigurationName = Release;
-		};
-		6764F24A2FFBB118008C3413 /* Build configuration list for PBXNativeTarget "VadeUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6764F24B2FFBB118008C3413 /* Debug configuration for PBXNativeTarget "VadeUITests" */,
-				6764F24C2FFBB118008C3413 /* Release configuration for PBXNativeTarget "VadeUITests" */,
-			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 6764F2182FFBB117008C3413 /* Project object */;
-	validationLevel = 1;
+	rootObject = FE927D2D809CBA8C81983591 /* Project object */;
 }

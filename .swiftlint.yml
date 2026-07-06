@@ -16,6 +16,7 @@ opt_in_rules:
   - prohibited_super_call
   - redundant_nil_coalescing
   - sorted_imports
+  - force_unwrapping
 
 force_unwrapping:
   severity: error
@@ -26,6 +27,12 @@ force_cast:
 identifier_name:
   min_length: 2
   max_length: 50
+  excluded:
+    - s
+    - m
+    - l
+    - x
+    - y
 
 type_body_length:
   warning: 400

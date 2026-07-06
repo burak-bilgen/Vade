@@ -76,8 +76,18 @@ enum TCMBParser {
         return value
     }
 
-    static var exchangeRatesURL: URL { URL(string: tcmbURL)! }
-    static var goldRatesURL: URL { URL(string: goldURL)! }
+    static var exchangeRatesURL: URL {
+        guard let url = URL(string: tcmbURL) else {
+            fatalError("Invalid TCMB URL: \(tcmbURL)")
+        }
+        return url
+    }
+    static var goldRatesURL: URL {
+        guard let url = URL(string: goldURL) else {
+            fatalError("Invalid gold URL: \(goldURL)")
+        }
+        return url
+    }
 }
 
 // MARK: - TCMB XML Parser (SAX-style via FoundationXML)
