@@ -20,14 +20,6 @@ let targetSettings = Settings.settings(
 
 let infoPlist: InfoPlist = .extendingDefault(with: [
     "UIBackgroundModes": ["remote-notification"],
-    "UIAppFonts": [
-        "PlusJakartaSans-Regular",
-        "PlusJakartaSans-Medium",
-        "PlusJakartaSans-SemiBold",
-        "PlusJakartaSans-Bold",
-        "JetBrainsMono-Regular",
-        "JetBrainsMono-Medium",
-    ],
     "UIApplicationSupportsIndirectInputEvents": true,
     "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
     "ITSAppUsesNonExemptEncryption": false,
