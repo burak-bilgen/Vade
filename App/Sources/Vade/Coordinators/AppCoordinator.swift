@@ -35,14 +35,15 @@ final class AppCoordinator: Coordinator {
 
 /// Owns the onboarding state as a proper SwiftUI View.
 /// @State MUST live in a View struct — the Coordinator class cannot host it.
-private struct CoordinatorRootView: View {
+public struct CoordinatorRootView: View {
     let modelContainer: ModelContainer
 
     @State private var onboardingDone = false
     private let analytics: any AnalyticsTracking = AnalyticsService()
 
-    var body: some View {
+    public var body: some View {
         ZStack {
+            ColorTokens.background.ignoresSafeArea()
             if onboardingDone {
                 MainTabView()
             } else {
@@ -52,7 +53,6 @@ private struct CoordinatorRootView: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

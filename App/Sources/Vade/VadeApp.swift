@@ -53,12 +53,8 @@ struct VadeApp: App {
                 if isBiometricEnabled && !isAuthenticated && biometricAuth.isBiometryAvailable {
                     lockedView
                 } else {
-                    AppCoordinator(
-                        modelContainer: container,
-                        container: diContainer
-                    )
-                    .start()
-                    .modelContainer(container)
+                    CoordinatorRootView(modelContainer: container)
+                        .modelContainer(container)
                 }
             } else {
                 ZStack {
