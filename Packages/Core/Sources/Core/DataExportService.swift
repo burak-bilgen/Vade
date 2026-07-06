@@ -2,8 +2,8 @@ import Foundation
 
 // MARK: - Export Format
 
-/// Duplicated from Domain/AnalyticsEvent.swift: ExportFormat.
-/// Both packages must stay in sync — Domain cannot import Core due to dependency rules.
+/// Mirrored in Domain/AnalyticsEvent.swift (without CaseIterable).
+/// Core and Domain cannot depend on each other, so both define ExportFormat.
 /// If adding a case, update BOTH definitions.
 public enum ExportFormat: String, Sendable, CaseIterable {
     case pdf

@@ -13,7 +13,7 @@ public final class DashboardViewModel {
     public var totalReceivable: Decimal = .zero
     public var totalPayable: Decimal = .zero
     public var netBalance: Decimal = .zero
-    public var upcomingItems: [(person: Person, amount: Decimal, dueDate: Date?)] = []
+    public var upcomingItems: [(id: UUID, person: Person, amount: Decimal, dueDate: Date?)] = []
     public var isLoading = false
 
     private let personRepo: PersonRepository
@@ -66,11 +66,11 @@ public final class DashboardViewModel {
     }
 
     private func loadUpcoming() async {
-        var items: [(person: Person, amount: Decimal, dueDate: Date?)] = []
+        var items: [(id: UUID, person: Person, amount: Decimal, dueDate: Date?)] = []
         for person in persons {
             guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
             for debt in debts where debt.status == .pending && debt.dueDate != nil {
-                items.append((person, debt.amount, debt.dueDate))
+                items.append((debt.id, person, debt.amount, debt.dueDate))
             }
         }
         upcomingItems = items.sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }

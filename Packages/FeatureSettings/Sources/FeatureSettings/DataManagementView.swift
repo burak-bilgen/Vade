@@ -18,6 +18,8 @@ public struct DataManagementView: View {
     @State private var showShareSheet = false
     @State private var showUndo = false
     @State private var deletedDataBackup: DeletedDataBackup?
+    @State private var showExportWarning = false
+    @State private var pendingExportAction: (() async -> Void)?
 
     private let exportService = DataExportService()
     @State private var analytics: any AnalyticsTracking = AnalyticsService()
@@ -29,7 +31,8 @@ public struct DataManagementView: View {
             // Export section
             Section {
                 Button {
-                    Task { await exportCSV() }
+                    pendingExportAction = { await exportCSV() }
+                    showExportWarning = true
                 } label: {
                     Label(
                         String(localized: "data.export.csv"),
@@ -38,7 +41,8 @@ public struct DataManagementView: View {
                 }
 
                 Button {
-                    Task { await exportPDF() }
+                    pendingExportAction = { await exportPDF() }
+                    showExportWarning = true
                 } label: {
                     Label(
                         String(localized: "data.export.pdf"),
@@ -74,6 +78,19 @@ public struct DataManagementView: View {
             }
         } message: {
             Text(String(localized: "data.delete.confirmMessage"))
+        }
+        .alert(
+            String(localized: "data.export.warningTitle"),
+            isPresented: $showExportWarning
+        ) {
+            Button(String(localized: "data.export.cancel"), role: .cancel) {
+                pendingExportAction = nil
+            }
+            Button(String(localized: "data.export.continue")) {
+                Task { await pendingExportAction?() }
+            }
+        } message: {
+            Text(String(localized: "data.export.warningMessage"))
         }
         .alert(
             String(localized: "data.delete.finalTitle"),

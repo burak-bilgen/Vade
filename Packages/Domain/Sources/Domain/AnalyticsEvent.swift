@@ -41,6 +41,9 @@ public enum CurrencyCode: String, Sendable {
     case gold
 }
 
+/// Mirrored in Core/DataExportService.swift (with CaseIterable).
+/// Core and Domain cannot depend on each other, so both define ExportFormat.
+/// If adding a case, update BOTH definitions.
 public enum ExportFormat: String, Sendable {
     case pdf
     case csv

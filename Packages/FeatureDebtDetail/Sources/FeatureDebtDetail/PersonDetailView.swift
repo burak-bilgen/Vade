@@ -84,12 +84,14 @@ public struct PersonDetailView: View {
                     .listRowBackground(Color.clear)
                 } else {
                     ForEach(vm.debts) { debt in
-                        debtRow(debt)
-                            .onTapGesture {
-                                if debt.status == .pending {
-                                    selectedDebt = debt
-                                }
+                        Button {
+                            if debt.status == .pending {
+                                selectedDebt = debt
                             }
+                        } label: {
+                            debtRow(debt)
+                        }
+                        .disabled(debt.status != .pending)
                     }
                 }
             } header: {
@@ -105,12 +107,9 @@ public struct PersonDetailView: View {
         .navigationTitle(person.name)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button {
+                Button(String(localized: "personDetail.addDebt.button"), systemImage: "plus") {
                     showAddDebt = true
-                } label: {
-                    Image(systemName: "plus")
                 }
-                .accessibilityLabel(String(localized: "personDetail.addDebt.button"))
             }
         }
         .refreshable { await vm.loadData() }

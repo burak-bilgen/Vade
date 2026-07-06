@@ -33,7 +33,7 @@ public struct DashboardView: View {
                                 subtitle: String(localized: "dashboard.upcoming.emptySubtitle")
                             )
                         } else {
-                            ForEach(Array(vm.upcomingItems.enumerated()), id: \.offset) { _, item in
+                            ForEach(vm.upcomingItems, id: \.id) { item in
                                 upcomingRow(item)
                             }
                         }
@@ -98,7 +98,7 @@ public struct DashboardView: View {
         }
     }
 
-    private func upcomingRow(_ item: (person: Person, amount: Decimal, dueDate: Date?)) -> some View {
+    private func upcomingRow(_ item: (id: UUID, person: Person, amount: Decimal, dueDate: Date?)) -> some View {
         HStack(spacing: Spacing.m) {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(item.person.name)
