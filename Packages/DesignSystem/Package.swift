@@ -16,7 +16,7 @@ let package = Package(
             dependencies: ["Core"],
             path: "Sources/DesignSystem",
             resources: [
-                .process("Resources/Fonts"),
+                .process("Resources"),
             ]
         ),
         .testTarget(

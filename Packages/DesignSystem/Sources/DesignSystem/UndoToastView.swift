@@ -22,33 +22,39 @@ public struct UndoToastView: View {
         self.onDismiss = onDismiss
     }
 
+    @State private var dismissWorkItem: DispatchWorkItem?
+
     public var body: some View {
         HStack(spacing: Spacing.m) {
             Image(systemName: "trash")
-                .foregroundColor(Color.vdNegative600)
+                .foregroundStyle(ColorTokens.negative)
+                .accessibilityLabel(String(localized: "accessibility.deleted"))
             Text(message)
                 .font(Typography.font(for: .body))
-                .foregroundColor(Color.vdInk900)
+                .foregroundStyle(ColorTokens.textPrimary)
             Spacer()
             Button(action: undoAction) {
                 Text(undoLabel)
                     .font(Typography.font(for: .headline))
-                    .foregroundColor(Color.vdBrass500)
+                    .foregroundStyle(ColorTokens.accent)
             }
         }
         .padding(.horizontal, Spacing.l)
         .padding(.vertical, Spacing.m)
         .background(
             RoundedRectangle(cornerRadius: Radius.md)
-                .fill(Color.vdSurface)
+                .fill(ColorTokens.surface)
                 .shadow(color: .black.opacity(0.15), radius: 8, y: 2)
         )
         .padding(.horizontal, Spacing.l)
         .padding(.bottom, Spacing.l)
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-                onDismiss()
-            }
+            let work = DispatchWorkItem { onDismiss() }
+            dismissWorkItem = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + 8, execute: work)
+        }
+        .onDisappear {
+            dismissWorkItem?.cancel()
         }
     }
 }
@@ -63,5 +69,5 @@ public struct UndoToastView: View {
             onDismiss: {}
         )
     }
-    .background(Color.vdBackground)
+    .background(ColorTokens.background)
 }

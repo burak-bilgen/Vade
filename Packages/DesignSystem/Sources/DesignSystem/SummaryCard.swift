@@ -13,48 +13,71 @@ public struct SummaryCard: View {
     }
 
     public var body: some View {
-        VStack(spacing: Spacing.l) {
-            Text(String(localized: "dashboard.summary.netBalance", comment: "Summary card title"))
-                .font(Typography.font(for: .caption))
-                .foregroundColor(Color.vdInk700)
-                .textCase(.uppercase)
-            Text(netAmount.formatted())
-                .font(Typography.font(for: .display))
-                .foregroundColor(netColor)
-                .animation(.spring(response: 0.4, dampingFraction: 0.7), value: netAmount)
-            Rectangle().fill(Color.vdBrass500).frame(width: 40, height: 2)
-            HStack(spacing: Spacing.xxl) {
-                statView(label: String(localized: "dashboard.summary.totalReceivable", comment: "Total receivable amount"), amount: totalReceivable,
-                         color: Color.vdPositive600)
-                statView(label: String(localized: "dashboard.summary.totalPayable", comment: "Total payable amount"), amount: totalPayable,
-                         color: Color.vdNegative600)
+        VStack(spacing: 0) {
+            // Top accent stripe — subtle indicator of net position
+            Rectangle()
+                .fill(stripeColor)
+                .frame(height: 3)
+
+            VStack(spacing: Spacing.l) {
+                // "Net Durum" label
+                Text(String(localized: "dashboard.summary.netBalance", comment: "Summary card title"))
+                    .font(Typography.font(for: .caption))
+                    .foregroundStyle(ColorTokens.textTertiary)
+
+                // Large net amount
+                Text(netAmount.formatted())
+                    .font(Typography.font(for: .display))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                    .minimumScaleFactor(0.8)
+
+                // Bottom stats
+                HStack(spacing: Spacing.xxl) {
+                    statView(
+                        prefix: "\u{2191}",
+                        label: String(localized: "dashboard.summary.totalReceivable", comment: "Total receivable amount"),
+                        amount: totalReceivable,
+                        color: ColorTokens.positive
+                    )
+                    statView(
+                        prefix: "\u{2193}",
+                        label: String(localized: "dashboard.summary.totalPayable", comment: "Total payable amount"),
+                        amount: totalPayable,
+                        color: ColorTokens.negative
+                    )
+                }
             }
+            .padding(Spacing.l)
         }
-        .padding(Spacing.xl)
-        .background(RoundedRectangle(cornerRadius: Radius.lg).fill(tintBackground))
-        .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(Color.vdHairline, lineWidth: 1))
-        .shadow(color: .black.opacity(0.06), radius: 12, y: 4)
+        .background(ColorTokens.surface)
+        .clipShape(RoundedRectangle(cornerRadius: Radius.xl))
+        .shadow(color: Elevation.cardShadow, radius: Elevation.cardShadowBlur, y: Elevation.cardShadowY)
     }
 
-    private var netColor: Color {
-        if netAmount.isEffectivelyZero { return Color.vdInk900 }
-        return netAmount > 0 ? Color.vdPositive600 : Color.vdNegative600
+    private var stripeColor: Color {
+        if netAmount.isEffectivelyZero { return ColorTokens.accent }
+        return netAmount > 0 ? ColorTokens.positive : ColorTokens.negative
     }
 
-    private var tintBackground: Color {
-        if netAmount.isEffectivelyZero { return Color.vdSurface }
-        return netAmount > 0 ? Color.vdPositive100 : Color.vdNegative100
-    }
-
-    private func statView(label: String, amount: Decimal, color: Color) -> some View {
+    private func statView(prefix: String, label: String, amount: Decimal, color: Color) -> some View {
         VStack(spacing: Spacing.xs) {
-            Text(label).font(Typography.font(for: .caption)).foregroundColor(Color.vdInk400)
-            Text(amount.formatted()).font(Typography.font(for: .amount)).foregroundColor(color)
+            Text("\(prefix) \(label)")
+                .font(Typography.font(for: .caption))
+                .foregroundStyle(ColorTokens.textTertiary)
+            Text(amount.formatted())
+                .font(Typography.font(for: .amount))
+                .foregroundStyle(color)
+                .minimumScaleFactor(0.85)
         }
     }
 }
 
 #Preview {
-    SummaryCard(netAmount: 2500, totalReceivable: 5000, totalPayable: 2500)
-        .padding().background(Color.vdBackground)
+    VStack(spacing: Spacing.l) {
+        SummaryCard(netAmount: 2500, totalReceivable: 5000, totalPayable: 2500)
+        SummaryCard(netAmount: -800, totalReceivable: 1000, totalPayable: 1800)
+        SummaryCard(netAmount: 0, totalReceivable: 0, totalPayable: 0)
+    }
+    .padding()
+    .background(ColorTokens.background)
 }

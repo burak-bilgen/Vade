@@ -7,10 +7,10 @@ public struct PrimaryPillButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(Typography.font(for: .headline))
-            .foregroundColor(.white)
+            .foregroundStyle(.white)
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.m)
-            .background(Capsule().fill(Color.vdInk900))
+            .background(Capsule().fill(ColorTokens.textPrimary))
             .opacity(configuration.isPressed ? 0.85 : 1.0)
     }
 }
@@ -22,10 +22,10 @@ public struct BrassPillButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(Typography.font(for: .headline))
-            .foregroundColor(.white)
+            .foregroundStyle(.white)
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.m)
-            .background(Capsule().fill(Color.vdBrass500))
+            .background(Capsule().fill(ColorTokens.accent))
             .opacity(configuration.isPressed ? 0.85 : 1.0)
     }
 }
@@ -37,10 +37,10 @@ public struct SecondaryPillButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(Typography.font(for: .headline))
-            .foregroundColor(Color.vdInk900)
+            .foregroundStyle(ColorTokens.textPrimary)
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.m)
-            .background(Capsule().stroke(Color.vdInk900, lineWidth: 1.5))
+            .background(Capsule().stroke(ColorTokens.textPrimary, lineWidth: 1.5))
             .opacity(configuration.isPressed ? 0.6 : 1.0)
     }
 }

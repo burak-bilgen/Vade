@@ -7,10 +7,10 @@ public enum FontRegistrar {
 
     public static func registerFonts() {
         let fontNames = [
-            "PlusJakartaSans-Regular",
-            "PlusJakartaSans-Medium",
-            "PlusJakartaSans-SemiBold",
-            "PlusJakartaSans-Bold",
+            "Inter-Regular",
+            "Inter-Medium",
+            "Inter-SemiBold",
+            "Inter-Bold",
             "JetBrainsMono-Regular",
             "JetBrainsMono-Medium",
         ]

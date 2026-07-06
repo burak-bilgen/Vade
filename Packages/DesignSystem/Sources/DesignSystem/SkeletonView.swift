@@ -3,11 +3,12 @@ import SwiftUI
 // MARK: - Skeleton Loading View
 
 /// Shimmer placeholder shown while content loads.
-/// Telegram-style animated gradient skeleton.
+/// Telegram-style animated gradient skeleton with smooth horizontal sweep.
 public struct SkeletonView: View {
     let width: CGFloat?
     let height: CGFloat
     let cornerRadius: CGFloat
+    @State private var phase: CGFloat = -1
 
     public init(width: CGFloat? = nil, height: CGFloat = 16, cornerRadius: CGFloat = 4) {
         self.width = width
@@ -17,13 +18,13 @@ public struct SkeletonView: View {
 
     public var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(Color.vdHairline.opacity(0.6))
+            .fill(ColorTokens.border.opacity(0.6))
             .frame(width: width, height: height)
             .overlay(
                 GeometryReader { geometry in
                     Color.white.opacity(0.3)
                         .frame(width: geometry.size.width * 0.6)
-                        .offset(x: shimmerOffset(geometry.size.width))
+                        .offset(x: phase * (geometry.size.width + geometry.size.width * 0.6))
                         .mask(
                             RoundedRectangle(cornerRadius: cornerRadius)
                                 .frame(width: geometry.size.width, height: geometry.size.height)
@@ -31,11 +32,11 @@ public struct SkeletonView: View {
                 }
             )
             .clipped()
-    }
-
-    private func shimmerOffset(_ containerWidth: CGFloat) -> CGFloat {
-        // Animate shimmer from -width to +width
-        containerWidth * 1.0
+            .onAppear {
+                withAnimation(.linear(duration: 1.5).repeatForever(autoreverses: false)) {
+                    phase = 1
+                }
+            }
     }
 }
 
@@ -64,11 +65,11 @@ public struct SkeletonSummaryCard: View {
         .padding(Spacing.xl)
         .background(
             RoundedRectangle(cornerRadius: Radius.lg)
-                .fill(Color.vdSurface)
+                .fill(ColorTokens.surface)
         )
         .overlay(
             RoundedRectangle(cornerRadius: Radius.lg)
-                .stroke(Color.vdHairline, lineWidth: 1)
+                .stroke(ColorTokens.border, lineWidth: 1)
         )
     }
 }
@@ -82,7 +83,7 @@ public struct SkeletonRow: View {
     public var body: some View {
         HStack(spacing: Spacing.m) {
             Circle()
-                .fill(Color.vdHairline.opacity(0.6))
+                .fill(ColorTokens.border.opacity(0.6))
                 .frame(width: 36, height: 36)
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 SkeletonView(width: 120, height: 14)
@@ -96,18 +97,20 @@ public struct SkeletonRow: View {
     }
 }
 
-// MARK: - Shimmer Modifier (iOS 18 optimized)
+// MARK: - Shimmer Modifier
 
 public extension View {
+    /// Applies a shimmer animation overlay when `active` is true.
+    /// Use during data loading to indicate placeholder content.
     func shimmering(active: Bool) -> some View {
         self
+            .redacted(reason: active ? .placeholder : [])
             .overlay {
                 if active {
-                    GeometryReader { _ in
-                        Color.white.opacity(0.01)
-                    }
+                    ColorTokens.border.opacity(0.3)
                 }
             }
+            .disabled(active)
     }
 }
 
@@ -121,5 +124,5 @@ public extension View {
         }
     }
     .padding()
-    .background(Color.vdBackground)
+    .background(ColorTokens.background)
 }
