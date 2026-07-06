@@ -4349,6 +4349,127 @@
           }
         }
       }
+    },
+    "dashboard.metrics.receivable": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toplam Alacak"
+          }
+        }
+      }
+    },
+    "dashboard.metrics.payable": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toplam BorÃ§"
+          }
+        }
+      }
+    },
+    "dashboard.netBalance": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Net Durum"
+          }
+        }
+      }
+    },
+    "dashboard.netPositive": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AlacaklÄ±sÄ±n"
+          }
+        }
+      }
+    },
+    "dashboard.netNegative": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "BorÃ§lusun"
+          }
+        }
+      }
+    },
+    "dashboard.action.charts": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grafikler"
+          }
+        }
+      }
+    },
+    "dashboard.action.newDebt": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni KayÄ±t"
+          }
+        }
+      }
+    },
+    "dashboard.peopleCount": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "kiÅŸi"
+          }
+        }
+      }
+    },
+    "people.balance.receivable": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "alacak"
+          }
+        }
+      }
+    },
+    "people.balance.payable": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "borÃ§"
+          }
+        }
+      }
+    },
+    "common.seeAll": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TÃ¼mÃ¼"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

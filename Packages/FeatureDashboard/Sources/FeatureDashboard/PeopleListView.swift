@@ -2,163 +2,149 @@ import SwiftUI
 import SwiftData
 import DesignSystem
 import Domain
+import Data
 import FeatureDebtDetail
-import Core
 import Observability
 
 public struct PeopleListView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: PeopleListViewModel?
-    @State private var searchText = ""
     @State private var showAddPerson = false
     @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     public init() {}
 
     public var body: some View {
-        VStack(spacing: 0) {
+        Group {
             if let vm = viewModel {
-                Picker("", selection: Binding(get: { vm.selectedSegment }, set: { vm.selectedSegment = $0 })) {
-                    Text(String(localized: "people.segment.receivable")).tag(PeopleSegment.receivable)
-                    Text(String(localized: "people.segment.payable")).tag(PeopleSegment.payable)
+                contentView(vm)
+            } else {
+                ProgressView()
+                    .task {
+                        let vm = PeopleListViewModel(modelContext: modelContext, analytics: analytics)
+                        viewModel = vm
+                        await vm.loadPersons()
+                    }
+            }
+        }
+        .navigationTitle(String(localized: "tab.people"))
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(String(localized: "people.add.button"), systemImage: "person.badge.plus") {
+                    showAddPerson = true
                 }
-                .pickerStyle(.segmented)
-                .tint(ColorTokens.accent)
-                .padding(.horizontal, Spacing.l)
-                .padding(.vertical, Spacing.m)
+            }
+        }
+        .sheet(isPresented: $showAddPerson) {
+            AddPersonSheet { name, phone, notes in
+                await viewModel?.addPerson(name: name, phoneNumber: phone, notes: notes)
+                showAddPerson = false
+            }
+        }
+        .refreshable { await viewModel?.loadPersons() }
+    }
 
-                let filtered = vm.filteredPersons.filter { person, _ in
-                    searchText.isEmpty || person.name.localizedCaseInsensitiveContains(searchText)
-                }
+    // MARK: - Content
 
-                if filtered.isEmpty {
-                    Spacer()
+    private func contentView(_ vm: PeopleListViewModel) -> some View {
+        List {
+            if vm.persons.isEmpty {
+                Section {
                     EmptyStateView(
                         title: String(localized: "people.empty.title"),
                         subtitle: String(localized: "people.empty.subtitle")
                     )
-                    Spacer()
-                } else {
-                    List {
-                        ForEach(filtered, id: \.person.id) { person, balance in
-                            NavigationLink {
-                                PersonDetailView(person: person, modelContext: modelContext)
-                            } label: {
-                                LedgerRowView(
-                                    name: person.name,
-                                    amount: balance,
-                                    subtitle: person.phoneNumber ?? person.notes,
-                                    isPositive: vm.selectedSegment == .receivable
-                                )
-                            }
-                            .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                }
+            } else {
+                Section {
+                    ForEach(vm.persons) { person in
+                        NavigationLink {
+                            PersonDetailView(person: person, modelContext: modelContext)
+                        } label: {
+                            personRow(person, balance: vm.personBalances[person.id] ?? .zero)
                         }
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .navigationTitle(String(localized: "people.navigationTitle"))
-        .searchable(text: $searchText, prompt: String(localized: "people.search.placeholder"))
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Menu {
-                    Picker(String(localized: "people.filter.all"), selection: Binding(
-                        get: { viewModel?.selectedStatusFilter ?? .all },
-                        set: { viewModel?.selectedStatusFilter = $0 }
-                    )) {
-                        Text(String(localized: "people.filter.all")).tag(DebtStatusFilter.all)
-                        Text(String(localized: "people.filter.pending")).tag(DebtStatusFilter.pending)
-                        Text(String(localized: "people.filter.paid")).tag(DebtStatusFilter.paid)
-                    }
-                } label: {
-                    Image(systemName: "line.3.horizontal.decrease.circle")
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+    }
+
+    // MARK: - Person Row
+
+    private func personRow(_ person: Person, balance: Decimal) -> some View {
+        HStack(spacing: Spacing.m) {
+            AvatarView(name: person.name, size: 44)
+
+            VStack(alignment: .leading, spacing: Spacing.xs) {
+                Text(person.name)
+                    .font(Typography.font(for: .headline))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                if let phone = person.phoneNumber {
+                    Text(phone)
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.textTertiary)
                 }
             }
-            ToolbarItem(placement: .primaryAction) {
-                Button { showAddPerson = true } label: { Image(systemName: "plus") }
+
+            Spacer()
+
+            VStack(alignment: .trailing, spacing: Spacing.xs) {
+                Text(balance.formatted())
+                    .font(Typography.font(for: .amount))
+                    .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
+                Text(balance >= 0
+                    ? String(localized: "people.balance.receivable")
+                    : String(localized: "people.balance.payable")
+                )
+                .font(.system(size: 11))
+                .foregroundStyle(ColorTokens.textTertiary)
             }
         }
-        .sheet(isPresented: $showAddPerson) {
-            AddPersonWrapper(isPresented: $showAddPerson, modelContext: modelContext, analytics: analytics) {
-                await viewModel?.loadPersons()
-            }
-        }
-        .task {
-            let vm = PeopleListViewModel(modelContext: modelContext, analytics: analytics)
-            viewModel = vm
-            await vm.loadPersons()
-        }
-        .refreshable { await viewModel?.loadPersons() }
+        .padding(.vertical, Spacing.xs)
     }
 }
 
-// MARK: - AddPersonWrapper
+// MARK: - Add Person Sheet
 
-private struct AddPersonWrapper: View {
-    @Binding var isPresented: Bool
-    let modelContext: ModelContext
-    let analytics: any AnalyticsTracking
-    let onDone: () async -> Void
+private struct AddPersonSheet: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var name = ""
-    @State private var contacts: [ContactInfo] = []
-    @State private var showContactPicker = false
+    @State private var phone = ""
+    @State private var notes = ""
+
+    let onSave: (String, String?, String?) async -> Void
 
     var body: some View {
         NavigationStack {
             Form {
-                TextField(String(localized: "people.add.namePlaceholder"), text: $name)
-
-                Button(String(localized: "people.add.fromContacts")) {
-                    Task {
-                        contacts = (try? await ContactsService().fetchAll()) ?? []
-                        showContactPicker = true
-                    }
-                }
-            }
-            .sheet(isPresented: $showContactPicker) {
-                NavigationStack {
-                    List(contacts, id: \.name) { contact in
-                        Button {
-                            name = contact.name
-                            showContactPicker = false
-                        } label: {
-                            VStack(alignment: .leading) {
-                                Text(contact.name)
-                                if let phone = contact.phoneNumber {
-                                    Text(phone)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                            }
-                        }
-                    }
-                    .navigationTitle(String(localized: "people.add.contactPickerTitle"))
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button(String(localized: "people.add.cancel")) { showContactPicker = false }
-                        }
-                    }
+                Section {
+                    TextField(String(localized: "people.add.namePlaceholder"), text: $name)
+                    TextField(String(localized: "people.add.phonePlaceholder"), text: $phone)
+                    TextField(String(localized: "people.add.notesPlaceholder"), text: $notes)
                 }
             }
             .navigationTitle(String(localized: "people.add.title"))
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "people.add.cancel")) { isPresented = false }
+                    Button(String(localized: "people.add.cancel")) {
+                        dismiss()
+                    }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(String(localized: "people.add.save")) {
-                        let trimmed = name.trimmingCharacters(in: .whitespaces)
-                        guard !trimmed.isEmpty else { return }
                         Task {
-                            let vm = PeopleListViewModel(modelContext: modelContext, analytics: analytics)
-                            await vm.addPerson(name: trimmed, phoneNumber: nil, notes: nil)
-                            isPresented = false
-                            await onDone()
+                            await onSave(
+                                name.trimmingCharacters(in: .whitespaces),
+                                phone.isEmpty ? nil : phone.trimmingCharacters(in: .whitespaces),
+                                notes.isEmpty ? nil : notes.trimmingCharacters(in: .whitespaces)
+                            )
                         }
                     }
+                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
         }
@@ -166,5 +152,7 @@ private struct AddPersonWrapper: View {
 }
 
 #Preview {
-    PeopleListView()
+    NavigationStack {
+        PeopleListView()
+    }
 }

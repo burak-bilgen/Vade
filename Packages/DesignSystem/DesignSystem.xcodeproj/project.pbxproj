@@ -28,6 +28,7 @@
 		DD66AE3739C5EDC9059ED7C5 /* FontRegistrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3290C5917F02340235702 /* FontRegistrar.swift */; };
 		E4A9BC98A8E210D6173854CE /* DesignSystem_DesignSystem.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */; };
 		E7A80892C9AB7E66DACB5DC0 /* StatChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36900712A6F87E70FEC776EF /* StatChip.swift */; };
+		F154294E7A5A206B0873032B /* ModernComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357162DA0532AB5A40FBBB19 /* ModernComponents.swift */; };
 		F3852BD4417863B30E30C628 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D3E20D4CF49B640DF83248 /* Core.framework */; };
 		F4E880DDA8212965C61F5BC2 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */; };
 		F6018B5F7748E322214C52D6 /* TuistBundle+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4AD9735556ECA8C8008FEC /* TuistBundle+DesignSystem.swift */; };
@@ -107,6 +108,7 @@
 		0555BF632E32CCE62C1F4E54 /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
 		0A64653F9E048343F182B1FD /* JetBrainsMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMono-Medium.ttf"; sourceTree = "<group>"; };
 		12AF8196896072E573B31F9A /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		357162DA0532AB5A40FBBB19 /* ModernComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernComponents.swift; sourceTree = "<group>"; };
 		36900712A6F87E70FEC776EF /* StatChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatChip.swift; sourceTree = "<group>"; };
 		3B718F8A4425051734E164D6 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,6 +234,7 @@
 				E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */,
 				DCF3290C5917F02340235702 /* FontRegistrar.swift */,
 				43EEC35F002D4D44977582DC /* LedgerRowView.swift */,
+				357162DA0532AB5A40FBBB19 /* ModernComponents.swift */,
 				6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */,
 				36900712A6F87E70FEC776EF /* StatChip.swift */,
 				D0A4725BC33F2ADC6622422B /* SummaryCard.swift */,
@@ -423,6 +426,7 @@
 				F4E880DDA8212965C61F5BC2 /* EmptyStateView.swift in Sources */,
 				DD66AE3739C5EDC9059ED7C5 /* FontRegistrar.swift in Sources */,
 				9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */,
+				F154294E7A5A206B0873032B /* ModernComponents.swift in Sources */,
 				B6C4F5740BAAB8B2A22C4DCF /* PillButtonStyle.swift in Sources */,
 				7F0DF8C4F949FB311F64FDE2 /* Colors.xcassets in Sources */,
 				E7A80892C9AB7E66DACB5DC0 /* StatChip.swift in Sources */,
