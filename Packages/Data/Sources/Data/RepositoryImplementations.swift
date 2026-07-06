@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 import Domain
+import OSLog
 
 // MARK: - Person Repository
 
@@ -31,9 +32,12 @@ public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase {
 
 public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
     private let modelContext: ModelContext
+    private let auditTrail: AuditTrailRecording?
+    private let logger = Logger(subsystem: "com.vade.data", category: "debt")
 
-    public init(modelContext: ModelContext) {
+    public init(modelContext: ModelContext, auditTrail: AuditTrailRecording? = nil) {
         self.modelContext = modelContext
+        self.auditTrail = auditTrail
     }
 
     public func execute(
@@ -54,6 +58,14 @@ public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
         )
         modelContext.insert(entity)
         try modelContext.save()
+
+        await auditTrail?.recordEdit(
+            debtRecordID: entity.id,
+            oldValue: "",
+            newValue: "Debt created: \(amount) \(kind.rawValue)",
+            reason: .manualEdit
+        )
+        logger.info("[DebtRepo] Created debt \(entity.id) for person \(personID)")
         return entity.toDomain()
     }
 
@@ -70,15 +82,26 @@ public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
 
 public final class PaymentRepository: RecordPaymentUseCase {
     private let modelContext: ModelContext
+    private let auditTrail: AuditTrailRecording?
+    private let logger = Logger(subsystem: "com.vade.data", category: "payment")
 
-    public init(modelContext: ModelContext) {
+    public init(modelContext: ModelContext, auditTrail: AuditTrailRecording? = nil) {
         self.modelContext = modelContext
+        self.auditTrail = auditTrail
     }
 
     public func execute(debtRecordID: UUID, amount: Decimal, note: String?) async throws -> Payment {
         let payment = PaymentModel(debtRecordID: debtRecordID, amount: amount, note: note)
         modelContext.insert(payment)
         try modelContext.save()
+
+        await auditTrail?.recordEdit(
+            debtRecordID: debtRecordID,
+            oldValue: "",
+            newValue: "Payment recorded: \(amount)",
+            reason: .paymentRecorded
+        )
+        logger.info("[PaymentRepo] Recorded payment \(payment.id) for debt \(debtRecordID)")
         return payment.toDomain()
     }
 }
