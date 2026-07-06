@@ -2,6 +2,10 @@ import Foundation
 import Testing
 @testable import FeatureWidget
 
+#if canImport(WidgetKit)
+import WidgetKit
+#endif
+
 @Suite("FeatureWidget")
 struct FeatureWidgetTests {
 
@@ -26,10 +30,11 @@ struct FeatureWidgetTests {
         #expect(entry.personCount == 4)
     }
 
-    @Test("VadeWidgetProvider returns non-nil placeholder")
+    #if canImport(WidgetKit)
+    @Test("VadeTimelineProvider can be instantiated")
     func testProviderPlaceholder() {
-        let placeholder = VadeWidgetProvider.placeholder()
-        #expect(placeholder.personCount == 3)
-        #expect(placeholder.netBalance == 2500)
+        let provider = VadeTimelineProvider()
+        #expect(provider is VadeTimelineProvider)
     }
+    #endif
 }

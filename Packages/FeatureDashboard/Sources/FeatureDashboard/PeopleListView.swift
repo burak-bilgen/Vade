@@ -64,6 +64,20 @@ public struct PeopleListView: View {
         .searchable(text: $searchText, prompt: String(localized: "people.search.placeholder"))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    Picker(String(localized: "people.filter.all"), selection: Binding(
+                        get: { viewModel?.selectedStatusFilter ?? .all },
+                        set: { viewModel?.selectedStatusFilter = $0 }
+                    )) {
+                        Text(String(localized: "people.filter.all")).tag(DebtStatusFilter.all)
+                        Text(String(localized: "people.filter.pending")).tag(DebtStatusFilter.pending)
+                        Text(String(localized: "people.filter.paid")).tag(DebtStatusFilter.paid)
+                    }
+                } label: {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
                 Button { showAddPerson = true } label: { Image(systemName: "plus") }
             }
         }

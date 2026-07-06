@@ -70,6 +70,8 @@ public struct PersonDetailView: View {
                 .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(ColorTokens.border, lineWidth: 1))
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(String(localized: "personDetail.balance.accessibility"))
             }
 
             // Debt timeline
@@ -108,6 +110,7 @@ public struct PersonDetailView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                .accessibilityLabel(String(localized: "personDetail.addDebt.button"))
             }
         }
         .refreshable { await vm.loadData() }

@@ -57,3 +57,9 @@ private struct GADBannerViewRepresentable: UIViewRepresentable {
 }
 #endif
 */
+
+#Preview {
+    BannerAdView()
+        .padding()
+        .background(ColorTokens.background)
+}

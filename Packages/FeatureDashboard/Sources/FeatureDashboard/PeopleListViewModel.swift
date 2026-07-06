@@ -5,6 +5,14 @@ import Core
 import Data
 import Observability
 
+// MARK: - Status Filter
+
+public enum DebtStatusFilter: String, CaseIterable, Sendable {
+    case all
+    case pending
+    case paid
+}
+
 // MARK: - People List ViewModel
 
 @MainActor
@@ -13,20 +21,25 @@ public final class PeopleListViewModel {
     public var persons: [Person] = []
     public var personBalances: [UUID: Decimal] = [:]
     public var selectedSegment: PeopleSegment = .receivable
+    public var selectedStatusFilter: DebtStatusFilter = .all
     public var isLoading = false
+    /// Maps person ID to the set of debt statuses they have.
+    public private(set) var personDebtStatuses: [UUID: Set<DebtStatus>] = [:]
 
     private let personRepo: PersonRepository
     private let balanceRepo: BalanceRepository
+    private let debtRepo: DebtRepository
     private let analytics: any AnalyticsTracking
 
     public init(modelContext: ModelContext, analytics: any AnalyticsTracking = AnalyticsService()) {
         self.personRepo = PersonRepository(modelContext: modelContext)
         self.balanceRepo = BalanceRepository(modelContext: modelContext)
+        self.debtRepo = DebtRepository(modelContext: modelContext)
         self.analytics = analytics
     }
 
     public var filteredPersons: [(person: Person, balance: Decimal)] {
-        persons.compactMap { person in
+        let segmentFiltered = persons.compactMap { person -> (Person, Decimal)? in
             guard let balance = personBalances[person.id] else { return nil }
             switch selectedSegment {
             case .receivable where balance > 0:
@@ -35,6 +48,19 @@ public final class PeopleListViewModel {
                 return (person, balance.magnitude)
             default:
                 return nil
+            }
+        }
+
+        switch selectedStatusFilter {
+        case .all:
+            return segmentFiltered
+        case .pending:
+            return segmentFiltered.filter { person, _ in
+                personDebtStatuses[person.id]?.contains(.pending) == true
+            }
+        case .paid:
+            return segmentFiltered.filter { person, _ in
+                personDebtStatuses[person.id]?.contains(.paid) == true
             }
         }
     }
@@ -46,10 +72,14 @@ public final class PeopleListViewModel {
             persons = try await personRepo.execute(includeArchived: false)
             // Pre-compute all balances in parallel
             var balances: [UUID: Decimal] = [:]
+            var statuses: [UUID: Set<DebtStatus>] = [:]
             for person in persons {
                 balances[person.id] = try await balanceRepo.execute(for: person.id)
+                let debts = try await debtRepo.execute(for: person.id)
+                statuses[person.id] = Set(debts.map(\.status))
             }
             personBalances = balances
+            personDebtStatuses = statuses
         } catch {
             AppLog.data.error("[PeopleListViewModel] Failed to load: \(error.localizedDescription)")
         }

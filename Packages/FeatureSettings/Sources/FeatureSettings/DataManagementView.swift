@@ -218,3 +218,10 @@ private struct ShareSheet: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 #endif
+
+#Preview {
+    NavigationStack {
+        DataManagementView()
+    }
+    .modelContainer(for: [PersonModel.self, DebtRecordModel.self, PaymentModel.self, AuditEntryModel.self], inMemory: true)
+}

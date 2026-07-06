@@ -19,6 +19,7 @@ public struct DashboardView: View {
                         totalReceivable: vm.totalReceivable,
                         totalPayable: vm.totalPayable
                     )
+                    .accessibilityLabel(String(localized: "Net durum: \(vm.netBalance.formatted())"))
 
                     // Yaklasan Odemeler section
                     VStack(alignment: .leading, spacing: Spacing.m) {
@@ -38,7 +39,30 @@ public struct DashboardView: View {
                         }
                     }
 
-                    // People count card
+                    // View Statistics link
+                    NavigationLink {
+                        ChartsHostView(
+                            totalReceivable: vm.totalReceivable,
+                            totalPayable: vm.totalPayable,
+                            netBalance: vm.netBalance
+                        )
+                    } label: {
+                        HStack {
+                            Image(systemName: "chart.bar.fill")
+                            Text(String(localized: "dashboard.viewStatistics"))
+                                .font(Typography.font(for: .caption))
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(ColorTokens.textTertiary)
+                        }
+                        .padding(Spacing.l)
+                        .background(RoundedRectangle(cornerRadius: Radius.md).fill(ColorTokens.surface))
+                        .overlay(RoundedRectangle(cornerRadius: Radius.md).stroke(ColorTokens.border, lineWidth: 1))
+                    }
+                    .foregroundStyle(ColorTokens.textPrimary)
+                    .accessibilityLabel(String(localized: "dashboard.viewStatistics"))
+
                     NavigationLink {
                         PeopleListView()
                     } label: {
@@ -57,6 +81,7 @@ public struct DashboardView: View {
                         .overlay(RoundedRectangle(cornerRadius: Radius.md).stroke(ColorTokens.border, lineWidth: 1))
                     }
                     .foregroundStyle(ColorTokens.textPrimary)
+                    .accessibilityLabel(String(localized: "dashboard.action.people"))
                 }
             }
             .padding(Spacing.l)

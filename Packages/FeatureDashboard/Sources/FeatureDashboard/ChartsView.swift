@@ -114,3 +114,22 @@ public struct DirectionPieChart: View {
         }
     }
 }
+
+#Preview {
+    NetBalanceChart(
+        dataPoints: [
+            ChartDataPoint(label: "Jan", value: 1000, color: ColorTokens.positive),
+            ChartDataPoint(label: "Feb", value: -500, color: ColorTokens.negative),
+            ChartDataPoint(label: "Mar", value: 2000, color: ColorTokens.positive),
+        ],
+        netBalance: 2500
+    )
+    .padding()
+    .background(ColorTokens.background)
+}
+
+#Preview {
+    DirectionPieChart(receivable: 5000, payable: 2500)
+        .padding()
+        .background(ColorTokens.background)
+}

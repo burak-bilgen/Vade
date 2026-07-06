@@ -13,11 +13,12 @@ let package = Package(
         .package(path: "../DIContainer"),
         .package(path: "../Domain"),
         .package(path: "../Data"),
+        .package(path: "../Networking"),
         .package(path: "../FeatureDebtDetail"),
         .package(path: "../Observability"),
     ],
     targets: [
-        .target(name: "FeatureDashboard", dependencies: ["Core", "DesignSystem", "DIContainer", "Domain", "Data", "FeatureDebtDetail", "Observability"]),
+        .target(name: "FeatureDashboard", dependencies: ["Core", "DesignSystem", "DIContainer", "Domain", "Data", "Networking", "FeatureDebtDetail", "Observability"]),
         .testTarget(name: "FeatureDashboardTests", dependencies: ["FeatureDashboard", "Data"]),
     ]
 )

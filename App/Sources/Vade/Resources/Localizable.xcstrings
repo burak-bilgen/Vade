@@ -400,7 +400,27 @@
         }
       }
     },
+    "exchangeRate.stale": {
+      "comment": "Exchange rate staleness indicator — format with hours",
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rates updated %ld hours ago"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurlar %ld saat önce güncellendi"
+          }
+        }
+      }
+    },
     "dashboard.action.people": {
+      "comment": "Dashboard — quick action: people",
+      "extractionState": "stale",
       "comment": "Dashboard — quick action: people",
       "extractionState": "stale",
       "localizations": {
@@ -690,6 +710,24 @@
           "stringUnit": {
             "state": "needs_review",
             "value": ""
+          }
+        }
+      }
+    },
+    "dashboard.viewStatistics": {
+      "comment": "Dashboard — view statistics navigation link",
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View Statistics"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstatistikleri Gör"
           }
         }
       }
@@ -2027,6 +2065,24 @@
         }
       }
     },
+    "people.add.contactPickerTitle": {
+      "comment": "Add person — contact picker sheet title",
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Contact"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kişi Seç"
+          }
+        }
+      }
+    },
     "people.add.fromContacts": {
       "comment": "Add person — import from contacts button",
       "extractionState": "stale",
@@ -2040,7 +2096,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose from Contacts"
+            "value": "Select from Contacts"
           }
         },
         "es": {
@@ -2058,7 +2114,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rehberden Seç"
+            "value": "Kişilerden Seç"
           }
         },
         "zh": {
@@ -2401,6 +2457,60 @@
           "stringUnit": {
             "state": "needs_review",
             "value": ""
+          }
+        }
+      }
+    },
+    "people.filter.all": {
+      "comment": "People list — status filter: all",
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümü"
+          }
+        }
+      }
+    },
+    "people.filter.pending": {
+      "comment": "People list — status filter: pending",
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pending"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekleyen"
+          }
+        }
+      }
+    },
+    "people.filter.paid": {
+      "comment": "People list — status filter: paid",
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paid"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ödenen"
           }
         }
       }

@@ -38,7 +38,15 @@ struct iCloudInfoBanner: View {
             .padding()
             .background(Color.white.opacity(0.15))
             .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding(.horizontal, 24)
         }
     }
+}
+
+#Preview {
+    VStack(spacing: 16) {
+        iCloudInfoBanner(status: .noAccount)
+        iCloudInfoBanner(status: .available)
+    }
+    .padding()
+    .background(Color(white: 0.15))
 }

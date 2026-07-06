@@ -37,6 +37,7 @@ public struct OnboardingView: View {
                         .frame(width: i == currentPage ? 10 : 8, height: i == currentPage ? 10 : 8)
                 }
             }
+            .accessibilityHint(String(localized: "Devam etmek için kaydır"))
             .padding(.bottom, Spacing.m)
 
             Group {
@@ -54,6 +55,7 @@ public struct OnboardingView: View {
                                 .font(Typography.font(for: .caption)).foregroundStyle(.white.opacity(0.85))
                         }
                         .tint(ColorTokens.accent)
+                        .accessibilityLabel(String(localized: "Sorumluluk reddini kabul et"))
                         Button(action: onComplete) {
                             Text(String(localized: "Anladım, devam edeyim")).frame(maxWidth: .infinity)
                         }
@@ -74,6 +76,7 @@ public struct OnboardingView: View {
             VStack(spacing: Spacing.xl) {
                 Spacer(minLength: Spacing.xxxl)
                 Image(systemName: icon).font(Typography.font(for: .onboardingIcon)).foregroundStyle(ColorTokens.accent)
+                    .accessibilityLabel(String(localized: "onboarding.page.icon"))
                     .padding(.bottom, Spacing.m)
                 Text(title).font(Typography.font(for: .title1)).foregroundStyle(.white).multilineTextAlignment(.center)
                     .padding(.horizontal, Spacing.xl).minimumScaleFactor(0.75)

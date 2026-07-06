@@ -26,6 +26,7 @@ public struct SettingsView: View {
                             systemImage: "faceid"
                         )
                     }
+                    .accessibilityLabel(String(localized: "settings.biometric.toggle"))
                 } header: {
                     Text(String(localized: "settings.section.security"))
                 }
@@ -61,6 +62,7 @@ public struct SettingsView: View {
                             systemImage: "chart.bar"
                         )
                     }
+                    .accessibilityLabel(String(localized: "settings.analytics.toggle"))
                     Toggle(isOn: Binding(
                         get: { viewModel.isCrashlyticsEnabled },
                         set: { viewModel.setCrashlytics($0) }
@@ -70,6 +72,7 @@ public struct SettingsView: View {
                             systemImage: "exclamationmark.bubble"
                         )
                     }
+                    .accessibilityLabel(String(localized: "settings.crashlytics.toggle"))
                 } header: {
                     Text(String(localized: "settings.section.privacy"))
                 }
