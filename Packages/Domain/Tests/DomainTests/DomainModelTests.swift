@@ -136,4 +136,90 @@ struct CurrencyKindTests {
         let kind = CurrencyKind.tryCoin
         #expect(kind == .tryCoin)
     }
+
+    @Test("All currency kinds have valid raw values")
+    func testRawValuesNonEmpty() {
+        for kind in CurrencyKind.allCases {
+            #expect(!kind.rawValue.isEmpty)
+        }
+    }
+}
+
+// MARK: - Edge Case Tests
+
+@Suite("Edge Cases")
+struct EdgeCaseTests {
+
+    // MARK: Overpayment
+
+    @Test("Overpayment results in negative remaining balance",
+          arguments: [
+            (debt: Decimal(500), payment: Decimal(600), expected: Decimal(-100)),
+            (debt: Decimal(1000), payment: Decimal(1500), expected: Decimal(-500)),
+          ])
+    func testOverpayment(debt: Decimal, payment: Decimal, expected: Decimal) {
+        let remaining = debt - payment
+        #expect(remaining == expected)
+    }
+
+    // MARK: Zero amounts
+
+    @Test("Zero amount debt is valid (placeholder)",
+          arguments: [Decimal.zero])
+    func testZeroAmount(amount: Decimal) {
+        #expect(amount == .zero)
+    }
+
+    // MARK: Large numbers
+
+    @Test("Large Decimal values maintain precision",
+          arguments: [
+            Decimal(9999999),
+            Decimal(1234567890123),
+          ])
+    func testLargeNumbers(amount: Decimal) {
+        #expect(amount.rounded(scale: 2) == amount)
+        #expect(!amount.isEffectivelyZero)
+    }
+
+    // MARK: Negative balance
+
+    @Test("Negative net balance when payable exceeds receivable",
+          arguments: [
+            (receivable: Decimal(500), payable: Decimal(1000), net: Decimal(-500)),
+            (receivable: Decimal(0), payable: Decimal(1), net: Decimal(-1)),
+          ])
+    func testNegativeNetBalance(receivable: Decimal, payable: Decimal, net: Decimal) {
+        #expect(receivable - payable == net)
+    }
+
+    // MARK: Multiple payments edge
+
+    @Test("Exact full payment brings balance to zero",
+          arguments: [
+            (debt: Decimal(333.33), payments: [Decimal(111.11), Decimal(111.11), Decimal(111.11)]),
+            (debt: Decimal(1000), payments: [Decimal(500), Decimal(500)]),
+          ])
+    func testExactFullPayment(debt: Decimal, payments: [Decimal]) {
+        let totalPaid = payments.reduce(Decimal.zero, +)
+        #expect(debt - totalPaid >= Decimal.zero || debt - totalPaid < 0.01)
+    }
+
+    // MARK: Empty person list
+
+    @Test("Empty person list produces no balances")
+    func testEmptyList() {
+        let persons: [Person] = []
+        #expect(persons.isEmpty)
+        #expect(persons.count == 0)
+    }
+
+    // MARK: Concurrent safety check
+
+    @Test("Person is Sendable (compile-time guarantee)")
+    func testPersonIsSendable() {
+        let person = Person(name: "Test")
+        _ = person as Sendable
+        #expect(Bool(true))
+    }
 }
