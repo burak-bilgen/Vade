@@ -11,6 +11,27 @@ public protocol NotificationScheduling: Sendable {
     func requestPermission() async -> Bool
     func scheduleReminder(for debtID: UUID, personName: String, amount: Decimal, dueDate: Date) async
     func cancelReminder(for debtID: UUID) async
+    func registerRichActions()
+}
+
+/// Called by the notification content extension to handle "Mark as Paid" action.
+public func handleMarkAsPaidAction(debtID: String) {
+    let logger = Logger(subsystem: "com.vade.core", category: "notifications")
+    logger.info("[Notifications] Mark as Paid action received for debt: \(debtID)")
+    // The host app's NotificationServiceDelegate will process this
+    // by posting a local notification that the app observes on foreground.
+    #if canImport(UserNotifications)
+    let content = UNMutableNotificationContent()
+    content.title = "Vade"
+    content.body = "Borç ödendi olarak işaretlendi."
+    content.userInfo = ["markAsPaidDebtID": debtID, "action": "markAsPaid"]
+    let request = UNNotificationRequest(
+        identifier: "mark-paid-\(debtID)",
+        content: content,
+        trigger: nil
+    )
+    UNUserNotificationCenter.current().add(request)
+    #endif
 }
 
 // MARK: - Notification Service
@@ -25,6 +46,26 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
         super.init()
         #if canImport(UserNotifications)
         UNUserNotificationCenter.current().delegate = self
+        registerRichActions()
+        #endif
+    }
+
+    /// Registers the "Mark as Paid" rich notification action.
+    public func registerRichActions() {
+        #if canImport(UserNotifications)
+        let markAsPaid = UNNotificationAction(
+            identifier: "MARK_AS_PAID",
+            title: "Ödendi Olarak İşaretle",
+            options: .foreground
+        )
+        let category = UNNotificationCategory(
+            identifier: "DEBT_REMINDER",
+            actions: [markAsPaid],
+            intentIdentifiers: [],
+            options: []
+        )
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        logger.info("[Notifications] Rich actions registered")
         #endif
     }
 
@@ -61,6 +102,7 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
         content.title = String(format: "Vade — %@", personName)
         content.body = String(format: "%@ tutarında ödeme vadesi yaklaşıyor.", amount.formatted())
         content.sound = .default
+        content.categoryIdentifier = "DEBT_REMINDER"
         content.userInfo = ["debtID": debtID.uuidString]
 
         // Trigger at 9 AM on the due date

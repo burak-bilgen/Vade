@@ -840,6 +840,13 @@
         "tr": { "stringUnit": { "state": "translated", "value": "Borç" } },
         "en": { "stringUnit": { "state": "translated", "value": "Payable" } }
       }
+    },
+    "ads.placeholder": {
+      "comment": "Banner ad placeholder shown when AdMob SDK not integrated",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Reklam alanı" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Ad space" } }
+      }
     }
   },
   "version": "1.0"
