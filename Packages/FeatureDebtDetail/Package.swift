@@ -16,6 +16,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "FeatureDebtDetail", dependencies: ["Core", "DesignSystem", "DIContainer", "Domain", "Data"]),
-        .testTarget(name: "FeatureDebtDetailTests", dependencies: ["FeatureDebtDetail"]),
+        .testTarget(name: "FeatureDebtDetailTests", dependencies: ["FeatureDebtDetail", "Data"]),
     ]
 )
