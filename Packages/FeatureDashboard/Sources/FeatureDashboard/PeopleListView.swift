@@ -68,7 +68,11 @@ public struct PeopleListView: View {
                 Button { showAddPerson = true } label: { Image(systemName: "plus") }
             }
         }
-        .sheet(isPresented: $showAddPerson) { addPersonSheet }
+        .sheet(isPresented: $showAddPerson) {
+            AddPersonWrapper(isPresented: $showAddPerson, modelContext: modelContext) {
+                await load()
+            }
+        }
         .task { await load() }
         .refreshable { await load() }
     }
@@ -85,17 +89,37 @@ public struct PeopleListView: View {
         balances = b
     }
 
-    private var addPersonSheet: some View {
+}
+
+// MARK: - AddPersonWrapper
+
+private struct AddPersonWrapper: View {
+    @Binding var isPresented: Bool
+    let modelContext: ModelContext
+    let onDone: () async -> Void
+    @State private var name = ""
+
+    var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    TextField(String(localized: "people.add.namePlaceholder"), text: .constant(""))
-                }
+                TextField(String(localized: "people.add.namePlaceholder"), text: $name)
             }
             .navigationTitle(String(localized: "people.add.title"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "people.add.cancel")) { showAddPerson = false }
+                    Button(String(localized: "people.add.cancel")) { isPresented = false }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(String(localized: "people.add.save")) {
+                        let trimmed = name.trimmingCharacters(in: .whitespaces)
+                        guard !trimmed.isEmpty else { return }
+                        Task {
+                            let repo = PersonRepository(modelContext: modelContext)
+                            _ = try? await repo.execute(name: trimmed, phoneNumber: nil, notes: nil)
+                            isPresented = false
+                            await onDone()
+                        }
+                    }
                 }
             }
         }
