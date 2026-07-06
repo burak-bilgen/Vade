@@ -118,19 +118,19 @@ public final class DashboardViewModel {
     }
 
     private func loadExchangeRates() async {
-        do {
-            let usdRate = try await rateClient.fetchRate(for: "USD")
-            let eurRate = try await rateClient.fetchRate(for: "EUR")
-            let goldRate = try await rateClient.fetchGoldRatePerGram()
-            let lastUpdate = await rateClient.lastUpdateDate()
+        async let usdRate = try? await rateClient.fetchRate(for: "USD")
+        async let eurRate = try? await rateClient.fetchRate(for: "EUR")
+        async let goldRate = try? await rateClient.fetchGoldRatePerGram()
+        let lastUpdate = await rateClient.lastUpdateDate()
+
+        let (usd, eur, gold) = await (usdRate, eurRate, goldRate)
+        if usd != nil || eur != nil || gold != nil {
             exchangeRates = ExchangeRateSnapshot(
-                usdRate: usdRate,
-                eurRate: eurRate,
-                goldRate: goldRate,
+                usdRate: usd,
+                eurRate: eur,
+                goldRate: gold,
                 lastUpdate: lastUpdate
             )
-        } catch {
-            AppLog.networking.error("[Dashboard] Rates fetch failed: \(error.localizedDescription)")
         }
     }
 
