@@ -156,6 +156,446 @@
         "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
         "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
       }
+    },
+    "dashboard.upcoming.title": {
+      "comment": "Dashboard — upcoming payments section title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Yaklaşan Ödemeler" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Upcoming Payments" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "dashboard.upcoming.emptyTitle": {
+      "comment": "Dashboard — empty upcoming state title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Yaklaşan ödeme yok" } },
+        "en": { "stringUnit": { "state": "translated", "value": "No upcoming payments" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "dashboard.upcoming.emptySubtitle": {
+      "comment": "Dashboard — empty upcoming state subtitle",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Vadesi yaklaşan borç veya alacak bulunmuyor." } },
+        "en": { "stringUnit": { "state": "translated", "value": "No debts with upcoming due dates." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "dashboard.action.people": {
+      "comment": "Dashboard — quick action: people",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kişiler" } },
+        "en": { "stringUnit": { "state": "translated", "value": "People" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.navigationTitle": {
+      "comment": "People list — navigation title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kişiler" } },
+        "en": { "stringUnit": { "state": "translated", "value": "People" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.segment.label": {
+      "comment": "People list — segment picker accessibility label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Filtre" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Filter" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.segment.receivable": {
+      "comment": "People list — receivable segment title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Bana Borçlu" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Owes Me" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.segment.payable": {
+      "comment": "People list — payable segment title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Ben Borçluyum" } },
+        "en": { "stringUnit": { "state": "translated", "value": "I Owe" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.empty.title": {
+      "comment": "People list — empty state title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Henüz kimse yok" } },
+        "en": { "stringUnit": { "state": "translated", "value": "No people yet" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.empty.subtitle": {
+      "comment": "People list — empty state subtitle",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "İlk kişiyi ekleyerek başlayabilirsin." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Add your first person to get started." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.add.title": {
+      "comment": "Add person — sheet title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kişi Ekle" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Add Person" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.add.namePlaceholder": {
+      "comment": "Add person — name field placeholder",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Ad Soyad" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Full Name" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.add.phonePlaceholder": {
+      "comment": "Add person — phone field placeholder",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Telefon (isteğe bağlı)" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Phone (optional)" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.add.notesPlaceholder": {
+      "comment": "Add person — notes field placeholder",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Not (isteğe bağlı)" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Notes (optional)" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.add.cancel": {
+      "comment": "Add person — cancel button",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "İptal" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Cancel" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "people.add.save": {
+      "comment": "Add person — save button",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kaydet" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Save" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "personDetail.balance.label": {
+      "comment": "Person detail — balance header label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Net Durum" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Net Balance" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "personDetail.history.title": {
+      "comment": "Person detail — debt history section title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Borç Geçmişi" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Debt History" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "personDetail.empty.title": {
+      "comment": "Person detail — empty debt state title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Henüz borç kaydı yok" } },
+        "en": { "stringUnit": { "state": "translated", "value": "No debt records yet" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "personDetail.empty.subtitle": {
+      "comment": "Person detail — empty debt state subtitle",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Yeni bir borç veya alacak ekleyerek başla." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Add a new debt or credit to get started." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "personDetail.status.pending": {
+      "comment": "Person detail — pending debt status label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Bekliyor" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Pending" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "personDetail.status.paid": {
+      "comment": "Person detail — paid debt status label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Ödendi" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Paid" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "personDetail.status.archived": {
+      "comment": "Person detail — archived debt status label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Arşivlendi" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Archived" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.title": {
+      "comment": "Add debt — sheet title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Borç Ekle" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Add Debt" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.amountPlaceholder": {
+      "comment": "Add debt — amount field placeholder",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Tutar" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Amount" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.kind.label": {
+      "comment": "Add debt — currency kind picker label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Para Birimi" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Currency" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.direction.label": {
+      "comment": "Add debt — direction picker label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Yön" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Direction" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.direction.receivable": {
+      "comment": "Add debt — receivable direction option",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Bana Borçlu" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Owes Me" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.direction.payable": {
+      "comment": "Add debt — payable direction option",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Ben Borçluyum" } },
+        "en": { "stringUnit": { "state": "translated", "value": "I Owe" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.notePlaceholder": {
+      "comment": "Add debt — note field placeholder",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Not (isteğe bağlı)" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Note (optional)" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.dueDateToggle": {
+      "comment": "Add debt — due date toggle label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Vade Tarihi Ekle" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Add Due Date" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.dueDatePicker": {
+      "comment": "Add debt — due date picker label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Vade Tarihi" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Due Date" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.cancel": {
+      "comment": "Add debt — cancel button",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "İptal" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Cancel" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "debt.add.save": {
+      "comment": "Add debt — save button",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kaydet" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Save" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "payment.title": {
+      "comment": "Record payment — sheet title",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Ödeme Kaydet" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Record Payment" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "payment.remainingBalance": {
+      "comment": "Record payment — remaining balance label",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kalan Borç" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Remaining Balance" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "payment.amountPlaceholder": {
+      "comment": "Record payment — amount field placeholder",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Ödeme Tutarı" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Payment Amount" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "payment.notePlaceholder": {
+      "comment": "Record payment — note field placeholder",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Not (isteğe bağlı)" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Note (optional)" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "payment.cancel": {
+      "comment": "Record payment — cancel button",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "İptal" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Cancel" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "payment.save": {
+      "comment": "Record payment — save button",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kaydet" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Save" } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
     }
   },
   "version": "1.0"
