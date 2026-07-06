@@ -99,7 +99,7 @@ public struct PeopleListView: View {
                     ? String(localized: "people.balance.receivable")
                     : String(localized: "people.balance.payable")
                 )
-                .font(.system(size: 11))
+                .font(Typography.font(for: .label))
                 .foregroundStyle(ColorTokens.textTertiary)
             }
         }

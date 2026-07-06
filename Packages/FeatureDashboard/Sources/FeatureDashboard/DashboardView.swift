@@ -289,7 +289,7 @@ public struct DashboardView: View {
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
             Text(label)
-                .font(.system(size: 11))
+                .font(Typography.font(for: .label))
                 .foregroundStyle(ColorTokens.textTertiary)
                 .multilineTextAlignment(.center)
         }
@@ -335,7 +335,7 @@ public struct DashboardView: View {
                     .font(Typography.font(for: .headline))
                     .foregroundStyle(ColorTokens.textPrimary)
                 Text(item.date, format: .relative(presentation: .named))
-                    .font(.system(size: 11))
+                    .font(Typography.font(for: .label))
                     .foregroundStyle(ColorTokens.textTertiary)
             }
 
