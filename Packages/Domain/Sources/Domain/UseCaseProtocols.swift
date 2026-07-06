@@ -36,6 +36,13 @@ public protocol CalculateBalanceUseCase {
     func netBalance() async throws -> Decimal
 }
 
+// MARK: - Currency Conversion
+
+public protocol CurrencyConverting: Sendable {
+    func convertToTRY(amount: Decimal, from currency: CurrencyKind) async throws -> Decimal
+    func lastUpdateDate() async -> Date?
+}
+
 // MARK: - Analytics
 
 public protocol AnalyticsTracking: Sendable {
