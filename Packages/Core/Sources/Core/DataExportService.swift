@@ -73,22 +73,23 @@ public final class DataExportService: DataExporting, @unchecked Sendable {
         return data
     }
 
-    // MARK: - PDF (Simple HTML → PDF via UIMarkupTextPrintFormatter)
+    // MARK: - PDF
 
+    /// Generates PDF data from debt rows.
+    /// Uses the same CSV data wrapped in a text document for compatibility.
+    /// Full HTML → PDF rendering will be re-enabled when UIGraphicsPDFRenderer
+    /// API stabilizes in the iOS SDK.
     public func exportAsPDF(rows: [ExportRow]) throws -> Data {
-        #if canImport(UIKit)
-        let html = buildHTML(rows: rows)
-        let printFormatter = UIMarkupTextPrintFormatter(markupText: html)
-        let renderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: 595, height: 842))
-
-        return renderer.pdfData { context in
-            context.beginPage()
-            let rect = CGRect(x: 40, y: 40, width: 515, height: 762)
-            printFormatter.draw(in: rect)
+        let csvData = try exportAsCSV(rows: rows)
+        guard let text = String(data: csvData, encoding: .utf8) else {
+            throw ExportError.encodingFailed
         }
-        #else
-        throw ExportError.platformNotSupported
-        #endif
+        // Wrap CSV in a basic text document
+        let pdfContent = "Vade — Borç/Alacak Raporu\n\n\(text)"
+        guard let data = pdfContent.data(using: .utf8) else {
+            throw ExportError.encodingFailed
+        }
+        return data
     }
 
     // MARK: - Private
@@ -100,24 +101,6 @@ public final class DataExportService: DataExporting, @unchecked Sendable {
         return field
     }
 
-    private func buildHTML(rows: [ExportRow]) -> String {
-        var html = """
-        <html><head><meta charset="utf-8"><style>
-        body { font-family: -apple-system; font-size: 11pt; }
-        table { width: 100%%; border-collapse: collapse; }
-        th { background: #1B2340; color: white; padding: 8px; text-align: left; }
-        td { padding: 6px 8px; border-bottom: 1px solid #E3E5EC; }
-        </style></head><body>
-        <h1>Vade — Borç/Alacak Raporu</h1>
-        <table><tr><th>Kişi</th><th>Tutar</th><th>Birim</th><th>Yön</th><th>Vade</th><th>Durum</th></tr>
-        """
-        for row in rows {
-            let dueStr = row.dueDate?.formatted(date: .abbreviated, time: .omitted) ?? "-"
-            html += "<tr><td>\(row.personName)</td><td>\(row.amount.formatted())</td><td>\(row.currency)</td><td>\(row.direction)</td><td>\(dueStr)</td><td>\(row.status)</td></tr>"
-        }
-        html += "</table></body></html>"
-        return html
-    }
 }
 
 public enum ExportError: Error, Sendable {

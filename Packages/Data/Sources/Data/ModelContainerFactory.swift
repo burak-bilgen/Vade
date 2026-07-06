@@ -16,12 +16,10 @@ public enum ModelContainerFactory {
 
         #if targetEnvironment(simulator)
             let config = ModelConfiguration(
-                for: schema,
                 isStoredInMemoryOnly: false
             )
         #else
             let config = ModelConfiguration(
-                for: schema,
                 isStoredInMemoryOnly: false,
                 cloudKitContainerIdentifier: cloudKitContainerID
             )

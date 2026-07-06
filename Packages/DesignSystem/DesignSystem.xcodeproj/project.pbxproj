@@ -7,10 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F924CE977884F734C00A2E8 /* PlusJakartaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D80A43013FB2429EC9EC182C /* PlusJakartaSans-Bold.ttf */; };
 		10674F2C4DFA5A86AE37D895 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0555BF632E32CCE62C1F4E54 /* Tokens.swift */; };
 		21641D23FC9333C9EC3328A5 /* CurrencyChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5802C5CEB02B3D470E6298AF /* CurrencyChip.swift */; };
+		385E5D0846F1987DE67720DA /* PlusJakartaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB9E8AD1632E8656E4B2DFB /* PlusJakartaSans-Medium.ttf */; };
 		38EEC3BF7BC870F37E3A7F19 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D3D3E20D4CF49B640DF83248 /* Core.framework */; };
+		39568F61C0AE339287F7AF7D /* JetBrainsMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB078AF7F762A97DB120919A /* JetBrainsMono-Regular.ttf */; };
+		3CC461E70DEC393B63DE1CA0 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF74E10AAF35903199A77063 /* SkeletonView.swift */; };
+		58CCB30E68A7ED5F31919C60 /* PlusJakartaSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C34474BB560E114B7891FBE7 /* PlusJakartaSans-SemiBold.ttf */; };
+		6A9D0C3784F739E22DC53C14 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */; };
 		6E30040213E536E7C5004075 /* TokensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2CCEE965F2AE9E7CAD2013 /* TokensTests.swift */; };
+		8A73333849FDD42B165B7C60 /* JetBrainsMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A64653F9E048343F182B1FD /* JetBrainsMono-Medium.ttf */; };
 		9610AD45FE79B3826240A265 /* SummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A4725BC33F2ADC6622422B /* SummaryCard.swift */; };
 		9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EEC35F002D4D44977582DC /* LedgerRowView.swift */; };
 		AD0B1C42D4A0DE65B8C6D62F /* UndoToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744480E9B8CC84363B424352 /* UndoToastView.swift */; };
@@ -18,11 +25,21 @@
 		C438E92FA9121880084AE9AA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B7BBEAD5472C7195924AC8 /* DesignSystem.framework */; };
 		CA72F97C0E325E3CCF50CDF2 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64519D27AF11021EF29EE0A6 /* Typography.swift */; };
 		DD66AE3739C5EDC9059ED7C5 /* FontRegistrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3290C5917F02340235702 /* FontRegistrar.swift */; };
+		E4A9BC98A8E210D6173854CE /* DesignSystem_DesignSystem.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */; };
+		E78CF8FD0CE4D18F898D579F /* PlusJakartaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C51FE0535678B13610B4D7C3 /* PlusJakartaSans-Regular.ttf */; };
 		F3852BD4417863B30E30C628 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D3E20D4CF49B640DF83248 /* Core.framework */; };
 		F4E880DDA8212965C61F5BC2 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */; };
+		F6018B5F7748E322214C52D6 /* TuistBundle+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4AD9735556ECA8C8008FEC /* TuistBundle+DesignSystem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4A4956649CBDCC6BF0221AD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F639F9585E77B0BBBB642E14 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C777EA7684CF3B97BE76C38C;
+			remoteInfo = DesignSystem_DesignSystem;
+		};
 		780AF5A021DE23D585EE2ED6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F639F9585E77B0BBBB642E14 /* Project object */;
@@ -42,6 +59,16 @@
 			);
 			name = Dependencies;
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		3FBA6A1C0FF2C099107F7C40 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		49C4A8593835DDF36FBC2A05 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -63,27 +90,54 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FFFE0F493C50B650BFA949E3 /* Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstSubfolderSpec = 16;
+			files = (
+				E4A9BC98A8E210D6173854CE /* DesignSystem_DesignSystem.bundle in Dependencies */,
+			);
+			name = Dependencies;
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0555BF632E32CCE62C1F4E54 /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
+		0A64653F9E048343F182B1FD /* JetBrainsMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMono-Medium.ttf"; sourceTree = "<group>"; };
+		42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		43EEC35F002D4D44977582DC /* LedgerRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerRowView.swift; sourceTree = "<group>"; };
 		469F4B641DBB710B1B90BAD8 /* DesignSystemTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystemTests-Info.plist"; sourceTree = "<group>"; };
+		4FB9E8AD1632E8656E4B2DFB /* PlusJakartaSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-Medium.ttf"; sourceTree = "<group>"; };
 		5802C5CEB02B3D470E6298AF /* CurrencyChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyChip.swift; sourceTree = "<group>"; };
 		64519D27AF11021EF29EE0A6 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		69B7BBEAD5472C7195924AC8 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		744480E9B8CC84363B424352 /* UndoToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoToastView.swift; sourceTree = "<group>"; };
 		8937FA9427EEA938B58C5B3E /* DesignSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystem-Info.plist"; sourceTree = "<group>"; };
+		BB078AF7F762A97DB120919A /* JetBrainsMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMono-Regular.ttf"; sourceTree = "<group>"; };
+		BE4AD9735556ECA8C8008FEC /* TuistBundle+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+DesignSystem.swift"; sourceTree = "<group>"; };
+		C34474BB560E114B7891FBE7 /* PlusJakartaSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		C51FE0535678B13610B4D7C3 /* PlusJakartaSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-Regular.ttf"; sourceTree = "<group>"; };
+		CF74E10AAF35903199A77063 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 		D0A4725BC33F2ADC6622422B /* SummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCard.swift; sourceTree = "<group>"; };
 		D3D3E20D4CF49B640DF83248 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D80A43013FB2429EC9EC182C /* PlusJakartaSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-Bold.ttf"; sourceTree = "<group>"; };
 		DCF3290C5917F02340235702 /* FontRegistrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontRegistrar.swift; sourceTree = "<group>"; };
+		DDA12AD00E98A3497D3A729E /* DesignSystem_DesignSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystem_DesignSystem-Info.plist"; sourceTree = "<group>"; };
 		E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		EB2CCEE965F2AE9E7CAD2013 /* TokensTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensTests.swift; sourceTree = "<group>"; };
 		ECAFBD3892447294C1342932 /* DesignSystemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1964AC1CF76FA8EBDF2A15A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		21D2E38EFDFDB350406F7982 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -133,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				D3D3E20D4CF49B640DF83248 /* Core.framework */,
+				42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */,
 				69B7BBEAD5472C7195924AC8 /* DesignSystem.framework */,
 				ECAFBD3892447294C1342932 /* DesignSystemTests.xctest */,
 			);
@@ -143,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				F2F0D6EECE384EBEC3AFDEB4 /* InfoPlists */,
+				D5FD3537E28AE857DC09D214 /* Sources */,
 			);
 			path = Derived;
 			sourceTree = "<group>";
@@ -155,20 +211,51 @@
 			path = DesignSystemTests;
 			sourceTree = "<group>";
 		};
+		A4913CB7B7F3273ED25FDE8A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0A64653F9E048343F182B1FD /* JetBrainsMono-Medium.ttf */,
+				BB078AF7F762A97DB120919A /* JetBrainsMono-Regular.ttf */,
+				D80A43013FB2429EC9EC182C /* PlusJakartaSans-Bold.ttf */,
+				4FB9E8AD1632E8656E4B2DFB /* PlusJakartaSans-Medium.ttf */,
+				C51FE0535678B13610B4D7C3 /* PlusJakartaSans-Regular.ttf */,
+				C34474BB560E114B7891FBE7 /* PlusJakartaSans-SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		AAB087E98A6EDF43BBBC6AB1 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				E188A934756F825D89DAFCCC /* Resources */,
 				5802C5CEB02B3D470E6298AF /* CurrencyChip.swift */,
 				E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */,
 				DCF3290C5917F02340235702 /* FontRegistrar.swift */,
 				43EEC35F002D4D44977582DC /* LedgerRowView.swift */,
 				6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */,
+				CF74E10AAF35903199A77063 /* SkeletonView.swift */,
 				D0A4725BC33F2ADC6622422B /* SummaryCard.swift */,
 				0555BF632E32CCE62C1F4E54 /* Tokens.swift */,
 				64519D27AF11021EF29EE0A6 /* Typography.swift */,
 				744480E9B8CC84363B424352 /* UndoToastView.swift */,
 			);
 			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		D5FD3537E28AE857DC09D214 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				BE4AD9735556ECA8C8008FEC /* TuistBundle+DesignSystem.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		E188A934756F825D89DAFCCC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A4913CB7B7F3273ED25FDE8A /* Fonts */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		EC9821EEC8CC800276475F6C = {
@@ -182,6 +269,7 @@
 		F2F0D6EECE384EBEC3AFDEB4 /* InfoPlists */ = {
 			isa = PBXGroup;
 			children = (
+				DDA12AD00E98A3497D3A729E /* DesignSystem_DesignSystem-Info.plist */,
 				8937FA9427EEA938B58C5B3E /* DesignSystem-Info.plist */,
 				469F4B641DBB710B1B90BAD8 /* DesignSystemTests-Info.plist */,
 			);
@@ -199,6 +287,7 @@
 				8836997EA64CE056B14C043C /* Resources */,
 				49CB8920B5AE9ECAFBA0D86F /* Frameworks */,
 				F2166D77A31A58D48E2556FF /* Embed Frameworks */,
+				FFFE0F493C50B650BFA949E3 /* Dependencies */,
 			);
 			buildRules = (
 			);
@@ -225,6 +314,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5EE60265510B17C28AE5EBA4 /* PBXTargetDependency */,
 			);
 			name = DesignSystem;
 			packageProductDependencies = (
@@ -232,6 +322,26 @@
 			productName = DesignSystem;
 			productReference = 69B7BBEAD5472C7195924AC8 /* DesignSystem.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		C777EA7684CF3B97BE76C38C /* DesignSystem_DesignSystem */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05AE9C11574FFE2195EAFA90 /* Build configuration list for PBXNativeTarget "DesignSystem_DesignSystem" */;
+			buildPhases = (
+				97B9A85DB0C77866043716C8 /* Sources */,
+				B43C3DC03910608BAD041023 /* Resources */,
+				1964AC1CF76FA8EBDF2A15A1 /* Frameworks */,
+				3FBA6A1C0FF2C099107F7C40 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DesignSystem_DesignSystem;
+			packageProductDependencies = (
+			);
+			productName = DesignSystem_DesignSystem;
+			productReference = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -259,6 +369,7 @@
 			targets = (
 				83C9B5D1938C22907FF6E247 /* DesignSystem */,
 				0F708BB592F173C2660727CA /* DesignSystemTests */,
+				C777EA7684CF3B97BE76C38C /* DesignSystem_DesignSystem */,
 			);
 		};
 /* End PBXProject section */
@@ -275,21 +386,44 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A9D0C3784F739E22DC53C14 /* DesignSystem_DesignSystem.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B43C3DC03910608BAD041023 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A73333849FDD42B165B7C60 /* JetBrainsMono-Medium.ttf in Resources */,
+				39568F61C0AE339287F7AF7D /* JetBrainsMono-Regular.ttf in Resources */,
+				0F924CE977884F734C00A2E8 /* PlusJakartaSans-Bold.ttf in Resources */,
+				385E5D0846F1987DE67720DA /* PlusJakartaSans-Medium.ttf in Resources */,
+				E78CF8FD0CE4D18F898D579F /* PlusJakartaSans-Regular.ttf in Resources */,
+				58CCB30E68A7ED5F31919C60 /* PlusJakartaSans-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		97B9A85DB0C77866043716C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BA6DF36C53063F00B80115EA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6018B5F7748E322214C52D6 /* TuistBundle+DesignSystem.swift in Sources */,
 				21641D23FC9333C9EC3328A5 /* CurrencyChip.swift in Sources */,
 				F4E880DDA8212965C61F5BC2 /* EmptyStateView.swift in Sources */,
 				DD66AE3739C5EDC9059ED7C5 /* FontRegistrar.swift in Sources */,
 				9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */,
 				B6C4F5740BAAB8B2A22C4DCF /* PillButtonStyle.swift in Sources */,
+				3CC461E70DEC393B63DE1CA0 /* SkeletonView.swift in Sources */,
 				9610AD45FE79B3826240A265 /* SummaryCard.swift in Sources */,
 				10674F2C4DFA5A86AE37D895 /* Tokens.swift in Sources */,
 				CA72F97C0E325E3CCF50CDF2 /* Typography.swift in Sources */,
@@ -308,6 +442,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5EE60265510B17C28AE5EBA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DesignSystem_DesignSystem;
+			target = C777EA7684CF3B97BE76C38C /* DesignSystem_DesignSystem */;
+			targetProxy = 4A4956649CBDCC6BF0221AD1 /* PBXContainerItemProxy */;
+		};
 		C3373F47F3B553009386B333 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = DesignSystem;
@@ -317,6 +457,33 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		06FE36F5BCD04B71D2901212 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_MASTER_OBJECT_FILE = NO;
+				INFOPLIST_FILE = "Derived/InfoPlists/DesignSystem_DesignSystem-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PACKAGE_RESOURCE_TARGET_KIND = resource;
+				PRODUCT_BUNDLE_IDENTIFIER = DesignSystem.generated.resources;
+				PRODUCT_NAME = DesignSystem_DesignSystem;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "";
+			};
+			name = Debug;
+		};
 		0C02DEECDC95653FCDD00F9F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -336,6 +503,8 @@
 				);
 				MACH_O_TYPE = staticlib;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PACKAGE_RESOURCE_BUNDLE_NAME = DesignSystem_DesignSystem;
+				PACKAGE_RESOURCE_TARGET_KIND = regular;
 				PRODUCT_BUNDLE_IDENTIFIER = DesignSystem;
 				PRODUCT_NAME = DesignSystem;
 				SDKROOT = iphoneos;
@@ -434,6 +603,8 @@
 				);
 				MACH_O_TYPE = staticlib;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PACKAGE_RESOURCE_BUNDLE_NAME = DesignSystem_DesignSystem;
+				PACKAGE_RESOURCE_TARGET_KIND = regular;
 				PRODUCT_BUNDLE_IDENTIFIER = DesignSystem;
 				PRODUCT_NAME = DesignSystem;
 				SDKROOT = iphoneos;
@@ -526,6 +697,29 @@
 			};
 			name = Debug;
 		};
+		85B6B79ADD7A4E7548F316CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_MASTER_OBJECT_FILE = NO;
+				INFOPLIST_FILE = "Derived/InfoPlists/DesignSystem_DesignSystem-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PACKAGE_RESOURCE_TARGET_KIND = resource;
+				PRODUCT_BUNDLE_IDENTIFIER = DesignSystem.generated.resources;
+				PRODUCT_NAME = DesignSystem_DesignSystem;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "";
+			};
+			name = Release;
+		};
 		88DC404DB5E70F332291F97C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -603,6 +797,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		05AE9C11574FFE2195EAFA90 /* Build configuration list for PBXNativeTarget "DesignSystem_DesignSystem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06FE36F5BCD04B71D2901212 /* Debug */,
+				85B6B79ADD7A4E7548F316CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5C0CBBA2BFE0CEE21375AF0A /* Build configuration list for PBXProject "DesignSystem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import DesignSystem
 import Domain
+import Data
 
 // MARK: - Person Detail View
 

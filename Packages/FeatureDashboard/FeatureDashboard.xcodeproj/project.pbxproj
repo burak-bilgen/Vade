@@ -26,7 +26,9 @@
 		D4391F6681CAC8A122E2EA42 /* PeopleListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25E0A26BFD631CDFC2A6E2 /* PeopleListViewModelTests.swift */; };
 		D5DE0F152E0D77038FDBBD00 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B23AAFAC93BAFDC9C8370A /* Domain.framework */; };
 		D6BA2AD0BC3D852A416ED538 /* FeatureDashboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99DF9330778FA73385C52FB9 /* FeatureDashboard.framework */; };
+		DDBB307ADC14E66FC1183598 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */; };
 		DDCDCF3E075857B3F8DE1426 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 1D54F422C503F06B7F1BBD38 /* Core.framework */; };
+		EE5EAE7032BBD8C35509CBCD /* DesignSystem_DesignSystem.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = 9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		339A9472B12D94FC36120E76 /* Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstSubfolderSpec = 16;
+			files = (
+				EE5EAE7032BBD8C35509CBCD /* DesignSystem_DesignSystem.bundle in Dependencies */,
+			);
+			name = Dependencies;
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		5D80A479A7626F2E74303BDC /* Dependencies */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -87,6 +99,7 @@
 		644C27BD2632AF8797AC0229 /* PeopleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewModel.swift; sourceTree = "<group>"; };
 		978D72E1B7B8A6E06B66B8FA /* FeatureDashboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureDashboard-Info.plist"; sourceTree = "<group>"; };
 		99DF9330778FA73385C52FB9 /* FeatureDashboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureDashboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0A3CB635576BEF224D802AF /* FeatureDashboardTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureDashboardTests-Info.plist"; sourceTree = "<group>"; };
 		BD69F1700C18C321512CE6CB /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		C43634E77AF26473D30AE519 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +183,7 @@
 			children = (
 				1D54F422C503F06B7F1BBD38 /* Core.framework */,
 				C43634E77AF26473D30AE519 /* Data.framework */,
+				9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */,
 				2484A09C04D9FA9A15535687 /* DesignSystem.framework */,
 				DEC090540F9FB449D4FA8F03 /* DIContainer.framework */,
 				F9B23AAFAC93BAFDC9C8370A /* Domain.framework */,
@@ -220,6 +234,7 @@
 				92551D124378152418068BC6 /* Resources */,
 				E9C7C7EA8A425D3A0745A8E7 /* Frameworks */,
 				D4B1AC027625718A279BCCE7 /* Embed Frameworks */,
+				339A9472B12D94FC36120E76 /* Dependencies */,
 			);
 			buildRules = (
 			);
@@ -289,6 +304,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDBB307ADC14E66FC1183598 /* DesignSystem_DesignSystem.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,7 +5,7 @@ import OSLog
 
 // MARK: - Person Repository
 
-public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase {
+public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase, @unchecked Sendable {
     private let modelContext: ModelContext
 
     public init(modelContext: ModelContext) {
@@ -30,7 +30,7 @@ public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase {
 
 // MARK: - Debt Repository
 
-public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
+public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase, @unchecked Sendable {
     private let modelContext: ModelContext
     private let auditTrail: AuditTrailRecording?
     private let logger = Logger(subsystem: "com.vade.data", category: "debt")
@@ -80,7 +80,7 @@ public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
 
 // MARK: - Payment Repository
 
-public final class PaymentRepository: RecordPaymentUseCase {
+public final class PaymentRepository: RecordPaymentUseCase, @unchecked Sendable {
     private let modelContext: ModelContext
     private let auditTrail: AuditTrailRecording?
     private let logger = Logger(subsystem: "com.vade.data", category: "payment")
@@ -108,7 +108,7 @@ public final class PaymentRepository: RecordPaymentUseCase {
 
 // MARK: - Balance Repository
 
-public final class BalanceRepository: CalculateBalanceUseCase {
+public final class BalanceRepository: CalculateBalanceUseCase, @unchecked Sendable {
     private let modelContext: ModelContext
 
     public init(modelContext: ModelContext) {

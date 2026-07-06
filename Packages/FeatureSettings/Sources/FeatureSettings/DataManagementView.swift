@@ -3,6 +3,7 @@ import SwiftData
 import DesignSystem
 import Core
 import Domain
+import Data
 
 // MARK: - Data Management View
 
@@ -122,13 +123,21 @@ public struct DataManagementView: View {
     }
 
     private func deleteAllData() async {
-        // Delete all SwiftData objects
         let context = modelContext
         do {
-            try context.delete(model: PersonModel.self)
-            try context.delete(model: DebtRecordModel.self)
-            try context.delete(model: PaymentModel.self)
-            try context.delete(model: AuditEntryModel.self)
+            // Fetch and delete each type individually
+            let persons = try context.fetch(FetchDescriptor<PersonModel>())
+            for person in persons { context.delete(person) }
+
+            let debts = try context.fetch(FetchDescriptor<DebtRecordModel>())
+            for debt in debts { context.delete(debt) }
+
+            let payments = try context.fetch(FetchDescriptor<PaymentModel>())
+            for payment in payments { context.delete(payment) }
+
+            let audits = try context.fetch(FetchDescriptor<AuditEntryModel>())
+            for audit in audits { context.delete(audit) }
+
             try context.save()
             showUndo = true
         } catch {
@@ -137,12 +146,12 @@ public struct DataManagementView: View {
     }
 
     private func fetchExportRows() async -> [ExportRow] {
-        let personRepo = PersonRepository(modelContext: modelContext)
+        // Uses MainActor-isolated context — safe from within View body
+        let repo = PersonRepository(modelContext: modelContext)
+        guard let persons = try? await repo.execute(includeArchived: true) else { return [] }
         let debtRepo = DebtRepository(modelContext: modelContext)
 
-        guard let persons = try? await personRepo.execute(includeArchived: true) else { return [] }
         var rows: [ExportRow] = []
-
         for person in persons {
             guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
             for debt in debts {

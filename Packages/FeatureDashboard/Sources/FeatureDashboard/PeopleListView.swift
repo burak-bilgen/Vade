@@ -3,6 +3,8 @@ import SwiftData
 import DesignSystem
 import Domain
 import Core
+import Data
+import FeatureDebtDetail
 
 // MARK: - People List View
 

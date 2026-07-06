@@ -15,6 +15,7 @@
 		7CA097180BCBEBD122A1712D /* VadeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C056F86B066D899C63D6D76A /* VadeApp.swift */; };
 		8B230559D01FF30E7DFAE759 /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D590E6C861B2BFCC5F7ABB9 /* Observability.framework */; };
 		8FE2FD035B4061697BE6436D /* TuistBundle+Vade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D4B208A05A9F3BD7D22DBF /* TuistBundle+Vade.swift */; };
+		9379425726636786F98DD5B4 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F11342E238EFC473972006BC /* DesignSystem_DesignSystem.bundle */; };
 		9FF74ADB6B79B9C3408FFEFD /* FeatureDashboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52484BABDAD957812AC807B9 /* FeatureDashboard.framework */; };
 		B292ECCCE72514CCA7745E0D /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113A5B001A602BDFDD92FABD /* Coordinator.swift */; };
 		BB24D010F101A3BCE6501B40 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F995A70A83635D1F2BE74894 /* AppCoordinator.swift */; };
@@ -24,6 +25,7 @@
 		E96E9690D938565538EDDC90 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A67A83A1799A720675D7D22 /* Core.framework */; };
 		E9E2549F0C6C442599910B5F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 94940C72284D4283EE883218 /* Localizable.xcstrings */; };
 		EF951B0053E6FF8239EEC087 /* FeatureSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D21CBB0AB4A8F584883080EB /* FeatureSettings.framework */; };
+		F97E9912D69C72E5A44DEE65 /* DesignSystem_DesignSystem.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = F11342E238EFC473972006BC /* DesignSystem_DesignSystem.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +38,16 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5DD1A57AC10D8EB2BAD0174 /* Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstSubfolderSpec = 16;
+			files = (
+				F97E9912D69C72E5A44DEE65 /* DesignSystem_DesignSystem.bundle in Dependencies */,
+			);
+			name = Dependencies;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -57,6 +69,7 @@
 		D0CABBB33683612C73703BC3 /* Vade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D21CBB0AB4A8F584883080EB /* FeatureSettings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureSettings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4B99C6B77796EB276507B4 /* FeatureDebtDetail.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureDebtDetail.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F11342E238EFC473972006BC /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		F634A80D7E07AB06C6BDC00C /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F995A70A83635D1F2BE74894 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		FC21FDE0CA7ED97498F1FFE6 /* Vade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Vade-Info.plist"; sourceTree = "<group>"; };
@@ -174,6 +187,7 @@
 			children = (
 				3A67A83A1799A720675D7D22 /* Core.framework */,
 				575ABC238E195F0C0DAC1076 /* Data.framework */,
+				F11342E238EFC473972006BC /* DesignSystem_DesignSystem.bundle */,
 				9957458A16D64AFC05214609 /* DesignSystem.framework */,
 				2DAC686C307DB1567FEBAE27 /* DIContainer.framework */,
 				6A35BE75E61364E802DA4BD8 /* Domain.framework */,
@@ -210,6 +224,7 @@
 				570298863E71D1FEA65F61D8 /* Resources */,
 				5ECE441FDFE3FC978B4BF2CC /* Frameworks */,
 				A3D708EF189D66303749975A /* Embed Frameworks */,
+				B5DD1A57AC10D8EB2BAD0174 /* Dependencies */,
 			);
 			buildRules = (
 			);
@@ -256,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9E2549F0C6C442599910B5F /* Localizable.xcstrings in Resources */,
+				9379425726636786F98DD5B4 /* DesignSystem_DesignSystem.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

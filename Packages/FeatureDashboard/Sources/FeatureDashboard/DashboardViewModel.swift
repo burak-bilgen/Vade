@@ -1,6 +1,8 @@
 import Foundation
 import SwiftData
 import Domain
+import Core
+import Data
 
 // MARK: - Dashboard ViewModel
 
