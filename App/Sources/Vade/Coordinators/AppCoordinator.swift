@@ -16,8 +16,6 @@ final class AppCoordinator: Coordinator {
 
     private let modelContainer: ModelContainer
     private let diContainer: Container
-    @State private var onboardingDone = false
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     init(modelContainer: ModelContainer, container: Container) {
         self.modelContainer = modelContainer
@@ -26,21 +24,42 @@ final class AppCoordinator: Coordinator {
 
     func start() -> AnyView {
         AnyView(
-            ZStack {
-                if onboardingDone {
-                    mainTabView
-                } else {
-                    OnboardingView {
-                        self.onboardingDone = true
-                        self.analytics.track(.onboardingCompleted)
-                    }
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            CoordinatorRootView(
+                modelContainer: modelContainer
+            )
         )
     }
+}
 
-    private var mainTabView: some View {
+// MARK: - Coordinator Root View
+
+/// Owns the onboarding state as a proper SwiftUI View.
+/// @State MUST live in a View struct — the Coordinator class cannot host it.
+private struct CoordinatorRootView: View {
+    let modelContainer: ModelContainer
+
+    @State private var onboardingDone = false
+    private let analytics: any AnalyticsTracking = AnalyticsService()
+
+    var body: some View {
+        ZStack {
+            if onboardingDone {
+                MainTabView()
+            } else {
+                OnboardingView {
+                    onboardingDone = true
+                    analytics.track(.onboardingCompleted)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+// MARK: - Main Tab View
+
+private struct MainTabView: View {
+    var body: some View {
         TabView {
             NavigationStack { DashboardView() }
                 .tabItem { Label(String(localized: "tab.dashboard"), systemImage: "house") }
