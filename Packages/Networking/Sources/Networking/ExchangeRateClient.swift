@@ -46,7 +46,7 @@ public actor RatesCache {
 
 enum TCMBParser {
     private static let tcmbURL = "https://www.tcmb.gov.tr/kurlar/today.xml"
-    private static let goldURL = "https://api.genelpara.com/embed/altin.json"
+    private static let goldURL = "https://finans.truncgil.com/v3/today.json"
 
     /// Parses TCMB daily XML and returns [currencyCode: forexSellingRate]
     static func parseExchangeRates(from xmlData: Data) throws -> [String: Decimal] {
@@ -58,19 +58,19 @@ enum TCMBParser {
         return parser.rates
     }
 
-    /// Parses gold rate from genelpara.com JSON API.
-    /// Response format: { "USD": { "alis": "...", "satis": "..." }, "GA": { "alis": "...", "satis": "..." } }
+    /// Parses gold rate from truncgil.com JSON API.
+    /// Response format: { "gram-altin": { "Selling": "6.256,89", ... } }
     static func parseGoldRate(from jsonData: Data) throws -> Decimal {
-        let decoder = JSONDecoder()
-        struct GoldResponse: Decodable {
-            struct Rate: Decodable {
-                let satis: String
+        struct Response: Decodable {
+            struct Rate: Decodable { let Selling: String }
+            let gramAltin: Rate?
+            enum CodingKeys: String, CodingKey {
+                case gramAltin = "gram-altin"
             }
-            let GA: Rate?
         }
-        let response = try decoder.decode(GoldResponse.self, from: jsonData)
-        guard let ga = response.GA,
-              let value = Decimal(string: ga.satis) else {
+        let response = try JSONDecoder().decode(Response.self, from: jsonData)
+        guard let rate = response.gramAltin,
+              let value = Decimal(string: rate.Selling.replacingOccurrences(of: ",", with: ".")) else {
             throw ExchangeRateError.invalidResponse
         }
         return value

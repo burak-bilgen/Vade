@@ -23,9 +23,7 @@ final class AppCoordinator: Coordinator {
     }
 
     func start() -> AnyView {
-        AnyView(
-            CoordinatorRootView()
-        )
+        AnyView(CoordinatorRootView())
     }
 }
 

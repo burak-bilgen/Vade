@@ -29,21 +29,7 @@ public struct DashboardView: View {
             .padding(.bottom, 48)
         }
         .background(ColorTokens.background)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("Vade")
-                    .font(.system(size: 17, weight: .semibold))
-            }
-            ToolbarItem(placement: .primaryAction) {
-                Button { showAdd = true } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 22))
-                        .foregroundStyle(ColorTokens.accent)
-                        .symbolRenderingMode(.hierarchical)
-                }
-            }
-        }
+        .toolbarBackground(.hidden, for: .navigationBar)
         .sheet(isPresented: $showAdd) {
             QuickAddSheet { await viewModel?.loadData() }
         }
@@ -63,7 +49,7 @@ public struct DashboardView: View {
                 Text(timeGreeting)
                     .font(.system(size: 28, weight: .bold))
                 if let vm = viewModel {
-                    Text(String(localized: "dashboard.summary \(vm.persons.count) \(vm.monthlyStats.pendingDebtCount)"))
+                    Text("\(vm.persons.count) \(String(localized: "people")) · \(vm.monthlyStats.pendingDebtCount) \(String(localized: "pending"))")
                         .font(.system(size: 15))
                         .foregroundStyle(.secondary)
                 }
@@ -94,14 +80,14 @@ public struct DashboardView: View {
                 .tracking(1.5)
 
             Text(vm.netBalance, format: .number.precision(.fractionLength(2)))
-                .font(.system(size: 42, weight: .light, design: .monospaced))
+                .font(.system(size: 42, weight: .light))
                 .foregroundStyle(balanceColor(vm.netBalance))
                 .contentTransition(.numericText())
 
             HStack(spacing: 24) {
                 VStack(spacing: 2) {
                     Text(vm.totalReceivable, format: .number.precision(.fractionLength(2)))
-                        .font(.system(size: 17, weight: .medium, design: .monospaced))
+                        .font(.system(size: 17, weight: .medium))
                         .foregroundStyle(ColorTokens.positive)
                     Text(String(localized: "dashboard.receivable"))
                         .font(.system(size: 11))
@@ -109,7 +95,7 @@ public struct DashboardView: View {
                 }
                 VStack(spacing: 2) {
                     Text(vm.totalPayable, format: .number.precision(.fractionLength(2)))
-                        .font(.system(size: 17, weight: .medium, design: .monospaced))
+                        .font(.system(size: 17, weight: .medium))
                         .foregroundStyle(ColorTokens.negative)
                     Text(String(localized: "dashboard.payable"))
                         .font(.system(size: 11))
@@ -196,12 +182,14 @@ public struct DashboardView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(vm.currencyDistribution, id: \.kind) { item in
-                        VStack(spacing: 4) {
-                            Text(item.kind.label)
-                                .font(.system(size: 11))
-                                .foregroundStyle(.secondary)
-                            Text(item.total, format: .number.precision(.fractionLength(2)))
-                                .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        HStack(spacing: 8) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(item.kind.rawValue)
+                                    .font(.system(size: 13, weight: .medium))
+                                Text(item.total, format: .number.precision(.fractionLength(2)))
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundStyle(ColorTokens.accent)
+                            }
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
@@ -215,16 +203,24 @@ public struct DashboardView: View {
 
     // MARK: Rate Strip
 
+    @ViewBuilder
     private func rateStrip(_ vm: DashboardViewModel) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                if let rates = vm.exchangeRates {
-                    ratePill(flag: "🇺🇸", code: "USD", rate: rates.usdRate)
-                    ratePill(flag: "🇪🇺", code: "EUR", rate: rates.eurRate)
-                    ratePill(flag: "🪙", code: "GA", rate: rates.goldRate)
+        if let rates = vm.exchangeRates {
+            let pills: [(String, String, Decimal?)] = [
+                ("🇺🇸", "USD", rates.usdRate),
+                ("🇪🇺", "EUR", rates.eurRate),
+                ("🪙", "GA", rates.goldRate),
+            ].filter { $0.2 != nil }
+            if !pills.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(pills, id: \.1) { (flag, code, rate) in
+                            ratePill(flag: flag, code: code, rate: rate!)
+                        }
+                    }
+                    .padding(.horizontal, 20)
                 }
             }
-            .padding(.horizontal, 20)
         }
     }
 
@@ -234,7 +230,7 @@ public struct DashboardView: View {
             Text(code).font(.system(size: 11)).foregroundStyle(.secondary)
             if let rate {
                 Text(rate, format: .number.precision(.fractionLength(2)))
-                    .font(.system(size: 13, weight: .medium, design: .monospaced))
+                    .font(.system(size: 13, weight: .medium))
             }
         }
         .padding(.horizontal, 12)
@@ -269,7 +265,7 @@ public struct DashboardView: View {
                         }
                         Spacer()
                         Text(item.direction == .receivable ? "+\(item.kind.format(item.amount))" : "-\(item.kind.format(item.amount))")
-                            .font(.system(size: 15, weight: .medium, design: .monospaced))
+                            .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
                     }
                     .padding(.horizontal, 20)
@@ -308,7 +304,7 @@ public struct DashboardView: View {
                         }
                         Spacer()
                         Text(item.amount, format: .number.precision(.fractionLength(2)))
-                            .font(.system(size: 15, weight: .medium, design: .monospaced))
+                            .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(ColorTokens.positive)
                     }
                     .padding(.horizontal, 20)
