@@ -147,6 +147,57 @@
         "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
       }
     },
+    "Arkadaşına verdiğin, komşundan aldığın, unutulan ya da unutulması istenmeyen her borç burada güvenle kayıt altında.": {
+      "comment": "Onboarding page 1 subtitle",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Arkadaşına verdiğin, komşundan aldığın, unutulan ya da unutulması istenmeyen her borç burada güvenle kayıt altında." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Every debt you lend to a friend or borrow from a neighbor — whether forgotten or meant to be remembered — is safely recorded here." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Kimden ne kadar alacaklısın, kime ne kadar borçlusun — tek bakışta gör. Kısmi ödemeleri işle, hiçbir şey gözünden kaçmasın.": {
+      "comment": "Onboarding page 2 subtitle",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Kimden ne kadar alacaklısın, kime ne kadar borçlusun — tek bakışta gör. Kısmi ödemeleri işle, hiçbir şey gözünden kaçmasın." } },
+        "en": { "stringUnit": { "state": "translated", "value": "See at a glance who owes you and how much, and who you owe. Record partial payments — nothing slips through." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Borç ve alacak kayıtların hiçbir sunucuya gönderilmiyor — yalnızca senin iCloud hesabında, Face ID ile korunan bu cihazda saklanıyor. Uygulama içindeki reklam, hata bildirimi ve kullanım istatistiği servisleri, kişisel kayıtlarına dokunmadan yalnızca anonim teknik ve davranışsal veri kullanır; bunu dilediğin an Ayarlar'dan kapatabilirsin.": {
+      "comment": "Onboarding page 3 subtitle",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Borç ve alacak kayıtların hiçbir sunucuya gönderilmiyor — yalnızca senin iCloud hesabında, Face ID ile korunan bu cihazda saklanıyor. Uygulama içindeki reklam, hata bildirimi ve kullanım istatistiği servisleri, kişisel kayıtlarına dokunmadan yalnızca anonim teknik ve davranışsal veri kullanır; bunu dilediğin an Ayarlar'dan kapatabilirsin." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Your debt and credit records are never sent to any server — they stay on your device, in your iCloud account, protected by Face ID. Ads, crash reporting, and usage analytics operate on anonymous technical and behavioral data only, without touching your personal records — you can turn them off anytime in Settings." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Bu uygulama, borç ve alacaklarını kişisel olarak takip etmen için tasarlandı. Burada tuttuğun kayıtlar hukuki bir belge ya da resmi bir delil niteliği taşımaz.\n\nÖnemli bir borç ilişkisinde, haklarını korumak için yazılı bir belge almanı ya da gerekirse noter onayına başvurmanı öneririz.\n\nVeri kaybı, senkronizasyon aksaklıkları ya da hesaplama hatalarından doğabilecek herhangi bir zarardan sorumluluk kabul etmiyoruz. Bu uygulama sana yardımcı olmak için burada, ama son sorumluluk her zaman sende.": {
+      "comment": "Onboarding page 4 — mandatory legal disclaimer",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Bu uygulama, borç ve alacaklarını kişisel olarak takip etmen için tasarlandı. Burada tuttuğun kayıtlar hukuki bir belge ya da resmi bir delil niteliği taşımaz.\n\nÖnemli bir borç ilişkisinde, haklarını korumak için yazılı bir belge almanı ya da gerekirse noter onayına başvurmanı öneririz.\n\nVeri kaybı, senkronizasyon aksaklıkları ya da hesaplama hatalarından doğabilecek herhangi bir zarardan sorumluluk kabul etmiyoruz. Bu uygulama sana yardımcı olmak için burada, ama son sorumluluk her zaman sende." } },
+        "en": { "stringUnit": { "state": "translated", "value": "This app is designed for personal tracking of your debts and credits. The records you keep here do not constitute legal documents or official evidence.\n\nIn an important debt relationship, we recommend obtaining a written agreement or notarized document to protect your rights.\n\nWe accept no liability for any damages arising from data loss, synchronization failures, or calculation errors. This app is here to help you, but the ultimate responsibility is always yours." } },
+        "es": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "zh": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "hi": { "stringUnit": { "state": "needs_review", "value": "" } },
+        "ar": { "stringUnit": { "state": "needs_review", "value": "" } }
+      }
+    },
+    "Vade App — Preview placeholder": {
+      "comment": "App preview placeholder — development only",
+      "localizations": {
+        "tr": { "stringUnit": { "state": "translated", "value": "Vade App — Preview placeholder" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Vade App — Preview placeholder" } }
+      }
+    },
     "iCloud hesabına giriş yaparsan verilerin diğer cihazlarınla otomatik senkronize olur. Şimdilik yalnızca bu cihazda saklanıyor.": {
       "localizations": {
         "tr": { "stringUnit": { "state": "translated", "value": "iCloud hesabına giriş yaparsan verilerin diğer cihazlarınla otomatik senkronize olur. Şimdilik yalnızca bu cihazda saklanıyor." } },

@@ -81,10 +81,12 @@ public struct SettingsView: View {
                         Text("1.0.0")
                             .foregroundColor(Color("ink400", bundle: .module))
                     }
-                    Link(
-                        String(localized: "settings.about.privacyPolicy"),
-                        destination: URL(string: "https://vade.app/privacy")!
-                    )
+                    if let privacyURL = URL(string: "https://vade.app/privacy") {
+                        Link(
+                            String(localized: "settings.about.privacyPolicy"),
+                            destination: privacyURL
+                        )
+                    }
                 } header: {
                     Text(String(localized: "settings.section.about"))
                 }
