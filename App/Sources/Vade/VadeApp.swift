@@ -10,6 +10,7 @@ struct VadeApp: App {
     @State private var modelContainer: ModelContainer?
     @State private var isAuthenticated = false
     @Environment(\.scenePhase) private var scenePhase
+    @AppStorage("vade.biometric.enabled") private var isBiometricEnabled = false
 
     private let biometricAuth = BiometricAuthService()
     private let screenProtector = ScreenProtector()
@@ -19,15 +20,15 @@ struct VadeApp: App {
     var body: some Scene {
         WindowGroup {
             if let container = modelContainer {
-                if isAuthenticated || !biometricAuth.isBiometryAvailable {
+                if isBiometricEnabled && !isAuthenticated && biometricAuth.isBiometryAvailable {
+                    lockedView
+                } else {
                     AppCoordinator(
                         modelContainer: container,
                         container: diContainer
                     )
                     .start()
                     .modelContainer(container)
-                } else {
-                    lockedView
                 }
             } else {
                 ProgressView()
@@ -46,6 +47,9 @@ struct VadeApp: App {
         .onChange(of: scenePhase) { _, newPhase in
             switch newPhase {
             case .background:
+                if isBiometricEnabled {
+                    isAuthenticated = false
+                }
                 screenProtector.enableBlurOnBackground()
             case .active:
                 screenProtector.disableBlurOnBackground()
@@ -82,12 +86,9 @@ struct VadeApp: App {
     // MARK: - DI Assembly
 
     private func assembleContainer() {
-        // Core services
         diContainer.registerInstance(BiometricAuthProviding.self, instance: biometricAuth)
         diContainer.registerInstance(ScreenProtecting.self, instance: screenProtector)
         diContainer.registerInstance(NotificationScheduling.self, instance: notificationService)
-
-        // Observability
         _ = MetricKitService()
         _ = CloudKitSyncObserver()
     }
