@@ -13,16 +13,18 @@ public final class SettingsViewModel {
     public var isAnalyticsEnabled: Bool
     public var isCrashlyticsEnabled: Bool
     public var selectedLanguage: String
+    public var preferredCurrency: CurrencyKind
 
     private let analytics: any AnalyticsTracking
 
     public init(analytics: any AnalyticsTracking = AnalyticsService()) {
         self.analytics = analytics
-        // Read from AppStorage via UserDefaults
         self.isBiometricEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.biometricEnabled)
         self.isAnalyticsEnabled = !UserDefaults.standard.bool(forKey: UserDefaultsKeys.analyticsOptOut)
         self.isCrashlyticsEnabled = !UserDefaults.standard.bool(forKey: UserDefaultsKeys.crashlyticsOptOut)
         self.selectedLanguage = UserDefaults.standard.string(forKey: UserDefaultsKeys.appLanguage) ?? Locale.current.language.languageCode?.identifier ?? "tr"
+        let saved = UserDefaults.standard.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
+        self.preferredCurrency = CurrencyKind(rawValue: saved) ?? .tryCoin
     }
 
     public func setBiometric(_ enabled: Bool) {
@@ -43,6 +45,11 @@ public final class SettingsViewModel {
     public func setCrashlytics(_ enabled: Bool) {
         isCrashlyticsEnabled = enabled
         UserDefaults.standard.set(!enabled, forKey: UserDefaultsKeys.crashlyticsOptOut)
+    }
+
+    public func setCurrency(_ currency: CurrencyKind) {
+        preferredCurrency = currency
+        UserDefaults.standard.set(currency.rawValue, forKey: UserDefaultsKeys.preferredCurrency)
     }
 
     public func setLanguage(_ lang: String) {

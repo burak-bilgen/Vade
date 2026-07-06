@@ -10,6 +10,7 @@ public enum UserDefaultsKeys {
     public static let analyticsOptOut = "analytics_opt_out"
     public static let crashlyticsOptOut = "crashlytics_opt_out"
     public static let appLanguage = "app_language"
+    public static let preferredCurrency = "preferred_currency"
     public static let adsEnabled = "vade.ads.enabled"
 
     // Widget (App Group shared)

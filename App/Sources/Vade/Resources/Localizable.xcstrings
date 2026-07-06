@@ -4367,7 +4367,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Toplam BorÃ§"
+            "value": "Toplam Borç"
           }
         }
       }
@@ -4389,7 +4389,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "AlacaklÄ±sÄ±n"
+            "value": "Alacaklısın"
           }
         }
       }
@@ -4400,7 +4400,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "BorÃ§lusun"
+            "value": "Borçlusun"
           }
         }
       }
@@ -4422,7 +4422,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Yeni KayÄ±t"
+            "value": "Yeni Kayıt"
           }
         }
       }
@@ -4433,7 +4433,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "kiÅŸi"
+            "value": "kişi"
           }
         }
       }
@@ -4522,6 +4522,108 @@
           "stringUnit": {
             "state": "translated",
             "value": "Son İşlemler"
+          }
+        }
+      }
+    },
+    "currency.gold.gram": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "gr"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "g"
+          }
+        }
+      }
+    },
+    "currency.gold.quarter": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "çeyrek"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "quarter"
+          }
+        }
+      }
+    },
+    "currency.gold.half": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "yarım"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "half"
+          }
+        }
+      }
+    },
+    "currency.gold.full": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tam"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "full"
+          }
+        }
+      }
+    },
+    "currency.gold.republic": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "cumhuriyet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "republic"
+          }
+        }
+      }
+    },
+    "settings.preferredCurrency": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercih Edilen Para Birimi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferred Currency"
           }
         }
       }

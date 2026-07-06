@@ -86,10 +86,10 @@ struct CurrencyConverterTests {
 
     @Test("Gold subtypes use correct gram multipliers",
           arguments: [
-            (kind: CurrencyKind.goldCeyrek, count: Decimal(1), rate: Decimal(3500), expected: Decimal(6125)),
-            (kind: CurrencyKind.goldYarim, count: Decimal(1), rate: Decimal(3500), expected: Decimal(12250)),
-            (kind: CurrencyKind.goldTam, count: Decimal(1), rate: Decimal(3500), expected: Decimal(24500)),
-            (kind: CurrencyKind.goldCumhuriyet, count: Decimal(1), rate: Decimal(3500), expected: Decimal(25256)),
+            (kind: CurrencyKind.goldQuarter, count: Decimal(1), rate: Decimal(3500), expected: Decimal(6125)),
+            (kind: CurrencyKind.goldHalf, count: Decimal(1), rate: Decimal(3500), expected: Decimal(12250)),
+            (kind: CurrencyKind.goldFull, count: Decimal(1), rate: Decimal(3500), expected: Decimal(24500)),
+            (kind: CurrencyKind.goldRepublic, count: Decimal(1), rate: Decimal(3500), expected: Decimal(25256)),
           ])
     func testGoldSubtypeConversion(kind: CurrencyKind, count: Decimal, rate: Decimal, expected: Decimal) async throws {
         let mock = MockRateProvider()

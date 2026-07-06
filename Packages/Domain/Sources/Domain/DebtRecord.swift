@@ -7,39 +7,71 @@ public enum CurrencyKind: String, CaseIterable, Sendable, Codable {
     case usd = "USD"
     case eur = "EUR"
     case goldGram = "GRAM_ALTIN"
-    case goldCeyrek = "CEYREK"
-    case goldYarim = "YARIM"
-    case goldTam = "TAM"
-    case goldCumhuriyet = "CUMHURIYET"
+    case goldQuarter = "CEYREK"
+    case goldHalf = "YARIM"
+    case goldFull = "TAM"
+    case goldRepublic = "CUMHURIYET"
 
-    /// Maps to the analytics-safe `CurrencyCode` for event tracking.
-    /// All gold subtypes collapse into `.gold` — analytics only needs top-level categorization.
+    /// Collapses into analytics-safe code. All gold subtypes map to `.gold`.
     public var analyticsCode: CurrencyCode {
         switch self {
         case .tryCoin: return .tryCoin
         case .usd: return .usd
         case .eur: return .eur
-        case .goldGram, .goldCeyrek, .goldYarim, .goldTam, .goldCumhuriyet: return .gold
+        case .goldGram, .goldQuarter, .goldHalf, .goldFull, .goldRepublic: return .gold
         }
     }
 
-    /// Maps to the analytics-safe `DebtKind` for the `debtAdded(kind:)` event.
+    /// Maps to DebtKind for the `debtAdded(kind:)` analytics event.
     public var analyticsDebtKind: DebtKind {
         switch self {
         case .tryCoin: return .cash
         case .usd, .eur: return .foreignCurrency
-        case .goldGram, .goldCeyrek, .goldYarim, .goldTam, .goldCumhuriyet: return .gold
+        case .goldGram, .goldQuarter, .goldHalf, .goldFull, .goldRepublic: return .gold
         }
     }
 
-    /// Gram equivalent for gold subtypes. Fiat currencies return 1 (no conversion needed).
-    /// Values: Ceyrek=1.75g, Yarim=3.5g, Tam=7g, Cumhuriyet=7.216g, Gram=1g.
+    /// Display label for gold subtypes. Fiat uses currency symbol (₺, $, €).
+    public var label: String {
+        switch self {
+        case .tryCoin: return "\u{20BA}"
+        case .usd: return "$"
+        case .eur: return "\u{20AC}"
+        case .goldGram: return String(localized: "currency.gold.gram")
+        case .goldQuarter: return String(localized: "currency.gold.quarter")
+        case .goldHalf: return String(localized: "currency.gold.half")
+        case .goldFull: return String(localized: "currency.gold.full")
+        case .goldRepublic: return String(localized: "currency.gold.republic")
+        }
+    }
+
+    /// Whether this is a fiat currency.
+    public var isFiat: Bool {
+        switch self {
+        case .tryCoin, .usd, .eur: return true
+        case .goldGram, .goldQuarter, .goldHalf, .goldFull, .goldRepublic: return false
+        }
+    }
+
+    /// Format amount with currency label: "₺1.500,00" or "5,25 gr"
+    public func format(_ amount: Decimal) -> String {
+        let number = amount.formatted()
+        switch self {
+        case .tryCoin, .usd, .eur:
+            return "\(label)\(number)"
+        case .goldGram, .goldQuarter, .goldHalf, .goldFull, .goldRepublic:
+            return "\(number) \(label)"
+        }
+    }
+
+    /// Gram equivalent for gold subtypes. Fiat currencies return 1.
+    /// Values: Quarter=1.75g, Half=3.5g, Full=7g, Republic=7.216g, Gram=1g.
     public var gramEquivalent: Decimal {
         switch self {
-        case .goldCeyrek: return Decimal(175) / Decimal(100)
-        case .goldYarim: return Decimal(35) / Decimal(10)
-        case .goldTam: return 7
-        case .goldCumhuriyet: return Decimal(7216) / Decimal(1000)
+        case .goldQuarter: return Decimal(175) / Decimal(100)
+        case .goldHalf: return Decimal(35) / Decimal(10)
+        case .goldFull: return 7
+        case .goldRepublic: return Decimal(7216) / Decimal(1000)
         default: return 1
         }
     }

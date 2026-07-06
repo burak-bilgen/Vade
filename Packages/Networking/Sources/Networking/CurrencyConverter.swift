@@ -21,7 +21,7 @@ public final class CurrencyConverter: CurrencyConverting {
             return try await convertFiat(amount: amount, code: "USD")
         case .eur:
             return try await convertFiat(amount: amount, code: "EUR")
-        case .goldGram, .goldCeyrek, .goldYarim, .goldTam, .goldCumhuriyet:
+        case .goldGram, .goldQuarter, .goldHalf, .goldFull, .goldRepublic:
             return try await convertGold(amount: amount, gramMultiplier: currency.gramEquivalent)
         }
     }
