@@ -42,15 +42,15 @@ public struct PeopleListView: View {
         VStack(spacing: 0) {
             // Segment picker
             Picker(
-                String(localized: "people.segment.label", bundle: .module),
+                String(localized: "people.segment.label"),
                 selection: Binding(
                     get: { vm.selectedSegment },
                     set: { vm.selectedSegment = $0 }
                 )
             ) {
-                Text(String(localized: "people.segment.receivable", bundle: .module))
+                Text(String(localized: "people.segment.receivable"))
                     .tag(PeopleSegment.receivable)
-                Text(String(localized: "people.segment.payable", bundle: .module))
+                Text(String(localized: "people.segment.payable"))
                     .tag(PeopleSegment.payable)
             }
             .pickerStyle(.segmented)
@@ -64,8 +64,8 @@ public struct PeopleListView: View {
             if filtered.isEmpty {
                 Spacer()
                 EmptyStateView(
-                    title: String(localized: "people.empty.title", bundle: .module),
-                    subtitle: String(localized: "people.empty.subtitle", bundle: .module)
+                    title: String(localized: "people.empty.title"),
+                    subtitle: String(localized: "people.empty.subtitle")
                 )
                 Spacer()
             } else {
@@ -88,8 +88,8 @@ public struct PeopleListView: View {
                 .listStyle(.plain)
             }
         }
-        .background(Color("background", bundle: .module))
-        .navigationTitle(String(localized: "people.navigationTitle", bundle: .module))
+        .background(Color("background"))
+        .navigationTitle(String(localized: "people.navigationTitle"))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -103,7 +103,7 @@ public struct PeopleListView: View {
         .searchable(
             text: $searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: String(localized: "people.search.placeholder", bundle: .module)
+            prompt: String(localized: "people.search.placeholder")
         )
     }
 }
@@ -127,16 +127,16 @@ private struct AddPersonSheet: View {
             Form {
                 Section {
                     TextField(
-                        String(localized: "people.add.namePlaceholder", bundle: .module),
+                        String(localized: "people.add.namePlaceholder"),
                         text: $name
                     )
                     TextField(
-                        String(localized: "people.add.phonePlaceholder", bundle: .module),
+                        String(localized: "people.add.phonePlaceholder"),
                         text: $phoneNumber
                     )
                     .keyboardType(.phonePad)
                     TextField(
-                        String(localized: "people.add.notesPlaceholder", bundle: .module),
+                        String(localized: "people.add.notesPlaceholder"),
                         text: $notes
                     )
                 }
@@ -149,7 +149,7 @@ private struct AddPersonSheet: View {
                         }
                     } label: {
                         Label(
-                            String(localized: "people.add.fromContacts", bundle: .module),
+                            String(localized: "people.add.fromContacts"),
                             systemImage: "person.crop.circle.badge.plus"
                         )
                     }
@@ -158,16 +158,16 @@ private struct AddPersonSheet: View {
             .sheet(isPresented: $showContactsPicker) {
                 contactsPickerSheet
             }
-            .navigationTitle(String(localized: "people.add.title", bundle: .module))
+            .navigationTitle(String(localized: "people.add.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "people.add.cancel", bundle: .module)) {
+                    Button(String(localized: "people.add.cancel")) {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(String(localized: "people.add.save", bundle: .module)) {
+                    Button(String(localized: "people.add.save")) {
                         Task {
                             await onSave(
                                 name.trimmingCharacters(in: .whitespaces),
@@ -200,19 +200,19 @@ private struct AddPersonSheet: View {
                     VStack(alignment: .leading) {
                         Text(contact.name)
                             .font(Typography.font(for: .body))
-                            .foregroundColor(Color("ink900", bundle: .module))
+                            .foregroundColor(Color("ink900"))
                         if let phone = contact.phoneNumber {
                             Text(phone)
                                 .font(Typography.font(for: .caption))
-                                .foregroundColor(Color("ink400", bundle: .module))
+                                .foregroundColor(Color("ink400"))
                         }
                     }
                 }
             }
-            .navigationTitle(String(localized: "people.add.fromContacts", bundle: .module))
+            .navigationTitle(String(localized: "people.add.fromContacts"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "people.add.cancel", bundle: .module)) {
+                    Button(String(localized: "people.add.cancel")) {
                         showContactsPicker = false
                     }
                 }

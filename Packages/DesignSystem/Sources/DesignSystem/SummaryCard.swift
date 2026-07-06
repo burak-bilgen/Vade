@@ -14,40 +14,40 @@ public struct SummaryCard: View {
 
     public var body: some View {
         VStack(spacing: Spacing.l) {
-            Text(String(localized: "dashboard.summary.netBalance", bundle: .module, comment: "Summary card title"))
+            Text(String(localized: "dashboard.summary.netBalance", comment: "Summary card title"))
                 .font(Typography.font(for: .caption))
-                .foregroundColor(Color("ink700", bundle: .module))
+                .foregroundColor(Color("ink700"))
                 .textCase(.uppercase)
             Text(netAmount.formatted())
                 .font(Typography.font(for: .display))
                 .foregroundColor(netColor)
-            Rectangle().fill(Color("brass500", bundle: .module)).frame(width: 40, height: 2)
+            Rectangle().fill(Color("brass500")).frame(width: 40, height: 2)
             HStack(spacing: Spacing.xxl) {
-                statView(label: String(localized: "dashboard.summary.totalReceivable", bundle: .module, comment: "Total receivable amount"), amount: totalReceivable,
-                         color: Color("positive600", bundle: .module))
-                statView(label: String(localized: "dashboard.summary.totalPayable", bundle: .module, comment: "Total payable amount"), amount: totalPayable,
-                         color: Color("negative600", bundle: .module))
+                statView(label: String(localized: "dashboard.summary.totalReceivable", comment: "Total receivable amount"), amount: totalReceivable,
+                         color: Color("positive600"))
+                statView(label: String(localized: "dashboard.summary.totalPayable", comment: "Total payable amount"), amount: totalPayable,
+                         color: Color("negative600"))
             }
         }
         .padding(Spacing.xl)
         .background(RoundedRectangle(cornerRadius: Radius.lg).fill(tintBackground))
-        .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(Color("hairline", bundle: .module), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: Radius.lg).stroke(Color("hairline"), lineWidth: 1))
         .shadow(color: .black.opacity(0.06), radius: 12, y: 4)
     }
 
     private var netColor: Color {
-        if netAmount.isEffectivelyZero { return Color("ink900", bundle: .module) }
-        return netAmount > 0 ? Color("positive600", bundle: .module) : Color("negative600", bundle: .module)
+        if netAmount.isEffectivelyZero { return Color("ink900") }
+        return netAmount > 0 ? Color("positive600") : Color("negative600")
     }
 
     private var tintBackground: Color {
-        if netAmount.isEffectivelyZero { return Color("surface", bundle: .module) }
-        return netAmount > 0 ? Color("positive100", bundle: .module) : Color("negative100", bundle: .module)
+        if netAmount.isEffectivelyZero { return Color("surface") }
+        return netAmount > 0 ? Color("positive100") : Color("negative100")
     }
 
     private func statView(label: String, amount: Decimal, color: Color) -> some View {
         VStack(spacing: Spacing.xs) {
-            Text(label).font(Typography.font(for: .caption)).foregroundColor(Color("ink400", bundle: .module))
+            Text(label).font(Typography.font(for: .caption)).foregroundColor(Color("ink400"))
             Text(amount.formatted()).font(Typography.font(for: .amount)).foregroundColor(color)
         }
     }
@@ -55,5 +55,5 @@ public struct SummaryCard: View {
 
 #Preview {
     SummaryCard(netAmount: 2500, totalReceivable: 5000, totalPayable: 2500)
-        .padding().background(Color("background", bundle: .module))
+        .padding().background(Color("background"))
 }

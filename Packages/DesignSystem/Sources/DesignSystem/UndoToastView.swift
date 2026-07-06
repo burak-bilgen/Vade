@@ -25,22 +25,22 @@ public struct UndoToastView: View {
     public var body: some View {
         HStack(spacing: Spacing.m) {
             Image(systemName: "trash")
-                .foregroundColor(Color("negative600", bundle: .module))
+                .foregroundColor(Color("negative600"))
             Text(message)
                 .font(Typography.font(for: .body))
-                .foregroundColor(Color("ink900", bundle: .module))
+                .foregroundColor(Color("ink900"))
             Spacer()
             Button(action: undoAction) {
                 Text(undoLabel)
                     .font(Typography.font(for: .headline))
-                    .foregroundColor(Color("brass500", bundle: .module))
+                    .foregroundColor(Color("brass500"))
             }
         }
         .padding(.horizontal, Spacing.l)
         .padding(.vertical, Spacing.m)
         .background(
             RoundedRectangle(cornerRadius: Radius.md)
-                .fill(Color("surface", bundle: .module))
+                .fill(Color("surface"))
                 .shadow(color: .black.opacity(0.15), radius: 8, y: 2)
         )
         .padding(.horizontal, Spacing.l)
@@ -63,5 +63,5 @@ public struct UndoToastView: View {
             onDismiss: {}
         )
     }
-    .background(Color("background", bundle: .module))
+    .background(Color("background"))
 }

@@ -12,13 +12,13 @@ public struct EmptyStateView: View {
     public var body: some View {
         VStack(spacing: Spacing.l) {
             ledgerIcon
-                .foregroundColor(Color("brass300", bundle: .module))
+                .foregroundColor(Color("brass300"))
                 .frame(width: 80, height: 80)
             VStack(spacing: Spacing.s) {
                 Text(title).font(Typography.font(for: .title2))
-                    .foregroundColor(Color("ink700", bundle: .module)).multilineTextAlignment(.center)
+                    .foregroundColor(Color("ink700")).multilineTextAlignment(.center)
                 Text(subtitle).font(Typography.font(for: .body))
-                    .foregroundColor(Color("ink400", bundle: .module)).multilineTextAlignment(.center)
+                    .foregroundColor(Color("ink400")).multilineTextAlignment(.center)
             }
         }
         .padding(Spacing.xxl)
@@ -27,14 +27,14 @@ public struct EmptyStateView: View {
     private var ledgerIcon: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 6)
-                .stroke(Color("ink400", bundle: .module), lineWidth: 1.5).frame(width: 60, height: 70)
+                .stroke(Color("ink400"), lineWidth: 1.5).frame(width: 60, height: 70)
             Path { p in
                 p.move(to: CGPoint(x: 0, y: 0)); p.addLine(to: CGPoint(x: 0, y: 70))
             }
-            .stroke(Color("ink400", bundle: .module), lineWidth: 1.5).frame(width: 60, height: 70).offset(x: -30)
+            .stroke(Color("ink400"), lineWidth: 1.5).frame(width: 60, height: 70).offset(x: -30)
             VStack(spacing: 8) {
                 ForEach(0..<4, id: \.self) { _ in
-                    RoundedRectangle(cornerRadius: 2).fill(Color("ink400", bundle: .module).opacity(0.4))
+                    RoundedRectangle(cornerRadius: 2).fill(Color("ink400").opacity(0.4))
                         .frame(width: 30, height: 2)
                 }
             }.offset(x: 8)
@@ -45,5 +45,5 @@ public struct EmptyStateView: View {
 #Preview {
     EmptyStateView(title: "Henüz kimseyle bir hesabın yok",
                    subtitle: "İlk kişini ekleyerek başla.")
-        .background(Color("background", bundle: .module))
+        .background(Color("background"))
 }

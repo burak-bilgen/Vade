@@ -38,7 +38,7 @@ public struct DashboardView: View {
             }
             .padding(Spacing.l)
         }
-        .background(Color("background", bundle: .module))
+        .background(Color("background"))
         .refreshable { await vm.loadData() }
     }
 
@@ -56,14 +56,14 @@ public struct DashboardView: View {
 
     private func upcomingSection(_ vm: DashboardViewModel) -> some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "dashboard.upcoming.title", bundle: .module))
+            Text(String(localized: "dashboard.upcoming.title"))
                 .font(Typography.font(for: .title2))
-                .foregroundColor(Color("ink900", bundle: .module))
+                .foregroundColor(Color("ink900"))
 
             if vm.upcomingItems.isEmpty {
                 EmptyStateView(
-                    title: String(localized: "dashboard.upcoming.emptyTitle", bundle: .module),
-                    subtitle: String(localized: "dashboard.upcoming.emptySubtitle", bundle: .module)
+                    title: String(localized: "dashboard.upcoming.emptyTitle"),
+                    subtitle: String(localized: "dashboard.upcoming.emptySubtitle")
                 )
             } else {
                 VStack(spacing: 0) {
@@ -78,11 +78,11 @@ public struct DashboardView: View {
                 }
                 .background(
                     RoundedRectangle(cornerRadius: Radius.md)
-                        .fill(Color("surface", bundle: .module))
+                        .fill(Color("surface"))
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: Radius.md)
-                        .stroke(Color("hairline", bundle: .module), lineWidth: 1)
+                        .stroke(Color("hairline"), lineWidth: 1)
                 )
             }
         }
@@ -98,21 +98,21 @@ public struct DashboardView: View {
                 VStack(spacing: Spacing.s) {
                     Image(systemName: "person.2.fill")
                         .font(.title2)
-                    Text(String(localized: "dashboard.action.people", bundle: .module))
+                    Text(String(localized: "dashboard.action.people"))
                         .font(Typography.font(for: .caption))
                 }
                 .frame(maxWidth: .infinity)
                 .padding(Spacing.l)
                 .background(
                     RoundedRectangle(cornerRadius: Radius.md)
-                        .fill(Color("surface", bundle: .module))
+                        .fill(Color("surface"))
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: Radius.md)
-                        .stroke(Color("hairline", bundle: .module), lineWidth: 1)
+                        .stroke(Color("hairline"), lineWidth: 1)
                 )
             }
-            .foregroundColor(Color("ink900", bundle: .module))
+            .foregroundColor(Color("ink900"))
         }
     }
 }

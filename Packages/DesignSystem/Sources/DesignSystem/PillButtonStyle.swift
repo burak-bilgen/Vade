@@ -10,7 +10,7 @@ public struct PrimaryPillButtonStyle: ButtonStyle {
             .foregroundColor(.white)
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.m)
-            .background(Capsule().fill(Color("ink900", bundle: .module)))
+            .background(Capsule().fill(Color("ink900")))
             .opacity(configuration.isPressed ? 0.85 : 1.0)
     }
 }
@@ -25,7 +25,7 @@ public struct BrassPillButtonStyle: ButtonStyle {
             .foregroundColor(.white)
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.m)
-            .background(Capsule().fill(Color("brass500", bundle: .module)))
+            .background(Capsule().fill(Color("brass500")))
             .opacity(configuration.isPressed ? 0.85 : 1.0)
     }
 }
@@ -37,10 +37,10 @@ public struct SecondaryPillButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(Typography.font(for: .headline))
-            .foregroundColor(Color("ink900", bundle: .module))
+            .foregroundColor(Color("ink900"))
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.m)
-            .background(Capsule().stroke(Color("ink900", bundle: .module), lineWidth: 1.5))
+            .background(Capsule().stroke(Color("ink900"), lineWidth: 1.5))
             .opacity(configuration.isPressed ? 0.6 : 1.0)
     }
 }

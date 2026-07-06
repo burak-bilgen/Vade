@@ -54,9 +54,9 @@ public struct PersonDetailView: View {
                 HStack {
                     Spacer()
                     VStack(spacing: Spacing.s) {
-                        Text(String(localized: "personDetail.balance.label", bundle: .module))
+                        Text(String(localized: "personDetail.balance.label"))
                             .font(Typography.font(for: .caption))
-                            .foregroundColor(Color("ink400", bundle: .module))
+                            .foregroundColor(Color("ink400"))
                         Text(vm.balance.formatted())
                             .font(Typography.font(for: .display))
                             .foregroundColor(balanceColor(vm.balance))
@@ -70,8 +70,8 @@ public struct PersonDetailView: View {
             Section {
                 if vm.debts.isEmpty {
                     EmptyStateView(
-                        title: String(localized: "personDetail.empty.title", bundle: .module),
-                        subtitle: String(localized: "personDetail.empty.subtitle", bundle: .module)
+                        title: String(localized: "personDetail.empty.title"),
+                        subtitle: String(localized: "personDetail.empty.subtitle")
                     )
                     .listRowBackground(Color.clear)
                 } else {
@@ -85,13 +85,13 @@ public struct PersonDetailView: View {
                     }
                 }
             } header: {
-                Text(String(localized: "personDetail.history.title", bundle: .module))
+                Text(String(localized: "personDetail.history.title"))
                     .font(Typography.font(for: .headline))
-                    .foregroundColor(Color("ink700", bundle: .module))
+                    .foregroundColor(Color("ink700"))
             }
         }
         .listStyle(.insetGrouped)
-        .background(Color("background", bundle: .module))
+        .background(Color("background"))
         .navigationTitle(person.name)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -112,11 +112,11 @@ public struct PersonDetailView: View {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(debt.note ?? debt.kind.rawValue)
                     .font(Typography.font(for: .body))
-                    .foregroundColor(Color("ink900", bundle: .module))
+                    .foregroundColor(Color("ink900"))
                 if let dueDate = debt.dueDate {
                     Text(dueDate.formatted(date: .abbreviated, time: .omitted))
                         .font(Typography.font(for: .caption))
-                        .foregroundColor(Color("ink400", bundle: .module))
+                        .foregroundColor(Color("ink400"))
                 }
             }
             Spacer()
@@ -124,11 +124,11 @@ public struct PersonDetailView: View {
                 Text(debt.amount.formatted())
                     .font(Typography.font(for: .amount))
                     .foregroundColor(debt.direction == .receivable
-                        ? Color("positive600", bundle: .module)
-                        : Color("negative600", bundle: .module))
+                        ? Color("positive600")
+                        : Color("negative600"))
                 Text(statusLabel(debt.status))
                     .font(Typography.font(for: .caption))
-                    .foregroundColor(Color("ink400", bundle: .module))
+                    .foregroundColor(Color("ink400"))
             }
         }
     }
@@ -136,18 +136,18 @@ public struct PersonDetailView: View {
     // MARK: - Helpers
 
     private func balanceColor(_ balance: Decimal) -> Color {
-        if balance.isEffectivelyZero { return Color("ink900", bundle: .module) }
-        return balance > 0 ? Color("positive600", bundle: .module) : Color("negative600", bundle: .module)
+        if balance.isEffectivelyZero { return Color("ink900") }
+        return balance > 0 ? Color("positive600") : Color("negative600")
     }
 
     private func statusLabel(_ status: DebtStatus) -> String {
         switch status {
         case .pending:
-            String(localized: "personDetail.status.pending", bundle: .module)
+            String(localized: "personDetail.status.pending")
         case .paid:
-            String(localized: "personDetail.status.paid", bundle: .module)
+            String(localized: "personDetail.status.paid")
         case .archived:
-            String(localized: "personDetail.status.archived", bundle: .module)
+            String(localized: "personDetail.status.archived")
         }
     }
 }
@@ -175,13 +175,13 @@ private struct AddDebtSheet: View {
             Form {
                 Section {
                     TextField(
-                        String(localized: "debt.add.amountPlaceholder", bundle: .module),
+                        String(localized: "debt.add.amountPlaceholder"),
                         text: $amountText
                     )
                     .keyboardType(.decimalPad)
 
                     Picker(
-                        String(localized: "debt.add.kind.label", bundle: .module),
+                        String(localized: "debt.add.kind.label"),
                         selection: $selectedKind
                     ) {
                         ForEach(CurrencyKind.allCases, id: \.self) { kind in
@@ -190,47 +190,47 @@ private struct AddDebtSheet: View {
                     }
 
                     Picker(
-                        String(localized: "debt.add.direction.label", bundle: .module),
+                        String(localized: "debt.add.direction.label"),
                         selection: $selectedDirection
                     ) {
-                        Text(String(localized: "debt.add.direction.receivable", bundle: .module))
+                        Text(String(localized: "debt.add.direction.receivable"))
                             .tag(DebtDirection.receivable)
-                        Text(String(localized: "debt.add.direction.payable", bundle: .module))
+                        Text(String(localized: "debt.add.direction.payable"))
                             .tag(DebtDirection.payable)
                     }
                 }
 
                 Section {
                     TextField(
-                        String(localized: "debt.add.notePlaceholder", bundle: .module),
+                        String(localized: "debt.add.notePlaceholder"),
                         text: $note
                     )
                 }
 
                 Section {
                     Toggle(
-                        String(localized: "debt.add.dueDateToggle", bundle: .module),
+                        String(localized: "debt.add.dueDateToggle"),
                         isOn: $hasDueDate
                     )
                     if hasDueDate {
                         DatePicker(
-                            String(localized: "debt.add.dueDatePicker", bundle: .module),
+                            String(localized: "debt.add.dueDatePicker"),
                             selection: $dueDate,
                             displayedComponents: .date
                         )
                     }
                 }
             }
-            .navigationTitle(String(localized: "debt.add.title", bundle: .module))
+            .navigationTitle(String(localized: "debt.add.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "debt.add.cancel", bundle: .module)) {
+                    Button(String(localized: "debt.add.cancel")) {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(String(localized: "debt.add.save", bundle: .module)) {
+                    Button(String(localized: "debt.add.save")) {
                         guard let amount = parsedAmount, amount > 0 else { return }
                         Task {
                             await onSave(
@@ -268,7 +268,7 @@ private struct RecordPaymentSheet: View {
             Form {
                 Section {
                     HStack {
-                        Text(String(localized: "payment.remainingBalance", bundle: .module))
+                        Text(String(localized: "payment.remainingBalance"))
                         Spacer()
                         Text(debt.amount.formatted())
                             .font(Typography.font(for: .amount))
@@ -277,27 +277,27 @@ private struct RecordPaymentSheet: View {
 
                 Section {
                     TextField(
-                        String(localized: "payment.amountPlaceholder", bundle: .module),
+                        String(localized: "payment.amountPlaceholder"),
                         text: $amountText
                     )
                     .keyboardType(.decimalPad)
 
                     TextField(
-                        String(localized: "payment.notePlaceholder", bundle: .module),
+                        String(localized: "payment.notePlaceholder"),
                         text: $note
                     )
                 }
             }
-            .navigationTitle(String(localized: "payment.title", bundle: .module))
+            .navigationTitle(String(localized: "payment.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "payment.cancel", bundle: .module)) {
+                    Button(String(localized: "payment.cancel")) {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(String(localized: "payment.save", bundle: .module)) {
+                    Button(String(localized: "payment.save")) {
                         guard let amount = parsedAmount, amount > 0 else { return }
                         Task {
                             await onSave(
