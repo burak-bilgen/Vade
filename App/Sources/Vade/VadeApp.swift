@@ -53,7 +53,7 @@ struct VadeApp: App {
                 if isBiometricEnabled && !isAuthenticated && biometricAuth.isBiometryAvailable {
                     lockedView
                 } else {
-                    CoordinatorRootView(modelContainer: container)
+                    CoordinatorRootView()
                         .modelContainer(container)
                 }
             } else {

@@ -24,9 +24,7 @@ final class AppCoordinator: Coordinator {
 
     func start() -> AnyView {
         AnyView(
-            CoordinatorRootView(
-                modelContainer: modelContainer
-            )
+            CoordinatorRootView()
         )
     }
 }
@@ -36,14 +34,12 @@ final class AppCoordinator: Coordinator {
 /// Owns the onboarding state as a proper SwiftUI View.
 /// @State MUST live in a View struct — the Coordinator class cannot host it.
 public struct CoordinatorRootView: View {
-    let modelContainer: ModelContainer
-
     @State private var onboardingDone = false
     private let analytics: any AnalyticsTracking = AnalyticsService()
 
     public var body: some View {
         ZStack {
-            ColorTokens.background.ignoresSafeArea()
+            ColorTokens.surface.ignoresSafeArea()
             if onboardingDone {
                 MainTabView()
             } else {
@@ -61,14 +57,27 @@ public struct CoordinatorRootView: View {
 private struct MainTabView: View {
     var body: some View {
         TabView {
-            NavigationStack { DashboardView() }
-                .tabItem { Label(String(localized: "tab.dashboard"), systemImage: "house") }
-
-            NavigationStack { PeopleListView() }
-                .tabItem { Label(String(localized: "tab.people"), systemImage: "person.2") }
-
-            NavigationStack { SettingsView() }
-                .tabItem { Label(String(localized: "tab.settings"), systemImage: "gearshape") }
+            Tab(String(localized: "tab.dashboard"), systemImage: "house") {
+                NavigationStack {
+                    DashboardView()
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+                .tint(ColorTokens.accent)
+            }
+            Tab(String(localized: "tab.people"), systemImage: "person.2") {
+                NavigationStack {
+                    PeopleListView()
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+                .tint(ColorTokens.accent)
+            }
+            Tab(String(localized: "tab.settings"), systemImage: "gearshape") {
+                NavigationStack {
+                    SettingsView()
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+                .tint(ColorTokens.accent)
+            }
         }
         .tint(ColorTokens.accent)
     }
