@@ -5069,6 +5069,23 @@
           }
         }
       }
+    },
+    "onboarding.disclaimer.short": {
+      "extractionState": "manual",
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu uygulama hukuki belge niteliği taşımaz. Okudum, anladım ve kabul ediyorum."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This app is not a legal document. I have read, understood, and accept."
+          }
+        }
+      }
     }
   },
   "version": "1.0"
