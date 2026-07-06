@@ -37,7 +37,7 @@ struct VadeApp: App {
                     ColorTokens.background.ignoresSafeArea()
                     VStack(spacing: Spacing.l) {
                         Image(systemName: "exclamationmark.triangle")
-                            .font(Typography.font(for: .hero))
+                            .font(Font.system(size: 56, weight: .bold))
                             .foregroundStyle(ColorTokens.negative)
                         Text(String(localized: "app.error.containerFailed"))
                             .font(Typography.font(for: .headline))
@@ -74,7 +74,6 @@ struct VadeApp: App {
                         } catch {
                             containerError = error.localizedDescription
                         }
-                        FontRegistrar.registerFonts()
                         _ = await notificationService.requestPermission()
                     }
             }
@@ -106,7 +105,7 @@ struct VadeApp: App {
         VStack(spacing: Spacing.xxl) {
             Spacer()
             Image(systemName: "lock.shield")
-                .font(Typography.font(for: .hero))
+                .font(Font.system(size: 56, weight: .bold))
                 .foregroundStyle(ColorTokens.accent)
             Text(String(localized: "app.locked.title"))
                 .font(Typography.font(for: .title2))

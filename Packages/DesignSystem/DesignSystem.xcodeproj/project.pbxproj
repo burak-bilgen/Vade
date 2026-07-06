@@ -8,24 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		10674F2C4DFA5A86AE37D895 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0555BF632E32CCE62C1F4E54 /* Tokens.swift */; };
-		344967933DD49ED388EF9D56 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B513DAD94904004CAE23C7B5 /* Inter-Medium.ttf */; };
-		352DBF00B501FB23C9081FE0 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B718F8A4425051734E164D6 /* Inter-Regular.ttf */; };
 		38EEC3BF7BC870F37E3A7F19 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D3D3E20D4CF49B640DF83248 /* Core.framework */; };
-		39568F61C0AE339287F7AF7D /* JetBrainsMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB078AF7F762A97DB120919A /* JetBrainsMono-Regular.ttf */; };
 		6A9D0C3784F739E22DC53C14 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */; };
 		6E30040213E536E7C5004075 /* TokensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2CCEE965F2AE9E7CAD2013 /* TokensTests.swift */; };
 		7F0DF8C4F949FB311F64FDE2 /* Colors.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 4C37D51C82A32317752FAF22 /* Colors.xcassets */; };
-		8A73333849FDD42B165B7C60 /* JetBrainsMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A64653F9E048343F182B1FD /* JetBrainsMono-Medium.ttf */; };
 		9610AD45FE79B3826240A265 /* SummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A4725BC33F2ADC6622422B /* SummaryCard.swift */; };
 		9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EEC35F002D4D44977582DC /* LedgerRowView.swift */; };
-		A03FECDBBF10060B0B4E3CDB /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BB0200792855F9A2D9560B6 /* Inter-Bold.ttf */; };
 		AD0B1C42D4A0DE65B8C6D62F /* UndoToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744480E9B8CC84363B424352 /* UndoToastView.swift */; };
-		B06496B5BA6CCD1391128104 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 12AF8196896072E573B31F9A /* Inter-SemiBold.ttf */; };
 		B6C4F5740BAAB8B2A22C4DCF /* PillButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */; };
 		C438E92FA9121880084AE9AA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B7BBEAD5472C7195924AC8 /* DesignSystem.framework */; };
 		C4C14B4B9E9ED93B93DD768A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C37D51C82A32317752FAF22 /* Colors.xcassets */; };
 		CA72F97C0E325E3CCF50CDF2 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64519D27AF11021EF29EE0A6 /* Typography.swift */; };
-		DD66AE3739C5EDC9059ED7C5 /* FontRegistrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF3290C5917F02340235702 /* FontRegistrar.swift */; };
 		E4A9BC98A8E210D6173854CE /* DesignSystem_DesignSystem.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */; };
 		E7A80892C9AB7E66DACB5DC0 /* StatChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36900712A6F87E70FEC776EF /* StatChip.swift */; };
 		F154294E7A5A206B0873032B /* ModernComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357162DA0532AB5A40FBBB19 /* ModernComponents.swift */; };
@@ -106,11 +99,8 @@
 
 /* Begin PBXFileReference section */
 		0555BF632E32CCE62C1F4E54 /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
-		0A64653F9E048343F182B1FD /* JetBrainsMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMono-Medium.ttf"; sourceTree = "<group>"; };
-		12AF8196896072E573B31F9A /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		357162DA0532AB5A40FBBB19 /* ModernComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernComponents.swift; sourceTree = "<group>"; };
 		36900712A6F87E70FEC776EF /* StatChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatChip.swift; sourceTree = "<group>"; };
-		3B718F8A4425051734E164D6 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		43EEC35F002D4D44977582DC /* LedgerRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerRowView.swift; sourceTree = "<group>"; };
 		469F4B641DBB710B1B90BAD8 /* DesignSystemTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystemTests-Info.plist"; sourceTree = "<group>"; };
@@ -120,13 +110,9 @@
 		6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		744480E9B8CC84363B424352 /* UndoToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoToastView.swift; sourceTree = "<group>"; };
 		8937FA9427EEA938B58C5B3E /* DesignSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystem-Info.plist"; sourceTree = "<group>"; };
-		9BB0200792855F9A2D9560B6 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
-		B513DAD94904004CAE23C7B5 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
-		BB078AF7F762A97DB120919A /* JetBrainsMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMono-Regular.ttf"; sourceTree = "<group>"; };
 		BE4AD9735556ECA8C8008FEC /* TuistBundle+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+DesignSystem.swift"; sourceTree = "<group>"; };
 		D0A4725BC33F2ADC6622422B /* SummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCard.swift; sourceTree = "<group>"; };
 		D3D3E20D4CF49B640DF83248 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCF3290C5917F02340235702 /* FontRegistrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontRegistrar.swift; sourceTree = "<group>"; };
 		DDA12AD00E98A3497D3A729E /* DesignSystem_DesignSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystem_DesignSystem-Info.plist"; sourceTree = "<group>"; };
 		E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		EB2CCEE965F2AE9E7CAD2013 /* TokensTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokensTests.swift; sourceTree = "<group>"; };
@@ -214,25 +200,11 @@
 			path = DesignSystemTests;
 			sourceTree = "<group>";
 		};
-		A4913CB7B7F3273ED25FDE8A /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				9BB0200792855F9A2D9560B6 /* Inter-Bold.ttf */,
-				B513DAD94904004CAE23C7B5 /* Inter-Medium.ttf */,
-				3B718F8A4425051734E164D6 /* Inter-Regular.ttf */,
-				12AF8196896072E573B31F9A /* Inter-SemiBold.ttf */,
-				0A64653F9E048343F182B1FD /* JetBrainsMono-Medium.ttf */,
-				BB078AF7F762A97DB120919A /* JetBrainsMono-Regular.ttf */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
 		AAB087E98A6EDF43BBBC6AB1 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
 				E188A934756F825D89DAFCCC /* Resources */,
 				E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */,
-				DCF3290C5917F02340235702 /* FontRegistrar.swift */,
 				43EEC35F002D4D44977582DC /* LedgerRowView.swift */,
 				357162DA0532AB5A40FBBB19 /* ModernComponents.swift */,
 				6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */,
@@ -256,7 +228,6 @@
 		E188A934756F825D89DAFCCC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A4913CB7B7F3273ED25FDE8A /* Fonts */,
 				4C37D51C82A32317752FAF22 /* Colors.xcassets */,
 			);
 			path = Resources;
@@ -399,12 +370,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4C14B4B9E9ED93B93DD768A /* Colors.xcassets in Resources */,
-				A03FECDBBF10060B0B4E3CDB /* Inter-Bold.ttf in Resources */,
-				344967933DD49ED388EF9D56 /* Inter-Medium.ttf in Resources */,
-				352DBF00B501FB23C9081FE0 /* Inter-Regular.ttf in Resources */,
-				B06496B5BA6CCD1391128104 /* Inter-SemiBold.ttf in Resources */,
-				8A73333849FDD42B165B7C60 /* JetBrainsMono-Medium.ttf in Resources */,
-				39568F61C0AE339287F7AF7D /* JetBrainsMono-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +389,6 @@
 			files = (
 				F6018B5F7748E322214C52D6 /* TuistBundle+DesignSystem.swift in Sources */,
 				F4E880DDA8212965C61F5BC2 /* EmptyStateView.swift in Sources */,
-				DD66AE3739C5EDC9059ED7C5 /* FontRegistrar.swift in Sources */,
 				9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */,
 				F154294E7A5A206B0873032B /* ModernComponents.swift in Sources */,
 				B6C4F5740BAAB8B2A22C4DCF /* PillButtonStyle.swift in Sources */,

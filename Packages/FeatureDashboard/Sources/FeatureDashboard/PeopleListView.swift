@@ -6,10 +6,12 @@ import Data
 import FeatureDebtDetail
 import Observability
 
+// MARK: - People List
+
 public struct PeopleListView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: PeopleListViewModel?
-    @State private var showAddPerson = false
+    @State private var showAdd = false
     @State private var analytics: any AnalyticsTracking = AnalyticsService()
 
     public init() {}
@@ -17,7 +19,7 @@ public struct PeopleListView: View {
     public var body: some View {
         Group {
             if let vm = viewModel {
-                contentView(vm)
+                content(vm)
             } else {
                 ProgressView()
                     .task {
@@ -31,40 +33,47 @@ public struct PeopleListView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button(String(localized: "people.add.button"), systemImage: "person.badge.plus") {
-                    showAddPerson = true
+                    showAdd = true
                 }
             }
         }
-        .sheet(isPresented: $showAddPerson) {
-            AddPersonSheet { name, phone, notes in
+        .sheet(isPresented: $showAdd) {
+            AddSheet { name, phone, notes in
                 await viewModel?.addPerson(name: name, phoneNumber: phone, notes: notes)
-                showAddPerson = false
+                showAdd = false
             }
         }
         .refreshable { await viewModel?.loadPersons() }
+        .background(ColorTokens.background)
     }
 
-    // MARK: - Content
+    // MARK: Content
 
-    private func contentView(_ vm: PeopleListViewModel) -> some View {
+    private func content(_ vm: PeopleListViewModel) -> some View {
         List {
             if vm.persons.isEmpty {
-                Section {
-                    EmptyStateView(
-                        title: String(localized: "people.empty.title"),
-                        subtitle: String(localized: "people.empty.subtitle")
-                    )
-                    .listRowBackground(Color.clear)
+                VStack(spacing: Spacing.l) {
+                    Image(systemName: "person.2.slash")
+                        .font(.system(size: 40, weight: .light))
+                        .foregroundStyle(.tertiary)
+                    Text(String(localized: "people.empty.title"))
+                        .font(Typography.font(for: .headline))
+                        .foregroundStyle(.secondary)
+                    Text(String(localized: "people.empty.subtitle"))
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(.tertiary)
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, Spacing.xxxl)
+                .listRowBackground(Color.clear)
             } else {
-                Section {
-                    ForEach(vm.persons) { person in
-                        NavigationLink {
-                            PersonDetailView(person: person, modelContext: modelContext)
-                        } label: {
-                            personRow(person, balance: vm.personBalances[person.id] ?? .zero)
-                        }
+                ForEach(vm.persons) { person in
+                    NavigationLink {
+                        PersonDetailView(person: person, modelContext: modelContext)
+                    } label: {
+                        row(person, balance: vm.personBalances[person.id] ?? .zero)
                     }
+                    .listRowBackground(ColorTokens.surface)
                 }
             }
         }
@@ -72,27 +81,26 @@ public struct PeopleListView: View {
         .scrollContentBackground(.hidden)
     }
 
-    // MARK: - Person Row
+    // MARK: Row
 
-    private func personRow(_ person: Person, balance: Decimal) -> some View {
+    private func row(_ person: Person, balance: Decimal) -> some View {
         HStack(spacing: Spacing.m) {
             AvatarView(name: person.name, size: 44)
 
-            VStack(alignment: .leading, spacing: Spacing.xs) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(person.name)
                     .font(Typography.font(for: .headline))
-                    .foregroundStyle(ColorTokens.textPrimary)
                 if let phone = person.phoneNumber {
                     Text(phone)
                         .font(Typography.font(for: .caption))
-                        .foregroundStyle(ColorTokens.textTertiary)
+                        .foregroundStyle(.tertiary)
                 }
             }
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: Spacing.xs) {
-                Text(balance.formatted())
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(balance, format: .number.precision(.fractionLength(2)))
                     .font(Typography.font(for: .amount))
                     .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
                 Text(balance >= 0
@@ -100,21 +108,20 @@ public struct PeopleListView: View {
                     : String(localized: "people.balance.payable")
                 )
                 .font(Typography.font(for: .label))
-                .foregroundStyle(ColorTokens.textTertiary)
+                .foregroundStyle(.tertiary)
             }
         }
-        .padding(.vertical, Spacing.xs)
+        .padding(.vertical, 4)
     }
 }
 
-// MARK: - Add Person Sheet
+// MARK: - Add Sheet
 
-private struct AddPersonSheet: View {
+private struct AddSheet: View {
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
     @State private var phone = ""
     @State private var notes = ""
-
     let onSave: (String, String?, String?) async -> Void
 
     var body: some View {
@@ -130,29 +137,26 @@ private struct AddPersonSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "people.add.cancel")) {
-                        dismiss()
-                    }
+                    Button(String(localized: "people.add.cancel")) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(String(localized: "people.add.save")) {
                         Task {
-                            await onSave(
-                                name.trimmingCharacters(in: .whitespaces),
-                                phone.isEmpty ? nil : phone.trimmingCharacters(in: .whitespaces),
-                                notes.isEmpty ? nil : notes.trimmingCharacters(in: .whitespaces)
-                            )
+                            await onSave(name.trimmed, phone.nilIfEmpty, notes.nilIfEmpty)
                         }
                     }
-                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
+                    .disabled(name.trimmed.isEmpty)
                 }
             }
         }
     }
 }
 
+private extension String {
+    var trimmed: String { trimmingCharacters(in: .whitespaces) }
+    var nilIfEmpty: String? { trimmed.isEmpty ? nil : trimmed }
+}
+
 #Preview {
-    NavigationStack {
-        PeopleListView()
-    }
+    NavigationStack { PeopleListView() }
 }
