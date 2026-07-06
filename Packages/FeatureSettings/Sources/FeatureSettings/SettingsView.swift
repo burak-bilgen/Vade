@@ -35,7 +35,7 @@ public struct SettingsView: View {
                         )
                         Spacer()
                         Text(selectedLanguage == "tr" ? "Türkçe" : "English")
-                            .foregroundColor(Color("ink400"))
+                            .foregroundColor(Color.vdInk400)
                     }
                 } header: {
                     Text(String(localized: "settings.section.preferences"))
@@ -79,7 +79,7 @@ public struct SettingsView: View {
                         Text(String(localized: "settings.about.version"))
                         Spacer()
                         Text("1.0.0")
-                            .foregroundColor(Color("ink400"))
+                            .foregroundColor(Color.vdInk400)
                     }
                     if let privacyURL = URL(string: "https://vade.app/privacy") {
                         Link(
@@ -92,7 +92,7 @@ public struct SettingsView: View {
                 }
             }
             .navigationTitle(String(localized: "settings.navigationTitle"))
-            .background(Color("background"))
+            .background(Color.vdBackground)
         }
     }
 }

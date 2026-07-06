@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 
 // MARK: - Banner Ad View (Google AdMob Integration Point)
 
@@ -22,12 +23,12 @@ public struct BannerAdView: View {
         // GADBannerViewRepresentable(adUnitID: adUnitID)
         //     .frame(height: 50)
         Rectangle()
-            .fill(Color("hairline", bundle: .main))
+            .fill(Color.vdHairline)
             .frame(height: 50)
             .overlay {
                 Text(String(localized: "ads.placeholder"))
                     .font(.caption)
-                    .foregroundColor(Color("ink400", bundle: .main))
+                    .foregroundColor(Color.vdInk400)
             }
     }
 }

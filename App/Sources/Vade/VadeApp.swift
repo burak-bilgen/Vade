@@ -67,7 +67,7 @@ struct VadeApp: App {
         VStack(spacing: 32) {
             Image(systemName: "lock.shield")
                 .font(.system(size: 56))
-                .foregroundColor(Color("brass500"))
+                .foregroundColor(Color.vdBrass500)
             Text(String(localized: "app.locked.title"))
                 .font(.title2)
             Button(String(localized: "app.locked.unlock")) {

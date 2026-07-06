@@ -31,7 +31,7 @@ public struct OnboardingView: View {
 
             HStack(spacing: Spacing.s) {
                 ForEach(0..<4, id: \.self) { i in
-                    Circle().fill(i == currentPage ? Color("brass500") : Color.white.opacity(0.3))
+                    Circle().fill(i == currentPage ? Color.vdBrass500 : Color.white.opacity(0.3))
                         .frame(width: i == currentPage ? 10 : 8, height: i == currentPage ? 10 : 8)
                 }
             }
@@ -51,7 +51,7 @@ public struct OnboardingView: View {
                             Text(String(localized: "Okudum, anladım ve kabul ediyorum"))
                                 .font(Typography.font(for: .caption)).foregroundColor(.white.opacity(0.85))
                         }
-                        .tint(Color("brass500"))
+                        .tint(Color.vdBrass500)
                         Button(action: onComplete) {
                             Text(String(localized: "Anladım, devam edeyim")).frame(maxWidth: .infinity)
                         }
@@ -61,7 +61,7 @@ public struct OnboardingView: View {
             }
             .padding(.horizontal, Spacing.xl).padding(.bottom, Spacing.xxl)
         }
-        .background(LinearGradient(colors: [Color("ink900"), Color("ink700")],
+        .background(LinearGradient(colors: [Color.vdInk900, Color.vdInk700],
                                    startPoint: .topLeading, endPoint: .bottomTrailing))
         .ignoresSafeArea()
     }
@@ -69,7 +69,7 @@ public struct OnboardingView: View {
     private func page(icon: String, title: String, subtitle: String) -> some View {
         VStack(spacing: Spacing.xl) {
             Spacer()
-            Image(systemName: icon).font(.system(size: 52)).foregroundColor(Color("brass500"))
+            Image(systemName: icon).font(.system(size: 52)).foregroundColor(Color.vdBrass500)
                 .padding(.bottom, Spacing.m)
             Text(title).font(Typography.font(for: .title1)).foregroundColor(.white).multilineTextAlignment(.center)
                 .padding(.horizontal, Spacing.xl)

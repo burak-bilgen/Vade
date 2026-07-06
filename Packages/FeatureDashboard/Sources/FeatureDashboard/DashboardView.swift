@@ -41,7 +41,7 @@ public struct DashboardView: View {
             .padding(Spacing.l)
             .animation(.spring(response: 0.45, dampingFraction: 0.75), value: vm.netBalance)
         }
-        .background(Color("background"))
+        .background(Color.vdBackground)
         .refreshable { await vm.loadData() }
     }
 
@@ -61,7 +61,7 @@ public struct DashboardView: View {
         VStack(alignment: .leading, spacing: Spacing.m) {
             Text(String(localized: "dashboard.upcoming.title"))
                 .font(Typography.font(for: .title2))
-                .foregroundColor(Color("ink900"))
+                .foregroundColor(Color.vdInk900)
 
             if vm.upcomingItems.isEmpty {
                 EmptyStateView(
@@ -81,11 +81,11 @@ public struct DashboardView: View {
                 }
                 .background(
                     RoundedRectangle(cornerRadius: Radius.md)
-                        .fill(Color("surface"))
+                        .fill(Color.vdSurface)
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: Radius.md)
-                        .stroke(Color("hairline"), lineWidth: 1)
+                        .stroke(Color.vdHairline, lineWidth: 1)
                 )
             }
         }
@@ -108,14 +108,14 @@ public struct DashboardView: View {
                 .padding(Spacing.l)
                 .background(
                     RoundedRectangle(cornerRadius: Radius.md)
-                        .fill(Color("surface"))
+                        .fill(Color.vdSurface)
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: Radius.md)
-                        .stroke(Color("hairline"), lineWidth: 1)
+                        .stroke(Color.vdHairline, lineWidth: 1)
                 )
             }
-            .foregroundColor(Color("ink900"))
+            .foregroundColor(Color.vdInk900)
         }
     }
 }

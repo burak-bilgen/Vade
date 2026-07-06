@@ -10,9 +10,10 @@ let package = Package(
     dependencies: [
         .package(path: "../Core"),
         .package(path: "../Domain"),
+        .package(path: "../DesignSystem"),
     ],
     targets: [
-        .target(name: "Observability", dependencies: ["Core", "Domain"]),
+        .target(name: "Observability", dependencies: ["Core", "Domain", "DesignSystem"]),
         .testTarget(name: "ObservabilityTests", dependencies: ["Observability"]),
     ]
 )

@@ -17,7 +17,7 @@ public struct SkeletonView: View {
 
     public var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius)
-            .fill(Color("hairline").opacity(0.6))
+            .fill(Color.vdHairline.opacity(0.6))
             .frame(width: width, height: height)
             .overlay(
                 GeometryReader { geometry in
@@ -64,11 +64,11 @@ public struct SkeletonSummaryCard: View {
         .padding(Spacing.xl)
         .background(
             RoundedRectangle(cornerRadius: Radius.lg)
-                .fill(Color("surface"))
+                .fill(Color.vdSurface)
         )
         .overlay(
             RoundedRectangle(cornerRadius: Radius.lg)
-                .stroke(Color("hairline"), lineWidth: 1)
+                .stroke(Color.vdHairline, lineWidth: 1)
         )
     }
 }
@@ -82,7 +82,7 @@ public struct SkeletonRow: View {
     public var body: some View {
         HStack(spacing: Spacing.m) {
             Circle()
-                .fill(Color("hairline").opacity(0.6))
+                .fill(Color.vdHairline.opacity(0.6))
                 .frame(width: 36, height: 36)
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 SkeletonView(width: 120, height: 14)
@@ -121,5 +121,5 @@ public extension View {
         }
     }
     .padding()
-    .background(Color("background"))
+    .background(Color.vdBackground)
 }

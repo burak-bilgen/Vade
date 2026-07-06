@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07EDA51FB6C65F471AD9D743 /* Data.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = F51990510BA8AFE78478F1ED /* Data.framework */; };
 		09CA566494360740B920EE92 /* FeatureSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5755660C44D75FC31DE0F981 /* FeatureSettings.framework */; };
+		23DFB6374740A880B85E37F3 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F51990510BA8AFE78478F1ED /* Data.framework */; };
 		2A3AF1034A9689F640203E8D /* DesignSystem.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 69B5DC4DD3B7CF64C00A5A4A /* DesignSystem.framework */; };
 		362CBE0C7F7A2A51110A0203 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C8FE63AE035581F7812690 /* Domain.framework */; };
 		37D97FEA2631D2DCFB9439F6 /* DIContainer.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = EC646D38663CC57B2FAEC9C1 /* DIContainer.framework */; };
@@ -71,6 +73,7 @@
 			files = (
 				79243AB4A705F362AAF54C54 /* Core.framework in Dependencies */,
 				37D97FEA2631D2DCFB9439F6 /* DIContainer.framework in Dependencies */,
+				07EDA51FB6C65F471AD9D743 /* Data.framework in Dependencies */,
 				2A3AF1034A9689F640203E8D /* DesignSystem.framework in Dependencies */,
 				B875C8E391384B0D0342C753 /* Domain.framework in Dependencies */,
 			);
@@ -91,6 +94,7 @@
 		D8C8FE63AE035581F7812690 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E48494B8C1E2BB515B47C765 /* FeatureSettings-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureSettings-Info.plist"; sourceTree = "<group>"; };
 		EC646D38663CC57B2FAEC9C1 /* DIContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DIContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F51990510BA8AFE78478F1ED /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5B44BEAA5FF01EE942F5AD /* DataManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagementView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +105,7 @@
 			files = (
 				7F05C62088A0462D8508C0C7 /* Core.framework in Frameworks */,
 				7B5AF207FAFD510A6346D1AB /* DIContainer.framework in Frameworks */,
+				23DFB6374740A880B85E37F3 /* Data.framework in Frameworks */,
 				58465EDBF3A1D3B2B8B246A3 /* DesignSystem.framework in Frameworks */,
 				362CBE0C7F7A2A51110A0203 /* Domain.framework in Frameworks */,
 				09CA566494360740B920EE92 /* FeatureSettings.framework in Frameworks */,
@@ -121,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				BAE127C1268B12D54593633A /* Core.framework */,
+				F51990510BA8AFE78478F1ED /* Data.framework */,
 				8E19C3716E22EACED643B2EC /* DesignSystem_DesignSystem.bundle */,
 				69B5DC4DD3B7CF64C00A5A4A /* DesignSystem.framework */,
 				EC646D38663CC57B2FAEC9C1 /* DIContainer.framework */,

@@ -3,6 +3,7 @@ import Foundation
 #if canImport(WidgetKit)
 import WidgetKit
 import SwiftUI
+import DesignSystem
 #endif
 
 // MARK: - Widget Entry
@@ -84,26 +85,26 @@ public struct VadeWidgetEntryView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(verbatim: "Vade")
                 .font(.headline)
-                .foregroundColor(Color("ink900"))
+                .foregroundColor(Color.vdInk900)
 
             Text(entry.netBalance.formatted())
                 .font(.largeTitle)
                 .foregroundColor(entry.netBalance >= 0
-                    ? Color("positive600")
-                    : Color("negative600"))
+                    ? Color.vdPositive600
+                    : Color.vdNegative600)
 
             HStack {
                 Label("\(entry.totalReceivable.formatted())", systemImage: "arrow.up")
                     .font(.caption)
-                    .foregroundColor(Color("positive600"))
+                    .foregroundColor(Color.vdPositive600)
                 Label("\(entry.totalPayable.formatted())", systemImage: "arrow.down")
                     .font(.caption)
-                    .foregroundColor(Color("negative600"))
+                    .foregroundColor(Color.vdNegative600)
             }
 
             Text("\(entry.personCount) kişi")
                 .font(.caption2)
-                .foregroundColor(Color("ink400"))
+                .foregroundColor(Color.vdInk400)
         }
         .padding()
         .containerBackground(.fill.tertiary, for: .widget)

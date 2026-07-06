@@ -20,29 +20,29 @@ public struct LedgerRowView: View {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(name)
                     .font(Typography.font(for: .headline))
-                    .foregroundColor(Color("ink900"))
+                    .foregroundColor(Color.vdInk900)
                 if let subtitle {
                     Text(subtitle)
                         .font(Typography.font(for: .caption))
-                        .foregroundColor(Color("ink400"))
+                        .foregroundColor(Color.vdInk400)
                 }
             }
             Spacer()
             HStack(spacing: Spacing.xs) {
                 Image(systemName: isPositive ? "arrow.up.circle.fill" : "arrow.down.circle.fill")
                     .foregroundColor(isPositive
-                        ? Color("positive600")
-                        : Color("negative600"))
+                        ? Color.vdPositive600
+                        : Color.vdNegative600)
                 Text(amount.formatted())
                     .font(Typography.font(for: .amount))
                     .foregroundColor(isPositive
-                        ? Color("positive600")
-                        : Color("negative600"))
+                        ? Color.vdPositive600
+                        : Color.vdNegative600)
             }
         }
         .padding(.horizontal, Spacing.l)
         .padding(.vertical, Spacing.m)
-        .background(Color("surface"))
+        .background(Color.vdSurface)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(name), \(amount.formatted())")
         .accessibilityHint(isPositive
@@ -50,7 +50,7 @@ public struct LedgerRowView: View {
             : String(localized: "accessibility.payable"))
         .overlay(alignment: .bottom) {
             Rectangle()
-                .fill(Color("ledgerLine"))
+                .fill(Color.vdLedgerLine)
                 .frame(height: 1)
                 .padding(.leading, Spacing.xxxl + Spacing.l)
         }
@@ -68,11 +68,11 @@ public struct LedgerRowView: View {
 
 private enum AvatarColors {
     static let colors: [Color] = [
-        Color("ink900"),
-        Color("brass700"),
-        Color("positive600"),
-        Color("negative600"),
-        Color("ink700"),
+        Color.vdInk900,
+        Color.vdBrass700,
+        Color.vdPositive600,
+        Color.vdNegative600,
+        Color.vdInk700,
     ]
 }
 
@@ -81,5 +81,5 @@ private enum AvatarColors {
         LedgerRowView(name: "Ahmet", amount: 1500, subtitle: "3 gün önce", isPositive: true)
         LedgerRowView(name: "Ayşe", amount: 750, subtitle: "Vade: 15 Temmuz", isPositive: false)
     }
-    .background(Color("background"))
+    .background(Color.vdBackground)
 }

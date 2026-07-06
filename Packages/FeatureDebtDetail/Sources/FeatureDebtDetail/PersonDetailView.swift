@@ -57,7 +57,7 @@ public struct PersonDetailView: View {
                     VStack(spacing: Spacing.s) {
                         Text(String(localized: "personDetail.balance.label"))
                             .font(Typography.font(for: .caption))
-                            .foregroundColor(Color("ink400"))
+                            .foregroundColor(Color.vdInk400)
                         Text(vm.balance.formatted())
                             .font(Typography.font(for: .display))
                             .foregroundColor(balanceColor(vm.balance))
@@ -88,11 +88,11 @@ public struct PersonDetailView: View {
             } header: {
                 Text(String(localized: "personDetail.history.title"))
                     .font(Typography.font(for: .headline))
-                    .foregroundColor(Color("ink700"))
+                    .foregroundColor(Color.vdInk700)
             }
         }
         .listStyle(.insetGrouped)
-        .background(Color("background"))
+        .background(Color.vdBackground)
         .navigationTitle(person.name)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -113,11 +113,11 @@ public struct PersonDetailView: View {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(debt.note ?? debt.kind.rawValue)
                     .font(Typography.font(for: .body))
-                    .foregroundColor(Color("ink900"))
+                    .foregroundColor(Color.vdInk900)
                 if let dueDate = debt.dueDate {
                     Text(dueDate.formatted(date: .abbreviated, time: .omitted))
                         .font(Typography.font(for: .caption))
-                        .foregroundColor(Color("ink400"))
+                        .foregroundColor(Color.vdInk400)
                 }
             }
             Spacer()
@@ -125,11 +125,11 @@ public struct PersonDetailView: View {
                 Text(debt.amount.formatted())
                     .font(Typography.font(for: .amount))
                     .foregroundColor(debt.direction == .receivable
-                        ? Color("positive600")
-                        : Color("negative600"))
+                        ? Color.vdPositive600
+                        : Color.vdNegative600)
                 Text(statusLabel(debt.status))
                     .font(Typography.font(for: .caption))
-                    .foregroundColor(Color("ink400"))
+                    .foregroundColor(Color.vdInk400)
             }
         }
     }
@@ -137,8 +137,8 @@ public struct PersonDetailView: View {
     // MARK: - Helpers
 
     private func balanceColor(_ balance: Decimal) -> Color {
-        if balance.isEffectivelyZero { return Color("ink900") }
-        return balance > 0 ? Color("positive600") : Color("negative600")
+        if balance.isEffectivelyZero { return Color.vdInk900 }
+        return balance > 0 ? Color.vdPositive600 : Color.vdNegative600
     }
 
     private func statusLabel(_ status: DebtStatus) -> String {

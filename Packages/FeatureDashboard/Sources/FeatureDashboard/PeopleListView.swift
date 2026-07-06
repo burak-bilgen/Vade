@@ -95,7 +95,7 @@ public struct PeopleListView: View {
                 .listStyle(.plain)
             }
         }
-        .background(Color("background"))
+        .background(Color.vdBackground)
         .navigationTitle(String(localized: "people.navigationTitle"))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -207,11 +207,11 @@ private struct AddPersonSheet: View {
                     VStack(alignment: .leading) {
                         Text(contact.name)
                             .font(Typography.font(for: .body))
-                            .foregroundColor(Color("ink900"))
+                            .foregroundColor(Color.vdInk900)
                         if let phone = contact.phoneNumber {
                             Text(phone)
                                 .font(Typography.font(for: .caption))
-                                .foregroundColor(Color("ink400"))
+                                .foregroundColor(Color.vdInk400)
                         }
                     }
                 }

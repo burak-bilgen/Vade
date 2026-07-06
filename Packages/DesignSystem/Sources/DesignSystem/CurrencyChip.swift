@@ -15,10 +15,10 @@ public struct CurrencyChip: View {
         Button(action: action) {
             Text(label)
                 .font(Typography.font(for: .caption)).fontWeight(.medium)
-                .foregroundColor(isSelected ? Color("ink900") : Color("ink700"))
+                .foregroundColor(isSelected ? Color.vdInk900 : Color.vdInk700)
                 .padding(.horizontal, Spacing.l).padding(.vertical, Spacing.s)
-                .background(Capsule().fill(isSelected ? Color("brass300") : Color("surface")))
-                .overlay(Capsule().stroke(isSelected ? Color("brass500") : Color("hairline"), lineWidth: 1))
+                .background(Capsule().fill(isSelected ? Color.vdBrass300 : Color.vdSurface))
+                .overlay(Capsule().stroke(isSelected ? Color.vdBrass500 : Color.vdHairline, lineWidth: 1))
         }
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
@@ -29,5 +29,5 @@ public struct CurrencyChip: View {
         CurrencyChip(label: "TRY", isSelected: true, action: {})
         CurrencyChip(label: "USD", isSelected: false, action: {})
     }
-    .padding().background(Color("background"))
+    .padding().background(Color.vdBackground)
 }

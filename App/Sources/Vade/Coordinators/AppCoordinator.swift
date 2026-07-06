@@ -79,7 +79,7 @@ final class AppCoordinator: Coordinator {
                 )
             }
         }
-        .tint(Color("brass500", bundle: .main))
+        .tint(Color.vdBrass500)
         .modelContainer(modelContainer)
     }
 }
