@@ -1,14 +1,9 @@
 import SwiftUI
 
-// MARK: - Premium Typography System
+// MARK: - Minimalist Typography System
 
-/// Vade Premium typography — Plus Jakarta Sans for UI, JetBrains Mono for amounts.
-///
-/// ## Font Stack
-/// - **Plus Jakarta Sans** — All UI text (headings, body, labels). Modern, geometric,
-///   excellent Turkish glyph support (ı, İ, ş, ç, ö, ü, ğ).
-/// - **JetBrains Mono** — Monetary amounts only. Tabular-aligned digits ensure
-///   perfect vertical alignment in lists and tables.
+/// Vade uses SF Pro Rounded for all UI text and SF Mono for monetary amounts.
+/// No custom fonts needed — fully native, lightweight, and consistent with the iOS ecosystem.
 ///
 /// ## Usage
 /// ```swift
@@ -18,67 +13,69 @@ import SwiftUI
 public enum Typography {
     /// Semantic role for each text style.
     public enum FontRole: Sendable {
-        /// Hero display amount — 40pt Light
+        /// Hero display amount — 40pt Light Rounded
         case display
-        /// Large display amount — 32pt Light (for cards)
+        /// Large display amount — 32pt Light Rounded (for cards)
         case displayMedium
-        /// Screen titles — 24pt Bold
+        /// Screen titles — 24pt Bold Rounded
         case title
-        /// Section headers — 18pt SemiBold
+        /// Section headers — 18pt SemiBold Rounded
         case title2
-        /// Row / card titles — 16pt SemiBold
+        /// Row / card titles — 16pt SemiBold Rounded
         case headline
-        /// Body text — 15pt Regular
+        /// Body text — 15pt Regular Rounded
         case body
-        /// Body text with emphasis — 15pt Medium
+        /// Body text with emphasis — 15pt Medium Rounded
         case bodyEmphasis
-        /// Monetary amounts — 16pt Medium, monospaced digits with JetBrains Mono
+        /// Monetary amounts — 16pt Medium Monospaced
         case amount
-        /// Small amounts / secondary values — 14pt Medium, monospaced
+        /// Small amounts / secondary values — 14pt Medium Monospaced
         case amountSmall
-        /// Caption / secondary text — 13pt Regular
+        /// Caption / secondary text — 13pt Regular Rounded
         case caption
-        /// Tiny labels — 11pt Medium
+        /// Tiny labels — 11pt Medium Rounded
         case label
-        /// Button text — 16pt SemiBold
+        /// Button text — 16pt SemiBold Rounded
         case button
-        /// Small button / chip text — 13pt SemiBold
+        /// Small button / chip text — 13pt SemiBold Rounded
         case buttonSmall
-        /// Tab bar item — 10pt Medium
+        /// Tab bar item — 10pt Medium Rounded
         case tab
     }
 
     /// Returns a SwiftUI `Font` for the given semantic role.
+    /// - Uses `.system(..., design: .rounded)` for UI text.
+    /// - Uses `.system(..., design: .monospaced)` for monetary amounts.
     public static func font(for role: FontRole) -> Font {
         switch role {
         case .display:
-            .custom("PlusJakartaSans-Light", size: 40, relativeTo: .largeTitle)
+            .system(size: 40, weight: .light, design: .rounded).monospacedDigit()
         case .displayMedium:
-            .custom("PlusJakartaSans-Light", size: 32, relativeTo: .title)
+            .system(size: 32, weight: .light, design: .rounded).monospacedDigit()
         case .title:
-            .custom("PlusJakartaSans-Bold", size: 24, relativeTo: .title)
+            .system(size: 24, weight: .bold, design: .rounded)
         case .title2:
-            .custom("PlusJakartaSans-SemiBold", size: 18, relativeTo: .title2)
+            .system(size: 18, weight: .semibold, design: .rounded)
         case .headline:
-            .custom("PlusJakartaSans-SemiBold", size: 16, relativeTo: .headline)
+            .system(size: 16, weight: .semibold, design: .rounded)
         case .body:
-            .custom("PlusJakartaSans-Regular", size: 15, relativeTo: .body)
+            .system(size: 15, weight: .regular, design: .rounded)
         case .bodyEmphasis:
-            .custom("PlusJakartaSans-Medium", size: 15, relativeTo: .body)
+            .system(size: 15, weight: .medium, design: .rounded)
         case .amount:
-            .custom("JetBrainsMono-Medium", size: 16, relativeTo: .body)
+            .system(size: 16, weight: .medium, design: .monospaced).monospacedDigit()
         case .amountSmall:
-            .custom("JetBrainsMono-Medium", size: 14, relativeTo: .callout)
+            .system(size: 14, weight: .medium, design: .monospaced).monospacedDigit()
         case .caption:
-            .custom("PlusJakartaSans-Regular", size: 13, relativeTo: .caption)
+            .system(size: 13, weight: .regular, design: .rounded)
         case .label:
-            .custom("PlusJakartaSans-Medium", size: 11, relativeTo: .caption2)
+            .system(size: 11, weight: .medium, design: .rounded)
         case .button:
-            .custom("PlusJakartaSans-SemiBold", size: 16, relativeTo: .body)
+            .system(size: 16, weight: .semibold, design: .rounded)
         case .buttonSmall:
-            .custom("PlusJakartaSans-SemiBold", size: 13, relativeTo: .callout)
+            .system(size: 13, weight: .semibold, design: .rounded)
         case .tab:
-            .custom("PlusJakartaSans-Medium", size: 10, relativeTo: .caption2)
+            .system(size: 10, weight: .medium, design: .rounded)
         }
     }
 }
@@ -91,4 +88,3 @@ public extension Font {
     /// Quick access to display font.
     static let display = Typography.font(for: .display)
 }
-

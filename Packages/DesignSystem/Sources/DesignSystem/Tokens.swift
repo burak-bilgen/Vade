@@ -1,56 +1,59 @@
 import SwiftUI
 
-// MARK: - Premium Vade Color Palette
+// MARK: - Vade Dark Fintech Color Palette
 
-/// Vade Premium — dark-first colour system inspired by modern fintech (Revolut, N26, Monzo).
-/// All colours are defined in `Colors.xcassets` with light/dark variants.
-/// Never hardcode `Color(red:green:blue:)` in views — always use these semantic tokens.
+/// Minimalist fintech colour system inspired by N26 / Revolut.
+/// Dark-first with a clean blue accent. No xcassets dependency — inline colours only.
 public enum ColorTokens {
     // MARK: Background & Surfaces
-    /// App-level background — deep near-black with a subtle cool tint.
-    public static let background = Color("background", bundle: .module)
-    /// Card / list-row surface — slightly lighter than background.
-    public static let surface = Color("surface", bundle: .module)
-    /// Elevated surfaces (modals, sheets, floating cards) — one step above surface.
-    public static let surfaceElevated = Color("surfaceElevated", bundle: .module)
-    /// Standard border / divider.
-    public static let border = Color("border", bundle: .module)
-    /// Subtle border for inputs / low-emphasis separators.
-    public static let borderSubtle = Color("borderSubtle", bundle: .module)
+    /// App-level background — near-black with a subtle cool tint (#0D0D12).
+    public static let background = Color(red: 0.051, green: 0.051, blue: 0.071)
+    /// Card / list-row surface — slightly lighter than background (#1C1C21).
+    public static let surface = Color(red: 0.110, green: 0.110, blue: 0.129)
+    /// Elevated surfaces (modals, sheets, floating cards) (#2B2B33).
+    public static let surfaceElevated = Color(red: 0.169, green: 0.169, blue: 0.200)
+    /// Standard border / divider (#3A3A45).
+    public static let border = Color(red: 0.227, green: 0.227, blue: 0.271)
+    /// Subtle border for inputs / low-emphasis separators (#2B2B33).
+    public static let borderSubtle = Color(red: 0.169, green: 0.169, blue: 0.200)
 
     // MARK: Text
-    /// Primary text (headings, important values).
-    public static let textPrimary = Color("textPrimary", bundle: .module)
-    /// Secondary text (body content, descriptions).
-    public static let textSecondary = Color("textSecondary", bundle: .module)
-    /// Tertiary text (labels, placeholders, metadata).
-    public static let textTertiary = Color("textTertiary", bundle: .module)
+    /// Primary text (headings, values) — white.
+    public static let textPrimary = Color.white
+    /// Secondary text (body, descriptions) — white at 70% opacity.
+    public static let textSecondary = Color.white.opacity(0.70)
+    /// Tertiary text (labels, placeholders, metadata) — white at 40% opacity.
+    public static let textTertiary = Color.white.opacity(0.40)
 
-    // MARK: Accent — Premium Gold
-    /// Primary CTA, active states, selected tabs — premium gold.
-    public static let accent = Color("accent", bundle: .module)
-    /// Light accent variant for subtle highlights, backgrounds.
-    public static let accentLight = Color("accentLight", bundle: .module)
-    /// Dark accent for pressed states, active backgrounds.
-    public static let accentDark = Color("accentDark", bundle: .module)
+    // MARK: Accent — Clean Blue
+    /// Primary CTA, active states, selected tabs (#007AFF).
+    public static let accent = Color(red: 0.000, green: 0.478, blue: 1.000)
+    /// Light accent variant for subtle highlights / backgrounds.
+    public static let accentLight = Color(red: 0.000, green: 0.478, blue: 1.000).opacity(0.15)
+    /// Dark accent for pressed states (#0061CC).
+    public static let accentDark = Color(red: 0.000, green: 0.380, blue: 0.800)
 
     // MARK: Semantic — Positive (Alacak / Receivable)
-    /// Positive / receivable — fintech green.
-    public static let positive = Color("positive", bundle: .module)
+    /// Positive / receivable — iOS green (#30D158).
+    public static let positive = Color(red: 0.188, green: 0.820, blue: 0.345)
     /// Semi-transparent positive for chip backgrounds.
-    public static let positiveLight = Color("positiveLight", bundle: .module)
+    public static let positiveLight = Color(red: 0.188, green: 0.820, blue: 0.345).opacity(0.15)
 
     // MARK: Semantic — Negative (Borç / Payable)
-    /// Negative / payable — alert red.
-    public static let negative = Color("negative", bundle: .module)
+    /// Negative / payable — iOS red (#FF453A).
+    public static let negative = Color(red: 1.000, green: 0.271, blue: 0.227)
     /// Semi-transparent negative for chip backgrounds.
-    public static let negativeLight = Color("negativeLight", bundle: .module)
+    public static let negativeLight = Color(red: 1.000, green: 0.271, blue: 0.227).opacity(0.15)
 
     // MARK: Chart / Data Viz
-    public static let chartBlue = Color("chartBlue", bundle: .module)
-    public static let chartPurple = Color("chartPurple", bundle: .module)
-    public static let chartOrange = Color("chartOrange", bundle: .module)
-    public static let chartTeal = Color("chartTeal", bundle: .module)
+    /// Chart blue.
+    public static let chartBlue = Color(red: 0.000, green: 0.478, blue: 1.000)
+    /// Chart purple.
+    public static let chartPurple = Color(red: 0.686, green: 0.322, blue: 0.871)
+    /// Chart orange.
+    public static let chartOrange = Color(red: 1.000, green: 0.584, blue: 0.000)
+    /// Chart teal.
+    public static let chartTeal = Color(red: 0.353, green: 0.784, blue: 0.980)
 }
 
 // MARK: - Spacing — 4pt Base Grid
@@ -114,16 +117,16 @@ public enum Elevation {
     public static let level0 = ShadowStyle(radius: 0, y: 0, opacity: 0)
 
     /// Level 1 — subtle, for cards in a list.
-    public static let level1 = ShadowStyle(radius: 6, y: 2, opacity: 0.08)
+    public static let level1 = ShadowStyle(radius: 6, y: 2, opacity: 0.15)
 
     /// Level 2 — medium, for elevated cards / sheets.
-    public static let level2 = ShadowStyle(radius: 10, y: 4, opacity: 0.12)
+    public static let level2 = ShadowStyle(radius: 10, y: 4, opacity: 0.20)
 
     /// Level 3 — strong, for modals / floating action.
-    public static let level3 = ShadowStyle(radius: 16, y: 6, opacity: 0.16)
+    public static let level3 = ShadowStyle(radius: 16, y: 6, opacity: 0.25)
 
     /// Level 4 — prominent, for alerts / top-elevation.
-    public static let level4 = ShadowStyle(radius: 24, y: 8, opacity: 0.2)
+    public static let level4 = ShadowStyle(radius: 24, y: 8, opacity: 0.30)
 
     /// Apply a shadow to any View using `.shadow()` modifier values.
     public static func shadow(_ style: ShadowStyle) -> some ViewModifier {
@@ -143,47 +146,5 @@ public extension View {
     /// Convenience: apply a pre-defined elevation shadow.
     func elevation(_ style: Elevation.ShadowStyle) -> some View {
         modifier(Elevation.shadow(style))
-    }
-}
-
-// MARK: - Glassmorphism
-
-/// Glassmorphism surface style — translucent with blur, for premium card effects.
-public enum GlassStyle {
-    /// Standard glass effect for cards over gradients/images.
-    public static let standard = GlassConfig(tint: .white.opacity(0.05), blur: 20)
-
-    /// Stronger glass for elevated overlays.
-    public static let strong = GlassConfig(tint: .white.opacity(0.08), blur: 30)
-
-    /// Subtle glass for secondary surfaces.
-    public static let subtle = GlassConfig(tint: .white.opacity(0.03), blur: 12)
-}
-
-/// Configuration for glassmorphism effect.
-public struct GlassConfig: Sendable {
-    public let tint: Color
-    public let blur: CGFloat
-
-    public init(tint: Color, blur: CGFloat) {
-        self.tint = tint
-        self.blur = blur
-    }
-
-    public func apply<V: View>(to content: V) -> some View {
-        content
-            .background(tint)
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous))
-    }
-}
-
-public extension View {
-    /// Apply glassmorphism effect with the given configuration.
-    /// - Parameter config: The glass configuration to apply.
-    /// - Returns: A view with the glass effect applied.
-    @ViewBuilder
-    func glass(_ config: GlassConfig = GlassStyle.standard) -> some View {
-        config.apply(to: self)
     }
 }

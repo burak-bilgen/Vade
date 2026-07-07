@@ -1,5 +1,6 @@
 import Testing
 @testable import DesignSystem
+import SwiftUI
 
 @Suite("Design Tokens")
 struct TokensTests {

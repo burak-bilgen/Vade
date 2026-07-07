@@ -10,6 +10,7 @@
 		0F924CE977884F734C00A2E8 /* PlusJakartaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D80A43013FB2429EC9EC182C /* PlusJakartaSans-Bold.ttf */; };
 		10674F2C4DFA5A86AE37D895 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0555BF632E32CCE62C1F4E54 /* Tokens.swift */; };
 		18A92458318A14D59D263958 /* JetBrainsMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB259A19E72E9FCDF27B864 /* JetBrainsMono-Bold.ttf */; };
+		21D52688B2F4838C3355F291 /* ViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F970029B11D489FEE216B6 /* ViewAnimation.swift */; };
 		385E5D0846F1987DE67720DA /* PlusJakartaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB9E8AD1632E8656E4B2DFB /* PlusJakartaSans-Medium.ttf */; };
 		38EEC3BF7BC870F37E3A7F19 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D3D3E20D4CF49B640DF83248 /* Core.framework */; };
 		39568F61C0AE339287F7AF7D /* JetBrainsMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB078AF7F762A97DB120919A /* JetBrainsMono-Regular.ttf */; };
@@ -114,6 +115,7 @@
 		36900712A6F87E70FEC776EF /* StatChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatChip.swift; sourceTree = "<group>"; };
 		42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		43EEC35F002D4D44977582DC /* LedgerRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerRowView.swift; sourceTree = "<group>"; };
+		44F970029B11D489FEE216B6 /* ViewAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAnimation.swift; sourceTree = "<group>"; };
 		469F4B641DBB710B1B90BAD8 /* DesignSystemTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystemTests-Info.plist"; sourceTree = "<group>"; };
 		4AB259A19E72E9FCDF27B864 /* JetBrainsMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMono-Bold.ttf"; sourceTree = "<group>"; };
 		4C37D51C82A32317752FAF22 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				0555BF632E32CCE62C1F4E54 /* Tokens.swift */,
 				64519D27AF11021EF29EE0A6 /* Typography.swift */,
 				744480E9B8CC84363B424352 /* UndoToastView.swift */,
+				44F970029B11D489FEE216B6 /* ViewAnimation.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				10674F2C4DFA5A86AE37D895 /* Tokens.swift in Sources */,
 				CA72F97C0E325E3CCF50CDF2 /* Typography.swift in Sources */,
 				AD0B1C42D4A0DE65B8C6D62F /* UndoToastView.swift in Sources */,
+				21D52688B2F4838C3355F291 /* ViewAnimation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
