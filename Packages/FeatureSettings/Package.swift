@@ -11,9 +11,10 @@ let package = Package(
         .package(path: "../Core"),
         .package(path: "../DesignSystem"),
         .package(path: "../Domain"),
+        .package(path: "../Data"),
         .package(path: "../Observability"),
     ],
     targets: [
-        .target(name: "FeatureSettings", dependencies: ["Core", "DesignSystem", "Domain", "Observability"]),
+        .target(name: "FeatureSettings", dependencies: ["Core", "DesignSystem", "Domain", "Data", "Observability"]),
     ]
 )

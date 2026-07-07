@@ -3,6 +3,7 @@ import SwiftData
 import DesignSystem
 import Core
 import Domain
+import Data
 import Observability
 
 // MARK: - Data Management View

@@ -246,6 +246,44 @@ public struct PersonDetailView: View {
         if balance.isEffectivelyZero { return ColorTokens.textPrimary }
         return balance > 0 ? ColorTokens.positive : ColorTokens.negative
     }
+
+    // MARK: - Quick Actions
+
+    private func quickActionButton(icon: String, label: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: Spacing.xxs) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(color)
+                    .frame(width: 40, height: 40)
+                    .background(Circle().fill(color.opacity(0.12)))
+                Text(label)
+                    .font(Typography.font(for: .label))
+                    .foregroundStyle(ColorTokens.textSecondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, Spacing.s)
+            .background(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .fill(ColorTokens.surface)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .stroke(ColorTokens.border, lineWidth: 0.5)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func shareBalance(vm: PersonDetailViewModel) {
+        let text = String(localized: "personDetail.share.text \\(person.name) \\(vm.balance.formatted())")
+        let av = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = scene.windows.first,
+              let root = window.rootViewController else { return }
+        root.present(av, animated: true)
+        HapticFeedback.impact(.light)
+    }
 }
 
 // MARK: - Debt Summary Chip
@@ -569,45 +607,6 @@ private struct AddDebtSheet: View {
             hasDueDate ? dueDate : nil
         )
         isSaving = false
-    }
-}
-
-    // MARK: - Quick Actions
-
-    private func quickActionButton(icon: String, label: String, color: Color, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            VStack(spacing: Spacing.xxs) {
-                Image(systemName: icon)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(color)
-                    .frame(width: 40, height: 40)
-                    .background(Circle().fill(color.opacity(0.12)))
-                Text(label)
-                    .font(Typography.font(for: .label))
-                    .foregroundStyle(ColorTokens.textSecondary)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, Spacing.s)
-            .background(
-                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                    .fill(ColorTokens.surface)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                    .stroke(ColorTokens.border, lineWidth: 0.5)
-            )
-        }
-        .buttonStyle(.plain)
-    }
-
-    private func shareBalance(vm: PersonDetailViewModel) {
-        let text = String(localized: "personDetail.share.text \\(person.name) \\(vm.balance.formatted())")
-        let av = UIActivityViewController(activityItems: [text], applicationActivities: nil)
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = scene.windows.first,
-              let root = window.rootViewController else { return }
-        root.present(av, animated: true)
-        HapticFeedback.impact(.light)
     }
 }
 

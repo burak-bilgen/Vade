@@ -11,8 +11,8 @@ public extension Decimal {
         return result
     }
 
-    var isEffectivelyZero: Bool { rounded() == 0 }
-    var absoluteValue: Decimal { magnitude }
+    public var isEffectivelyZero: Bool { rounded() == 0 }
+    public var absoluteValue: Decimal { magnitude }
 }
 
 // MARK: - Currency / Asset Kind

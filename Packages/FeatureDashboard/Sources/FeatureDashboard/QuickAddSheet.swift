@@ -2,6 +2,7 @@ import SwiftUI
 import DesignSystem
 import Domain
 import Core
+import Observability
 
 // MARK: - Quick Add ViewModel
 

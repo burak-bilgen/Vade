@@ -19,7 +19,6 @@ public struct CoordinatorRootView: View {
     @AppStorage("vade.onboarding.done") private var onboardingDone = false
     @Environment(LanguageManager.self) private var languageManager
     @Environment(\.modelContext) private var modelContext
-    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     public var body: some View {
         ZStack {
@@ -27,14 +26,13 @@ public struct CoordinatorRootView: View {
             if onboardingDone {
                 MainTabView(modelContext: modelContext)
                     .id(languageManager.languageCode)
-                    .environment(analytics)
                     .transition(.opacity.animation(.easeInOut(duration: 0.5)))
             } else {
                 OnboardingView {
                     withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                         onboardingDone = true
                     }
-                    analytics.track(.onboardingCompleted)
+                    AnalyticsService.shared.track(.onboardingCompleted)
                 }
                 .transition(.opacity.animation(.easeInOut(duration: 0.5)))
             }
@@ -63,6 +61,7 @@ private struct MainTabView: View {
                         personRepo: personRepo,
                         debtRepo: debtRepo,
                         balanceRepo: balanceRepo,
+                        paymentRepo: paymentRepo,
                         rateClient: rateClient
                     )
                     .navigationBarTitleDisplayMode(.inline)

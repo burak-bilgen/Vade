@@ -12,20 +12,23 @@ public struct DashboardView: View {
     @State private var showAdd = false
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
-    private let personRepo: FetchPersonsUseCase
-    private let debtRepo: FetchDebtsForPersonUseCase
+    private let personRepo: AddPersonUseCase & FetchPersonsUseCase
+    private let debtRepo: AddDebtUseCase & FetchDebtsForPersonUseCase
     private let balanceRepo: CalculateBalanceUseCase
+    private let paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase
     private let rateClient: ExchangeRateProviding
 
     public init(
-        personRepo: FetchPersonsUseCase,
-        debtRepo: FetchDebtsForPersonUseCase,
+        personRepo: AddPersonUseCase & FetchPersonsUseCase,
+        debtRepo: AddDebtUseCase & FetchDebtsForPersonUseCase,
         balanceRepo: CalculateBalanceUseCase,
+        paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase,
         rateClient: ExchangeRateProviding = ExchangeRateClient()
     ) {
         self.personRepo = personRepo
         self.debtRepo = debtRepo
         self.balanceRepo = balanceRepo
+        self.paymentRepo = paymentRepo
         self.rateClient = rateClient
     }
 
@@ -267,7 +270,7 @@ public struct DashboardView: View {
                     gradient: LinearGradient(colors: [ColorTokens.chartBlue, ColorTokens.chartBlue.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     title: String(localized: "dashboard.action.people"),
                     subtitle: String(localized: "dashboard.action.people.subtitle \(vm.persons.count)"),
-                    destination: PeopleListView()
+                    destination: { PeopleListView(personRepo: personRepo, debtRepo: debtRepo, balanceRepo: balanceRepo, paymentRepo: paymentRepo) }
                 )
                 .entrance(.up, delay: 0.1)
 
@@ -276,7 +279,7 @@ public struct DashboardView: View {
                     gradient: LinearGradient(colors: [ColorTokens.chartPurple, ColorTokens.chartPurple.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     title: String(localized: "dashboard.action.charts"),
                     subtitle: String(localized: "dashboard.quickActions.analytics"),
-                    destination: ChartsHostView(
+                    destination: { ChartsHostView(
                         totalReceivable: vm.totalReceivable,
                         totalPayable: vm.totalPayable,
                         netBalance: vm.netBalance,
@@ -287,7 +290,7 @@ public struct DashboardView: View {
                         currencyDistribution: vm.currencyDistribution,
                         upcomingItems: vm.upcomingChartItems,
                         personCount: vm.persons.count
-                    )
+                    ) }
                 )
                 .entrance(.up, delay: 0.15)
 
@@ -296,7 +299,7 @@ public struct DashboardView: View {
                     gradient: LinearGradient(colors: [ColorTokens.chartOrange, ColorTokens.chartOrange.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     title: String(localized: "rates.title"),
                     subtitle: String(localized: "dashboard.quickActions.rates"),
-                    destination: RatesView()
+                    destination: { RatesView() }
                 )
                 .entrance(.up, delay: 0.2)
 
@@ -305,7 +308,7 @@ public struct DashboardView: View {
                     gradient: LinearGradient(colors: [ColorTokens.positive, ColorTokens.positive.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     title: String(localized: "dashboard.action.add"),
                     subtitle: String(localized: "dashboard.quickActions.quickAdd"),
-                    destination: EmptyView()
+                    destination: { EmptyView() }
                 )
                 .entrance(.up, delay: 0.25)
                 .onTapGesture {
@@ -439,14 +442,14 @@ private struct QuickActionTile<Destination: View>: View {
     let gradient: LinearGradient
     let title: String
     let subtitle: String
-    let destination: Destination
+    @ViewBuilder let destination: () -> Destination
 
     var body: some View {
         Group {
             if Destination.self == EmptyView.self {
                 buttonContent
             } else {
-                NavigationLink(destination: destination) {
+                NavigationLink(destination: destination()) {
                     buttonContent
                 }
                 .buttonStyle(.plain)

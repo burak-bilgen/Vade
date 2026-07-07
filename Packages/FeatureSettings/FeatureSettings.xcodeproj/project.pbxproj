@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07EDA51FB6C65F471AD9D743 /* Data.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = F51990510BA8AFE78478F1ED /* Data.framework */; };
 		276FEFB66246F66B9F78A23D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F096FA050398D6FA60B4B1 /* SettingsViewModel.swift */; };
 		2A3AF1034A9689F640203E8D /* DesignSystem.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 69B5DC4DD3B7CF64C00A5A4A /* DesignSystem.framework */; };
 		4BEE6F5AC0437F4C56ED12D8 /* Observability.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 93F17A400A690CFACBACC683 /* Observability.framework */; };
@@ -33,6 +34,7 @@
 			dstSubfolderSpec = 16;
 			files = (
 				79243AB4A705F362AAF54C54 /* Core.framework in Dependencies */,
+				07EDA51FB6C65F471AD9D743 /* Data.framework in Dependencies */,
 				2A3AF1034A9689F640203E8D /* DesignSystem.framework in Dependencies */,
 				B875C8E391384B0D0342C753 /* Domain.framework in Dependencies */,
 				4BEE6F5AC0437F4C56ED12D8 /* Observability.framework in Dependencies */,
@@ -51,6 +53,7 @@
 		BAE127C1268B12D54593633A /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C8FE63AE035581F7812690 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E48494B8C1E2BB515B47C765 /* FeatureSettings-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureSettings-Info.plist"; sourceTree = "<group>"; };
+		F51990510BA8AFE78478F1ED /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5B44BEAA5FF01EE942F5AD /* DataManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagementView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				BAE127C1268B12D54593633A /* Core.framework */,
+				F51990510BA8AFE78478F1ED /* Data.framework */,
 				69B5DC4DD3B7CF64C00A5A4A /* DesignSystem.framework */,
 				D8C8FE63AE035581F7812690 /* Domain.framework */,
 				5755660C44D75FC31DE0F981 /* FeatureSettings.framework */,

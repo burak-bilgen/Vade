@@ -16,8 +16,7 @@ public protocol ScreenProtecting: Sendable {
 // MARK: - Screen Protector
 
 /// Handles app background blur (privacy) and screenshot blocking for sensitive screens.
-@MainActor
-public final class ScreenProtector: ScreenProtecting {
+public final class ScreenProtector: ScreenProtecting, @unchecked Sendable {
     private let logger = Logger(subsystem: "com.vade.core", category: "screenProtect")
 
     public init() {}

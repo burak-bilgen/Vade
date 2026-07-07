@@ -1,5 +1,6 @@
 import SwiftUI
 import Core
+import Domain
 
 public struct SummaryCard: View {
     let netAmount: Decimal
