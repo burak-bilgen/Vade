@@ -62,7 +62,7 @@ public struct LedgerRowView: View {
     }
 
     private var accessibilityLabel: String {
-        let arrow = isPositive ? "ALACAK" : "BORC"
+        let arrow = isPositive ? String(localized: "accessibility.receivable") : String(localized: "accessibility.payable")
         return "\(name), \(amount.formatted()), \(arrow)"
     }
 

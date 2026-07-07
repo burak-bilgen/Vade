@@ -247,7 +247,7 @@ public struct CurrencyTrendChart: View {
                             y: .value("Total", NSDecimalNumber(decimal: item.total).doubleValue)
                         )
                         .foregroundStyle(barColor(for: item.kind))
-                        .cornerRadius(4)
+                        .cornerRadius(Radius.xs)
                     }
                 }
                 .chartYAxis {

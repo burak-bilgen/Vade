@@ -6511,6 +6511,125 @@
           }
         }
       }
+    },
+    "dashboard.quickActions.analytics": {
+      "comment": "Quick action tile subtitle for analytics",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytics"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analizler"
+          }
+        }
+      }
+    },
+    "dashboard.quickActions.rates": {
+      "comment": "Quick action tile subtitle for exchange rates",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rates"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurlar"
+          }
+        }
+      }
+    },
+    "dashboard.quickActions.quickAdd": {
+      "comment": "Quick action tile subtitle for quick add",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Add"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hızlı Ekle"
+          }
+        }
+      }
+    },
+    "dashboard.action.people.subtitle %lld": {
+      "comment": "Subtitle for people quick action tile, shows count",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld people"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld kişi"
+          }
+        }
+      }
+    },
+    "rates.usd": {
+      "comment": "US Dollar label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dollar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolar"
+          }
+        }
+      }
+    },
+    "rates.eur": {
+      "comment": "Euro label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Euro"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Euro"
+          }
+        }
+      }
+    },
+    "debt.amount.placeholder": {
+      "comment": "Placeholder text for debt amount input field",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0.00"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0,00"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

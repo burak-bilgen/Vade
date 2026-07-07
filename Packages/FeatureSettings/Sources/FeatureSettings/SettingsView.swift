@@ -274,7 +274,7 @@ private struct SuperSettingsSection<Content: View>: View {
                 RoundedRectangle(cornerRadius: 1.5)
                     .fill(iconColor.opacity(0.4))
                     .frame(width: 3)
-                    .padding(.vertical, 6),
+                    .padding(.vertical, Spacing.xs),
                 alignment: .leading
             )
         }

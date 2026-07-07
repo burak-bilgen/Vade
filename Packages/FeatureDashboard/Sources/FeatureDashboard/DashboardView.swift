@@ -246,7 +246,7 @@ public struct DashboardView: View {
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 2)
+            .padding(.horizontal, Spacing.xxxs)
         }
     }
 
@@ -263,7 +263,7 @@ public struct DashboardView: View {
                     icon: "person.2.fill",
                     gradient: LinearGradient(colors: [ColorTokens.chartBlue, ColorTokens.chartBlue.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     title: String(localized: "dashboard.action.people"),
-                    subtitle: "\\(vm.persons.count) kişi",
+                    subtitle: String(localized: "dashboard.action.people.subtitle \(vm.persons.count)"),
                     destination: PeopleListView()
                 )
                 .entrance(.up, delay: 0.1)
@@ -272,7 +272,7 @@ public struct DashboardView: View {
                     icon: "chart.pie.fill",
                     gradient: LinearGradient(colors: [ColorTokens.chartPurple, ColorTokens.chartPurple.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     title: String(localized: "dashboard.action.charts"),
-                    subtitle: "Analizler",
+                    subtitle: String(localized: "dashboard.quickActions.analytics"),
                     destination: ChartsHostView(
                         totalReceivable: vm.totalReceivable,
                         totalPayable: vm.totalPayable,
@@ -292,7 +292,7 @@ public struct DashboardView: View {
                     icon: "dollarsign.circle.fill",
                     gradient: LinearGradient(colors: [ColorTokens.chartOrange, ColorTokens.chartOrange.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     title: String(localized: "rates.title"),
-                    subtitle: "Kurlar",
+                    subtitle: String(localized: "dashboard.quickActions.rates"),
                     destination: RatesView()
                 )
                 .entrance(.up, delay: 0.2)
@@ -301,7 +301,7 @@ public struct DashboardView: View {
                     icon: "plus.circle.fill",
                     gradient: LinearGradient(colors: [ColorTokens.positive, ColorTokens.positive.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     title: String(localized: "dashboard.action.add"),
-                    subtitle: "Hızlı Ekle",
+                    subtitle: String(localized: "dashboard.quickActions.quickAdd"),
                     destination: EmptyView()
                 )
                 .entrance(.up, delay: 0.25)
@@ -563,7 +563,7 @@ private struct EnhancedSectionCard<Content: View>: View {
             RoundedRectangle(cornerRadius: 1.5)
                 .fill(accentColor.opacity(0.5))
                 .frame(width: 3)
-                .padding(.vertical, 8),
+                .padding(.vertical, Spacing.s),
             alignment: .leading
         )
     }
@@ -602,7 +602,7 @@ private struct UpcomingRow: View {
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.negative)
                         .padding(.horizontal, Spacing.xs)
-                        .padding(.vertical, 1)
+                        .padding(.vertical, Spacing.xxxs)
                         .background(ColorTokens.negative.opacity(0.12), in: .capsule)
                 }
             }

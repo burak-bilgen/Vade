@@ -295,7 +295,7 @@ private struct TimelineDebtRow: View {
                             .font(Typography.font(for: .label))
                             .foregroundStyle(statusColor(debt.status))
                             .padding(.horizontal, Spacing.s)
-                            .padding(.vertical, 2)
+                            .padding(.vertical, Spacing.xxxs)
                             .background(statusColor(debt.status).opacity(0.12), in: .capsule)
                     }
                 }
@@ -361,7 +361,7 @@ private struct AddDebtSheet: View {
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
-                    TextField("0,00", text: $amountText)
+                    TextField(String(localized: "debt.amount.placeholder"), text: $amountText)
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(ColorTokens.textPrimary)
                         .multilineTextAlignment(.center)
@@ -460,7 +460,7 @@ private struct AddDebtSheet: View {
                             .font(Typography.font(for: .button))
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(height: 50)
+                    .frame(height: Spacing.massive)
                     .background(
                         Capsule().fill(canSave ? ColorTokens.accent : ColorTokens.border)
                     )
@@ -563,7 +563,7 @@ private struct RecordPaymentSheet: View {
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
-                    TextField("0,00", text: $amountText)
+                    TextField(String(localized: "debt.amount.placeholder"), text: $amountText)
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(ColorTokens.textPrimary)
                         .multilineTextAlignment(.center)
@@ -613,7 +613,7 @@ private struct RecordPaymentSheet: View {
                             .font(Typography.font(for: .button))
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(height: 50)
+                    .frame(height: Spacing.massive)
                     .background(
                         Capsule().fill(canSave ? ColorTokens.accent : ColorTokens.border)
                     )

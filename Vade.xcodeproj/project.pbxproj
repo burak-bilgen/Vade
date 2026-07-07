@@ -19,11 +19,9 @@
 		8FE2FD035B4061697BE6436D /* TuistBundle+Vade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D4B208A05A9F3BD7D22DBF /* TuistBundle+Vade.swift */; };
 		9379425726636786F98DD5B4 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F11342E238EFC473972006BC /* DesignSystem_DesignSystem.bundle */; };
 		9FF74ADB6B79B9C3408FFEFD /* FeatureDashboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52484BABDAD957812AC807B9 /* FeatureDashboard.framework */; };
-		B292ECCCE72514CCA7745E0D /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113A5B001A602BDFDD92FABD /* Coordinator.swift */; };
 		BB24D010F101A3BCE6501B40 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F995A70A83635D1F2BE74894 /* AppCoordinator.swift */; };
 		CFFD3B42D98573B6E0F67356 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F634A80D7E07AB06C6BDC00C /* Networking.framework */; };
 		D6229774EE1245526C6823A7 /* FeatureOnboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596BC3A81735962537836959 /* FeatureOnboarding.framework */; };
-		E72A26D3231E2069E25CDE3C /* DIContainer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DAC686C307DB1567FEBAE27 /* DIContainer.framework */; };
 		E96E9690D938565538EDDC90 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A67A83A1799A720675D7D22 /* Core.framework */; };
 		E9E2549F0C6C442599910B5F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 94940C72284D4283EE883218 /* Localizable.xcstrings */; };
 		EF951B0053E6FF8239EEC087 /* FeatureSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D21CBB0AB4A8F584883080EB /* FeatureSettings.framework */; };
@@ -54,8 +52,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		113A5B001A602BDFDD92FABD /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		2DAC686C307DB1567FEBAE27 /* DIContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DIContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A67A83A1799A720675D7D22 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9C9EBB3D53E21DC96756A4 /* FeatureWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF177E7F5CB9715ABA0CC87 /* TuistAssets+Vade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+Vade.swift"; sourceTree = "<group>"; };
@@ -85,7 +81,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E96E9690D938565538EDDC90 /* Core.framework in Frameworks */,
-				E72A26D3231E2069E25CDE3C /* DIContainer.framework in Frameworks */,
 				3A324F17DAEB5095AA7F5CA8 /* Data.framework in Frameworks */,
 				18781D3B67CA2400002C1563 /* DesignSystem.framework in Frameworks */,
 				0F63D81FA78516F1CA7D99EF /* Domain.framework in Frameworks */,
@@ -142,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				F995A70A83635D1F2BE74894 /* AppCoordinator.swift */,
-				113A5B001A602BDFDD92FABD /* Coordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -195,7 +189,6 @@
 				575ABC238E195F0C0DAC1076 /* Data.framework */,
 				F11342E238EFC473972006BC /* DesignSystem_DesignSystem.bundle */,
 				9957458A16D64AFC05214609 /* DesignSystem.framework */,
-				2DAC686C307DB1567FEBAE27 /* DIContainer.framework */,
 				6A35BE75E61364E802DA4BD8 /* Domain.framework */,
 				52484BABDAD957812AC807B9 /* FeatureDashboard.framework */,
 				DF4B99C6B77796EB276507B4 /* FeatureDebtDetail.framework */,
@@ -290,7 +283,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB24D010F101A3BCE6501B40 /* AppCoordinator.swift in Sources */,
-				B292ECCCE72514CCA7745E0D /* Coordinator.swift in Sources */,
 				7CA097180BCBEBD122A1712D /* VadeApp.swift in Sources */,
 				1FB1C810576AE665EB0BFEA2 /* TuistAssets+Vade.swift in Sources */,
 				8FE2FD035B4061697BE6436D /* TuistBundle+Vade.swift in Sources */,

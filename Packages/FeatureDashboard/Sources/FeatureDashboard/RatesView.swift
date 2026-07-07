@@ -18,8 +18,8 @@ public struct RatesView: View {
             // Major rates
             if let rates {
                 Section(String(localized: "rates.major")) {
-                    rateRow(flag: "🇺🇸", code: "USD", label: "Dolar", rate: rates.usdRate)
-                    rateRow(flag: "🇪🇺", code: "EUR", label: "Euro", rate: rates.eurRate)
+                    rateRow(flag: "🇺🇸", code: "USD", label: String(localized: "rates.usd"), rate: rates.usdRate)
+                    rateRow(flag: "🇪🇺", code: "EUR", label: String(localized: "rates.eur"), rate: rates.eurRate)
                     rateRow(flag: "🪙", code: "XAU", label: String(localized: "currency.gold.gram"), rate: rates.goldRate)
                 }
             }

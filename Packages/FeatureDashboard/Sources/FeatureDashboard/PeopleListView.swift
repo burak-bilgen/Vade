@@ -303,7 +303,7 @@ private struct PersonCard: View {
                 }
                 .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
                 .padding(.horizontal, Spacing.s)
-                .padding(.vertical, 2)
+                .padding(.vertical, Spacing.xxxs)
                 .background(
                     Capsule()
                         .fill(balance >= 0
@@ -325,7 +325,7 @@ private struct PersonCard: View {
                 RoundedRectangle(cornerRadius: 1.5)
                     .fill(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
                     .frame(width: 3)
-                    .padding(.vertical, 8),
+                    .padding(.vertical, Spacing.s),
                 alignment: .leading
             )
     }
@@ -403,7 +403,7 @@ private struct AddPremiumSheet: View {
                             .font(Typography.font(for: .button))
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(height: 50)
+                    .frame(height: Spacing.massive)
                     .background(
                         Capsule()
                             .fill(name.trimmed.isEmpty || isSaving

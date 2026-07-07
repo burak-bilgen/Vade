@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0269C4F177BDD537A2E9B8B9 /* DIContainer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7016336A9F7964A80AA62C81 /* DIContainer.framework */; };
 		1007FB3329B37AE9CEEE55AA /* DesignSystem_DesignSystem.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = 5569AD70784636B71A0BEF06 /* DesignSystem_DesignSystem.bundle */; };
 		12B9CBFBE6091E07CA874C9D /* Observability.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 077AB83B70A9B4720BBA9766 /* Observability.framework */; };
 		215B5C2103D5CB09E0FAE73C /* DesignSystem.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = C45F4AD7A49E30A6DD3A6848 /* DesignSystem.framework */; };
 		3960B452A14A372B9B3BAADB /* VadeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD219E481EA8D9B26640FA94 /* VadeWidget.swift */; };
 		47C5B2BDD9CC4F6C7FBFDCDE /* FeatureWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3183FE0F4C8CCC5E8AB37755 /* FeatureWidget.framework */; };
 		4D86E1188BCBC4800587C8FC /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5569AD70784636B71A0BEF06 /* DesignSystem_DesignSystem.bundle */; };
-		5A74EA8A409FE809BD1843AE /* DIContainer.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 7016336A9F7964A80AA62C81 /* DIContainer.framework */; };
 		6400E2AB02EF9FC634B941D3 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C45F4AD7A49E30A6DD3A6848 /* DesignSystem.framework */; };
 		6BD95052A38177C3E7851F4B /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D47631789A0DD87B0EE22C3 /* Domain.framework */; };
 		992A28376A099E4EE0BBC89C /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077AB83B70A9B4720BBA9766 /* Observability.framework */; };
@@ -61,7 +59,6 @@
 			dstSubfolderSpec = 16;
 			files = (
 				DAB9306E6EB2DE28B80A2B18 /* Core.framework in Dependencies */,
-				5A74EA8A409FE809BD1843AE /* DIContainer.framework in Dependencies */,
 				215B5C2103D5CB09E0FAE73C /* DesignSystem.framework in Dependencies */,
 				A9D12938DEBD8EEFE628F296 /* Domain.framework in Dependencies */,
 				12B9CBFBE6091E07CA874C9D /* Observability.framework in Dependencies */,
@@ -88,7 +85,6 @@
 		3214863F13339D2F983CF1CF /* FeatureWidgetTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureWidgetTests-Info.plist"; sourceTree = "<group>"; };
 		5569AD70784636B71A0BEF06 /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D47631789A0DD87B0EE22C3 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7016336A9F7964A80AA62C81 /* DIContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DIContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A337027B014B93844B5ED97C /* FeatureWidgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureWidgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E537F98FC2CFC56038834A /* FeatureWidget-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureWidget-Info.plist"; sourceTree = "<group>"; };
 		C45F4AD7A49E30A6DD3A6848 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,7 +105,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5207796DCBAA24D8D227916 /* Core.framework in Frameworks */,
-				0269C4F177BDD537A2E9B8B9 /* DIContainer.framework in Frameworks */,
 				6400E2AB02EF9FC634B941D3 /* DesignSystem.framework in Frameworks */,
 				6BD95052A38177C3E7851F4B /* Domain.framework in Frameworks */,
 				47C5B2BDD9CC4F6C7FBFDCDE /* FeatureWidget.framework in Frameworks */,
@@ -185,7 +180,6 @@
 				D80815F04745CB29457A0EB8 /* Core.framework */,
 				5569AD70784636B71A0BEF06 /* DesignSystem_DesignSystem.bundle */,
 				C45F4AD7A49E30A6DD3A6848 /* DesignSystem.framework */,
-				7016336A9F7964A80AA62C81 /* DIContainer.framework */,
 				5D47631789A0DD87B0EE22C3 /* Domain.framework */,
 				3183FE0F4C8CCC5E8AB37755 /* FeatureWidget.framework */,
 				A337027B014B93844B5ED97C /* FeatureWidgetTests.xctest */,

@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		015F0A1C989FC6DFEEB8DEA6 /* DIContainer.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 226B8702F685113B8CD16C01 /* DIContainer.framework */; };
 		02172480113C35578D7A729C /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DC0ABC68715B1377AE6B94 /* OnboardingView.swift */; };
 		27E197B38AF0D421C95A82C8 /* FeatureOnboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1013DC473CF628F07352DE25 /* FeatureOnboarding.framework */; };
 		36753E770734D9C34B04B17B /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F2CDB77590E3E3F45EAA1C /* Domain.framework */; };
 		58E2A2F977FC7A10C6BD8356 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC371F514E8F67D77A33828 /* OnboardingTests.swift */; };
 		80D1CB60305456A3D89D34BA /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 576FE6D320B030034E619C71 /* Core.framework */; };
 		8806FA64E47AB0C556A9CAF1 /* Domain.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 89F2CDB77590E3E3F45EAA1C /* Domain.framework */; };
-		9D555F231D8C289F233B470E /* DIContainer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 226B8702F685113B8CD16C01 /* DIContainer.framework */; };
 		A356898646DC6F7A6A0DB67C /* CloudKitStatusCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A1DD111E62175889A97CAF /* CloudKitStatusCheck.swift */; };
 		C6BB5DF0E463BCC6F1BB8A2D /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FD233C9D0DC5F884C88D83FC /* DesignSystem_DesignSystem.bundle */; };
 		CC4C8551314DBB98034091FE /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 576FE6D320B030034E619C71 /* Core.framework */; };
@@ -50,7 +48,6 @@
 			dstSubfolderSpec = 16;
 			files = (
 				80D1CB60305456A3D89D34BA /* Core.framework in Dependencies */,
-				015F0A1C989FC6DFEEB8DEA6 /* DIContainer.framework in Dependencies */,
 				F419304F986BCF81D0A0B52F /* DesignSystem.framework in Dependencies */,
 				8806FA64E47AB0C556A9CAF1 /* Domain.framework in Dependencies */,
 			);
@@ -81,7 +78,6 @@
 
 /* Begin PBXFileReference section */
 		1013DC473CF628F07352DE25 /* FeatureOnboarding.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureOnboarding.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		226B8702F685113B8CD16C01 /* DIContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DIContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		576FE6D320B030034E619C71 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC371F514E8F67D77A33828 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		61A1DD111E62175889A97CAF /* CloudKitStatusCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitStatusCheck.swift; sourceTree = "<group>"; };
@@ -100,7 +96,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC4C8551314DBB98034091FE /* Core.framework in Frameworks */,
-				9D555F231D8C289F233B470E /* DIContainer.framework in Frameworks */,
 				CD21777E789198A87EB7D472 /* DesignSystem.framework in Frameworks */,
 				36753E770734D9C34B04B17B /* Domain.framework in Frameworks */,
 				27E197B38AF0D421C95A82C8 /* FeatureOnboarding.framework in Frameworks */,
@@ -139,7 +134,6 @@
 				576FE6D320B030034E619C71 /* Core.framework */,
 				FD233C9D0DC5F884C88D83FC /* DesignSystem_DesignSystem.bundle */,
 				64B548E77C0A93630C7A167D /* DesignSystem.framework */,
-				226B8702F685113B8CD16C01 /* DIContainer.framework */,
 				89F2CDB77590E3E3F45EAA1C /* Domain.framework */,
 				1013DC473CF628F07352DE25 /* FeatureOnboarding.framework */,
 				7755CC2222BE03EBF527DEDB /* FeatureOnboardingTests.xctest */,
