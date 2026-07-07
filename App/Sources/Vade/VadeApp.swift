@@ -19,6 +19,7 @@ struct VadeApp: App {
     @State private var isAuthenticated = false
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("vade.biometric.enabled") private var isBiometricEnabled = false
+    @State private var languageManager = LanguageManager()
 
     private let biometricAuth = BiometricAuthService()
     private let screenProtector = ScreenProtector()
@@ -61,6 +62,8 @@ struct VadeApp: App {
                 } else {
                     CoordinatorRootView()
                         .modelContainer(container)
+                        .environment(languageManager)
+                        .environment(\.locale, languageManager.locale)
                 }
             } else {
                 ZStack {
@@ -84,6 +87,9 @@ struct VadeApp: App {
                         _ = await notificationService.requestPermission()
                     }
             }
+        }
+        .onChange(of: languageManager.languageCode) { _, newCode in
+            analytics.track(.languageChanged(to: newCode))
         }
         .onChange(of: scenePhase) { _, newPhase in
             switch newPhase {
@@ -126,7 +132,7 @@ struct VadeApp: App {
                     isAuthenticated = success ?? false
                 }
             }
-            .buttonStyle(.brassPill)
+            .buttonStyle(.primaryPill)
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -145,5 +151,5 @@ struct VadeApp: App {
 // MARK: - Preview
 
 #Preview {
-    Text(String(localized: "Vade App — Preview placeholder"))
+    Text(String(localized: "app.preview.placeholder"))
 }

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import Core
 import FeatureOnboarding
 import FeatureDashboard
 import FeatureDebtDetail
@@ -33,6 +34,7 @@ final class AppCoordinator: Coordinator {
 /// @State MUST live in a View struct — the Coordinator class cannot host it.
 public struct CoordinatorRootView: View {
     @State private var onboardingDone = false
+    @Environment(LanguageManager.self) private var languageManager
     private let analytics: any AnalyticsTracking = AnalyticsService()
 
     public var body: some View {
@@ -40,6 +42,7 @@ public struct CoordinatorRootView: View {
             ColorTokens.background
             if onboardingDone {
                 MainTabView()
+                    .id(languageManager.languageCode)
             } else {
                 OnboardingView {
                     onboardingDone = true
