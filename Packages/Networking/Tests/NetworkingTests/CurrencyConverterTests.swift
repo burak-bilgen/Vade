@@ -5,7 +5,8 @@ import Domain
 
 // MARK: - Mock Rate Provider
 
-private final class MockRateProvider: ExchangeRateProviding, @unchecked Sendable {
+@MainActor
+private final class MockRateProvider: ExchangeRateProviding {
     var usdRate: Decimal = 31.5
     var eurRate: Decimal = 35.2
     var goldRate: Decimal = 3450.0

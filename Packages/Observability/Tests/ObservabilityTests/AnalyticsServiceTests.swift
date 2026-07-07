@@ -15,7 +15,7 @@ struct AnalyticsServiceTests {
         service.track(.debtAdded(kind: .gold))
         service.track(.paymentRecorded(type: .partial))
         service.track(.currencyChanged(to: .usd))
-        service.track(.exportUsed(format: .pdf))
+        service.track(.exportUsed(format: "pdf"))
         service.track(.notificationPermission(granted: true))
         service.track(.notificationScheduled)
         service.track(.widgetAdded)

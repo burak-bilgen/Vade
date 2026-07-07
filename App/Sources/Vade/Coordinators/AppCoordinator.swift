@@ -16,7 +16,7 @@ import Networking
 /// Owns the onboarding state as a proper SwiftUI View.
 /// @State MUST live in a View struct — the Coordinator class cannot host it.
 public struct CoordinatorRootView: View {
-    @State private var onboardingDone = false
+    @AppStorage("vade.onboarding.done") private var onboardingDone = false
     @Environment(LanguageManager.self) private var languageManager
     @Environment(\.modelContext) private var modelContext
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
@@ -28,11 +28,15 @@ public struct CoordinatorRootView: View {
                 MainTabView(modelContext: modelContext)
                     .id(languageManager.languageCode)
                     .environment(analytics)
+                    .transition(.opacity.animation(.easeInOut(duration: 0.5)))
             } else {
                 OnboardingView {
-                    onboardingDone = true
+                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                        onboardingDone = true
+                    }
                     analytics.track(.onboardingCompleted)
                 }
+                .transition(.opacity.animation(.easeInOut(duration: 0.5)))
             }
         }
         .ignoresSafeArea()

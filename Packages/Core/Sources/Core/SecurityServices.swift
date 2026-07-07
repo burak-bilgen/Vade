@@ -12,7 +12,7 @@ public protocol BiometricAuthProviding: Sendable {
 
 // MARK: - Biometric Authentication Service
 
-public final class BiometricAuthService: BiometricAuthProviding, @unchecked Sendable {
+public final class BiometricAuthService: BiometricAuthProviding {
     private let contextProvider: @Sendable () -> LAContext
     private let logger = Logger(subsystem: "com.vade.core", category: "biometry")
 

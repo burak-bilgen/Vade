@@ -133,6 +133,41 @@ public struct PersonDetailView: View {
                         .stroke(ColorTokens.border, lineWidth: 0.5)
                 )
 
+                // Quick actions (call, message, share)
+                if let phone = person.phoneNumber, !phone.isEmpty {
+                    HStack(spacing: Spacing.m) {
+                        quickActionButton(
+                            icon: "phone.fill",
+                            label: String(localized: "personDetail.action.call"),
+                            color: ColorTokens.positive
+                        ) {
+                            guard let url = URL(string: "tel://\(phone.replacingOccurrences(of: " ", with: ""))") else { return }
+                            UIApplication.shared.open(url)
+                            HapticFeedback.impact(.light)
+                        }
+
+                        quickActionButton(
+                            icon: "message.fill",
+                            label: String(localized: "personDetail.action.message"),
+                            color: ColorTokens.chartBlue
+                        ) {
+                            guard let url = URL(string: "sms://\(phone.replacingOccurrences(of: " ", with: ""))") else { return }
+                            UIApplication.shared.open(url)
+                            HapticFeedback.impact(.light)
+                        }
+
+                        quickActionButton(
+                            icon: "square.and.arrow.up",
+                            label: String(localized: "personDetail.action.share"),
+                            color: ColorTokens.accent
+                        ) {
+                            shareBalance(vm: vm)
+                        }
+                    }
+                    .padding(.horizontal, Spacing.xl)
+                    .entrance(.up, delay: 0.15)
+                }
+
                 // Debt count summary — staggered entrance
                 HStack(spacing: Spacing.m) {
                     DebtSummaryChip(
@@ -534,6 +569,45 @@ private struct AddDebtSheet: View {
             hasDueDate ? dueDate : nil
         )
         isSaving = false
+    }
+}
+
+    // MARK: - Quick Actions
+
+    private func quickActionButton(icon: String, label: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: Spacing.xxs) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(color)
+                    .frame(width: 40, height: 40)
+                    .background(Circle().fill(color.opacity(0.12)))
+                Text(label)
+                    .font(Typography.font(for: .label))
+                    .foregroundStyle(ColorTokens.textSecondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, Spacing.s)
+            .background(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .fill(ColorTokens.surface)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .stroke(ColorTokens.border, lineWidth: 0.5)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func shareBalance(vm: PersonDetailViewModel) {
+        let text = String(localized: "personDetail.share.text \\(person.name) \\(vm.balance.formatted())")
+        let av = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = scene.windows.first,
+              let root = window.rootViewController else { return }
+        root.present(av, animated: true)
+        HapticFeedback.impact(.light)
     }
 }
 

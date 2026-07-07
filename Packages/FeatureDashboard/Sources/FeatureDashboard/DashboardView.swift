@@ -62,7 +62,10 @@ public struct DashboardView: View {
                 contentAppeared = true
             }
         }
-        .refreshable { await viewModel?.loadData() }
+        .refreshable {
+            HapticFeedback.impact(.medium)
+            await viewModel?.loadData()
+        }
     }
 
     private func content(_ vm: DashboardViewModel) -> some View {

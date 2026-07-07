@@ -35,7 +35,7 @@ public final class AnalyticsService: AnalyticsTracking {
         case .debtAdded(let kind): return ("debt_added", ["kind": kind.rawValue])
         case .paymentRecorded(let type): return ("payment_recorded", ["type": type.rawValue])
         case .currencyChanged(let to): return ("currency_changed", ["to": to.rawValue])
-        case .exportUsed(let format): return ("export_used", ["format": format.rawValue])
+        case .exportUsed(let format): return ("export_used", ["format": format])
         case .notificationPermission(let g): return ("notification_permission", ["granted": g])
         case .notificationScheduled: return ("notification_scheduled", nil)
         case .widgetAdded: return ("widget_added", nil)

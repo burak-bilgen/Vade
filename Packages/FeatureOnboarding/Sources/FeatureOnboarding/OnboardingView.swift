@@ -44,8 +44,24 @@ public struct OnboardingView: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
+                    // Skip button (top-right)
+                    HStack {
+                        Spacer()
+                        Button(String(localized: "onboarding.skip")) {
+                            withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                                onComplete()
+                            }
+                        }
+                        .font(Typography.font(for: .buttonSmall))
+                        .foregroundStyle(ColorTokens.textTertiary)
+                        .padding(.trailing, Spacing.xl)
+                        .padding(.top, Spacing.m)
+                        .opacity(appear ? 1 : 0)
+                        .animation(.easeOut(duration: 0.4).delay(0.5), value: appear)
+                    }
+
                     // Top spacer
-                    Spacer().frame(height: 60)
+                    Spacer().frame(height: 40)
 
                     // Logo area
                     logoSection
@@ -71,7 +87,7 @@ public struct OnboardingView: View {
                         .offset(y: appear ? 0 : 15)
                         .animation(.easeOut(duration: 0.6).delay(0.35), value: appear)
 
-                    // Feature cards
+                    // Feature cards with staggered entrance
                     VStack(spacing: Spacing.m) {
                         ForEach(Array(features.enumerated()), id: \.offset) { index, feature in
                             FeatureCard(
@@ -84,16 +100,15 @@ public struct OnboardingView: View {
                     .padding(.horizontal, Spacing.xl)
                     .padding(.top, Spacing.xxl)
 
-                    // CloudKit status
+                    // iCloud warning banner
                     if cloudStatus != .available && cloudStatus != .couldNotDetermine {
                         iCloudBanner
                             .padding(.horizontal, Spacing.xl)
                             .padding(.top, Spacing.m)
-                            .opacity(featureAppeared ? 1 : 0)
-                            .animation(.easeOut(duration: 0.5).delay(0.8), value: featureAppeared)
+                            .transition(.move(edge: .trailing).combined(with: .opacity))
                     }
 
-                    // Bottom CTA
+                    // Bottom CTA section
                     bottomSection
                         .padding(.horizontal, Spacing.xl)
                         .padding(.top, Spacing.xxl)
@@ -191,6 +206,7 @@ public struct OnboardingView: View {
             Button {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                     accepted.toggle()
+                    if accepted { HapticFeedback.impact(.light) }
                 }
             } label: {
                 HStack(spacing: Spacing.m) {
@@ -208,7 +224,10 @@ public struct OnboardingView: View {
             .animation(.easeOut(duration: 0.4).delay(0.7), value: featureAppeared)
 
             // Start button
-            Button(action: onComplete) {
+            Button {
+                HapticFeedback.notification(.success)
+                onComplete()
+            } label: {
                 HStack(spacing: Spacing.s) {
                     Text(String(localized: "onboarding.start"))
                         .font(Typography.font(for: .button))
@@ -218,7 +237,7 @@ public struct OnboardingView: View {
                 }
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: 52)
+                .frame(height: Spacing.massive)
                 .background(
                     Capsule()
                         .fill(accepted ? ColorTokens.accent : ColorTokens.border)

@@ -9,7 +9,7 @@ public enum AnalyticsEvent: Sendable {
     case debtAdded(kind: DebtKind)
     case paymentRecorded(type: PaymentType)
     case currencyChanged(to: CurrencyCode)
-    case exportUsed(format: ExportFormat)
+    case exportUsed(format: String)
     case notificationPermission(granted: Bool)
     case notificationScheduled
     case widgetAdded
@@ -41,13 +41,7 @@ public enum CurrencyCode: String, Sendable {
     case gold
 }
 
-/// Mirrored in Core/DataExportService.swift (with CaseIterable).
-/// Core and Domain cannot depend on each other, so both define ExportFormat.
-/// If adding a case, update BOTH definitions.
-public enum ExportFormat: String, Sendable {
-    case pdf
-    case csv
-}
+
 
 public enum ThemeMode: String, Sendable {
     case system

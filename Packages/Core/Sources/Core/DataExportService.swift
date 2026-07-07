@@ -6,9 +6,7 @@ import UIKit
 
 // MARK: - Export Format
 
-/// Mirrored in Domain/AnalyticsEvent.swift (without CaseIterable).
-/// Core and Domain cannot depend on each other, so both define ExportFormat.
-/// If adding a case, update BOTH definitions.
+/// Canonical ExportFormat definition. Domain tracks export via String rawValue.
 public enum ExportFormat: String, Sendable, CaseIterable {
     case pdf
     case csv

@@ -96,78 +96,157 @@ struct QuickAddSheet: View {
     }
 
     private func quickAddForm(_ vm: QuickAddViewModel) -> some View {
-        Form {
-            Section {
-                TextField(String(localized: "quickAdd.person"), text: Binding(
-                    get: { vm.name },
-                    set: { vm.name = $0 }
-                ))
-                .disabled(vm.isSaving)
-                TextField(String(localized: "quickAdd.amount"), text: Binding(
-                    get: { vm.amount },
-                    set: { vm.amount = $0 }
-                ))
-                #if !os(macOS)
-                .keyboardType(.decimalPad)
-                #endif
-                .disabled(vm.isSaving)
-            }
-            Section {
-                Picker(String(localized: "quickAdd.type"), selection: Binding(
-                    get: { vm.kind },
-                    set: { vm.kind = $0 }
-                )) {
-                    ForEach(CurrencyKind.allCases, id: \.self) { k in
-                        Text(k.rawValue).tag(k)
-                    }
+        ScrollView {
+            VStack(spacing: Spacing.xl) {
+                // Amount input
+                VStack(spacing: Spacing.xxs) {
+                    Text(String(localized: "quickAdd.amountLabel"))
+                        .font(Typography.font(for: .label))
+                        .foregroundStyle(ColorTokens.textTertiary)
+                        .textCase(.uppercase)
+                        .tracking(0.8)
+                    TextField(String(localized: "debt.amount.placeholder"), text: Binding(
+                        get: { vm.amount },
+                        set: { vm.amount = $0 }
+                    ))
+                    .font(Typography.font(for: .displayMedium))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                    .multilineTextAlignment(.center)
+                    #if !os(macOS)
+                    .keyboardType(.decimalPad)
+                    #endif
+                    .disabled(vm.isSaving)
                 }
-                .disabled(vm.isSaving)
-                Picker(String(localized: "quickAdd.direction"), selection: Binding(
-                    get: { vm.direction },
-                    set: { vm.direction = $0 }
-                )) {
-                    Text(String(localized: "quickAdd.receivable")).tag(DebtDirection.receivable)
-                    Text(String(localized: "quickAdd.payable")).tag(DebtDirection.payable)
-                }
-                .disabled(vm.isSaving)
-            }
+                .padding(.top, Spacing.xl)
 
-            if let error = vm.errorMessage {
-                Section {
+                // Currency picker as pill segments
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: Spacing.xxs) {
+                        ForEach(CurrencyKind.allCases, id: \.self) { kind in
+                            Button {
+                                withAnimation(.spring(response: 0.3)) {
+                                    vm.kind = kind
+                                }
+                            } label: {
+                                Text(kind.rawValue)
+                                    .font(Typography.font(for: .buttonSmall))
+                                    .foregroundStyle(vm.kind == kind
+                                        ? (kind.isFiat ? ColorTokens.positive : ColorTokens.chartOrange)
+                                        : ColorTokens.textTertiary)
+                                    .padding(.horizontal, Spacing.m)
+                                    .padding(.vertical, Spacing.s)
+                                    .background(
+                                        Capsule().fill(vm.kind == kind
+                                            ? (kind.isFiat
+                                                ? ColorTokens.positiveLight.opacity(0.2)
+                                                : ColorTokens.chartOrange.opacity(0.2))
+                                            : ColorTokens.surface)
+                                    )
+                            }
+                            .disabled(vm.isSaving)
+                        }
+                    }
+                    .padding(.horizontal, Spacing.xl)
+                }
+
+                // Direction toggle pills
+                HStack(spacing: Spacing.m) {
+                    directionButton(.receivable, color: ColorTokens.positive, vm: vm)
+                    directionButton(.payable, color: ColorTokens.negative, vm: vm)
+                }
+                .padding(.horizontal, Spacing.xl)
+
+                // Person name
+                VStack(spacing: Spacing.xxs) {
+                    Text(String(localized: "quickAdd.personLabel"))
+                        .font(Typography.font(for: .label))
+                        .foregroundStyle(ColorTokens.textTertiary)
+                        .textCase(.uppercase)
+                        .tracking(0.8)
+                    TextField(String(localized: "quickAdd.personPlaceholder"), text: Binding(
+                        get: { vm.name },
+                        set: { vm.name = $0 }
+                    ))
+                    .font(Typography.font(for: .title2))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                    .multilineTextAlignment(.center)
+                    .disabled(vm.isSaving)
+                }
+
+                // Error
+                if let error = vm.errorMessage {
                     Text(error)
                         .font(Typography.font(for: .caption))
                         .foregroundStyle(ColorTokens.negative)
+                        .padding(.horizontal, Spacing.xl)
                 }
+
+                Spacer()
+
+                // Save button
+                Button {
+                    Task {
+                        let success = await vm.save()
+                        if success {
+                            HapticFeedback.notification(.success)
+                            await vm.onDone()
+                            dismiss()
+                        }
+                    }
+                } label: {
+                    HStack(spacing: Spacing.s) {
+                        if vm.isSaving { ProgressView().tint(.black) }
+                        Text(String(localized: "quickAdd.save"))
+                            .font(Typography.font(for: .button))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: Spacing.massive)
+                    .background(
+                        Capsule().fill(vm.canSave ? ColorTokens.accent : ColorTokens.border)
+                    )
+                    .foregroundStyle(vm.canSave && !vm.isSaving ? .black : ColorTokens.textTertiary)
+                }
+                .disabled(!vm.canSave || vm.isSaving)
+                .padding(.horizontal, Spacing.xl)
+                .padding(.bottom, Spacing.xxxl)
             }
+            .frame(maxWidth: .infinity)
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .background(ColorTokens.background)
         .navigationTitle(String(localized: "quickAdd.title"))
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .scrollContentBackground(.hidden)
-        .background(ColorTokens.background)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button(String(localized: "quickAdd.cancel")) { dismiss() }
                     .disabled(vm.isSaving)
             }
-            ToolbarItem(placement: .confirmationAction) {
-                if vm.isSaving {
-                    ProgressView()
-                } else {
-                    Button(String(localized: "quickAdd.save")) {
-                        Task {
-                            let success = await vm.save()
-                            if success {
-                                await vm.onDone()
-                                dismiss()
-                            }
-                        }
-                    }
-                    .disabled(!vm.canSave)
-                }
-            }
         }
+    }
+
+    private func directionButton(_ direction: DebtDirection, color: Color, vm: QuickAddViewModel) -> some View {
+        Button {
+            withAnimation(.spring(response: 0.3)) { vm.direction = direction }
+        } label: {
+            HStack(spacing: Spacing.xxs) {
+                Image(systemName: direction == .receivable ? "arrow.down.left" : "arrow.up.right")
+                    .font(.system(size: 12, weight: .bold))
+                Text(direction == .receivable
+                    ? String(localized: "quickAdd.receivable")
+                    : String(localized: "quickAdd.payable"))
+                    .font(Typography.font(for: .buttonSmall))
+            }
+            .foregroundStyle(vm.direction == direction ? color : ColorTokens.textTertiary)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, Spacing.m)
+            .background(
+                Capsule().fill(vm.direction == direction
+                    ? color.opacity(0.15) : ColorTokens.surface)
+            )
+        }
+        .disabled(vm.isSaving)
     }
 }
 

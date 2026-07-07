@@ -137,7 +137,7 @@ public struct DataManagementView: View {
         if let data = try? exportService.exportAsCSV(rows: rows) {
             exportedData = data
             showShareSheet = true
-            analytics.track(.exportUsed(format: .csv))
+            analytics.track(.exportUsed(format: "csv"))
         }
     }
 
@@ -147,7 +147,7 @@ public struct DataManagementView: View {
         if let data = try? exportService.exportAsPDF(rows: rows) {
             exportedData = data
             showShareSheet = true
-            analytics.track(.exportUsed(format: .pdf))
+            analytics.track(.exportUsed(format: "pdf"))
         }
     }
 
