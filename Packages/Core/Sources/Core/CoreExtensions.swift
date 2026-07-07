@@ -12,28 +12,28 @@ public extension Decimal {
     }
 
     func formatted(using locale: Locale = .current) -> String {
-        let formatter: NumberFormatter
-        Self.formatterLock.lock()
-        if let cached = Self.formatterCache[locale] {
-            formatter = cached
-            Self.formatterLock.unlock()
-        } else {
-            Self.formatterLock.unlock()
-            let newFormatter = NumberFormatter()
-            newFormatter.locale = locale
-            newFormatter.numberStyle = .decimal
-            newFormatter.minimumFractionDigits = 2
-            newFormatter.maximumFractionDigits = 2
-            Self.formatterLock.lock()
-            Self.formatterCache[locale] = newFormatter
-            Self.formatterLock.unlock()
-            formatter = newFormatter
+        // Read from cache with concurrent sync
+        var cached: NumberFormatter?
+        Self.formatterQueue.sync {
+            cached = Self._formatterCache[locale]
         }
-        return formatter.string(from: self as NSDecimalNumber) ?? "\(self)"
+        if let formatter = cached {
+            return formatter.string(from: self as NSDecimalNumber) ?? "\(self)"
+        }
+        // Create new formatter with barrier
+        let newFormatter = NumberFormatter()
+        newFormatter.locale = locale
+        newFormatter.numberStyle = .decimal
+        newFormatter.minimumFractionDigits = 2
+        newFormatter.maximumFractionDigits = 2
+        Self.formatterQueue.async(flags: .barrier) {
+            Self._formatterCache[locale] = newFormatter
+        }
+        return newFormatter.string(from: self as NSDecimalNumber) ?? "\(self)"
     }
 
-    nonisolated(unsafe) private static var formatterCache: [Locale: NumberFormatter] = [:]
-    private static let formatterLock = NSLock()
+    nonisolated(unsafe) private static var _formatterCache: [Locale: NumberFormatter] = [:]
+    private static let formatterQueue = DispatchQueue(label: "com.vade.formatterCache", attributes: .concurrent)
 
     var isEffectivelyZero: Bool { rounded() == 0 }
     var absoluteValue: Decimal { magnitude }

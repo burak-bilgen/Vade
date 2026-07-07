@@ -38,13 +38,18 @@ public final class DashboardViewModel {
         defer { isLoading = false }
 
         do {
+            // Step 1: Fetch persons first (needed by all other loads)
             persons = try await personRepo.execute(includeArchived: false)
-            await refreshBalances()
-            await loadUpcoming()
-            await loadRecentActivity()
-            await loadCurrencyDistribution()
-            await loadMonthlyStats()
-            await loadExchangeRates()
+
+            // Step 2: Fire all dependent loads in parallel
+            async let balances = refreshBalances()
+            async let upcoming = loadUpcoming()
+            async let activity = loadRecentActivity()
+            async let currencyDist = loadCurrencyDistribution()
+            async let stats = loadMonthlyStats()
+            async let rates = loadExchangeRates()
+
+            let (_, _, _, _, _, _) = await (balances, upcoming, activity, currencyDist, stats, rates)
         } catch {
             AppLog.data.error("[DashboardViewModel] Load failed: \(error.localizedDescription)")
         }
