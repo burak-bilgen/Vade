@@ -5,8 +5,6 @@ import Core
 import Observability
 import Networking
 
-// MARK: - Dashboard
-
 public struct DashboardView: View {
     @State private var viewModel: DashboardViewModel?
     @State private var showAdd = false
@@ -80,15 +78,12 @@ public struct DashboardView: View {
         }
     }
 
-    // MARK: - Header with Premium Balance Card
-
     private func headerSection(_ vm: DashboardViewModel) -> some View {
         VStack(spacing: 0) {
-            Color.clear.frame(height: 60)
+            Color.clear.frame(height: 56)
 
-            // Greeting + compact action row
             HStack {
-                VStack(alignment: .leading, spacing: 1) {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(timeGreeting)
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textTertiary)
@@ -116,151 +111,118 @@ public struct DashboardView: View {
                         )
                     }) {
                         Image(systemName: "chart.pie.fill")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(ColorTokens.chartPurple)
-                            .frame(width: 36, height: 36)
-                            .background(Circle().fill(ColorTokens.chartPurple.opacity(0.12)))
+                            .frame(width: 34, height: 34)
+                            .background(Circle().fill(ColorTokens.chartPurple.opacity(0.1)))
                     }
                     .premiumPress()
 
                     Button { showAdd = true } label: {
                         Image(systemName: "plus")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(.white)
-                            .frame(width: 36, height: 36)
+                            .frame(width: 34, height: 34)
                             .background(Circle().fill(ColorTokens.accent))
                     }
                     .premiumPress()
                 }
             }
             .padding(.horizontal, Spacing.xl)
-            .padding(.bottom, Spacing.m)
+            .padding(.bottom, Spacing.s)
             .entrance(.up, delay: 0.05)
 
-            // Premium Balance Card
             PremiumBalanceCard(
                 netAmount: vm.netBalance,
                 receivable: vm.totalReceivable,
                 payable: vm.totalPayable,
-                personCount: vm.persons.count
+                personCount: vm.persons.count,
+                lastUpdate: vm.exchangeRates?.lastUpdate
             )
             .padding(.horizontal, Spacing.xl)
-            .scaleEffect(contentAppeared ? 1 : 0.92)
+            .scaleEffect(contentAppeared ? 1 : 0.9)
             .opacity(contentAppeared ? 1 : 0)
             .animation(.spring(response: 0.5, dampingFraction: 0.75).delay(0.1), value: contentAppeared)
 
-            // Rate ticker
             if let rates = vm.exchangeRates {
                 rateScrollView(rates)
-                    .padding(.top, Spacing.l)
-                    .padding(.horizontal, Spacing.xl)
+                    .padding(.top, Spacing.m)
                     .entrance(.up, delay: 0.2)
             }
-
-            Spacer().frame(height: Spacing.xl)
         }
     }
-
-    // MARK: - Rate Ticker (Horizontal Scroll)
 
     private func rateScrollView(_ rates: ExchangeRateSnapshot) -> some View {
         let items: [(emoji: String, code: String, rate: Decimal?)] = [
             ("🇺🇸", "USD", rates.usdRate),
             ("🇪🇺", "EUR", rates.eurRate),
-            ("🥇", "GAU", rates.goldRate),
+            ("🇬🇧", "GBP", rates.gbpRate),
+            ("🇨🇭", "CHF", rates.chfRate),
+            ("🇯🇵", "JPY", rates.jpyRate),
+            ("🪙", "XAU", rates.goldRate),
+        ]
 
-        ].filter { $0.rate != nil }
-
-        return ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: Spacing.s) {
-                ForEach(items, id: \.code) { item in
-                    NavigationLink { RatesView() } label: {
-                        VStack(spacing: Spacing.xxs) {
-                            Text(item.emoji)
-                                .font(.title3)
-                            Text(item.code)
-                                .font(Typography.font(for: .label))
-                                .foregroundStyle(ColorTokens.textTertiary)
-                            Text(item.rate!, format: .number.precision(.fractionLength(2)))
-                                .font(Typography.font(for: .amountSmall))
-                                .foregroundStyle(ColorTokens.textPrimary)
-                                .contentTransition(.numericText())
-                        }
-                        .padding(.horizontal, Spacing.l)
-                        .padding(.vertical, Spacing.s)
-                        .background(
-                            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                                .fill(ColorTokens.surface)
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                                .stroke(ColorTokens.border, lineWidth: 0.5)
-                        )
-                    }
-                    .buttonStyle(.plain)
+        return VStack(spacing: Spacing.xxs) {
+            HStack {
+                Text(String(localized: "rates.title"))
+                    .font(Typography.font(for: .label))
+                    .foregroundStyle(ColorTokens.textTertiary)
+                    .textCase(.uppercase)
+                    .tracking(0.8)
+                Spacer()
+                if let lastUpdate = rates.lastUpdate {
+                    Text(lastUpdate, format: .dateTime.hour().minute().day().month(.abbreviated))
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.textTertiary)
                 }
             }
-            .padding(.horizontal, Spacing.xxxs)
+            .padding(.horizontal, Spacing.xl)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: Spacing.s) {
+                    ForEach(items, id: \.code) { item in
+                        NavigationLink { RatesView() } label: {
+                            RateTile(flag: item.emoji, code: item.code, rate: item.rate)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal, Spacing.xl)
+            }
         }
     }
 
-    // MARK: - Content Section
-
     private func contentSection(_ vm: DashboardViewModel) -> some View {
-        VStack(spacing: Spacing.l) {
-            // Quick Action Strip (horizontal pills)
+        VStack(spacing: Spacing.m) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.s) {
                     NavigationLink(destination: {
                         PeopleListView(personRepo: personRepo, debtRepo: debtRepo, balanceRepo: balanceRepo, paymentRepo: paymentRepo)
                     }) {
-                        ActionPill(
-                            icon: "person.2.fill",
-                            title: String(localized: "dashboard.action.people"),
-                            color: ColorTokens.chartBlue
-                        )
+                        ActionPill(icon: "person.2.fill", title: String(localized: "dashboard.action.people"), color: ColorTokens.chartBlue)
                     }
                     .buttonStyle(.plain)
 
                     NavigationLink(destination: {
                         ChartsHostView(
-                            totalReceivable: vm.totalReceivable,
-                            totalPayable: vm.totalPayable,
-                            netBalance: vm.netBalance,
-                            monthlyTrendData: vm.monthlyTrendData,
-                            pendingCount: vm.pendingDebtCount,
-                            paidCount: vm.paidDebtCount,
-                            archivedCount: vm.archivedDebtCount,
-                            currencyDistribution: vm.currencyDistribution,
-                            upcomingItems: vm.upcomingChartItems,
-                            personCount: vm.persons.count,
-                            personBalances: vm.personBalances,
-                            paidAmount: vm.paidAmount,
-                            pendingAmount: vm.pendingAmount
+                            totalReceivable: vm.totalReceivable, totalPayable: vm.totalPayable,
+                            netBalance: vm.netBalance, monthlyTrendData: vm.monthlyTrendData,
+                            pendingCount: vm.pendingDebtCount, paidCount: vm.paidDebtCount,
+                            archivedCount: vm.archivedDebtCount, currencyDistribution: vm.currencyDistribution,
+                            upcomingItems: vm.upcomingChartItems, personCount: vm.persons.count,
+                            personBalances: vm.personBalances, paidAmount: vm.paidAmount, pendingAmount: vm.pendingAmount
                         )
                     }) {
-                        ActionPill(
-                            icon: "chart.pie.fill",
-                            title: String(localized: "dashboard.action.charts"),
-                            color: ColorTokens.chartPurple
-                        )
+                        ActionPill(icon: "chart.pie.fill", title: String(localized: "dashboard.action.charts"), color: ColorTokens.chartPurple)
                     }
                     .buttonStyle(.plain)
 
                     NavigationLink(destination: { RatesView() }) {
-                        ActionPill(
-                            icon: "dollarsign.circle.fill",
-                            title: String(localized: "rates.title"),
-                            color: ColorTokens.chartOrange
-                        )
+                        ActionPill(icon: "dollarsign.circle.fill", title: String(localized: "rates.title"), color: ColorTokens.chartOrange)
                     }
                     .buttonStyle(.plain)
 
-                    ActionPill(
-                        icon: "plus.circle.fill",
-                        title: String(localized: "dashboard.action.add"),
-                        color: ColorTokens.positive
-                    ) {
+                    ActionPill(icon: "plus.circle.fill", title: String(localized: "dashboard.action.add"), color: ColorTokens.positive) {
                         HapticFeedback.impact(.light)
                         showAdd = true
                     }
@@ -269,20 +231,18 @@ public struct DashboardView: View {
             }
             .entrance(.up, delay: 0.1)
 
-            // Stats row
             if vm.monthlyStats.totalPersonCount > 0 {
                 HStack(spacing: Spacing.m) {
-                    StatCard(value: "\\(vm.monthlyStats.totalPersonCount)", label: String(localized: "dashboard.month.people"), icon: "person.2", color: ColorTokens.chartBlue)
+                    StatCard(value: "\(vm.monthlyStats.totalPersonCount)", label: String(localized: "dashboard.month.people"), icon: "person.2", color: ColorTokens.chartBlue)
                         .entrance(.scale, delay: 0.15)
-                    StatCard(value: "\\(vm.monthlyStats.pendingDebtCount)", label: String(localized: "dashboard.month.pending"), icon: "clock", color: ColorTokens.chartOrange)
+                    StatCard(value: "\(vm.monthlyStats.pendingDebtCount)", label: String(localized: "dashboard.month.pending"), icon: "clock", color: ColorTokens.chartOrange)
                         .entrance(.scale, delay: 0.2)
-                    StatCard(value: "\\(vm.monthlyStats.activePersonCount)", label: String(localized: "dashboard.month.active"), icon: "bolt", color: ColorTokens.positive)
+                    StatCard(value: "\(vm.monthlyStats.activePersonCount)", label: String(localized: "dashboard.month.active"), icon: "bolt", color: ColorTokens.positive)
                         .entrance(.scale, delay: 0.25)
                 }
                 .padding(.horizontal, Spacing.xl)
             }
 
-            // Monthly Trend (Mini Sparkline)
             if vm.monthlyTrendData.count >= 2 {
                 GlassCard(
                     title: String(localized: "dashboard.monthly.trend"),
@@ -292,10 +252,8 @@ public struct DashboardView: View {
                 ) {
                     let values = vm.monthlyTrendData.map { CGFloat(truncating: $0.net as NSNumber) }
                     MiniSparkline(data: values, lineColor: ColorTokens.accent)
-                        .frame(height: 50)
+                        .frame(height: 44)
                         .padding(.top, Spacing.s)
-
-                    // Month labels
                     HStack {
                         ForEach(vm.monthlyTrendData, id: \.month) { item in
                             Text(item.month)
@@ -306,18 +264,16 @@ public struct DashboardView: View {
                             }
                         }
                     }
-                    .padding(.top, Spacing.xs)
+                    .padding(.top, Spacing.xxs)
                 }
                 .padding(.horizontal, Spacing.xl)
                 .entrance(.up, delay: 0.2)
             }
 
-            // Top People Leaderboard
             if !vm.personBalances.isEmpty {
                 let top5 = vm.personBalances
                     .sorted { abs($0.balance) > abs($1.balance) }
                     .prefix(5)
-
                 GlassCard(
                     title: String(localized: "dashboard.top.title"),
                     subtitle: String(localized: "dashboard.top.desc"),
@@ -326,17 +282,9 @@ public struct DashboardView: View {
                 ) {
                     VStack(spacing: 0) {
                         ForEach(Array(top5.enumerated()), id: \.element.name) { i, item in
-                            LeaderboardRow(
-                                rank: i + 1,
-                                name: item.name,
-                                amount: abs(item.balance),
-                                isReceivable: item.balance > 0
-                            )
-                            .entrance(.leading, delay: Double(i) * 0.06, duration: 0.35)
-                            if i < top5.count - 1 {
-                                Divider()
-                                    .overlay(ColorTokens.border)
-                            }
+                            LeaderboardRow(rank: i + 1, name: item.name, amount: abs(item.balance), isReceivable: item.balance > 0)
+                                .entrance(.leading, delay: Double(i) * 0.06, duration: 0.35)
+                            if i < top5.count - 1 { DashedDivider() }
                         }
                     }
                 }
@@ -344,7 +292,6 @@ public struct DashboardView: View {
                 .entrance(.up, delay: 0.3)
             }
 
-            // Upcoming
             if !vm.upcomingItems.isEmpty {
                 GlassCard(
                     title: String(localized: "dashboard.upcoming.title"),
@@ -356,9 +303,7 @@ public struct DashboardView: View {
                             UpcomingRow(item: item)
                                 .entrance(.leading, delay: Double(i) * 0.05, duration: 0.4)
                             if i < vm.upcomingItems.count - 1 {
-                                Divider()
-                                    .overlay(ColorTokens.border)
-                                    .padding(.leading, 56)
+                                DashedDivider().padding(.leading, 52)
                             }
                         }
                     }
@@ -367,7 +312,6 @@ public struct DashboardView: View {
                 .entrance(.up, delay: 0.35)
             }
 
-            // Recent Activity
             if !vm.recentActivity.isEmpty {
                 GlassCard(
                     title: String(localized: "dashboard.recent.title"),
@@ -379,9 +323,7 @@ public struct DashboardView: View {
                             ActivityRow(item: item)
                                 .entrance(.leading, delay: Double(i) * 0.04, duration: 0.4)
                             if i < vm.recentActivity.count - 1 {
-                                Divider()
-                                    .overlay(ColorTokens.border)
-                                    .padding(.leading, 40)
+                                DashedDivider().padding(.leading, 36)
                             }
                         }
                     }
@@ -390,7 +332,6 @@ public struct DashboardView: View {
                 .entrance(.up, delay: 0.4)
             }
 
-            // Currency Distribution
             if !vm.currencyDistribution.isEmpty {
                 GlassCard(
                     title: String(localized: "dashboard.currency.title"),
@@ -406,11 +347,9 @@ public struct DashboardView: View {
 
             Spacer().frame(height: Spacing.xxxl)
         }
-        .padding(.vertical, Spacing.l)
+        .padding(.vertical, Spacing.m)
         .background(ColorTokens.background)
     }
-
-    // MARK: - Helpers
 
     private var timeGreeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -422,62 +361,19 @@ public struct DashboardView: View {
     }
 }
 
-// MARK: - Stat Card
-
-private struct StatCard: View {
-    let value: String
-    let label: String
-    let icon: String
-    let color: Color
-
-    var body: some View {
-        VStack(spacing: Spacing.xs) {
-            ZStack {
-                Circle()
-                    .fill(color.opacity(0.15))
-                    .frame(width: 32, height: 32)
-                Image(systemName: icon)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(color)
-            }
-            Text(value)
-                .font(Typography.font(for: .headline))
-                .foregroundStyle(ColorTokens.textPrimary)
-                .contentTransition(.numericText())
-            Text(label)
-                .font(Typography.font(for: .label))
-                .foregroundStyle(ColorTokens.textTertiary)
-                .lineLimit(1)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, Spacing.ml)
-        .background(
-            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .fill(ColorTokens.surface)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .stroke(ColorTokens.border, lineWidth: 0.5)
-        )
-    }
-}
-
-// MARK: - Upcoming Row
-
 private struct UpcomingRow: View {
     let item: (id: UUID, person: Person, amount: Decimal, dueDate: Date?)
 
     var body: some View {
         HStack(spacing: Spacing.m) {
-            AvatarView(name: item.person.name, size: 40)
+            AvatarView(name: item.person.name, size: 34)
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.person.name)
                     .font(Typography.font(for: .bodyEmphasis))
                     .foregroundStyle(ColorTokens.textPrimary)
                 if let due = item.dueDate {
                     HStack(spacing: Spacing.xxs) {
-                        Image(systemName: "calendar")
-                            .font(.system(size: 9))
+                        Image(systemName: "calendar").font(.system(size: 9))
                         Text(due, format: .dateTime.day().month(.abbreviated))
                     }
                     .font(Typography.font(for: .caption))
@@ -487,16 +383,16 @@ private struct UpcomingRow: View {
             Spacer()
             VStack(alignment: .trailing, spacing: 2) {
                 Text(item.amount.formatted())
-                    .font(Typography.font(for: .amount))
+                    .font(Typography.font(for: .amountSmall))
                     .foregroundStyle(ColorTokens.positive)
                     .contentTransition(.numericText())
                 if let date = item.dueDate, isOverdue(date) {
                     Text(String(localized: "dashboard.upcoming.overdue"))
                         .font(Typography.font(for: .label))
-                        .foregroundStyle(ColorTokens.negative)
+                        .foregroundStyle(ColorTokens.warning)
                         .padding(.horizontal, Spacing.xs)
-                        .padding(.vertical, Spacing.xxxs)
-                        .background(ColorTokens.negative.opacity(0.12), in: .capsule)
+                        .padding(.vertical, 1)
+                        .background(ColorTokens.warning.opacity(0.12), in: .capsule)
                 }
             }
         }
@@ -509,8 +405,6 @@ private struct UpcomingRow: View {
     }
 }
 
-// MARK: - Activity Row
-
 private struct ActivityRow: View {
     let item: ActivityItem
 
@@ -518,19 +412,12 @@ private struct ActivityRow: View {
         HStack(spacing: Spacing.m) {
             ZStack {
                 Circle()
-                    .fill(item.direction == .receivable
-                        ? ColorTokens.positive.opacity(0.15)
-                        : ColorTokens.negative.opacity(0.15))
-                    .frame(width: 36, height: 36)
-                Image(systemName: item.direction == .receivable
-                    ? "arrow.down.left"
-                    : "arrow.up.right")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(item.direction == .receivable
-                        ? ColorTokens.positive
-                        : ColorTokens.negative)
+                    .fill(item.direction == .receivable ? ColorTokens.positiveLight : ColorTokens.negativeLight)
+                    .frame(width: 32, height: 32)
+                Image(systemName: item.direction == .receivable ? "arrow.down.left" : "arrow.up.right")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
             }
-
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.personName)
                     .font(Typography.font(for: .bodyEmphasis))
@@ -540,20 +427,15 @@ private struct ActivityRow: View {
                     .foregroundStyle(ColorTokens.textTertiary)
             }
             Spacer()
-            Text(item.direction == .receivable
-                 ? "+\(item.kind.format(item.amount))"
-                 : "-\(item.kind.format(item.amount))")
-                .font(Typography.font(for: .amount))
-                .foregroundStyle(item.direction == .receivable
-                    ? ColorTokens.positive : ColorTokens.negative)
+            Text(item.direction == .receivable ? "+\(item.kind.format(item.amount))" : "-\(item.kind.format(item.amount))")
+                .font(Typography.font(for: .amountSmall))
+                .foregroundStyle(item.direction == .receivable ? ColorTokens.positive : ColorTokens.negative)
                 .contentTransition(.numericText())
         }
         .padding(.horizontal, Spacing.l)
         .padding(.vertical, Spacing.m)
     }
 }
-
-// MARK: - Currency Bar Chart
 
 private struct CurrencyBarChart: View {
     let distribution: [(kind: CurrencyKind, total: Decimal)]
@@ -571,25 +453,22 @@ private struct CurrencyBarChart: View {
                     Text(item.kind.rawValue)
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textSecondary)
-                        .frame(width: 40, alignment: .leading)
-
+                        .frame(width: 36, alignment: .leading)
                     GeometryReader { geo in
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: Radius.xs)
                                 .fill(ColorTokens.border)
-                                .frame(height: 10)
+                                .frame(height: 8)
                             RoundedRectangle(cornerRadius: Radius.xs)
                                 .fill(barColor(for: item.kind))
-                                .frame(width: max(geo.size.width * CGFloat(NSDecimalNumber(decimal: item.total / maxTotal).doubleValue), 4), height: 10)
-                                .shadow(color: barColor(for: item.kind).opacity(0.3), radius: 4, x: 0, y: 2)
+                                .frame(width: max(geo.size.width * CGFloat(NSDecimalNumber(decimal: item.total / maxTotal).doubleValue), 4), height: 8)
                         }
                     }
-                    .frame(height: 10)
-
+                    .frame(height: 8)
                     Text(item.total.formatted())
                         .font(Typography.font(for: .amountSmall))
                         .foregroundStyle(ColorTokens.textPrimary)
-                        .frame(width: 80, alignment: .trailing)
+                        .frame(width: 76, alignment: .trailing)
                         .contentTransition(.numericText())
                 }
             }
@@ -605,5 +484,3 @@ private struct CurrencyBarChart: View {
         }
     }
 }
-
-// Preview disabled: requires repository injection.

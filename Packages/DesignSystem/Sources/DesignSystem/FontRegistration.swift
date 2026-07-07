@@ -4,9 +4,13 @@ import CoreText
 public enum AppFont {
     public static let jakartaLight = "PlusJakartaSans-Light"
     public static let jakartaRegular = "PlusJakartaSans-Regular"
+    public static let jakartaItalic = "PlusJakartaSans-Italic"
     public static let jakartaMedium = "PlusJakartaSans-Medium"
+    public static let jakartaMediumItalic = "PlusJakartaSans-MediumItalic"
     public static let jakartaSemiBold = "PlusJakartaSans-SemiBold"
+    public static let jakartaSemiBoldItalic = "PlusJakartaSans-SemiBoldItalic"
     public static let jakartaBold = "PlusJakartaSans-Bold"
+    public static let jakartaBoldItalic = "PlusJakartaSans-BoldItalic"
 
     public static let jetbrainsRegular = "JetBrainsMono-Regular"
     public static let jetbrainsMedium = "JetBrainsMono-Medium"
@@ -15,7 +19,10 @@ public enum AppFont {
 
     public static func register() {
         let names: [String] = [
-            jakartaLight, jakartaRegular, jakartaMedium, jakartaSemiBold, jakartaBold,
+            jakartaLight, jakartaRegular, jakartaItalic,
+            jakartaMedium, jakartaMediumItalic,
+            jakartaSemiBold, jakartaSemiBoldItalic,
+            jakartaBold, jakartaBoldItalic,
             jetbrainsRegular, jetbrainsMedium, jetbrainsSemiBold, jetbrainsBold,
         ]
         for name in names {
@@ -28,7 +35,7 @@ public enum AppFont {
         }
     }
 
-    public static func jakarta(size: CGFloat, weight: Font.Weight) -> Font {
+    public static func jakarta(size: CGFloat, weight: Font.Weight = .regular) -> Font {
         let name: String
         switch weight {
         case .light: name = jakartaLight
@@ -41,7 +48,18 @@ public enum AppFont {
         return .custom(name, size: size)
     }
 
-    public static func jetbrains(size: CGFloat, weight: Font.Weight) -> Font {
+    public static func jakartaItalic(size: CGFloat, weight: Font.Weight = .regular) -> Font {
+        let name: String
+        switch weight {
+        case .medium: name = jakartaMediumItalic
+        case .semibold: name = jakartaSemiBoldItalic
+        case .bold: name = jakartaBoldItalic
+        default: name = jakartaItalic
+        }
+        return .custom(name, size: size)
+    }
+
+    public static func jetbrains(size: CGFloat, weight: Font.Weight = .regular) -> Font {
         let name: String
         switch weight {
         case .medium: name = jetbrainsMedium

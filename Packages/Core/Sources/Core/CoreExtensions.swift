@@ -4,6 +4,16 @@ import OSLog
 // MARK: - Decimal Helpers
 
 public extension Decimal {
+    func rounded(scale: Int = 2, mode: NSDecimalNumber.RoundingMode = .plain) -> Decimal {
+        var source = self
+        var result = Decimal.zero
+        NSDecimalRound(&result, &source, scale, mode)
+        return result
+    }
+
+    var isEffectivelyZero: Bool { rounded() == 0 }
+    var absoluteValue: Decimal { magnitude }
+
     func formatted(using locale: Locale = .current) -> String {
         // Check cache under lock — formatting inside the lock ensures
         // the cached formatter is never used concurrently by two threads.

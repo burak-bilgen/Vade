@@ -34,6 +34,7 @@ private final class MockRateProvider: ExchangeRateProviding {
 // MARK: - Currency Converter Tests
 
 @Suite("CurrencyConverter")
+@MainActor
 struct CurrencyConverterTests {
 
     @Test("TRY returns same amount (1:1)",

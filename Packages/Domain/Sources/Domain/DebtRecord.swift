@@ -1,20 +1,5 @@
 import Foundation
 
-// MARK: - Decimal Domain Extensions
-
-public extension Decimal {
-    /// Rounds to `scale` decimal places using the specified rounding mode.
-    func rounded(scale: Int = 2, mode: NSDecimalNumber.RoundingMode = .plain) -> Decimal {
-        var source = self
-        var result = Decimal.zero
-        NSDecimalRound(&result, &source, scale, mode)
-        return result
-    }
-
-    public var isEffectivelyZero: Bool { rounded() == 0 }
-    public var absoluteValue: Decimal { magnitude }
-}
-
 // MARK: - Currency / Asset Kind
 
 public enum CurrencyKind: String, CaseIterable, Sendable, Codable {

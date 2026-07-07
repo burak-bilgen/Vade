@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		10BDEF56CB2F58B6B52C639A /* UseCaseProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C1938617FA75E092848CC /* UseCaseProtocols.swift */; };
 		173806DB7A3192C09696FF8E /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2854057FCDD7EBDC5A69DC2 /* AnalyticsEvent.swift */; };
+		19E067059957929FC1AC2D62 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D0950BE22FC63C7D2DCE33C5 /* Core.framework */; };
 		3736860DB79EDFEA6F491AAE /* DebtRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC1BD4FEA486589327B5B38 /* DebtRecord.swift */; };
 		47FBB3A0F596CFACE0528783 /* InstallmentCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41618094F538B0125FF35D7C /* InstallmentCalculator.swift */; };
 		546B5B1FA4C004843A430A59 /* AuditEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A747702CAC7F0D76B7D6915 /* AuditEntry.swift */; };
 		8B66942C6CF218DE1E47CCC9 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A51D83662E30BCE0E518651 /* Payment.swift */; };
 		8B82014774859763FD6F4142 /* InstallmentCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC727BFDB9E15D33B86EFD72 /* InstallmentCalculatorTests.swift */; };
 		ACA55825FB19C665FC289214 /* DomainModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD7149D219AAEA8057D9C3B /* DomainModelTests.swift */; };
+		ADE9148ED1E668AC3777BDC1 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0950BE22FC63C7D2DCE33C5 /* Core.framework */; };
 		C6D77DBDBFA78D122D66DF90 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AECAA287D5CAE0A4C694EB1 /* Person.swift */; };
 		EA587A92A5855CD22A768352 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD49F277B86481D3D105FAC8 /* Domain.framework */; };
 /* End PBXBuildFile section */
@@ -40,6 +42,16 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1779A4FE8AA46343CD51F8EF /* Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstSubfolderSpec = 16;
+			files = (
+				19E067059957929FC1AC2D62 /* Core.framework in Dependencies */,
+			);
+			name = Dependencies;
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		DBA686A82FFC1AB19CC1C76B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -63,6 +75,7 @@
 		9BD7149D219AAEA8057D9C3B /* DomainModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModelTests.swift; sourceTree = "<group>"; };
 		9D9C1938617FA75E092848CC /* UseCaseProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseProtocols.swift; sourceTree = "<group>"; };
 		BD15A37E85BAE3A36B2CE72C /* Domain-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Domain-Info.plist"; sourceTree = "<group>"; };
+		D0950BE22FC63C7D2DCE33C5 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2854057FCDD7EBDC5A69DC2 /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
 		FC727BFDB9E15D33B86EFD72 /* InstallmentCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentCalculatorTests.swift; sourceTree = "<group>"; };
 		FD49F277B86481D3D105FAC8 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADE9148ED1E668AC3777BDC1 /* Core.framework in Frameworks */,
 				EA587A92A5855CD22A768352 /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,6 +112,7 @@
 		23FB790DBB2E2B4343512188 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				D0950BE22FC63C7D2DCE33C5 /* Core.framework */,
 				FD49F277B86481D3D105FAC8 /* Domain.framework */,
 				2F2831DAE4A3A6EFEDCFFB97 /* DomainTests.xctest */,
 			);
@@ -202,6 +217,7 @@
 				2A71FE6FD8EF88EBB2284866 /* Resources */,
 				2069052369677C3E97D5C897 /* Frameworks */,
 				DBA686A82FFC1AB19CC1C76B /* Embed Frameworks */,
+				1779A4FE8AA46343CD51F8EF /* Dependencies */,
 			);
 			buildRules = (
 			);

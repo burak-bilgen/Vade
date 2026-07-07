@@ -2,8 +2,6 @@ import SwiftUI
 import DesignSystem
 import CloudKit
 
-// MARK: - Onboarding
-
 public struct OnboardingView: View {
     let onComplete: () -> Void
     @State private var appear = false
@@ -44,7 +42,6 @@ public struct OnboardingView: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
-                    // Skip button (top-right)
                     HStack {
                         Spacer()
                         Button(String(localized: "onboarding.skip")) {
@@ -53,21 +50,18 @@ public struct OnboardingView: View {
                             }
                         }
                         .font(Typography.font(for: .buttonSmall))
-                        .foregroundStyle(ColorTokens.textTertiary)
+                        .foregroundStyle(ColorTokens.accent)
                         .padding(.trailing, Spacing.xl)
-                        .padding(.top, Spacing.m)
+                        .padding(.top, Spacing.s)
                         .opacity(appear ? 1 : 0)
                         .animation(.easeOut(duration: 0.4).delay(0.5), value: appear)
                     }
 
-                    // Top spacer
-                    Spacer().frame(height: 40)
+                    Spacer().frame(height: 24)
 
-                    // Logo area
                     logoSection
-                        .padding(.bottom, Spacing.xxxl)
+                        .padding(.bottom, Spacing.xxl)
 
-                    // Tagline
                     Text(String(localized: "onboarding.tagline"))
                         .font(Typography.font(for: .title2))
                         .foregroundStyle(ColorTokens.textPrimary)
@@ -82,13 +76,12 @@ public struct OnboardingView: View {
                         .foregroundStyle(ColorTokens.textSecondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, Spacing.xxl)
-                        .padding(.top, Spacing.s)
+                        .padding(.top, Spacing.xs)
                         .opacity(appear ? 1 : 0)
                         .offset(y: appear ? 0 : 15)
                         .animation(.easeOut(duration: 0.6).delay(0.35), value: appear)
 
-                    // Feature cards with staggered entrance
-                    VStack(spacing: Spacing.m) {
+                    VStack(spacing: Spacing.s) {
                         ForEach(Array(features.enumerated()), id: \.offset) { index, feature in
                             FeatureCard(
                                 feature: feature,
@@ -98,9 +91,8 @@ public struct OnboardingView: View {
                         }
                     }
                     .padding(.horizontal, Spacing.xl)
-                    .padding(.top, Spacing.xxl)
+                    .padding(.top, Spacing.xl)
 
-                    // iCloud warning banner
                     if cloudStatus != .available && cloudStatus != .couldNotDetermine {
                         iCloudBanner
                             .padding(.horizontal, Spacing.xl)
@@ -108,13 +100,12 @@ public struct OnboardingView: View {
                             .transition(.move(edge: .trailing).combined(with: .opacity))
                     }
 
-                    // Bottom CTA section
                     bottomSection
                         .padding(.horizontal, Spacing.xl)
-                        .padding(.top, Spacing.xxl)
-                        .padding(.bottom, Spacing.huge)
+                        .padding(.top, Spacing.xl)
+                        .padding(.bottom, Spacing.xxl)
 
-                    Spacer().frame(height: 20)
+                    Spacer().frame(height: 12)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -129,14 +120,12 @@ public struct OnboardingView: View {
         }
     }
 
-    // MARK: - Logo + App Name
-
     private var logoSection: some View {
-        VStack(spacing: Spacing.s) {
+        VStack(spacing: Spacing.xs) {
             Image("logo", bundle: .main)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 80, height: 80)
+                .frame(width: 72, height: 72)
                 .scaleEffect(appear ? 1 : 0.85)
                 .opacity(appear ? 1 : 0)
                 .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.05), value: appear)
@@ -157,16 +146,14 @@ public struct OnboardingView: View {
         }
     }
 
-    // MARK: - iCloud Banner
-
     private var iCloudBanner: some View {
         HStack(spacing: Spacing.m) {
             Image(systemName: "icloud.slash")
                 .font(.system(size: 16))
-                .foregroundStyle(ColorTokens.chartOrange)
+                .foregroundStyle(ColorTokens.warning)
             Text(String(localized: "onboarding.icloud.notSignedIn"))
                 .font(Typography.font(for: .caption))
-                .foregroundStyle(ColorTokens.textSecondary)
+                .foregroundStyle(ColorTokens.textPrimary)
                 .multilineTextAlignment(.leading)
             Spacer(minLength: 0)
         }
@@ -174,19 +161,16 @@ public struct OnboardingView: View {
         .padding(.vertical, Spacing.m)
         .background(
             RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .fill(ColorTokens.chartOrange.opacity(0.08))
+                .fill(ColorTokens.warningLight)
         )
         .overlay(
             RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .stroke(ColorTokens.chartOrange.opacity(0.2), lineWidth: 1)
+                .stroke(ColorTokens.warning.opacity(0.3), lineWidth: 1)
         )
     }
 
-    // MARK: - Bottom
-
     private var bottomSection: some View {
         VStack(spacing: Spacing.l) {
-            // Disclaimer toggle
             Button {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                     accepted.toggle()
@@ -195,10 +179,10 @@ public struct OnboardingView: View {
             } label: {
                 HStack(spacing: Spacing.m) {
                     Image(systemName: accepted ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 20))
+                        .font(.system(size: 22))
                         .foregroundStyle(accepted ? ColorTokens.accent : ColorTokens.border)
                     Text(String(localized: "onboarding.disclaimer.short"))
-                        .font(Typography.font(for: .caption))
+                        .font(Typography.font(for: .body))
                         .foregroundStyle(ColorTokens.textSecondary)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
@@ -207,7 +191,6 @@ public struct OnboardingView: View {
             .opacity(featureAppeared ? 1 : 0)
             .animation(.easeOut(duration: 0.4).delay(0.7), value: featureAppeared)
 
-            // Start button
             Button {
                 HapticFeedback.notification(.success)
                 onComplete()
@@ -217,15 +200,15 @@ public struct OnboardingView: View {
                         .font(Typography.font(for: .button))
                     Image(systemName: "arrow.right")
                         .font(.system(size: 14, weight: .semibold))
-                        .opacity(accepted ? 1 : 0.5)
                 }
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: Spacing.massive)
+                .frame(height: 52)
                 .background(
                     Capsule()
                         .fill(accepted ? ColorTokens.accent : ColorTokens.border)
                 )
+                .opacity(accepted ? 1 : 0.6)
             }
             .disabled(!accepted)
             .opacity(featureAppeared ? 1 : 0)
@@ -234,8 +217,6 @@ public struct OnboardingView: View {
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: accepted)
         }
     }
-
-    // MARK: - CloudKit Check
 
     private func checkCloudStatus() {
         Task {
@@ -249,16 +230,12 @@ public struct OnboardingView: View {
     }
 }
 
-// MARK: - Feature Model
-
 private struct OnboardingFeature: Identifiable {
     let id = UUID()
     let icon: String
     let title: String
     let description: String
 }
-
-// MARK: - Feature Card
 
 private struct FeatureCard: View {
     let feature: OnboardingFeature
@@ -267,18 +244,16 @@ private struct FeatureCard: View {
 
     var body: some View {
         HStack(spacing: Spacing.l) {
-            // Icon container
             ZStack {
-                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                    .fill(ColorTokens.accent.opacity(0.08))
-                    .frame(width: 48, height: 48)
+                RoundedRectangle(cornerRadius: Radius.sm, style: .continuous)
+                    .fill(ColorTokens.accent.opacity(0.1))
+                    .frame(width: 44, height: 44)
                 Image(systemName: feature.icon)
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(ColorTokens.accent)
             }
 
-            // Text
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(feature.title)
                     .font(Typography.font(for: .bodyEmphasis))
                     .foregroundStyle(ColorTokens.textPrimary)
@@ -299,8 +274,9 @@ private struct FeatureCard: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .stroke(ColorTokens.border, lineWidth: 0.5)
+                .stroke(ColorTokens.accent.opacity(0.15), lineWidth: 1)
         )
+        .elevation(Elevation.level1)
         .opacity(isVisible ? 1 : 0)
         .offset(x: isVisible ? 0 : -30)
         .animation(
@@ -310,8 +286,6 @@ private struct FeatureCard: View {
         )
     }
 }
-
-// MARK: - Preview
 
 #Preview {
     OnboardingView(onComplete: {})

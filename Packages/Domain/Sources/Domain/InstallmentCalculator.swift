@@ -1,4 +1,5 @@
 import Foundation
+import Core
 
 // MARK: - Installment Result
 

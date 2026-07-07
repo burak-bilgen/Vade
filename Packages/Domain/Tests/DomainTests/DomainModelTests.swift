@@ -1,6 +1,7 @@
 import Foundation
 import Testing
 import Domain
+import Core
 
 @Suite("Domain Models")
 struct DomainModelTests {
