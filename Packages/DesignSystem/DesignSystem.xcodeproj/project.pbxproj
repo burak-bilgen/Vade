@@ -22,6 +22,7 @@
 		7ED0EC2FD5723C9B31F259CF /* JetBrainsMono-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 897969F0805B47269453CE34 /* JetBrainsMono-SemiBold.ttf */; };
 		7F0DF8C4F949FB311F64FDE2 /* Colors.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 4C37D51C82A32317752FAF22 /* Colors.xcassets */; };
 		8A73333849FDD42B165B7C60 /* JetBrainsMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A64653F9E048343F182B1FD /* JetBrainsMono-Medium.ttf */; };
+		910A3122AA69D00EBCDBD697 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECDED58FD5958F9EBB487DF /* HapticFeedback.swift */; };
 		9610AD45FE79B3826240A265 /* SummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A4725BC33F2ADC6622422B /* SummaryCard.swift */; };
 		9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EEC35F002D4D44977582DC /* LedgerRowView.swift */; };
 		AD0B1C42D4A0DE65B8C6D62F /* UndoToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744480E9B8CC84363B424352 /* UndoToastView.swift */; };
@@ -132,6 +133,7 @@
 		C34474BB560E114B7891FBE7 /* PlusJakartaSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		C51FE0535678B13610B4D7C3 /* PlusJakartaSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-Regular.ttf"; sourceTree = "<group>"; };
 		C776F60272D9D5B4D248FBBA /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
+		CECDED58FD5958F9EBB487DF /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		D0A4725BC33F2ADC6622422B /* SummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCard.swift; sourceTree = "<group>"; };
 		D3D3E20D4CF49B640DF83248 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80A43013FB2429EC9EC182C /* PlusJakartaSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				E188A934756F825D89DAFCCC /* Resources */,
 				C776F60272D9D5B4D248FBBA /* BannerAdView.swift */,
 				E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */,
+				CECDED58FD5958F9EBB487DF /* HapticFeedback.swift */,
 				43EEC35F002D4D44977582DC /* LedgerRowView.swift */,
 				357162DA0532AB5A40FBBB19 /* ModernComponents.swift */,
 				6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */,
@@ -440,6 +443,7 @@
 				F6018B5F7748E322214C52D6 /* TuistBundle+DesignSystem.swift in Sources */,
 				0CA9BC667EC5CCF0B482A094 /* BannerAdView.swift in Sources */,
 				F4E880DDA8212965C61F5BC2 /* EmptyStateView.swift in Sources */,
+				910A3122AA69D00EBCDBD697 /* HapticFeedback.swift in Sources */,
 				9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */,
 				F154294E7A5A206B0873032B /* ModernComponents.swift in Sources */,
 				B6C4F5740BAAB8B2A22C4DCF /* PillButtonStyle.swift in Sources */,

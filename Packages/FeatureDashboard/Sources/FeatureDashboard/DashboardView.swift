@@ -305,7 +305,10 @@ public struct DashboardView: View {
                     destination: EmptyView()
                 )
                 .entrance(.up, delay: 0.25)
-                .onTapGesture { showAdd = true }
+                .onTapGesture {
+                    HapticFeedback.impact(.light)
+                    showAdd = true
+                }
             }
             .padding(.horizontal, Spacing.xl)
 
@@ -474,6 +477,8 @@ private struct QuickActionTile<Destination: View>: View {
                 .fill(gradient)
                 .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
         )
+        .accessibilityLabel("\\(title), \\(subtitle)")
+        .accessibilityAddTraits(.isButton)
     }
 }
 

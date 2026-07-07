@@ -238,8 +238,9 @@ public struct PeopleListView: View {
             }
 
             Button {
-                showAdd = true
-            } label: {
+                    HapticFeedback.impact(.light)
+                    showAdd = true
+                } label: {
                 HStack(spacing: Spacing.s) {
                     Image(systemName: "person.badge.plus")
                     Text(String(localized: "people.empty.addButton"))
@@ -328,6 +329,7 @@ private struct PersonCard: View {
                     .padding(.vertical, Spacing.s),
                 alignment: .leading
             )
+            .accessibilityElement(children: .combine)
     }
 }
 

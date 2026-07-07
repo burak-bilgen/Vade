@@ -73,12 +73,14 @@ public struct PersonDetailView: View {
         .sheet(isPresented: $showAddDebt) {
             AddDebtSheet(person: person, analytics: analytics) { amount, kind, direction, note, dueDate in
                 await viewModel?.addDebt(amount: amount, kind: kind, direction: direction, note: note, dueDate: dueDate)
+                HapticFeedback.notification(.success)
                 showAddDebt = false
             }
         }
         .sheet(item: $selectedDebt) { debt in
             RecordPaymentSheet(debt: debt) { amount, note in
                 await viewModel?.recordPayment(debtRecordID: debt.id, amount: amount, note: note)
+                HapticFeedback.notification(.success)
                 selectedDebt = nil
             }
         }
@@ -185,7 +187,10 @@ public struct PersonDetailView: View {
                             TimelineDebtRow(
                                 debt: debt,
                                 isLast: i == vm.debts.count - 1,
-                                onTap: { if debt.status == .pending { selectedDebt = debt } }
+                                onTap: {
+                                    HapticFeedback.impact(.light)
+                                    if debt.status == .pending { selectedDebt = debt }
+                                }
                             )
                             .entrance(.leading, delay: Double(i) * 0.07, duration: 0.4)
                         }
@@ -310,6 +315,12 @@ private struct TimelineDebtRow: View {
         }
         .buttonStyle(.plain)
         .disabled(debt.status != .pending)
+        .accessibilityAddTraits(debt.status == .pending ? .isButton : [])
+        .accessibilityLabel(
+            debt.status == .pending
+                ? "\\(debt.amount.formatted()), \(statusLabel(debt.status))"
+                : ""
+        )
     }
 
     private func statusColor(_ status: DebtStatus) -> Color {
