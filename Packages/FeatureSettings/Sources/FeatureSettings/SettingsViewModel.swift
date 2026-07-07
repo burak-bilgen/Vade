@@ -12,7 +12,6 @@ public final class SettingsViewModel {
     public var isBiometricEnabled: Bool
     public var isAnalyticsEnabled: Bool
     public var isCrashlyticsEnabled: Bool
-    public var selectedLanguage: String
     public var preferredCurrency: CurrencyKind
 
     private let analytics: any AnalyticsTracking
@@ -22,7 +21,6 @@ public final class SettingsViewModel {
         self.isBiometricEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.biometricEnabled)
         self.isAnalyticsEnabled = !UserDefaults.standard.bool(forKey: UserDefaultsKeys.analyticsOptOut)
         self.isCrashlyticsEnabled = !UserDefaults.standard.bool(forKey: UserDefaultsKeys.crashlyticsOptOut)
-        self.selectedLanguage = UserDefaults.standard.string(forKey: UserDefaultsKeys.appLanguage) ?? Locale.current.language.languageCode?.identifier ?? "tr"
         let saved = UserDefaults.standard.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
         self.preferredCurrency = CurrencyKind(rawValue: saved) ?? .tryCoin
     }
@@ -50,12 +48,5 @@ public final class SettingsViewModel {
     public func setCurrency(_ currency: CurrencyKind) {
         preferredCurrency = currency
         UserDefaults.standard.set(currency.rawValue, forKey: UserDefaultsKeys.preferredCurrency)
-    }
-
-    public func setLanguage(_ lang: String) {
-        selectedLanguage = lang
-        UserDefaults.standard.set(lang, forKey: UserDefaultsKeys.appLanguage)
-        UserDefaults.standard.set([lang], forKey: "AppleLanguages")
-        analytics.track(.languageChanged(to: lang))
     }
 }
