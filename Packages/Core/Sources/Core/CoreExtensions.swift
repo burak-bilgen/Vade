@@ -12,24 +12,28 @@ public extension Decimal {
     }
 
     func formatted(using locale: Locale = .current) -> String {
-        // Read from cache with concurrent sync
-        var cached: NumberFormatter?
+        // Check cache under lock — formatting inside the lock ensures
+        // the cached formatter is never used concurrently by two threads.
+        var result: String?
         Self.formatterQueue.sync {
-            cached = Self._formatterCache[locale]
+            if let formatter = Self._formatterCache[locale] {
+                result = formatter.string(from: self as NSDecimalNumber)
+            }
         }
-        if let formatter = cached {
-            return formatter.string(from: self as NSDecimalNumber) ?? "\(self)"
-        }
-        // Create new formatter with barrier
+        if let result { return result }
+
+        // Miss: create new formatter, format, then store with barrier.
         let newFormatter = NumberFormatter()
         newFormatter.locale = locale
         newFormatter.numberStyle = .decimal
         newFormatter.minimumFractionDigits = 2
         newFormatter.maximumFractionDigits = 2
+        let formatted = newFormatter.string(from: self as NSDecimalNumber) ?? "\(self)"
+
         Self.formatterQueue.async(flags: .barrier) {
             Self._formatterCache[locale] = newFormatter
         }
-        return newFormatter.string(from: self as NSDecimalNumber) ?? "\(self)"
+        return formatted
     }
 
     nonisolated(unsafe) private static var _formatterCache: [Locale: NumberFormatter] = [:]

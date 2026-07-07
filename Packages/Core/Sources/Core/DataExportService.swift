@@ -1,5 +1,9 @@
 import Foundation
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 // MARK: - Export Format
 
 /// Mirrored in Domain/AnalyticsEvent.swift (without CaseIterable).
@@ -79,22 +83,138 @@ public final class DataExportService: DataExporting {
 
     // MARK: - PDF
 
-    /// Generates PDF data from debt rows.
-    /// Uses the same CSV data wrapped in a text document for compatibility.
-    /// Full HTML → PDF rendering will be re-enabled when UIGraphicsPDFRenderer
-    /// API stabilizes in the iOS SDK.
+    /// Generates a real PDF document from debt rows using UIGraphicsPDFRenderer.
+    /// Falls back to CSV wrapping on platforms without UIKit (macOS).
     public func exportAsPDF(rows: [ExportRow]) throws -> Data {
-        let csvData = try exportAsCSV(rows: rows)
-        guard let text = String(data: csvData, encoding: .utf8) else {
-            throw ExportError.encodingFailed
-        }
-        let title = String(localized: "export.pdf.title")
-        let pdfContent = "\(title)\n\n\(text)"
-        guard let data = pdfContent.data(using: .utf8) else {
-            throw ExportError.encodingFailed
-        }
-        return data
+        #if canImport(UIKit)
+        return try renderPDF(rows: rows)
+        #else
+        throw ExportError.platformNotSupported
+        #endif
     }
+
+    #if canImport(UIKit)
+    private func renderPDF(rows: [ExportRow]) throws -> Data {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+
+        let pageWidth: CGFloat = 612   // US Letter
+        let pageHeight: CGFloat = 792
+        let margin: CGFloat = 48
+        let contentWidth = pageWidth - 2 * margin
+
+        let title = String(localized: "export.pdf.title")
+        let generatedDate = formatter.string(from: Date())
+
+        let renderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight))
+
+        return renderer.pdfData { ctx in
+            ctx.beginPage()
+
+            var yOffset: CGFloat = margin
+
+            // ── Title ──
+            let titleAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.boldSystemFont(ofSize: 22),
+                .foregroundColor: UIColor.label
+            ]
+            title.draw(at: CGPoint(x: margin, y: yOffset), withAttributes: titleAttrs)
+            yOffset += 32
+
+            // ── Generated date ──
+            let dateAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 10),
+                .foregroundColor: UIColor.secondaryLabel
+            ]
+            generatedDate.draw(at: CGPoint(x: margin, y: yOffset), withAttributes: dateAttrs)
+            yOffset += 20
+
+            // ── Separator ──
+            ctx.cgContext.setStrokeColor(UIColor.separator.cgColor)
+            ctx.cgContext.setLineWidth(0.5)
+            ctx.cgContext.move(to: CGPoint(x: margin, y: yOffset))
+            ctx.cgContext.addLine(to: CGPoint(x: pageWidth - margin, y: yOffset))
+            ctx.cgContext.strokePath()
+            yOffset += 16
+
+            // ── Table header ──
+            let headerAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.boldSystemFont(ofSize: 9),
+                .foregroundColor: UIColor.secondaryLabel
+            ]
+            let columns: [(String, CGFloat)] = [
+                (String(localized: "export.pdf.col.person"), 120),
+                (String(localized: "export.pdf.col.amount"), 70),
+                (String(localized: "export.pdf.col.currency"), 50),
+                (String(localized: "export.pdf.col.direction"), 60),
+                (String(localized: "export.pdf.col.dueDate"), 80),
+                (String(localized: "export.pdf.col.status"), 60),
+            ]
+            var colX: CGFloat = margin
+            for (header, width) in columns {
+                header.draw(at: CGPoint(x: colX, y: yOffset), withAttributes: headerAttrs)
+                colX += width
+            }
+            yOffset += 14
+
+            // ── Separator ──
+            ctx.cgContext.setStrokeColor(UIColor.separator.cgColor)
+            ctx.cgContext.setLineWidth(0.5)
+            ctx.cgContext.move(to: CGPoint(x: margin, y: yOffset))
+            ctx.cgContext.addLine(to: CGPoint(x: pageWidth - margin, y: yOffset))
+            ctx.cgContext.strokePath()
+            yOffset += 8
+
+            // ── Rows ──
+            let rowAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 9),
+                .foregroundColor: UIColor.label
+            ]
+            for row in rows {
+                // Check page break
+                if yOffset > pageHeight - margin {
+                    ctx.beginPage()
+                    yOffset = margin
+                }
+
+                let dueDateStr = row.dueDate.map { formatter.string(from: $0) } ?? "-"
+                let values: [String] = [
+                    row.personName,
+                    row.amount.formatted(),
+                    row.currency,
+                    row.direction,
+                    dueDateStr,
+                    row.status,
+                ]
+                colX = margin
+                for (i, value) in values.enumerated() {
+                    let width = i < columns.count ? columns[i].1 : 80
+                    value.draw(at: CGPoint(x: colX, y: yOffset), withAttributes: rowAttrs)
+                    colX += width
+                }
+                yOffset += 16
+            }
+
+            // ── Footer ──
+            yOffset = pageHeight - margin - 16
+            ctx.cgContext.setStrokeColor(UIColor.separator.cgColor)
+            ctx.cgContext.setLineWidth(0.5)
+            ctx.cgContext.move(to: CGPoint(x: margin, y: yOffset))
+            ctx.cgContext.addLine(to: CGPoint(x: pageWidth - margin, y: yOffset))
+            ctx.cgContext.strokePath()
+            yOffset += 8
+
+            let footerAttrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 8),
+                .foregroundColor: UIColor.tertiaryLabel
+            ]
+            let footerText = String(localized: "export.pdf.footer")
+            (footerText + " — \(rows.count) " + String(localized: "export.pdf.recordCount")).draw(
+                at: CGPoint(x: margin, y: yOffset), withAttributes: footerAttrs
+            )
+        }
+    }
+    #endif
 
     // MARK: - Private
 

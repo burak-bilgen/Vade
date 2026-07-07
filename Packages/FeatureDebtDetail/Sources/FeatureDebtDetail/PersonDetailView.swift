@@ -307,7 +307,7 @@ private struct AddDebtSheet: View {
     let analytics: any AnalyticsTracking
     let onSave: (Decimal, CurrencyKind, DebtDirection, String?, Date?) async -> Void
 
-    var parsedAmount: Decimal? { Decimal(string: amountText) }
+    var parsedAmount: Decimal? { Decimal(string: amountText, locale: .current) }
 
     var body: some View {
         NavigationStack {
@@ -491,7 +491,7 @@ private struct RecordPaymentSheet: View {
     let debt: DebtRecord
     let onSave: (Decimal, String?) async -> Void
 
-    var parsedAmount: Decimal? { Decimal(string: amountText) }
+    var parsedAmount: Decimal? { Decimal(string: amountText, locale: .current) }
 
     var body: some View {
         NavigationStack {
