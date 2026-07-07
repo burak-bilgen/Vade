@@ -124,25 +124,25 @@ public struct OnboardingView: View {
                     icon: "arrow.left.arrow.right",
                     iconColor: ColorTokens.chartBlue,
                     title: String(localized: "onboarding.feature.track"),
-                    subtitle: String(localized: "onboarding.feature.track.detail")
+                    subtitle: String(localized: "onboarding.feature.track.desc")
                 )
                 FeatureCard(
                     icon: "chart.bar.fill",
                     iconColor: ColorTokens.chartPurple,
                     title: String(localized: "onboarding.feature.insights"),
-                    subtitle: String(localized: "onboarding.feature.insights.detail")
+                    subtitle: String(localized: "onboarding.feature.insights.desc")
                 )
                 FeatureCard(
                     icon: "bell.badge.fill",
                     iconColor: ColorTokens.chartOrange,
                     title: String(localized: "onboarding.feature.reminders"),
-                    subtitle: String(localized: "onboarding.feature.reminders.detail")
+                    subtitle: String(localized: "onboarding.feature.reminders.desc")
                 )
                 FeatureCard(
                     icon: "lock.shield.fill",
                     iconColor: ColorTokens.positive,
                     title: String(localized: "onboarding.privacy.title"),
-                    subtitle: String(localized: "onboarding.feature.privacy.detail")
+                    subtitle: String(localized: "onboarding.feature.privacy.desc")
                 )
             }
             .padding(.horizontal, Spacing.xl)

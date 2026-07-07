@@ -225,42 +225,7 @@ public extension View {
     }
 }
 
-// MARK: - Number Transition (Counting text with staggered animation)
-
-/// Animates number changes with a vertical counting effect.
-/// Only available on iOS/macOS 13+ where `.contentTransition(.numericText())` is supported.
-public struct CountingText: View {
-    let value: Int
-    let font: Font
-    let color: Color
-
-    @State private var displayValue: Int = 0
-
-    public init(_ value: Int, font: Font = Typography.font(for: .amount), color: Color = ColorTokens.textPrimary) {
-        self.value = value
-        self.font = font
-        self.color = color
-    }
-
-    public var body: some View {
-        Text("\\(displayValue)")
-            .font(font)
-            .foregroundStyle(color)
-            .countingTransition()
-            .onAppear { animate() }
-            .onChange(of: value) { _ in animate() }
-    }
-
-    private func animate() {
-        let steps = 20
-        let increment = Double(value) / Double(steps)
-        for i in 0..<steps {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.02) {
-                displayValue = min(Int(Double(i + 1) * increment), value)
-            }
-        }
-    }
-}
+// MARK: - Number Transition
 
 public extension View {
     /// Applies `.contentTransition(.numericText())` only on platforms that support it.
