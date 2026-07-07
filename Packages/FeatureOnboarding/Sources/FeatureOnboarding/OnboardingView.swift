@@ -48,26 +48,6 @@ public struct OnboardingView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
                     HStack {
-                        Button(action: {
-                            HapticFeedback.impact(.light)
-                            showLanguagePicker = true
-                        }) {
-                            HStack(spacing: Spacing.xs) {
-                                Image(systemName: "globe")
-                                    .font(.system(size: 16, weight: .semibold))
-                                Text(languageManager.languageCode.uppercased())
-                                    .font(Typography.font(for: .buttonSmall))
-                            }
-                            .padding(.horizontal, Spacing.m)
-                            .padding(.vertical, Spacing.xs)
-                            .background(Capsule().fill(ColorTokens.accent.opacity(0.1)))
-                            .foregroundStyle(ColorTokens.accent)
-                        }
-                        .padding(.leading, Spacing.xl)
-                        .padding(.top, Spacing.s)
-                        .opacity(appear ? 1 : 0)
-                        .animation(.easeOut(duration: 0.4).delay(0.5), value: appear)
-
                         Spacer()
 
                         Button(String(localized: "onboarding.skip")) {
@@ -164,34 +144,62 @@ public struct OnboardingView: View {
     }
 
     private var logoSection: some View {
-        VStack(spacing: Spacing.xxs) {
-            Text(String(localized: "app.name"))
-                .font(.custom(AppFont.jakartaBold, size: 48))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [ColorTokens.textPrimary, ColorTokens.accent],
-                        startPoint: .leading,
-                        endPoint: .trailing
+        HStack(alignment: .center, spacing: 0) {
+            Button(action: {}) {
+                Image(systemName: "globe")
+                    .font(.system(size: 20, weight: .semibold))
+                    .padding(Spacing.s)
+            }
+            .opacity(0)
+            .disabled(true)
+            
+            Spacer()
+            
+            VStack(spacing: Spacing.xxs) {
+                Text(String(localized: "app.name"))
+                    .font(.custom(AppFont.jakartaBold, size: 48))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [ColorTokens.textPrimary, ColorTokens.accent],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
                     )
-                )
-                .tracking(-0.5)
-                .opacity(appear ? 1 : 0)
-                .offset(y: appear ? 0 : 15)
-                .animation(.easeOut(duration: 0.6).delay(0.12), value: appear)
+                    .tracking(-0.5)
+                    .opacity(appear ? 1 : 0)
+                    .offset(y: appear ? 0 : 15)
+                    .animation(.easeOut(duration: 0.6).delay(0.12), value: appear)
 
-            Text(String(localized: "app.subtitle"))
-                .font(Typography.font(for: .bodyEmphasisItalic))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [ColorTokens.accent, ColorTokens.chartTeal],
-                        startPoint: .leading,
-                        endPoint: .trailing
+                Text(String(localized: "app.subtitle"))
+                    .font(Typography.font(for: .bodyEmphasisItalic))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [ColorTokens.accent, ColorTokens.chartTeal],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
                     )
-                )
-                .opacity(appear ? 1 : 0)
-                .offset(y: appear ? 0 : 10)
-                .animation(.easeOut(duration: 0.6).delay(0.24), value: appear)
+                    .opacity(appear ? 1 : 0)
+                    .offset(y: appear ? 0 : 10)
+                    .animation(.easeOut(duration: 0.6).delay(0.24), value: appear)
+            }
+            
+            Spacer()
+            
+            Button(action: {
+                HapticFeedback.impact(.light)
+                showLanguagePicker = true
+            }) {
+                Image(systemName: "globe")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundStyle(ColorTokens.accent)
+                    .padding(Spacing.s)
+                    .background(Circle().fill(ColorTokens.accent.opacity(0.1)))
+            }
+            .opacity(appear ? 1 : 0)
+            .animation(.easeOut(duration: 0.6).delay(0.24), value: appear)
         }
+        .padding(.horizontal, Spacing.xl)
     }
 
     private var iCloudBanner: some View {
@@ -228,7 +236,7 @@ public struct OnboardingView: View {
                 HStack(spacing: Spacing.m) {
                     Image(systemName: accepted ? "checkmark.circle.fill" : "circle")
                         .font(.system(size: 22))
-                        .foregroundStyle(accepted ? ColorTokens.accent : ColorTokens.border)
+                        .foregroundStyle(accepted ? ColorTokens.accent : ColorTokens.textTertiary)
                     Text(String(localized: "onboarding.disclaimer.short"))
                         .font(Typography.font(for: .body))
                         .foregroundStyle(ColorTokens.textSecondary)
