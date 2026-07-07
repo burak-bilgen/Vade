@@ -15,13 +15,15 @@ public struct DashboardView: View {
 
     public init() {}
 
+    @State private var contentAppeared = false
+
     public var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                if let vm = viewModel {
-                    headerSection(vm)
-                    contentSection(vm)
-                }
+        Group {
+            if viewModel == nil {
+                DashboardSkeleton()
+                    .entrance(.fade)
+            } else if let vm = viewModel {
+                content(vm)
             }
         }
         .background(ColorTokens.background)
@@ -33,8 +35,20 @@ public struct DashboardView: View {
             let vm = DashboardViewModel(modelContext: modelContext)
             viewModel = vm
             await vm.loadData()
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                contentAppeared = true
+            }
         }
         .refreshable { await viewModel?.loadData() }
+    }
+
+    private func content(_ vm: DashboardViewModel) -> some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                headerSection(vm)
+                contentSection(vm)
+            }
+        }
     }
 
     // MARK: - Premium Header with Glassmorphism
@@ -61,14 +75,15 @@ public struct DashboardView: View {
                         .frame(width: 40, height: 40)
                         .background(Circle().fill(ColorTokens.accent.opacity(0.12)))
                 }
-                .pressStyle()
+                .premiumPress()
             }
             .padding(.horizontal, Spacing.xl)
             .padding(.bottom, Spacing.ml)
+            .entrance(.up, delay: 0.1)
 
             // ✦ Glassmorphism Balance Card ✦
             VStack(spacing: 0) {
-                // Top accent ring
+                // Top accent ring — animated width
                 RoundedRectangle(cornerRadius: 1)
                     .fill(netPositionColor(vm.netBalance))
                     .frame(height: 3)
@@ -87,6 +102,9 @@ public struct DashboardView: View {
                         .foregroundStyle(ColorTokens.textPrimary)
                         .contentTransition(.numericText(countsDown: true))
                         .minimumScaleFactor(0.7)
+                        .scaleEffect(contentAppeared ? 1 : 0.8)
+                        .opacity(contentAppeared ? 1 : 0)
+                        .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.2), value: contentAppeared)
 
                     // Net position indicator
                     HStack(spacing: Spacing.xxs) {
@@ -114,6 +132,7 @@ public struct DashboardView: View {
                         .padding(.horizontal, Spacing.m)
                         .padding(.vertical, Spacing.xxs)
                         .background(ColorTokens.positiveLight.opacity(0.3), in: .capsule)
+                        .entrance(.scale, delay: 0.35)
 
                         HStack(spacing: Spacing.xxs) {
                             Circle().fill(ColorTokens.negative).frame(width: 6, height: 6)
@@ -125,18 +144,21 @@ public struct DashboardView: View {
                         .padding(.horizontal, Spacing.m)
                         .padding(.vertical, Spacing.xxs)
                         .background(ColorTokens.negativeLight.opacity(0.3), in: .capsule)
+                        .entrance(.scale, delay: 0.4)
                     }
                 }
                 .padding(Spacing.xl)
             }
             .glass(GlassStyle.standard)
             .padding(.horizontal, Spacing.xl)
+            .entrance(.up, delay: 0.15)
 
             // Exchange rate ticker
             if let rates = vm.exchangeRates {
                 rateTicker(rates)
                     .padding(.top, Spacing.m)
                     .padding(.horizontal, Spacing.xl)
+                    .entrance(.up, delay: 0.3)
             }
 
             Spacer().frame(height: Spacing.xl)
@@ -182,7 +204,7 @@ public struct DashboardView: View {
 
     private func contentSection(_ vm: DashboardViewModel) -> some View {
         VStack(spacing: Spacing.l) {
-            // Quick Actions
+            // Quick Actions — staggered entrance
             HStack(spacing: Spacing.m) {
                 QuickActionButton(
                     icon: "person.2.fill",
@@ -190,6 +212,7 @@ public struct DashboardView: View {
                     title: String(localized: "dashboard.action.people"),
                     destination: PeopleListView()
                 )
+                .entrance(.up, delay: 0.1)
                 QuickActionButton(
                     icon: "chart.line.uptrend.xyaxis",
                     color: ColorTokens.chartPurple,
@@ -200,21 +223,26 @@ public struct DashboardView: View {
                         netBalance: vm.netBalance
                     )
                 )
+                .entrance(.up, delay: 0.15)
                 QuickActionButton(
                     icon: "dollarsign.circle.fill",
                     color: ColorTokens.chartOrange,
                     title: String(localized: "rates.title"),
                     destination: RatesView()
                 )
+                .entrance(.up, delay: 0.2)
             }
             .padding(.horizontal, Spacing.xl)
 
-            // Stats
+            // Stats — staggered entrance
             if vm.monthlyStats.totalPersonCount > 0 {
                 HStack(spacing: Spacing.m) {
                     StatCard(value: "\(vm.monthlyStats.totalPersonCount)", label: String(localized: "dashboard.month.people"), icon: "person.2", color: ColorTokens.chartBlue)
+                        .entrance(.scale, delay: 0.2)
                     StatCard(value: "\(vm.monthlyStats.pendingDebtCount)", label: String(localized: "dashboard.month.pending"), icon: "clock", color: ColorTokens.chartOrange)
+                        .entrance(.scale, delay: 0.25)
                     StatCard(value: "\(vm.monthlyStats.activePersonCount)", label: String(localized: "dashboard.month.active"), icon: "bolt", color: ColorTokens.positive)
+                        .entrance(.scale, delay: 0.3)
                 }
                 .padding(.horizontal, Spacing.xl)
             }
@@ -222,31 +250,39 @@ public struct DashboardView: View {
             // Upcoming
             if !vm.upcomingItems.isEmpty {
                 SectionCard(title: String(localized: "dashboard.upcoming.title")) {
-                    ForEach(Array(vm.upcomingItems.enumerated()), id: \.element.id) { i, item in
-                        UpcomingRow(item: item)
-                        if i < vm.upcomingItems.count - 1 {
-                            Divider()
-                                .overlay(ColorTokens.border)
-                                .padding(.leading, 56)
+                    VStack(spacing: 0) {
+                        ForEach(Array(vm.upcomingItems.enumerated()), id: \.element.id) { i, item in
+                            UpcomingRow(item: item)
+                                .entrance(.leading, delay: Double(i) * 0.06, duration: 0.4)
+                            if i < vm.upcomingItems.count - 1 {
+                                Divider()
+                                    .overlay(ColorTokens.border)
+                                    .padding(.leading, 56)
+                            }
                         }
                     }
                 }
                 .padding(.horizontal, Spacing.xl)
+                .entrance(.up, delay: 0.3)
             }
 
             // Recent Activity
             if !vm.recentActivity.isEmpty {
                 SectionCard(title: String(localized: "dashboard.recent.title")) {
-                    ForEach(Array(vm.recentActivity.enumerated()), id: \.element.id) { i, item in
-                        ActivityRow(item: item)
-                        if i < vm.recentActivity.count - 1 {
-                            Divider()
-                                .overlay(ColorTokens.border)
-                                .padding(.leading, 40)
+                    VStack(spacing: 0) {
+                        ForEach(Array(vm.recentActivity.enumerated()), id: \.element.id) { i, item in
+                            ActivityRow(item: item)
+                                .entrance(.leading, delay: Double(i) * 0.05, duration: 0.4)
+                            if i < vm.recentActivity.count - 1 {
+                                Divider()
+                                    .overlay(ColorTokens.border)
+                                    .padding(.leading, 40)
+                            }
                         }
                     }
                 }
                 .padding(.horizontal, Spacing.xl)
+                .entrance(.up, delay: 0.4)
             }
 
             // Currency Distribution
@@ -256,6 +292,7 @@ public struct DashboardView: View {
                         .padding(Spacing.l)
                 }
                 .padding(.horizontal, Spacing.xl)
+                .entrance(.up, delay: 0.5)
             }
 
             Spacer().frame(height: Spacing.xxxl)

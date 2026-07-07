@@ -49,7 +49,7 @@ public struct UndoToastView: View {
         .padding(.horizontal, Spacing.l)
         .padding(.bottom, Spacing.l)
         .task {
-            try? await Task.sleep(for: .seconds(8))
+            try? await Task.sleep(nanoseconds: 8_000_000_000)
             onDismiss()
         }
     }

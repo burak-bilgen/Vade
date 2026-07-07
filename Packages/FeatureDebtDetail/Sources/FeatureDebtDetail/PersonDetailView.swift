@@ -20,16 +20,22 @@ public struct PersonDetailView: View {
         self.modelContext = modelContext
     }
 
+    @State private var contentAppeared = false
+
     public var body: some View {
         Group {
             if let vm = viewModel {
                 contentView(vm)
             } else {
                 ProgressView()
+                    .entrance(.fade)
                     .task {
                         let vm = PersonDetailViewModel(person: person, modelContext: modelContext, analytics: analytics)
                         viewModel = vm
                         await vm.loadData()
+                        withAnimation(.spring(response: 0.5)) {
+                            contentAppeared = true
+                        }
                     }
             }
         }
@@ -41,6 +47,8 @@ public struct PersonDetailView: View {
                 Button(String(localized: "personDetail.addDebt.button"), systemImage: "plus") {
                     showAddDebt = true
                 }
+                .premiumPress()
+                .symbolEffect(.bounce.up, value: viewModel?.debts.count ?? 0)
             }
         }
         .sheet(isPresented: $showAddDebt) {
@@ -77,6 +85,9 @@ public struct PersonDetailView: View {
                         .foregroundStyle(balanceColor(vm.balance))
                         .contentTransition(.numericText(countsDown: true))
                         .minimumScaleFactor(0.85)
+                        .scaleEffect(contentAppeared ? 1 : 0.7)
+                        .opacity(contentAppeared ? 1 : 0)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.75).delay(0.1), value: contentAppeared)
 
                     // Direction indicator
                     HStack(spacing: Spacing.xxs) {
@@ -96,23 +107,26 @@ public struct PersonDetailView: View {
                 .padding(Spacing.xxl)
                 .glass(GlassStyle.standard)
 
-                // Debt count summary
+                // Debt count summary — staggered entrance
                 HStack(spacing: Spacing.m) {
                     DebtSummaryChip(
                         count: vm.debts.filter { $0.status == .pending }.count,
                         label: String(localized: "personDetail.status.pending"),
                         color: ColorTokens.chartOrange
                     )
+                    .entrance(.scale, delay: 0.2)
                     DebtSummaryChip(
                         count: vm.debts.filter { $0.status == .paid }.count,
                         label: String(localized: "personDetail.status.paid"),
                         color: ColorTokens.positive
                     )
+                    .entrance(.scale, delay: 0.25)
                     DebtSummaryChip(
                         count: vm.debts.filter { $0.status == .archived }.count,
                         label: String(localized: "personDetail.status.archived"),
                         color: ColorTokens.textTertiary
                     )
+                    .entrance(.scale, delay: 0.3)
                 }
                 .padding(.horizontal, Spacing.xl)
 
@@ -128,16 +142,19 @@ public struct PersonDetailView: View {
                         .padding(.horizontal, Spacing.s)
                         .padding(.vertical, Spacing.xxs)
                         .background(Capsule().fill(ColorTokens.surface))
+                        .contentTransition(.numericText())
                 }
                 .padding(.horizontal, Spacing.xl)
+                .entrance(.up, delay: 0.3)
 
-                // Timeline
+                // Timeline — staggered entrance
                 if vm.debts.isEmpty {
                     EmptyStateView(
                         title: String(localized: "personDetail.empty.title"),
                         subtitle: String(localized: "personDetail.empty.subtitle")
                     )
                     .padding(.top, Spacing.xxxl)
+                    .entrance(.fade)
                 } else {
                     VStack(spacing: 0) {
                         ForEach(Array(vm.debts.enumerated()), id: \.element.id) { i, debt in
@@ -146,6 +163,7 @@ public struct PersonDetailView: View {
                                 isLast: i == vm.debts.count - 1,
                                 onTap: { if debt.status == .pending { selectedDebt = debt } }
                             )
+                            .entrance(.leading, delay: Double(i) * 0.07, duration: 0.4)
                         }
                     }
                     .padding(.horizontal, Spacing.xl)

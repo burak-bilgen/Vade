@@ -33,6 +33,7 @@ public struct SettingsView: View {
                             .foregroundStyle(ColorTokens.textTertiary)
                     }
                     .padding(.vertical, Spacing.xl)
+                    .entrance(.up, delay: 0.05)
 
                     // Security section
                     SettingsSection(title: String(localized: "settings.section.security")) {
@@ -46,6 +47,7 @@ public struct SettingsView: View {
                             )
                         )
                     }
+                    .entrance(.up, delay: 0.1)
 
                     // Preferences
                     SettingsSection(title: String(localized: "settings.section.preferences")) {
@@ -82,6 +84,7 @@ public struct SettingsView: View {
                             ]
                         )
                     }
+                    .entrance(.up, delay: 0.15)
 
                     // Privacy
                     SettingsSection(title: String(localized: "settings.section.privacy")) {
@@ -104,6 +107,7 @@ public struct SettingsView: View {
                             )
                         )
                     }
+                    .entrance(.up, delay: 0.2)
 
                     // Data
                     SettingsSection(title: String(localized: "settings.section.data")) {
@@ -117,6 +121,7 @@ public struct SettingsView: View {
                             )
                         }
                     }
+                    .entrance(.up, delay: 0.25)
 
                     // About
                     SettingsSection(title: String(localized: "settings.section.about")) {
@@ -142,6 +147,7 @@ public struct SettingsView: View {
                             }
                         }
                     }
+                    .entrance(.up, delay: 0.3)
 
                     Spacer().frame(height: Spacing.xxxl)
                 }

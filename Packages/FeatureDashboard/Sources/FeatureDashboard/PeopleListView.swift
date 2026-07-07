@@ -23,6 +23,7 @@ public struct PeopleListView: View {
                 content(vm)
             } else {
                 ProgressView()
+                    .entrance(.fade)
                     .task {
                         let vm = PeopleListViewModel(modelContext: modelContext, analytics: analytics)
                         viewModel = vm
@@ -36,6 +37,7 @@ public struct PeopleListView: View {
                 Button(String(localized: "people.add.button"), systemImage: "person.badge.plus") {
                     showAdd = true
                 }
+                .premiumPress()
             }
         }
         .sheet(isPresented: $showAdd) {
@@ -52,7 +54,7 @@ public struct PeopleListView: View {
 
     private func content(_ vm: PeopleListViewModel) -> some View {
         VStack(spacing: 0) {
-            // Premium Search Bar
+            // Premium Search Bar — animated border on focus
             HStack(spacing: Spacing.s) {
                 Image(systemName: "magnifyingglass")
                     .font(Typography.font(for: .body))
@@ -65,6 +67,7 @@ public struct PeopleListView: View {
                     Button { searchText = "" } label: {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(ColorTokens.textTertiary)
+                            .symbolEffect(.bounce.up, value: searchText)
                     }
                 }
             }
@@ -74,8 +77,14 @@ public struct PeopleListView: View {
                 RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
                     .fill(ColorTokens.surface)
             )
+            .overlay(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .stroke(!searchText.isEmpty ? ColorTokens.accent : ColorTokens.border, lineWidth: 1)
+                    .animation(.easeInOut(duration: 0.2), value: !searchText.isEmpty)
+            )
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.m)
+            .entrance(.up, delay: 0.1)
 
             // Premium Segment Control
             HStack(spacing: Spacing.xxs) {
@@ -102,32 +111,36 @@ public struct PeopleListView: View {
                                             : ColorTokens.negativeLight.opacity(0.2))
                                         : Color.clear)
                             )
+                            .contentShape(.capsule)
                     }
+                    .premiumPress(scale: 0.92)
                 }
             }
             .padding(Spacing.xxs)
             .background(Capsule().fill(ColorTokens.surface))
             .padding(.horizontal, Spacing.xl)
             .padding(.bottom, Spacing.m)
+            .entrance(.up, delay: 0.15)
 
-            // List
+            // List — staggered entrance for rows
             let filtered = filteredPersons(from: vm)
             if filtered.isEmpty {
                 emptyState
+                    .entrance(.fade)
             } else {
                 List {
-                    ForEach(filtered) { item in
+                    ForEach(Array(filtered.enumerated()), id: \.element.id) { i, item in
                         NavigationLink {
                             PersonDetailView(person: item.person, modelContext: modelContext)
                         } label: {
                             PersonRow(person: item.person, balance: item.balance)
+                                .entrance(.leading, delay: Double(i) * 0.04, duration: 0.35)
                         }
                         .listRowBackground(ColorTokens.surface)
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                         .transition(.opacity.combined(with: .move(edge: .bottom)))
                     }
-
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
