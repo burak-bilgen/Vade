@@ -73,7 +73,7 @@ enum TCMBParser {
         }
         let response = try JSONDecoder().decode(Response.self, from: jsonData)
         guard let rate = response.gramAltin,
-              let value = Decimal(string: rate.Selling.replacingOccurrences(of: ",", with: ".")) else {
+              let value = parseTurkishDecimal(rate.Selling) else {
             throw ExchangeRateError.invalidResponse
         }
         return value
@@ -93,6 +93,18 @@ enum TCMBParser {
         }
         return url
     }()
+}
+
+// MARK: - Turkish Number Parsing Helper
+
+/// Parses a Turkish-format decimal string (e.g. "6.256,89" → 6256.89).
+/// Removes thousands separators (".") then replaces decimal comma (",") with ".".
+private func parseTurkishDecimal(_ string: String) -> Decimal? {
+    let normalized = string
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+        .replacingOccurrences(of: ".", with: "")
+        .replacingOccurrences(of: ",", with: ".")
+    return Decimal(string: normalized)
 }
 
 // MARK: - TCMB XML Parser (SAX-style via FoundationXML)
@@ -143,7 +155,7 @@ private final class TCMBXMLParser: NSObject, XMLParserDelegate {
         if elementName == "Currency",
            let code = currentCurrencyCode,
            let sellingStr = currentForexSelling,
-           let rate = Decimal(string: sellingStr.replacingOccurrences(of: ",", with: ".")) {
+           let rate = parseTurkishDecimal(sellingStr) {
             rates[code] = rate
         }
         if elementName == "ForexSelling" {
