@@ -108,7 +108,7 @@ public struct SectionHeader: View {
     }
 }
 
-// MARK: - Premium Balance Card
+// MARK: - Premium Balance Card — Modern Banking Style
 
 public struct PremiumBalanceCard: View {
     let netAmount: Decimal
@@ -130,154 +130,176 @@ public struct PremiumBalanceCard: View {
             topSection
             bottomSection
         }
-        .background(
-            RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous)
-                .fill(balanceGradient)
-                .overlay(
-                    ZStack {
-                        Circle()
-                            .fill(.white.opacity(0.03))
-                            .frame(width: 220, height: 220)
-                            .offset(x: 80, y: -60)
-                            .blur(radius: 30)
-                        Circle()
-                            .fill(.white.opacity(0.04))
-                            .frame(width: 160, height: 160)
-                            .offset(x: -60, y: 80)
-                            .blur(radius: 30)
-                    }
-                )
-        )
+        .background(cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous)
-                .stroke(.white.opacity(0.2), lineWidth: 0.5)
+                .stroke(.white.opacity(0.1), lineWidth: 0.5)
         )
-        .elevation(Elevation.level2)
+        .elevation(Elevation.level3)
     }
 
+    // MARK: - Card Background
+
+    private var cardBackground: some View {
+        ZStack {
+            // Base gradient — dark, premium
+            RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 0.05, green: 0.06, blue: 0.12),
+                            Color(red: 0.08, green: 0.10, blue: 0.20),
+                            Color(red: 0.12, green: 0.14, blue: 0.28),
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+
+            // Subtle radial highlight — top-right glow
+            RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous)
+                .fill(
+                    RadialGradient(
+                        colors: [
+                            .white.opacity(0.06),
+                            .clear,
+                        ],
+                        center: .topTrailing,
+                        startRadius: 0,
+                        endRadius: 200
+                    )
+                )
+
+            // Accent tint stripe — thin gradient line at top
+            RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        colors: [
+                            ColorTokens.accent.opacity(0.4),
+                            ColorTokens.chartPurple.opacity(0.2),
+                            .clear,
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    lineWidth: 1.5
+                )
+                .padding(1)
+        }
+    }
+
+    // MARK: - Top Section
+
     private var topSection: some View {
-        VStack(spacing: Spacing.xs) {
+        VStack(spacing: Spacing.s) {
             HStack {
-                Text(String(localized: "dashboard.balance.net"))
-                    .font(Typography.font(for: .label))
-                    .foregroundStyle(.white.opacity(0.65))
-                    .textCase(.uppercase)
-                    .tracking(1.5)
-                Spacer()
-                HStack(spacing: 4) {
+                // Net Balance label + status dot
+                HStack(spacing: Spacing.s) {
                     Circle()
-                        .fill(.white.opacity(0.5))
-                        .frame(width: 5, height: 5)
-                    Text(String(localized: "dashboard.balance.total"))
+                        .fill(netAmount >= 0 ? ColorTokens.positive : ColorTokens.negative)
+                        .frame(width: 8, height: 8)
+                    Text(String(localized: "dashboard.balance.net"))
                         .font(Typography.font(for: .caption))
-                        .foregroundStyle(.white.opacity(0.5))
+                        .foregroundStyle(.white.opacity(0.6))
+                        .textCase(.uppercase)
+                        .tracking(1.2)
                 }
+
+                Spacer()
+
+                // People badge
+                HStack(spacing: Spacing.xxs) {
+                    Image(systemName: "person.2.fill")
+                        .font(.system(size: 10))
+                    Text("\(personCount)")
+                        .font(Typography.font(for: .caption))
+                }
+                .foregroundStyle(.white.opacity(0.5))
+                .padding(.horizontal, Spacing.s)
+                .padding(.vertical, Spacing.xxs)
+                .background(.white.opacity(0.08), in: .capsule)
             }
 
-            HStack(alignment: .firstTextBaseline, spacing: 0) {
+            // Net amount — large, bold
+            HStack(alignment: .firstTextBaseline, spacing: Spacing.s) {
                 Text(netAmount.formatted())
-                    .font(.custom(AppFont.jakartaBold, size: 36))
+                    .font(.custom(AppFont.jakartaBold, size: 38))
                     .foregroundStyle(.white)
                     .contentTransition(.numericText(countsDown: true))
-                    .minimumScaleFactor(0.6)
+                    .minimumScaleFactor(0.5)
                     .lineLimit(1)
-                if netAmount >= 0 {
+
+                if netAmount > 0 {
                     Text(String(localized: "dashboard.balance.receivable.net"))
-                        .font(Typography.font(for: .captionItalic))
-                        .foregroundStyle(ColorTokens.positive.opacity(0.7))
-                        .padding(.leading, Spacing.s)
-                        .padding(.bottom, 4)
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.positive.opacity(0.8))
+                        .padding(.bottom, 6)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+
+            if let lastUpdate {
+                Text(lastUpdate, format: .dateTime.hour().minute().day().month(.abbreviated))
+                    .font(Typography.font(for: .label))
+                    .foregroundStyle(.white.opacity(0.3))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
         }
         .padding(.horizontal, Spacing.xl)
         .padding(.top, Spacing.xxl)
+        .padding(.bottom, Spacing.l)
     }
+
+    // MARK: - Bottom Section
 
     private var bottomSection: some View {
         HStack(spacing: 0) {
             metricItem(
                 value: receivable,
                 label: String(localized: "dashboard.summary.totalReceivable"),
-                color: .white,
-                isPositive: true
+                color: ColorTokens.positive,
+                icon: "arrow.down.left"
             )
+
             Divider()
-                .frame(width: 1, height: 32)
-                .overlay(.white.opacity(0.15))
+                .frame(width: 1, height: 36)
+                .overlay(.white.opacity(0.1))
+
             metricItem(
                 value: payable,
                 label: String(localized: "dashboard.summary.totalPayable"),
-                color: .white.opacity(0.7),
-                isPositive: false
+                color: ColorTokens.negative,
+                icon: "arrow.up.right"
             )
-            Divider()
-                .frame(width: 1, height: 32)
-                .overlay(.white.opacity(0.15))
-            peopleBadge
         }
         .padding(.horizontal, Spacing.xl)
         .padding(.vertical, Spacing.l)
-        .background(.white.opacity(0.08))
-        .clipShape(
-            .rect(
-                bottomLeadingRadius: Radius.xxl,
-                bottomTrailingRadius: Radius.xxl
+        .background(
+            LinearGradient(
+                colors: [.white.opacity(0.06), .white.opacity(0.03)],
+                startPoint: .top,
+                endPoint: .bottom
             )
         )
-        .padding(.top, Spacing.l)
     }
 
-    private func metricItem(value: Decimal, label: String, color: Color, isPositive: Bool) -> some View {
-        VStack(alignment: .center, spacing: 2) {
-            Text(value.formatted())
-                .font(Typography.font(for: .amountSmall))
-                .foregroundStyle(color)
-                .contentTransition(.numericText())
-            Text(label)
-                .font(Typography.font(for: .caption))
-                .foregroundStyle(.white.opacity(0.5))
-        }
-        .frame(maxWidth: .infinity)
-    }
-
-    private var peopleBadge: some View {
-        VStack(spacing: 2) {
-            Text("\(personCount)")
-                .font(Typography.font(for: .amountSmall))
-                .foregroundStyle(.white)
-            HStack(spacing: 3) {
-                Image(systemName: "person.2.fill")
-                    .font(.system(size: 8))
-                Text(String(localized: "dashboard.balance.people"))
-                    .font(Typography.font(for: .caption))
+    private func metricItem(value: Decimal, label: String, color: Color, icon: String) -> some View {
+        HStack(spacing: Spacing.s) {
+            Image(systemName: icon)
+                .font(.system(size: 10, weight: .bold))
+                .foregroundStyle(color.opacity(0.7))
+            VStack(alignment: .leading, spacing: 1) {
+                Text(value.formatted())
+                    .font(Typography.font(for: .bodyEmphasis))
+                    .foregroundStyle(.white)
+                    .contentTransition(.numericText())
+                Text(label)
+                    .font(Typography.font(for: .label))
+                    .foregroundStyle(.white.opacity(0.4))
             }
-            .foregroundStyle(.white.opacity(0.5))
         }
-        .frame(maxWidth: .infinity)
-    }
-
-    private var balanceGradient: LinearGradient {
-        if netAmount.isEffectivelyZero {
-            return LinearGradient(
-                colors: [ColorTokens.cardBlue, ColorTokens.cardPurpleDark],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        }
-        return netAmount > 0
-            ? LinearGradient(
-                colors: [ColorTokens.cardBlueDark, ColorTokens.cardBlue, ColorTokens.cardGreenDark],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            : LinearGradient(
-                colors: [Color(red: 0.6, green: 0.12, blue: 0.12), Color(red: 0.85, green: 0.18, blue: 0.14), Color(red: 0.9, green: 0.35, blue: 0.08)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -530,7 +552,7 @@ public struct MiniSparkline: View {
                             let y = h - (data[i] / maxVal) * h * 0.85
                             path.addLine(to: CGPoint(x: x, y: y))
                         }
-                        if let last = data.last {
+                        if !data.isEmpty {
                             let x = CGFloat(data.count - 1) * spacing
                             path.addLine(to: CGPoint(x: x, y: h))
                         }
@@ -582,23 +604,28 @@ public struct RateTile: View {
     public var body: some View {
         VStack(spacing: Spacing.xxs) {
             Text(flag)
-                .font(.title3)
+                .font(.title2)
             Text(code)
-                .font(Typography.font(for: .label))
-                .foregroundStyle(ColorTokens.textTertiary)
+                .font(Typography.font(for: .bodyEmphasis))
+                .foregroundStyle(ColorTokens.textSecondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
             if let rate {
-                Text(rate, format: .number.precision(.fractionLength(2)))
-                    .font(Typography.font(for: .amountSmall))
+                Text(rate, format: .number.precision(.fractionLength(4)))
+                    .font(Typography.font(for: .body).monospacedDigit())
                     .foregroundStyle(ColorTokens.textPrimary)
                     .contentTransition(.numericText())
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
             } else {
                 Text("--")
-                    .font(Typography.font(for: .amountSmall))
+                    .font(Typography.font(for: .body).monospacedDigit())
                     .foregroundStyle(ColorTokens.textTertiary)
             }
         }
-        .padding(.horizontal, Spacing.m)
-        .padding(.vertical, Spacing.s)
+        .padding(.horizontal, Spacing.ml)
+        .padding(.vertical, Spacing.m)
+        .frame(minWidth: 80)
         .background(
             RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
                 .fill(ColorTokens.surface)

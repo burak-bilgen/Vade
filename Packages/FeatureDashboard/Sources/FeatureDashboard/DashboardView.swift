@@ -33,15 +33,20 @@ public struct DashboardView: View {
     @State private var contentAppeared = false
 
     public var body: some View {
-        Group {
-            if viewModel == nil {
-                DashboardSkeleton()
-                    .entrance(.fade)
-            } else if let vm = viewModel {
-                content(vm)
+        ZStack {
+            FinanceBackgroundAnimation()
+                .ignoresSafeArea()
+            ColorTokens.background.opacity(0.12).ignoresSafeArea()
+
+            Group {
+                if viewModel == nil {
+                    DashboardSkeleton()
+                        .entrance(.fade)
+                } else if let vm = viewModel {
+                    content(vm)
+                }
             }
         }
-        .background(ColorTokens.background)
         .ignoresSafeArea(.container, edges: .top)
         .sheet(isPresented: $showAdd) {
             QuickAddSheet(
@@ -70,29 +75,55 @@ public struct DashboardView: View {
     }
 
     private func content(_ vm: DashboardViewModel) -> some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                headerSection(vm)
-                contentSection(vm)
+        VStack(spacing: 0) {
+            if !NetworkMonitor.shared.isConnected {
+                offlineBanner
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
+            
+            ScrollView {
+                VStack(spacing: 0) {
+                    headerSection(vm)
+                    contentSection(vm)
+                }
             }
         }
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: NetworkMonitor.shared.isConnected)
+    }
+
+    private var offlineBanner: some View {
+        HStack(spacing: Spacing.s) {
+            Image(systemName: "wifi.slash")
+                .font(.system(size: 13, weight: .bold))
+                .foregroundColor(ColorTokens.warning)
+            Text(LocalizedStringKey("dashboard.offline.message"))
+                .font(Typography.font(for: .caption))
+                .foregroundStyle(ColorTokens.textSecondary)
+            Spacer()
+        }
+        .padding(.horizontal, Spacing.xl)
+        .padding(.vertical, 10)
+        .background(ColorTokens.warning.opacity(0.08))
+        .overlay(
+            Rectangle()
+                .frame(height: 0.5)
+                .foregroundColor(ColorTokens.warning.opacity(0.18)),
+            alignment: .bottom
+        )
     }
 
     private func headerSection(_ vm: DashboardViewModel) -> some View {
         VStack(spacing: 0) {
-            Color.clear.frame(height: 56)
+            Color.clear.frame(height: 72)
 
-            HStack {
-                VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .center) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(timeGreeting)
-                        .font(Typography.font(for: .label))
-                        .foregroundStyle(ColorTokens.textTertiary)
-                    Text(String(localized: "app.name"))
                         .font(Typography.font(for: .title))
                         .foregroundStyle(ColorTokens.textPrimary)
                 }
                 Spacer()
-                HStack(spacing: Spacing.s) {
+                HStack(spacing: Spacing.m) {
                     NavigationLink(destination: {
                         ChartsHostView(
                             totalReceivable: vm.totalReceivable,
@@ -111,25 +142,26 @@ public struct DashboardView: View {
                         )
                     }) {
                         Image(systemName: "chart.pie.fill")
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundStyle(ColorTokens.chartPurple)
-                            .frame(width: 34, height: 34)
-                            .background(Circle().fill(ColorTokens.chartPurple.opacity(0.1)))
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(ColorTokens.textSecondary)
+                            .frame(width: 36, height: 36)
+                            .background(Circle().fill(ColorTokens.surface))
+                            .overlay(Circle().stroke(ColorTokens.border, lineWidth: 0.5))
                     }
                     .premiumPress()
 
                     Button { showAdd = true } label: {
                         Image(systemName: "plus")
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
-                            .frame(width: 34, height: 34)
+                            .frame(width: 36, height: 36)
                             .background(Circle().fill(ColorTokens.accent))
                     }
                     .premiumPress()
                 }
             }
             .padding(.horizontal, Spacing.xl)
-            .padding(.bottom, Spacing.s)
+            .padding(.bottom, Spacing.xxl)
             .entrance(.up, delay: 0.05)
 
             PremiumBalanceCard(
@@ -153,14 +185,26 @@ public struct DashboardView: View {
     }
 
     private func rateScrollView(_ rates: ExchangeRateSnapshot) -> some View {
-        let items: [(emoji: String, code: String, rate: Decimal?)] = [
+        var tempItems: [(emoji: String, code: String, rate: Decimal?)] = [
             ("🇺🇸", "USD", rates.usdRate),
             ("🇪🇺", "EUR", rates.eurRate),
-            ("🇬🇧", "GBP", rates.gbpRate),
-            ("🇨🇭", "CHF", rates.chfRate),
-            ("🇯🇵", "JPY", rates.jpyRate),
-            ("🪙", "XAU", rates.goldRate),
+            ("🇬🇧", "GBP", rates.gbpRate)
         ]
+        
+        if let gold = rates.goldRate {
+            let gramItem: (emoji: String, code: String, rate: Decimal?) = ("🟡", "GRAM", gold)
+            let qtrItem: (emoji: String, code: String, rate: Decimal?) = ("🪙", "ÇEYREK", gold * Decimal(1.75))
+            tempItems.append(gramItem)
+            tempItems.append(qtrItem)
+        }
+        
+        let otherItems: [(emoji: String, code: String, rate: Decimal?)] = [
+            ("🇨🇭", "CHF", rates.chfRate),
+            ("🇯🇵", "JPY", rates.jpyRate)
+        ]
+        tempItems.append(contentsOf: otherItems)
+        
+        let items = tempItems
 
         return VStack(spacing: Spacing.xxs) {
             HStack {
