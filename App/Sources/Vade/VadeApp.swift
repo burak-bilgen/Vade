@@ -66,6 +66,7 @@ struct VadeApp: App {
                         .modelContainer(container)
                         .environment(languageManager)
                         .environment(\.locale, languageManager.locale)
+                        .preferredColorScheme(.light)
                 }
             } else {
                 ZStack {

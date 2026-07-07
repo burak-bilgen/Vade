@@ -1,35 +1,36 @@
 import SwiftUI
 
-// MARK: - Vade Dark Fintech Color Palette
+// MARK: - Vade Light Banking Color Palette
 
-/// Minimalist fintech colour system inspired by N26 / Revolut.
-/// Dark-first with a clean blue accent. No xcassets dependency — inline colours only.
+/// Premium light colour system inspired by N26 / Revolut / Monzo.
+/// Light background with white cards, clean blue accent, and semantic green/red.
+/// No xcassets dependency — inline colours only.
 public enum ColorTokens {
     // MARK: Background & Surfaces
-    /// App-level background — near-black with a subtle cool tint (#0D0D12).
-    public static let background = Color(red: 0.051, green: 0.051, blue: 0.071)
-    /// Card / list-row surface — slightly lighter than background (#1C1C21).
-    public static let surface = Color(red: 0.110, green: 0.110, blue: 0.129)
-    /// Elevated surfaces (modals, sheets, floating cards) (#2B2B33).
-    public static let surfaceElevated = Color(red: 0.169, green: 0.169, blue: 0.200)
-    /// Standard border / divider (#3A3A45).
-    public static let border = Color(red: 0.227, green: 0.227, blue: 0.271)
-    /// Subtle border for inputs / low-emphasis separators (#2B2B33).
-    public static let borderSubtle = Color(red: 0.169, green: 0.169, blue: 0.200)
+    /// App-level background — warm off-white (#F5F7FA).
+    public static let background = Color(red: 0.961, green: 0.965, blue: 0.980)
+    /// Card / list-row surface — pure white (#FFFFFF).
+    public static let surface = Color(red: 1.000, green: 1.000, blue: 1.000)
+    /// Elevated surfaces (modals, sheets, floating cards) — white with shadow.
+    public static let surfaceElevated = Color(red: 1.000, green: 1.000, blue: 1.000)
+    /// Standard border / divider (#E5E7EB).
+    public static let border = Color(red: 0.898, green: 0.906, blue: 0.922)
+    /// Subtle border for inputs / low-emphasis separators (#F3F4F6).
+    public static let borderSubtle = Color(red: 0.953, green: 0.957, blue: 0.965)
 
     // MARK: Text
-    /// Primary text (headings, values) — white.
-    public static let textPrimary = Color.white
-    /// Secondary text (body, descriptions) — white at 70% opacity.
-    public static let textSecondary = Color.white.opacity(0.70)
-    /// Tertiary text (labels, placeholders, metadata) — white at 40% opacity.
-    public static let textTertiary = Color.white.opacity(0.40)
+    /// Primary text (headings, values) — near-black (#111827).
+    public static let textPrimary = Color(red: 0.067, green: 0.094, blue: 0.153)
+    /// Secondary text (body, descriptions) — medium gray (#4B5563).
+    public static let textSecondary = Color(red: 0.294, green: 0.333, blue: 0.388)
+    /// Tertiary text (labels, placeholders, metadata) — light gray (#9CA3AF).
+    public static let textTertiary = Color(red: 0.612, green: 0.639, blue: 0.686)
 
     // MARK: Accent — Clean Blue
     /// Primary CTA, active states, selected tabs (#007AFF).
     public static let accent = Color(red: 0.000, green: 0.478, blue: 1.000)
     /// Light accent variant for subtle highlights / backgrounds.
-    public static let accentLight = Color(red: 0.000, green: 0.478, blue: 1.000).opacity(0.15)
+    public static let accentLight = Color(red: 0.000, green: 0.478, blue: 1.000).opacity(0.12)
     /// Dark accent for pressed states (#0061CC).
     public static let accentDark = Color(red: 0.000, green: 0.380, blue: 0.800)
 
@@ -37,13 +38,13 @@ public enum ColorTokens {
     /// Positive / receivable — iOS green (#30D158).
     public static let positive = Color(red: 0.188, green: 0.820, blue: 0.345)
     /// Semi-transparent positive for chip backgrounds.
-    public static let positiveLight = Color(red: 0.188, green: 0.820, blue: 0.345).opacity(0.15)
+    public static let positiveLight = Color(red: 0.188, green: 0.820, blue: 0.345).opacity(0.12)
 
     // MARK: Semantic — Negative (Borç / Payable)
     /// Negative / payable — iOS red (#FF453A).
     public static let negative = Color(red: 1.000, green: 0.271, blue: 0.227)
     /// Semi-transparent negative for chip backgrounds.
-    public static let negativeLight = Color(red: 1.000, green: 0.271, blue: 0.227).opacity(0.15)
+    public static let negativeLight = Color(red: 1.000, green: 0.271, blue: 0.227).opacity(0.12)
 
     // MARK: Chart / Data Viz
     /// Chart blue.
