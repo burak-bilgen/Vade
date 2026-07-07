@@ -62,4 +62,5 @@ public enum ChartType: String, Sendable {
     case currencyDistribution
     case paidVsPending
     case dueDateHeatmap
+    case upcomingTimeline
 }

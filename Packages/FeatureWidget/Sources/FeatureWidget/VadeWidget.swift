@@ -95,10 +95,14 @@ public struct VadeWidgetEntryView: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(verbatim: "Vade")
+            Text(String(localized: "app.name"))
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textPrimary)
                 .minimumScaleFactor(0.85)
+            Text(String(localized: "app.subtitle"))
+                .font(Typography.font(for: .label))
+                .foregroundStyle(ColorTokens.textTertiary)
+                .minimumScaleFactor(0.75)
 
             Text(entry.netBalance.formatted())
                 .font(Typography.font(for: .title))

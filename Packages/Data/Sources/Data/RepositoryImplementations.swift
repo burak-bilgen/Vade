@@ -83,7 +83,7 @@ public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
 // MARK: - Payment Repository
 
 @MainActor
-public final class PaymentRepository: RecordPaymentUseCase {
+public final class PaymentRepository: RecordPaymentUseCase, FetchPaymentsForDebtUseCase {
     private let modelContext: ModelContext
     private let auditTrail: AuditTrailRecording?
     private let logger = Logger(subsystem: "com.vade.data", category: "payment")
@@ -95,6 +95,13 @@ public final class PaymentRepository: RecordPaymentUseCase {
 
     public func execute(debtRecordID: UUID, amount: Decimal, note: String?) async throws -> Payment {
         let payment = PaymentModel(debtRecordID: debtRecordID, amount: amount, note: note)
+        // Set the inverse relationship so SwiftData maintains _payments correctly
+        let debtDescriptor = FetchDescriptor<DebtRecordModel>(
+            predicate: #Predicate { $0.id == debtRecordID }
+        )
+        if let debt = try modelContext.fetch(debtDescriptor).first {
+            payment.debtRecord = debt
+        }
         modelContext.insert(payment)
         try modelContext.save()
 
@@ -106,6 +113,13 @@ public final class PaymentRepository: RecordPaymentUseCase {
         )
         logger.info("[PaymentRepo] Recorded payment \(payment.id) for debt \(debtRecordID)")
         return payment.toDomain()
+    }
+
+    public func execute(for debtRecordID: UUID) async throws -> [Payment] {
+        let descriptor = FetchDescriptor<PaymentModel>(
+            predicate: #Predicate { $0.debtRecordID == debtRecordID }
+        )
+        return try modelContext.fetch(descriptor).map { $0.toDomain() }
     }
 }
 
