@@ -289,7 +289,10 @@ public struct DashboardView: View {
                         archivedCount: vm.archivedDebtCount,
                         currencyDistribution: vm.currencyDistribution,
                         upcomingItems: vm.upcomingChartItems,
-                        personCount: vm.persons.count
+                        personCount: vm.persons.count,
+                        personBalances: vm.personBalances,
+                        paidAmount: vm.paidAmount,
+                        pendingAmount: vm.pendingAmount
                     ) }
                 )
                 .entrance(.up, delay: 0.15)

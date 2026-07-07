@@ -17,6 +17,9 @@ public struct ChartsHostView: View {
     let currencyDistribution: [(kind: CurrencyKind, total: Decimal)]
     let upcomingItems: [(person: String, amount: Decimal, dueDate: Date)]
     let personCount: Int
+    let personBalances: [(name: String, balance: Decimal)]
+    let paidAmount: Decimal
+    let pendingAmount: Decimal
 
     @State private var lastRateUpdateInfo: String?
     @State private var selectedChartType: ChartSection = .overview
@@ -31,7 +34,10 @@ public struct ChartsHostView: View {
         archivedCount: Int = 0,
         currencyDistribution: [(kind: CurrencyKind, total: Decimal)] = [],
         upcomingItems: [(person: String, amount: Decimal, dueDate: Date)] = [],
-        personCount: Int = 0
+        personCount: Int = 0,
+        personBalances: [(name: String, balance: Decimal)] = [],
+        paidAmount: Decimal = .zero,
+        pendingAmount: Decimal = .zero
     ) {
         self.totalReceivable = totalReceivable
         self.totalPayable = totalPayable
@@ -43,12 +49,16 @@ public struct ChartsHostView: View {
         self.currencyDistribution = currencyDistribution
         self.upcomingItems = upcomingItems
         self.personCount = personCount
+        self.personBalances = personBalances
+        self.paidAmount = paidAmount
+        self.pendingAmount = pendingAmount
     }
 
     enum ChartSection: String, CaseIterable {
         case overview
         case trends
         case distribution
+        case people
         case upcoming
     }
 
@@ -63,6 +73,7 @@ public struct ChartsHostView: View {
                     Text(String(localized: "charts.section.overview")).tag(ChartSection.overview)
                     Text(String(localized: "charts.section.trends")).tag(ChartSection.trends)
                     Text(String(localized: "charts.section.distribution")).tag(ChartSection.distribution)
+                    Text(String(localized: "charts.section.people")).tag(ChartSection.people)
                     Text(String(localized: "charts.section.upcoming")).tag(ChartSection.upcoming)
                 }
                 .pickerStyle(.segmented)
@@ -76,6 +87,8 @@ public struct ChartsHostView: View {
                     trendsSection
                 case .distribution:
                     distributionSection
+                case .people:
+                    peopleSection
                 case .upcoming:
                     upcomingSection
                 }
@@ -177,6 +190,20 @@ public struct ChartsHostView: View {
                         .font(Typography.font(for: .caption))
                         .foregroundStyle(ColorTokens.textTertiary)
                 }
+            }
+        }
+    }
+
+    // MARK: - People Section
+
+    private var peopleSection: some View {
+        VStack(spacing: Spacing.l) {
+            chartCard(title: String(localized: "charts.personDistribution.title")) {
+                PersonDistributionChart(personBalances: personBalances)
+            }
+
+            chartCard(title: String(localized: "charts.paidVsPending.title")) {
+                PaidVsPendingAmountChart(paidAmount: paidAmount, pendingAmount: pendingAmount)
             }
         }
     }

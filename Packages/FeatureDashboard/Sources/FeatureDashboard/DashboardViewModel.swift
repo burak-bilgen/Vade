@@ -23,6 +23,9 @@ public final class DashboardViewModel {
     public private(set) var pendingDebtCount: Int = 0
     public private(set) var paidDebtCount: Int = 0
     public private(set) var archivedDebtCount: Int = 0
+    public private(set) var personBalances: [(name: String, balance: Decimal)] = []
+    public private(set) var pendingAmount: Decimal = .zero
+    public private(set) var paidAmount: Decimal = .zero
     public private(set) var isLoading = false
 
     public var upcomingChartItems: [(person: String, amount: Decimal, dueDate: Date)] {
@@ -215,23 +218,42 @@ public final class DashboardViewModel {
 
         monthlyTrendData = trendData
 
-        // Status distribution counts
+        // Status distribution counts & amounts
         var pending = 0
         var paid = 0
         var archived = 0
+        var pendingTotal: Decimal = 0
+        var paidTotal: Decimal = 0
+        var balanceList: [(name: String, balance: Decimal)] = []
         for person in persons {
             guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
+            var personBalance: Decimal = 0
             for debt in debts {
                 switch debt.status {
                 case .pending: pending += 1
                 case .paid: paid += 1
                 case .archived: archived += 1
                 }
+                if debt.direction == .receivable {
+                    if debt.status == .pending { pendingTotal += debt.amount }
+                    if debt.status == .paid { paidTotal += debt.amount }
+                    personBalance += debt.amount
+                } else {
+                    if debt.status == .pending { pendingTotal += debt.amount }
+                    if debt.status == .paid { paidTotal += debt.amount }
+                    personBalance -= debt.amount
+                }
+            }
+            if personBalance != 0 || !balanceList.isEmpty {
+                balanceList.append((person.name, personBalance))
             }
         }
         pendingDebtCount = pending
         paidDebtCount = paid
         archivedDebtCount = archived
+        pendingAmount = pendingTotal
+        paidAmount = paidTotal
+        personBalances = balanceList.sorted { abs($0.balance) > abs($1.balance) }
     }
 }
 

@@ -7,6 +7,10 @@ import Observability
 import Charts
 #endif
 
+// MARK: - Chart Animations
+
+let chartAnimation: Animation = .easeInOut(duration: 0.6)
+
 // MARK: - Chart Data Point
 
 public struct ChartDataPoint: Identifiable, Sendable {
@@ -78,11 +82,13 @@ public struct MonthlyTrendChart: View {
                 .chartYAxis {
                     AxisMarks(position: .leading)
                 }
+                .chartLegend(position: .bottom, alignment: .center)
+                .animation(chartAnimation, value: monthlyData.count)
                 .frame(height: 200)
-                #else
-                Text(String(localized: "charts.unavailable"))
-                    .foregroundStyle(ColorTokens.textTertiary)
-                #endif
+            #else
+            Text(String(localized: "charts.unavailable"))
+                .foregroundStyle(ColorTokens.textTertiary)
+            #endif
             }
         }
         .task {
@@ -164,6 +170,8 @@ public struct DebtStatusChart: View {
                         .foregroundStyle(ColorTokens.textTertiary)
                     }
                 }
+                .chartLegend(position: .bottom, alignment: .center)
+                .animation(chartAnimation, value: totalCount)
                 .frame(height: 180)
                 .overlay(alignment: .center) {
                     VStack(spacing: 0) {
@@ -253,6 +261,8 @@ public struct CurrencyTrendChart: View {
                 .chartYAxis {
                     AxisMarks(position: .leading)
                 }
+                .chartLegend(position: .bottom, alignment: .center)
+                .animation(chartAnimation, value: distribution.count)
                 .frame(height: 160)
                 #else
                 Text(String(localized: "charts.unavailable"))
@@ -341,6 +351,8 @@ public struct UpcomingTimelineChart: View {
                 .chartYAxis {
                     AxisMarks(position: .leading)
                 }
+                .chartLegend(position: .bottom, alignment: .center)
+                .animation(chartAnimation, value: items.count)
                 .frame(height: 180)
                 #else
                 Text(String(localized: "charts.unavailable"))
@@ -396,6 +408,8 @@ public struct NetBalanceChart: View {
             .chartYAxis {
                 AxisMarks(position: .leading)
             }
+            .chartLegend(position: .bottom, alignment: .center)
+            .animation(chartAnimation, value: dataPoints.count)
             .frame(height: 200)
             #else
             Text(String(localized: "charts.unavailable"))
@@ -448,6 +462,8 @@ public struct DirectionPieChart: View {
                 )
                 .foregroundStyle(point.color)
             }
+            .chartLegend(position: .bottom, alignment: .center)
+            .animation(chartAnimation, value: receivable + payable)
             .frame(height: 200)
             #else
             Text(String(localized: "charts.unavailable"))
@@ -457,6 +473,138 @@ public struct DirectionPieChart: View {
         .task {
             analytics.track(.chartViewed(.receivableVsPayable))
         }
+    }
+}
+
+// MARK: - Person Distribution Chart (Horizontal Bar)
+
+public struct PersonDistributionChart: View {
+    let personBalances: [(name: String, balance: Decimal)]
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
+
+    public init(personBalances: [(name: String, balance: Decimal)]) {
+        self.personBalances = personBalances
+    }
+
+    public var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.m) {
+            Text(String(localized: "charts.personDistribution.title"))
+                .font(Typography.font(for: .title2))
+                .foregroundStyle(ColorTokens.textPrimary)
+
+            if personBalances.isEmpty {
+                emptyChartPlaceholder
+            } else {
+                #if canImport(Charts)
+                Chart(personBalances, id: \.name) { item in
+                    BarMark(
+                        x: .value("Balance", NSDecimalNumber(decimal: abs(item.balance)).doubleValue),
+                        y: .value("Person", item.name)
+                    )
+                    .foregroundStyle(item.balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
+                    .cornerRadius(Radius.xs)
+                    .annotation(position: .trailing) {
+                        Text(item.balance.formatted())
+                            .font(Typography.font(for: .label))
+                            .foregroundStyle(ColorTokens.textSecondary)
+                    }
+                }
+                .chartXAxis {
+                    AxisMarks(position: .bottom)
+                }
+                .chartLegend(position: .bottom, alignment: .center)
+                .animation(chartAnimation, value: personBalances.count)
+                .frame(height: max(120, CGFloat(personBalances.count * 40)))
+                #else
+                Text(String(localized: "charts.unavailable"))
+                    .foregroundStyle(ColorTokens.textTertiary)
+                #endif
+            }
+        }
+        .task {
+            analytics.track(.chartViewed(.personDistribution))
+        }
+    }
+
+    private var emptyChartPlaceholder: some View {
+        VStack(spacing: Spacing.s) {
+            Image(systemName: "person.2")
+                .font(.system(size: 32))
+                .foregroundStyle(ColorTokens.textTertiary)
+            Text(String(localized: "charts.personDistribution.empty"))
+                .font(Typography.font(for: .caption))
+                .foregroundStyle(ColorTokens.textTertiary)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 120)
+    }
+}
+
+// MARK: - Paid vs Pending Amount Chart
+
+public struct PaidVsPendingAmountChart: View {
+    let paidAmount: Decimal
+    let pendingAmount: Decimal
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
+
+    public init(paidAmount: Decimal, pendingAmount: Decimal) {
+        self.paidAmount = paidAmount
+        self.pendingAmount = pendingAmount
+    }
+
+    public var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.m) {
+            Text(String(localized: "charts.paidVsPending.title"))
+                .font(Typography.font(for: .title2))
+                .foregroundStyle(ColorTokens.textPrimary)
+
+            if paidAmount == 0 && pendingAmount == 0 {
+                emptyChartPlaceholder
+            } else {
+                #if canImport(Charts)
+                Chart {
+                    BarMark(
+                        x: .value("Type", String(localized: "charts.status.paid")),
+                        y: .value("Amount", NSDecimalNumber(decimal: paidAmount).doubleValue)
+                    )
+                    .foregroundStyle(ColorTokens.positive)
+                    .cornerRadius(Radius.xs)
+
+                    BarMark(
+                        x: .value("Type", String(localized: "charts.status.pending")),
+                        y: .value("Amount", NSDecimalNumber(decimal: pendingAmount).doubleValue)
+                    )
+                    .foregroundStyle(ColorTokens.chartOrange)
+                    .cornerRadius(Radius.xs)
+                }
+                .chartYAxis {
+                    AxisMarks(position: .leading)
+                }
+                .chartLegend(position: .bottom, alignment: .center)
+                .animation(chartAnimation, value: paidAmount + pendingAmount)
+                .frame(height: 200)
+                #else
+                Text(String(localized: "charts.unavailable"))
+                    .foregroundStyle(ColorTokens.textTertiary)
+                #endif
+            }
+        }
+        .task {
+            analytics.track(.chartViewed(.paidVsPending))
+        }
+    }
+
+    private var emptyChartPlaceholder: some View {
+        VStack(spacing: Spacing.s) {
+            Image(systemName: "chart.bar.xaxis")
+                .font(.system(size: 32))
+                .foregroundStyle(ColorTokens.textTertiary)
+            Text(String(localized: "charts.paidVsPending.empty"))
+                .font(Typography.font(for: .caption))
+                .foregroundStyle(ColorTokens.textTertiary)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 120)
     }
 }
 
@@ -485,6 +633,12 @@ public struct DirectionPieChart: View {
                 ("Ayşe", 750, Date().addingTimeInterval(86400 * 7)),
                 ("Mehmet", 2000, Date().addingTimeInterval(86400 * 14)),
             ])
+            PersonDistributionChart(personBalances: [
+                ("Ahmet", 2500),
+                ("Ayşe", -1200),
+                ("Mehmet", 800),
+            ])
+            PaidVsPendingAmountChart(paidAmount: 3500, pendingAmount: 8200)
         }
         .padding()
     }
