@@ -68,6 +68,7 @@ struct VadeApp: App {
                     }
                 }
                 .task {
+                        FontRegistration.registerAll()
                         assembleContainer()
                         do {
                             modelContainer = try ModelContainerFactory.create()

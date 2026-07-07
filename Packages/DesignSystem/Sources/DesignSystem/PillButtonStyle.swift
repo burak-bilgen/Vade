@@ -6,12 +6,13 @@ public struct PrimaryPillButtonStyle: ButtonStyle {
     public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(Typography.font(for: .headline))
+            .font(Typography.font(for: .button))
             .foregroundStyle(.white)
-            .padding(.horizontal, Spacing.xl)
-            .padding(.vertical, Spacing.m)
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.vertical, Spacing.ml)
             .background(Capsule().fill(ColorTokens.textPrimary))
             .opacity(configuration.isPressed ? 0.85 : 1.0)
+            .animation(.easeInOut(duration: 0.15), value: configuration.isPressed)
     }
 }
 
@@ -21,12 +22,13 @@ public struct BrassPillButtonStyle: ButtonStyle {
     public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(Typography.font(for: .headline))
-            .foregroundStyle(.white)
-            .padding(.horizontal, Spacing.xl)
-            .padding(.vertical, Spacing.m)
+            .font(Typography.font(for: .button))
+            .foregroundStyle(.black)
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.vertical, Spacing.ml)
             .background(Capsule().fill(ColorTokens.accent))
             .opacity(configuration.isPressed ? 0.85 : 1.0)
+            .animation(.easeInOut(duration: 0.15), value: configuration.isPressed)
     }
 }
 
@@ -36,12 +38,13 @@ public struct SecondaryPillButtonStyle: ButtonStyle {
     public init() {}
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(Typography.font(for: .headline))
+            .font(Typography.font(for: .button))
             .foregroundStyle(ColorTokens.textPrimary)
-            .padding(.horizontal, Spacing.xl)
-            .padding(.vertical, Spacing.m)
+            .padding(.horizontal, Spacing.xxl)
+            .padding(.vertical, Spacing.ml)
             .background(Capsule().stroke(ColorTokens.textPrimary, lineWidth: 1.5))
             .opacity(configuration.isPressed ? 0.6 : 1.0)
+            .animation(.easeInOut(duration: 0.15), value: configuration.isPressed)
     }
 }
 

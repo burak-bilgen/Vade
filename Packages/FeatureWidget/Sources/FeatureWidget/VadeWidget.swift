@@ -101,7 +101,7 @@ public struct VadeWidgetEntryView: View {
                 .minimumScaleFactor(0.85)
 
             Text(entry.netBalance.formatted())
-                .font(Typography.font(for: .title1))
+                .font(Typography.font(for: .title))
                 .foregroundStyle(entry.netBalance >= 0
                     ? ColorTokens.positive
                     : ColorTokens.negative)

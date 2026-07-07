@@ -50,8 +50,8 @@ public struct SummaryCard: View {
             .padding(Spacing.l)
         }
         .background(ColorTokens.surface)
-        .clipShape(RoundedRectangle(cornerRadius: Radius.xl))
-        .shadow(color: Elevation.cardShadow, radius: Elevation.cardShadowBlur, y: Elevation.cardShadowY)
+        .clipShape(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous))
+        .elevation(Elevation.level1)
     }
 
     private var stripeColor: Color {
