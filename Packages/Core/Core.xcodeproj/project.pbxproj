@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		178C99A830CAF3705E6F8431 /* DecimalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F7CEFE26BA02CDDD26F5AF /* DecimalTests.swift */; };
+		2151167C86C9DBD7F458CA43 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CF1E97B1826FFC9A3DD3FC /* NetworkMonitor.swift */; };
 		21CFB70C371C288D05BD184E /* MetricKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59081C1CED0A58F721C03F0D /* MetricKitService.swift */; };
 		4C3B6A481EBE2E3C52D1FD49 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF370E1E600380553A42C54 /* NotificationService.swift */; };
 		4F2C7883A2BF7496637250C5 /* DataExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56163017B3E6CB96C83AC2F1 /* DataExportService.swift */; };
@@ -68,6 +69,7 @@
 		714F1E62C2227DFC24DF38F6 /* CoreExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreExtensions.swift; sourceTree = "<group>"; };
 		997DE1E7870CCCCF4C2B2BF5 /* ScreenProtector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenProtector.swift; sourceTree = "<group>"; };
 		AB2FA63840DB3AF5B31DD211 /* SecurityServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityServices.swift; sourceTree = "<group>"; };
+		B2CF1E97B1826FFC9A3DD3FC /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		C7D13724CFC59E22AF45E5C5 /* ContactsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsService.swift; sourceTree = "<group>"; };
 		D45EBE0A1B2F1AEA17224890 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		D81A5985FBB055CC8CA4FAB8 /* CoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "CoreTests-Info.plist"; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				56163017B3E6CB96C83AC2F1 /* DataExportService.swift */,
 				0B4BE65EB188B7CE9CD48A3D /* LanguageManager.swift */,
 				59081C1CED0A58F721C03F0D /* MetricKitService.swift */,
+				B2CF1E97B1826FFC9A3DD3FC /* NetworkMonitor.swift */,
 				4BF370E1E600380553A42C54 /* NotificationService.swift */,
 				997DE1E7870CCCCF4C2B2BF5 /* ScreenProtector.swift */,
 				AB2FA63840DB3AF5B31DD211 /* SecurityServices.swift */,
@@ -290,6 +293,7 @@
 				4F2C7883A2BF7496637250C5 /* DataExportService.swift in Sources */,
 				9420F5BF4395D5E73AC7AE76 /* LanguageManager.swift in Sources */,
 				21CFB70C371C288D05BD184E /* MetricKitService.swift in Sources */,
+				2151167C86C9DBD7F458CA43 /* NetworkMonitor.swift in Sources */,
 				4C3B6A481EBE2E3C52D1FD49 /* NotificationService.swift in Sources */,
 				5D341FB224051412EFDD84FB /* ScreenProtector.swift in Sources */,
 				E6D85E4803DA04E176493568 /* SecurityServices.swift in Sources */,
