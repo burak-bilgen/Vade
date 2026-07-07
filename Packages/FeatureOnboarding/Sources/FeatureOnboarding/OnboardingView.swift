@@ -1,6 +1,7 @@
 import SwiftUI
 import DesignSystem
 import CloudKit
+import Core
 
 public struct OnboardingView: View {
     let onComplete: () -> Void
@@ -8,6 +9,8 @@ public struct OnboardingView: View {
     @State private var featureAppeared = false
     @State private var accepted = false
     @State private var cloudStatus = CKAccountStatus.couldNotDetermine
+    @Environment(LanguageManager.self) private var languageManager
+    @State private var showLanguagePicker = false
 
     private let features: [OnboardingFeature] = [
         OnboardingFeature(
@@ -38,14 +41,35 @@ public struct OnboardingView: View {
 
     public var body: some View {
         ZStack {
-            ChartWaveBackground()
+            FinanceBackgroundAnimation()
                 .ignoresSafeArea()
-            ColorTokens.background.opacity(0.92).ignoresSafeArea()
+            ColorTokens.background.opacity(0.85).ignoresSafeArea()
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
                     HStack {
+                        Button(action: {
+                            HapticFeedback.impact(.light)
+                            showLanguagePicker = true
+                        }) {
+                            HStack(spacing: Spacing.xs) {
+                                Image(systemName: "globe")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text(languageManager.languageCode.uppercased())
+                                    .font(Typography.font(for: .buttonSmall))
+                            }
+                            .padding(.horizontal, Spacing.m)
+                            .padding(.vertical, Spacing.xs)
+                            .background(Capsule().fill(ColorTokens.accent.opacity(0.1)))
+                            .foregroundStyle(ColorTokens.accent)
+                        }
+                        .padding(.leading, Spacing.xl)
+                        .padding(.top, Spacing.s)
+                        .opacity(appear ? 1 : 0)
+                        .animation(.easeOut(duration: 0.4).delay(0.5), value: appear)
+
                         Spacer()
+
                         Button(String(localized: "onboarding.skip")) {
                             withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
                                 onComplete()
@@ -66,22 +90,34 @@ public struct OnboardingView: View {
 
                     Text(String(localized: "onboarding.tagline"))
                         .font(Typography.font(for: .title2))
-                        .foregroundStyle(ColorTokens.textPrimary)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [ColorTokens.textPrimary, ColorTokens.accent],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, Spacing.xxl)
                         .opacity(appear ? 1 : 0)
                         .offset(y: appear ? 0 : 20)
-                        .animation(.easeOut(duration: 0.6).delay(0.2), value: appear)
+                        .animation(.easeOut(duration: 0.6).delay(0.36), value: appear)
 
                     Text(String(localized: "onboarding.subtagline"))
                         .font(Typography.font(for: .body))
-                        .foregroundStyle(ColorTokens.textSecondary)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [ColorTokens.textSecondary, ColorTokens.textTertiary],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, Spacing.xxl)
                         .padding(.top, Spacing.xs)
                         .opacity(appear ? 1 : 0)
                         .offset(y: appear ? 0 : 15)
-                        .animation(.easeOut(duration: 0.6).delay(0.35), value: appear)
+                        .animation(.easeOut(duration: 0.6).delay(0.48), value: appear)
 
                     VStack(spacing: Spacing.s) {
                         ForEach(Array(features.enumerated()), id: \.offset) { index, feature in
@@ -113,6 +149,11 @@ public struct OnboardingView: View {
             }
             .scrollBounceBehavior(.basedOnSize)
         }
+        .sheet(isPresented: $showLanguagePicker) {
+            LanguageSelectionSheet()
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+        }
         .onAppear {
             withAnimation(.easeOut(duration: 0.6)) { appear = true }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -140,10 +181,16 @@ public struct OnboardingView: View {
 
             Text(String(localized: "app.subtitle"))
                 .font(Typography.font(for: .bodyEmphasisItalic))
-                .foregroundStyle(ColorTokens.accent.opacity(0.7))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [ColorTokens.accent, ColorTokens.chartTeal],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
                 .opacity(appear ? 1 : 0)
                 .offset(y: appear ? 0 : 10)
-                .animation(.easeOut(duration: 0.5).delay(0.2), value: appear)
+                .animation(.easeOut(duration: 0.6).delay(0.24), value: appear)
         }
     }
 
@@ -288,39 +335,7 @@ private struct FeatureCard: View {
     }
 }
 
-// MARK: - Animated Chart Wave Background
-
-private struct ChartWaveBackground: View {
-    @State private var phase: CGFloat = 0
-
-    var body: some View {
-        TimelineView(.animation(paused: false)) { timeline in
-            let x = timeline.date.timeIntervalSinceReferenceDate
-            Canvas { context, size in
-                let w = size.width
-                let h = size.height
-                let phases: [CGFloat] = [0, 1.2, 2.5]
-                let opacities: [Double] = [0.08, 0.05, 0.04]
-                let colors: [Color] = [ColorTokens.chartBlue, ColorTokens.chartTeal, ColorTokens.chartPurple]
-
-                for (i, offset) in phases.enumerated() {
-                    var path = Path()
-                    path.move(to: CGPoint(x: 0, y: h * 0.6))
-                    for seg in 0...Int(w / 2) {
-                        let px = CGFloat(seg) * 2
-                        let angle = (px / w) * .pi * 4 + CGFloat(x * 0.4) + offset
-                        let py = h * 0.35 + sin(angle) * h * 0.06 + sin(angle * 1.6) * h * 0.03
-                        path.addLine(to: CGPoint(x: px, y: py))
-                    }
-                    path.addLine(to: CGPoint(x: w, y: h))
-                    path.addLine(to: CGPoint(x: 0, y: h))
-                    path.closeSubpath()
-                    context.fill(path, with: .color(colors[i].opacity(opacities[i])))
-                }
-            }
-        }
-    }
-}
+// ChartWaveBackground removed, replaced by FinanceBackgroundAnimation.
 
 #Preview {
     OnboardingView(onComplete: {})
