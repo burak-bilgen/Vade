@@ -17,10 +17,10 @@ public enum ModelContainerFactory {
         #if !targetEnvironment(simulator)
             let config = ModelConfiguration(
                 isStoredInMemoryOnly: false,
-                cloudKitContainerIdentifier: cloudKitContainerID
+                cloudKitDatabase: .private(cloudKitContainerID)
             )
         #else
-            // iOS simulators don't support CloudKit container identifier.
+            // iOS simulators don't support CloudKit.
             // CloudKit sync works on real devices only.
             let config = ModelConfiguration(
                 isStoredInMemoryOnly: false
