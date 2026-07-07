@@ -7,6 +7,12 @@ import DIContainer
 import Domain
 import Observability
 
+// MARK: - iOS Only Guard
+// Vade is an iOS-only application. This prevents accidental compilation on macOS.
+#if os(macOS)
+#error("Vade is iOS-only — macOS and Mac Catalyst are not supported.")
+#endif
+
 @main
 struct VadeApp: App {
     @State private var modelContainer: ModelContainer?

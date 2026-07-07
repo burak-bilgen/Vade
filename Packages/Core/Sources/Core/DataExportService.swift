@@ -84,12 +84,12 @@ public final class DataExportService: DataExporting {
     // MARK: - PDF
 
     /// Generates a real PDF document from debt rows using UIGraphicsPDFRenderer.
-    /// Falls back to CSV wrapping on platforms without UIKit (macOS).
+    /// iOS-only — uses UIKit PDF rendering.
     public func exportAsPDF(rows: [ExportRow]) throws -> Data {
         #if canImport(UIKit)
         return try renderPDF(rows: rows)
         #else
-        throw ExportError.platformNotSupported
+        throw ExportError.encodingFailed
         #endif
     }
 
@@ -229,5 +229,4 @@ public final class DataExportService: DataExporting {
 
 public enum ExportError: Error, Sendable {
     case encodingFailed
-    case platformNotSupported
 }
