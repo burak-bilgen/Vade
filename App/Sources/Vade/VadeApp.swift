@@ -35,6 +35,10 @@ struct VadeApp: App {
     @State private var analytics: any AnalyticsTracking = AnalyticsService.shared
     @State private var hasTrackedAppOpen = false
 
+    init() {
+        AppFont.register()
+    }
+
     var body: some Scene {
         WindowGroup {
             if let error = containerError {

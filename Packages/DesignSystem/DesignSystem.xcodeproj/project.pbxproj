@@ -15,6 +15,7 @@
 		385E5D0846F1987DE67720DA /* PlusJakartaSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FB9E8AD1632E8656E4B2DFB /* PlusJakartaSans-Medium.ttf */; };
 		38EEC3BF7BC870F37E3A7F19 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D3D3E20D4CF49B640DF83248 /* Core.framework */; };
 		39568F61C0AE339287F7AF7D /* JetBrainsMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB078AF7F762A97DB120919A /* JetBrainsMono-Regular.ttf */; };
+		3B0377A2FE92AD1C908FDC5B /* FontRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FF1C842A0237A81ED5C9BC /* FontRegistration.swift */; };
 		58CCB30E68A7ED5F31919C60 /* PlusJakartaSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C34474BB560E114B7891FBE7 /* PlusJakartaSans-SemiBold.ttf */; };
 		6A9D0C3784F739E22DC53C14 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */; };
 		6E30040213E536E7C5004075 /* TokensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2CCEE965F2AE9E7CAD2013 /* TokensTests.swift */; };
@@ -136,6 +137,7 @@
 		CECDED58FD5958F9EBB487DF /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		D0A4725BC33F2ADC6622422B /* SummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCard.swift; sourceTree = "<group>"; };
 		D3D3E20D4CF49B640DF83248 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6FF1C842A0237A81ED5C9BC /* FontRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontRegistration.swift; sourceTree = "<group>"; };
 		D80A43013FB2429EC9EC182C /* PlusJakartaSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-Bold.ttf"; sourceTree = "<group>"; };
 		DDA12AD00E98A3497D3A729E /* DesignSystem_DesignSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystem_DesignSystem-Info.plist"; sourceTree = "<group>"; };
 		E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				E188A934756F825D89DAFCCC /* Resources */,
 				C776F60272D9D5B4D248FBBA /* BannerAdView.swift */,
 				E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */,
+				D6FF1C842A0237A81ED5C9BC /* FontRegistration.swift */,
 				CECDED58FD5958F9EBB487DF /* HapticFeedback.swift */,
 				43EEC35F002D4D44977582DC /* LedgerRowView.swift */,
 				357162DA0532AB5A40FBBB19 /* ModernComponents.swift */,
@@ -443,6 +446,7 @@
 				F6018B5F7748E322214C52D6 /* TuistBundle+DesignSystem.swift in Sources */,
 				0CA9BC667EC5CCF0B482A094 /* BannerAdView.swift in Sources */,
 				F4E880DDA8212965C61F5BC2 /* EmptyStateView.swift in Sources */,
+				3B0377A2FE92AD1C908FDC5B /* FontRegistration.swift in Sources */,
 				910A3122AA69D00EBCDBD697 /* HapticFeedback.swift in Sources */,
 				9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */,
 				F154294E7A5A206B0873032B /* ModernComponents.swift in Sources */,
