@@ -133,29 +133,13 @@ public struct OnboardingView: View {
 
     private var logoSection: some View {
         VStack(spacing: Spacing.s) {
-            ZStack {
-                // Outer glow ring
-                Circle()
-                    .stroke(ColorTokens.accent.opacity(0.15), lineWidth: 1)
-                    .frame(width: 100, height: 100)
-                    .scaleEffect(appear ? 1 : 0.6)
-                    .opacity(appear ? 0.6 : 0)
-                    .animation(.spring(response: 0.7, dampingFraction: 0.6).delay(0.1), value: appear)
-
-                // Inner solid ring
-                Circle()
-                    .fill(ColorTokens.accent.opacity(0.08))
-                    .frame(width: 76, height: 76)
-
-                // Icon
-                Image(systemName: "arrow.left.arrow.right.circle.fill")
-                    .font(.system(size: 36))
-                    .foregroundStyle(ColorTokens.accent)
-                    .symbolEffect(.bounce.up.byLayer, options: .repeating.speed(0.3))
-            }
-            .scaleEffect(appear ? 1 : 0.5)
-            .opacity(appear ? 1 : 0)
-            .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.05), value: appear)
+            Image("logo", bundle: .main)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 80, height: 80)
+                .scaleEffect(appear ? 1 : 0.85)
+                .opacity(appear ? 1 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.05), value: appear)
 
             Text(String(localized: "app.name"))
                 .font(Typography.font(for: .title))
