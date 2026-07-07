@@ -54,6 +54,7 @@ private struct MainTabView: View {
         let balanceRepo = BalanceRepository(modelContext: modelContext)
         let paymentRepo = PaymentRepository(modelContext: modelContext, auditTrail: auditTrail)
         let rateClient = ExchangeRateClient()
+        let contactsService = ContactsService()
 
         TabView {
             Tab(String(localized: "tab.dashboard"), systemImage: "house") {
@@ -75,7 +76,8 @@ private struct MainTabView: View {
                         personRepo: personRepo,
                         debtRepo: debtRepo,
                         balanceRepo: balanceRepo,
-                        paymentRepo: paymentRepo
+                        paymentRepo: paymentRepo,
+                        contactsService: contactsService
                     )
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationDestination(for: Person.self) { person in

@@ -12,6 +12,16 @@ public protocol FetchPersonsUseCase {
     func execute(includeArchived: Bool) async throws -> [Person]
 }
 
+@MainActor
+public protocol UpdatePersonUseCase {
+    func execute(personID: UUID, name: String, phoneNumber: String?, notes: String?) async throws -> Person
+}
+
+@MainActor
+public protocol DeletePersonUseCase {
+    func execute(personID: UUID) async throws
+}
+
 // MARK: - Debt Use Cases
 
 @MainActor
@@ -27,6 +37,23 @@ public protocol AddDebtUseCase {
 }
 
 @MainActor
+public protocol UpdateDebtUseCase {
+    func execute(
+        debtID: UUID,
+        amount: Decimal,
+        kind: CurrencyKind,
+        direction: DebtDirection,
+        note: String?,
+        dueDate: Date?
+    ) async throws -> DebtRecord
+}
+
+@MainActor
+public protocol DeleteDebtUseCase {
+    func execute(debtID: UUID) async throws
+}
+
+@MainActor
 public protocol RecordPaymentUseCase {
     func execute(debtRecordID: UUID, amount: Decimal, note: String?) async throws -> Payment
 }
@@ -39,6 +66,11 @@ public protocol FetchPaymentsForDebtUseCase {
 @MainActor
 public protocol FetchDebtsForPersonUseCase {
     func execute(for personID: UUID) async throws -> [DebtRecord]
+}
+
+@MainActor
+public protocol FetchSingleDebtUseCase {
+    func execute(debtID: UUID) async throws -> DebtRecord?
 }
 
 @MainActor

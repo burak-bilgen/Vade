@@ -6,7 +6,7 @@ import OSLog
 // MARK: - Person Repository
 
 @MainActor
-public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase {
+public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase, UpdatePersonUseCase, DeletePersonUseCase {
     private let modelContext: ModelContext
 
     public init(modelContext: ModelContext) {
@@ -27,12 +27,37 @@ public final class PersonRepository: AddPersonUseCase, FetchPersonsUseCase {
         )
         return try modelContext.fetch(descriptor).map { $0.toDomain() }
     }
+
+    public func execute(personID: UUID, name: String, phoneNumber: String?, notes: String?) async throws -> Person {
+        let descriptor = FetchDescriptor<PersonModel>(
+            predicate: #Predicate { $0.id == personID }
+        )
+        guard let entity = try modelContext.fetch(descriptor).first else {
+            throw RepositoryError.notFound
+        }
+        entity.name = name
+        entity.phoneNumber = phoneNumber
+        entity.notes = notes
+        try modelContext.save()
+        return entity.toDomain()
+    }
+
+    public func execute(personID: UUID) async throws {
+        let descriptor = FetchDescriptor<PersonModel>(
+            predicate: #Predicate { $0.id == personID }
+        )
+        guard let entity = try modelContext.fetch(descriptor).first else {
+            throw RepositoryError.notFound
+        }
+        modelContext.delete(entity)
+        try modelContext.save()
+    }
 }
 
 // MARK: - Debt Repository
 
 @MainActor
-public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
+public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase, UpdateDebtUseCase, DeleteDebtUseCase, FetchSingleDebtUseCase {
     private let modelContext: ModelContext
     private let auditTrail: AuditTrailRecording?
     private let logger = Logger(subsystem: "com.vade.data", category: "debt")
@@ -78,6 +103,65 @@ public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase {
         )
         return try modelContext.fetch(descriptor).map { $0.toDomain() }
     }
+
+    public func execute(debtID: UUID) async throws -> DebtRecord? {
+        let descriptor = FetchDescriptor<DebtRecordModel>(
+            predicate: #Predicate { $0.id == debtID }
+        )
+        return try modelContext.fetch(descriptor).first?.toDomain()
+    }
+
+    public func execute(
+        debtID: UUID,
+        amount: Decimal,
+        kind: CurrencyKind,
+        direction: DebtDirection,
+        note: String?,
+        dueDate: Date?
+    ) async throws -> DebtRecord {
+        let descriptor = FetchDescriptor<DebtRecordModel>(
+            predicate: #Predicate { $0.id == debtID }
+        )
+        guard let entity = try modelContext.fetch(descriptor).first else {
+            throw RepositoryError.notFound
+        }
+        let oldValue = "\(entity.amount) \(entity.kindRawValue) [\(entity.directionRawValue)]"
+        entity.amount = amount
+        entity.kindRawValue = kind.rawValue
+        entity.directionRawValue = direction.rawValue
+        entity.note = note
+        entity.dueDate = dueDate
+        entity.updatedAt = Date()
+        try modelContext.save()
+
+        await auditTrail?.recordEdit(
+            debtRecordID: debtID,
+            oldValue: oldValue,
+            newValue: "\(amount) \(kind.rawValue) [\(direction.rawValue)]",
+            reason: .manualEdit
+        )
+        logger.info("[DebtRepo] Updated debt \(debtID)")
+        return entity.toDomain()
+    }
+
+    public func execute(debtID: UUID) async throws {
+        let descriptor = FetchDescriptor<DebtRecordModel>(
+            predicate: #Predicate { $0.id == debtID }
+        )
+        guard let entity = try modelContext.fetch(descriptor).first else {
+            throw RepositoryError.notFound
+        }
+        modelContext.delete(entity)
+        try modelContext.save()
+
+        await auditTrail?.recordEdit(
+            debtRecordID: debtID,
+            oldValue: "Deleted",
+            newValue: "",
+            reason: .deleted
+        )
+        logger.info("[DebtRepo] Deleted debt \(debtID)")
+    }
 }
 
 // MARK: - Payment Repository
@@ -121,6 +205,14 @@ public final class PaymentRepository: RecordPaymentUseCase, FetchPaymentsForDebt
         )
         return try modelContext.fetch(descriptor).map { $0.toDomain() }
     }
+}
+
+// MARK: - Errors
+
+public enum RepositoryError: Error, Sendable {
+    case notFound
+    case deleteFailed
+    case saveFailed
 }
 
 // MARK: - Balance Repository
