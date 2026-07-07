@@ -145,15 +145,21 @@ public final class DashboardViewModel {
     private func loadExchangeRates() async {
         async let usdRate = try? await rateClient.fetchRate(for: "USD")
         async let eurRate = try? await rateClient.fetchRate(for: "EUR")
+        async let gbpRate = try? await rateClient.fetchRate(for: "GBP")
+        async let chfRate = try? await rateClient.fetchRate(for: "CHF")
+        async let jpyRate = try? await rateClient.fetchRate(for: "JPY")
         async let goldRate = try? await rateClient.fetchGoldRatePerGram()
         let lastUpdate = await rateClient.lastUpdateDate()
 
-        let (usd, eur, gold) = await (usdRate, eurRate, goldRate)
+        let (usd, eur, gbp, chf, jpy, gold) = await (usdRate, eurRate, gbpRate, chfRate, jpyRate, goldRate)
         if usd != nil || eur != nil || gold != nil {
             exchangeRates = ExchangeRateSnapshot(
                 usdRate: usd,
                 eurRate: eur,
                 goldRate: gold,
+                gbpRate: gbp,
+                chfRate: chf,
+                jpyRate: jpy,
                 lastUpdate: lastUpdate
             )
         }
@@ -281,5 +287,26 @@ public struct ExchangeRateSnapshot: Sendable {
     public let usdRate: Decimal?
     public let eurRate: Decimal?
     public let goldRate: Decimal?
+    public let gbpRate: Decimal?
+    public let chfRate: Decimal?
+    public let jpyRate: Decimal?
     public let lastUpdate: Date?
+
+    public init(
+        usdRate: Decimal? = nil,
+        eurRate: Decimal? = nil,
+        goldRate: Decimal? = nil,
+        gbpRate: Decimal? = nil,
+        chfRate: Decimal? = nil,
+        jpyRate: Decimal? = nil,
+        lastUpdate: Date? = nil
+    ) {
+        self.usdRate = usdRate
+        self.eurRate = eurRate
+        self.goldRate = goldRate
+        self.gbpRate = gbpRate
+        self.chfRate = chfRate
+        self.jpyRate = jpyRate
+        self.lastUpdate = lastUpdate
+    }
 }

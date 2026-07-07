@@ -11,42 +11,70 @@ public struct RatesView: View {
     @State private var isLoading = true
     private let client = ExchangeRateClient()
 
+    private static let majorCurrencies: [(flag: String, code: String, key: String)] = [
+        ("🇺🇸", "USD", "rates.usd"),
+        ("🇪🇺", "EUR", "rates.eur"),
+        ("🇬🇧", "GBP", "rates.gbp"),
+        ("🇨🇭", "CHF", "rates.chf"),
+        ("🇯🇵", "JPY", "rates.jpy"),
+        ("🪙", "XAU", "currency.gold.gram"),
+    ]
+
     public init() {}
 
     public var body: some View {
         List {
-            // Major rates
             if let rates {
                 Section(String(localized: "rates.major")) {
-                    rateRow(flag: "🇺🇸", code: "USD", label: String(localized: "rates.usd"), rate: rates.usdRate)
-                    rateRow(flag: "🇪🇺", code: "EUR", label: String(localized: "rates.eur"), rate: rates.eurRate)
-                    rateRow(flag: "🪙", code: "XAU", label: String(localized: "currency.gold.gram"), rate: rates.goldRate)
+                    ForEach(Self.majorCurrencies, id: \.code) { currency in
+                        rateRow(
+                            flag: currency.flag,
+                            code: currency.code,
+                            label: String(localized: LocalizedStringResource(stringLiteral: currency.key)),
+                            rate: self.rate(for: currency.code, snapshot: rates)
+                        )
+                    }
+                }
+
+                if let lastUpdate = rates.lastUpdate {
+                    HStack {
+                        Image(systemName: "clock")
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textTertiary)
+                        Text(lastUpdate, format: .dateTime.hour().minute().day().month(.abbreviated))
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textTertiary)
+                    }
+                    .listRowBackground(ColorTokens.background)
                 }
             }
 
-            // All currencies
             if !allRates.isEmpty {
                 Section(String(localized: "rates.all")) {
                     ForEach(allRates, id: \.code) { item in
-                        HStack {
-                            Text(item.code)
-                                .font(Typography.font(for: .bodyEmphasis))
+                        HStack(spacing: Spacing.m) {
+                            Text(flag(for: item.code))
+                                .font(Typography.font(for: .headline))
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text(item.code)
+                                    .font(Typography.font(for: .bodyEmphasis))
+                                    .foregroundStyle(ColorTokens.textPrimary)
+                                Text(currencyName(for: item.code))
+                                    .font(Typography.font(for: .label))
+                                    .foregroundStyle(ColorTokens.textTertiary)
+                            }
                             Spacer()
                             Text(item.rate, format: .number.precision(.fractionLength(4)))
-                                .font(Typography.font(for: .amountSmall))
-                                .foregroundStyle(ColorTokens.textSecondary)
+                                .font(Typography.font(for: .amount))
+                                .foregroundStyle(ColorTokens.textPrimary)
                         }
                     }
                 }
             }
         }
         .navigationTitle(String(localized: "rates.title"))
-        #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.insetGrouped)
-        #else
-        .listStyle(.plain)
-        #endif
         .scrollContentBackground(.hidden)
         .background(ColorTokens.background)
         .overlay {
@@ -62,21 +90,40 @@ public struct RatesView: View {
 
         async let usd = try? await client.fetchRate(for: "USD")
         async let eur = try? await client.fetchRate(for: "EUR")
+        async let gbp = try? await client.fetchRate(for: "GBP")
+        async let chf = try? await client.fetchRate(for: "CHF")
+        async let jpy = try? await client.fetchRate(for: "JPY")
         async let gold = try? await client.fetchGoldRatePerGram()
 
-        let (usdRate, eurRate, goldRate) = await (usd, eur, gold)
-        rates = ExchangeRateSnapshot(usdRate: usdRate, eurRate: eurRate, goldRate: goldRate, lastUpdate: await client.lastUpdateDate())
+        let (usdRate, eurRate, gbpRate, chfRate, jpyRate, goldRate) = await (usd, eur, gbp, chf, jpy, gold)
+        rates = ExchangeRateSnapshot(
+            usdRate: usdRate, eurRate: eurRate, goldRate: goldRate,
+            gbpRate: gbpRate, chfRate: chfRate, jpyRate: jpyRate,
+            lastUpdate: await client.lastUpdateDate()
+        )
 
-        // Fetch all rates via client
         if let allData = try? await client.fetchAllRates() {
             allRates = allData
         }
     }
 
+    private func rate(for code: String, snapshot: ExchangeRateSnapshot) -> Decimal? {
+        switch code {
+        case "USD": return snapshot.usdRate
+        case "EUR": return snapshot.eurRate
+        case "GBP": return snapshot.gbpRate
+        case "CHF": return snapshot.chfRate
+        case "JPY": return snapshot.jpyRate
+        case "XAU": return snapshot.goldRate
+        default: return nil
+        }
+    }
+
     private func rateRow(flag: String, code: String, label: String, rate: Decimal?) -> some View {
-        HStack(spacing: Spacing.m) {
-            Text(flag).font(.title3)
-            VStack(alignment: .leading, spacing: 2) {
+        HStack(spacing: Spacing.l) {
+            Text(flag)
+                .font(Typography.font(for: .title2))
+            VStack(alignment: .leading, spacing: 1) {
                 Text(label)
                     .font(Typography.font(for: .bodyEmphasis))
                     .foregroundStyle(ColorTokens.textPrimary)
@@ -92,8 +139,55 @@ public struct RatesView: View {
             } else {
                 Text("--")
                     .font(Typography.font(for: .amount))
-                    .foregroundStyle(ColorTokens.textTertiary)
+                    .foregroundStyle(ColorTokens.textSecondary)
             }
+        }
+        .padding(.vertical, Spacing.xxs)
+    }
+
+    private func flag(for code: String) -> String {
+        switch code {
+        case "USD": return "🇺🇸"
+        case "EUR": return "🇪🇺"
+        case "GBP": return "🇬🇧"
+        case "CHF": return "🇨🇭"
+        case "JPY": return "🇯🇵"
+        case "CAD": return "🇨🇦"
+        case "AUD": return "🇦🇺"
+        case "CNY": return "🇨🇳"
+        case "SEK": return "🇸🇪"
+        case "NOK": return "🇳🇴"
+        case "DKK": return "🇩🇰"
+        case "SAR": return "🇸🇦"
+        case "KWD": return "🇰🇼"
+        case "BGN": return "🇧🇬"
+        case "RON": return "🇷🇴"
+        case "RUB": return "🇷🇺"
+        case "IRR": return "🇮🇷"
+        case "KRW": return "🇰🇷"
+        case "ZAR": return "🇿🇦"
+        case "BRL": return "🇧🇷"
+        case "INR": return "🇮🇳"
+        case "MXN": return "🇲🇽"
+        case "MYR": return "🇲🇾"
+        case "NZD": return "🇳🇿"
+        case "PHP": return "🇵🇭"
+        case "SGD": return "🇸🇬"
+        case "THB": return "🇹🇭"
+        case "TRY": return "🇹🇷"
+        case "XAU": return "🪙"
+        default: return "💱"
+        }
+    }
+
+    private func currencyName(for code: String) -> String {
+        switch code {
+        case "USD": return String(localized: "rates.usd")
+        case "EUR": return String(localized: "rates.eur")
+        case "GBP": return String(localized: "rates.gbp")
+        case "CHF": return String(localized: "rates.chf")
+        case "JPY": return String(localized: "rates.jpy")
+        default: return code
         }
     }
 }
