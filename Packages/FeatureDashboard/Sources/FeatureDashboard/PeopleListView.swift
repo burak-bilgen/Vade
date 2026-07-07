@@ -25,7 +25,15 @@ public struct PeopleListView: View {
                 ProgressView()
                     .entrance(.fade)
                     .task {
-                        let vm = PeopleListViewModel(modelContext: modelContext, analytics: analytics)
+                        let personRepo = PersonRepository(modelContext: modelContext)
+                        let debtRepo = DebtRepository(modelContext: modelContext)
+                        let balanceRepo = BalanceRepository(modelContext: modelContext)
+                        let vm = PeopleListViewModel(
+                            personRepo: personRepo,
+                            balanceRepo: balanceRepo,
+                            debtRepo: debtRepo,
+                            analytics: analytics
+                        )
                         viewModel = vm
                         await vm.loadPersons()
                     }
@@ -54,7 +62,7 @@ public struct PeopleListView: View {
 
     private func content(_ vm: PeopleListViewModel) -> some View {
         VStack(spacing: 0) {
-            // Premium Search Bar — animated border on focus
+            // Premium Search Bar
             HStack(spacing: Spacing.s) {
                 Image(systemName: "magnifyingglass")
                     .font(Typography.font(for: .body))
@@ -94,56 +102,65 @@ public struct PeopleListView: View {
                             vm.selectedSegment = segment
                         }
                     } label: {
-                        Text(segment == .receivable
-                            ? String(localized: "people.segment.receivable")
-                            : String(localized: "people.segment.payable"))
-                            .font(Typography.font(for: .buttonSmall))
-                            .foregroundStyle(vm.selectedSegment == segment
-                                ? (segment == .receivable ? ColorTokens.positive : ColorTokens.negative)
-                                : ColorTokens.textTertiary)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, Spacing.s)
-                            .background(
-                                Capsule()
-                                    .fill(vm.selectedSegment == segment
-                                        ? (segment == .receivable
-                                            ? ColorTokens.positiveLight.opacity(0.2)
-                                            : ColorTokens.negativeLight.opacity(0.2))
-                                        : Color.clear)
-                            )
-                            .contentShape(.capsule)
+                        HStack(spacing: Spacing.xxs) {
+                            Image(systemName: segment == .receivable
+                                ? "arrow.down.left.circle.fill"
+                                : "arrow.up.right.circle.fill")
+                                .font(.system(size: 12))
+                            Text(segment == .receivable
+                                ? String(localized: "people.segment.receivable")
+                                : String(localized: "people.segment.payable"))
+                                .font(Typography.font(for: .buttonSmall))
+                        }
+                        .foregroundStyle(vm.selectedSegment == segment
+                            ? (segment == .receivable ? ColorTokens.positive : ColorTokens.negative)
+                            : ColorTokens.textTertiary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, Spacing.s)
+                        .background(
+                            Capsule()
+                                .fill(vm.selectedSegment == segment
+                                    ? (segment == .receivable
+                                        ? ColorTokens.positiveLight.opacity(0.2)
+                                        : ColorTokens.negativeLight.opacity(0.2))
+                                    : Color.clear)
+                        )
+                        .contentShape(.capsule)
                     }
                     .premiumPress(scale: 0.92)
                 }
             }
             .padding(Spacing.xxs)
             .background(Capsule().fill(ColorTokens.surface))
+            .overlay(
+                Capsule()
+                    .stroke(ColorTokens.border, lineWidth: 0.5)
+            )
             .padding(.horizontal, Spacing.xl)
             .padding(.bottom, Spacing.m)
             .entrance(.up, delay: 0.15)
 
-            // List — staggered entrance for rows
+            // List
             let filtered = filteredPersons(from: vm)
             if filtered.isEmpty {
-                emptyState
+                enhancedEmptyState(segment: vm.selectedSegment)
                     .entrance(.fade)
             } else {
-                List {
-                    ForEach(Array(filtered.enumerated()), id: \.element.id) { i, item in
-                        NavigationLink {
-                            PersonDetailView(person: item.person, modelContext: modelContext)
-                        } label: {
-                            PersonRow(person: item.person, balance: item.balance)
-                                .entrance(.leading, delay: Double(i) * 0.04, duration: 0.35)
+                ScrollView {
+                    LazyVStack(spacing: Spacing.s) {
+                        ForEach(Array(filtered.enumerated()), id: \.element.id) { i, item in
+                            NavigationLink {
+                                PersonDetailView(person: item.person, modelContext: modelContext)
+                            } label: {
+                                PersonCard(person: item.person, balance: item.balance)
+                                    .entrance(.leading, delay: Double(i) * 0.04, duration: 0.35)
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .listRowBackground(ColorTokens.surface)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
-                        .transition(.opacity.combined(with: .move(edge: .bottom)))
                     }
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.top, Spacing.xxs)
                 }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
                 .animation(.spring(response: 0.4, dampingFraction: 0.8), value: filtered.count)
             }
         }
@@ -169,31 +186,78 @@ public struct PeopleListView: View {
         }
     }
 
-    // MARK: Empty State
+    // MARK: Enhanced Empty State
 
-    private var emptyState: some View {
+    private func enhancedEmptyState(segment: PeopleSegment) -> some View {
         VStack(spacing: Spacing.xl) {
             Spacer()
-            Image(systemName: "person.2.slash")
-                .font(.system(size: 48, weight: .light))
-                .foregroundStyle(ColorTokens.textTertiary)
+
+            ZStack {
+                Circle()
+                    .fill(segment == .receivable
+                        ? ColorTokens.positive.opacity(0.08)
+                        : ColorTokens.negative.opacity(0.08))
+                    .frame(width: 100, height: 100)
+
+                Circle()
+                    .stroke(segment == .receivable
+                        ? ColorTokens.positive.opacity(0.2)
+                        : ColorTokens.negative.opacity(0.2),
+                        lineWidth: 2)
+                    .frame(width: 80, height: 80)
+
+                Image(systemName: segment == .receivable
+                    ? "arrow.down.left.circle.fill"
+                    : "arrow.up.right.circle.fill")
+                    .font(.system(size: 36))
+                    .foregroundStyle(segment == .receivable
+                        ? ColorTokens.positive
+                        : ColorTokens.negative)
+            }
+
             VStack(spacing: Spacing.xs) {
-                Text(String(localized: "people.empty.title"))
+                Text(segment == .receivable
+                    ? String(localized: "people.empty.receivable.title")
+                    : String(localized: "people.empty.payable.title"))
                     .font(Typography.font(for: .headline))
                     .foregroundStyle(ColorTokens.textSecondary)
-                Text(String(localized: "people.empty.subtitle"))
+
+                Text(segment == .receivable
+                    ? String(localized: "people.empty.receivable.subtitle")
+                    : String(localized: "people.empty.payable.subtitle"))
                     .font(Typography.font(for: .body))
                     .foregroundStyle(ColorTokens.textTertiary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, Spacing.xxl)
             }
+
+            Button {
+                showAdd = true
+            } label: {
+                HStack(spacing: Spacing.s) {
+                    Image(systemName: "person.badge.plus")
+                    Text(String(localized: "people.empty.addButton"))
+                        .font(Typography.font(for: .buttonSmall))
+                }
+                .foregroundStyle(.black)
+                .padding(.horizontal, Spacing.xl)
+                .padding(.vertical, Spacing.m)
+                .background(
+                    Capsule()
+                        .fill(ColorTokens.accent)
+                )
+            }
+            .premiumPress()
+
             Spacer()
         }
         .frame(maxWidth: .infinity)
     }
 }
 
-// MARK: - Person Row
+// MARK: - Person Card
 
-private struct PersonRow: View {
+private struct PersonCard: View {
     let person: Person
     let balance: Decimal
 
@@ -214,19 +278,50 @@ private struct PersonRow: View {
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: 2) {
+            VStack(alignment: .trailing, spacing: 4) {
                 Text(balance.formatted())
                     .font(Typography.font(for: .amount))
                     .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
                     .contentTransition(.numericText())
-                Text(balance >= 0
-                    ? String(localized: "people.balance.receivable")
-                    : String(localized: "people.balance.payable"))
-                    .font(Typography.font(for: .label))
-                    .foregroundStyle(ColorTokens.textTertiary)
+
+                // Direction badge
+                HStack(spacing: 3) {
+                    Image(systemName: balance >= 0
+                        ? "arrow.down.left"
+                        : "arrow.up.right")
+                        .font(.system(size: 8, weight: .bold))
+                    Text(balance >= 0
+                        ? String(localized: "people.balance.receivable")
+                        : String(localized: "people.balance.payable"))
+                        .font(Typography.font(for: .label))
+                }
+                .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
+                .padding(.horizontal, Spacing.s)
+                .padding(.vertical, 2)
+                .background(
+                    Capsule()
+                        .fill(balance >= 0
+                            ? ColorTokens.positiveLight.opacity(0.2)
+                            : ColorTokens.negativeLight.opacity(0.2))
+                )
             }
         }
-        .padding(.vertical, Spacing.xs)
+        .padding(Spacing.l)
+        .background(
+            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                .fill(ColorTokens.surface)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                .stroke(ColorTokens.border, lineWidth: 0.5)
+        )            .overlay(
+                // Left accent bar
+                RoundedRectangle(cornerRadius: 1.5)
+                    .fill(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
+                    .frame(width: 3)
+                    .padding(.vertical, 8),
+                alignment: .leading
+            )
     }
 }
 
@@ -319,7 +414,9 @@ private struct AddPremiumSheet: View {
             }
             .background(ColorTokens.background)
             .navigationTitle(String(localized: "people.add.title"))
+            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(localized: "people.add.cancel")) { dismiss() }

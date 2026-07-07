@@ -10,6 +10,7 @@ import SwiftData
 private actor MockRateProvider: ExchangeRateProviding {
     func fetchRate(for currency: String) async throws -> Decimal? { nil }
     func fetchGoldRatePerGram() async throws -> Decimal? { nil }
+    func fetchAllRates() async throws -> [(code: String, rate: Decimal)] { [] }
     func lastUpdateDate() async -> Date? { nil }
 }
 
@@ -24,7 +25,15 @@ struct DashboardViewModelTests {
             for: PersonModel.self, DebtRecordModel.self, PaymentModel.self,
             configurations: config
         )
-        let vm = DashboardViewModel(modelContext: container.mainContext, rateClient: MockRateProvider())
+        let personRepo = PersonRepository(modelContext: container.mainContext)
+        let debtRepo = DebtRepository(modelContext: container.mainContext)
+        let balanceRepo = BalanceRepository(modelContext: container.mainContext)
+        let vm = DashboardViewModel(
+            personRepo: personRepo,
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            rateClient: MockRateProvider()
+        )
         await vm.loadData()
 
         #expect(vm.persons.isEmpty)
@@ -56,7 +65,15 @@ struct DashboardViewModelTests {
         context.insert(payable)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = DashboardViewModel(
+            personRepo: personRepo,
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            rateClient: MockRateProvider()
+        )
         await vm.loadData()
 
         #expect(vm.totalReceivable == 1000)
@@ -89,7 +106,15 @@ struct DashboardViewModelTests {
         context.insert(debtNoDue)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = DashboardViewModel(
+            personRepo: personRepo,
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            rateClient: MockRateProvider()
+        )
         await vm.loadData()
 
         #expect(vm.upcomingItems.count == 1)
@@ -112,7 +137,15 @@ struct DashboardViewModelTests {
         context.insert(debt)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = DashboardViewModel(
+            personRepo: personRepo,
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            rateClient: MockRateProvider()
+        )
         await vm.loadData()
 
         #expect(!vm.recentActivity.isEmpty)
@@ -135,7 +168,15 @@ struct DashboardViewModelTests {
         context.insert(debt)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = DashboardViewModel(
+            personRepo: personRepo,
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            rateClient: MockRateProvider()
+        )
         await vm.loadData()
 
         #expect(vm.monthlyStats.totalPersonCount == 1)
@@ -158,7 +199,15 @@ struct DashboardViewModelTests {
         context.insert(tryDebt)
         try context.save()
 
-        let vm = DashboardViewModel(modelContext: context, rateClient: MockRateProvider())
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = DashboardViewModel(
+            personRepo: personRepo,
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            rateClient: MockRateProvider()
+        )
         await vm.loadData()
 
         #expect(!vm.currencyDistribution.isEmpty)

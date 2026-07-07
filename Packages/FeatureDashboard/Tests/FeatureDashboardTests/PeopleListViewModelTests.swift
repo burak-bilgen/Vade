@@ -26,7 +26,14 @@ struct PeopleListViewModelTests {
         context.insert(receivable)
         try context.save()
 
-        let vm = PeopleListViewModel(modelContext: context)
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = PeopleListViewModel(
+            personRepo: personRepo,
+            balanceRepo: balanceRepo,
+            debtRepo: debtRepo
+        )
         await vm.loadPersons()
 
         #expect(vm.persons.count == 1)
@@ -53,7 +60,14 @@ struct PeopleListViewModelTests {
         context.insert(receivable)
         try context.save()
 
-        let vm = PeopleListViewModel(modelContext: context)
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = PeopleListViewModel(
+            personRepo: personRepo,
+            balanceRepo: balanceRepo,
+            debtRepo: debtRepo
+        )
         await vm.loadPersons()
         vm.selectedSegment = .receivable
 
@@ -80,7 +94,14 @@ struct PeopleListViewModelTests {
         context.insert(payable)
         try context.save()
 
-        let vm = PeopleListViewModel(modelContext: context)
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = PeopleListViewModel(
+            personRepo: personRepo,
+            balanceRepo: balanceRepo,
+            debtRepo: debtRepo
+        )
         await vm.loadPersons()
         vm.selectedSegment = .payable
 
@@ -96,7 +117,14 @@ struct PeopleListViewModelTests {
             for: PersonModel.self, DebtRecordModel.self, PaymentModel.self,
             configurations: config
         )
-        let vm = PeopleListViewModel(modelContext: container.mainContext)
+        let personRepo = PersonRepository(modelContext: container.mainContext)
+        let debtRepo = DebtRepository(modelContext: container.mainContext)
+        let balanceRepo = BalanceRepository(modelContext: container.mainContext)
+        let vm = PeopleListViewModel(
+            personRepo: personRepo,
+            balanceRepo: balanceRepo,
+            debtRepo: debtRepo
+        )
         await vm.loadPersons()
         #expect(vm.persons.isEmpty)
 

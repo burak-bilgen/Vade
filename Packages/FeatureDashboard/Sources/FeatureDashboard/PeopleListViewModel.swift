@@ -1,8 +1,6 @@
 import Foundation
-import SwiftData
 import Domain
 import Core
-import Data
 import Observability
 
 // MARK: - Status Filter
@@ -26,15 +24,20 @@ public final class PeopleListViewModel {
     /// Maps person ID to the set of debt statuses they have.
     public private(set) var personDebtStatuses: [UUID: Set<DebtStatus>] = [:]
 
-    private let personRepo: PersonRepository
-    private let balanceRepo: BalanceRepository
-    private let debtRepo: DebtRepository
+    private let personRepo: AddPersonUseCase & FetchPersonsUseCase
+    private let balanceRepo: CalculateBalanceUseCase
+    private let debtRepo: FetchDebtsForPersonUseCase
     private let analytics: any AnalyticsTracking
 
-    public init(modelContext: ModelContext, analytics: any AnalyticsTracking = AnalyticsService()) {
-        self.personRepo = PersonRepository(modelContext: modelContext)
-        self.balanceRepo = BalanceRepository(modelContext: modelContext)
-        self.debtRepo = DebtRepository(modelContext: modelContext)
+    public init(
+        personRepo: AddPersonUseCase & FetchPersonsUseCase,
+        balanceRepo: CalculateBalanceUseCase,
+        debtRepo: FetchDebtsForPersonUseCase,
+        analytics: any AnalyticsTracking = AnalyticsService()
+    ) {
+        self.personRepo = personRepo
+        self.balanceRepo = balanceRepo
+        self.debtRepo = debtRepo
         self.analytics = analytics
     }
 

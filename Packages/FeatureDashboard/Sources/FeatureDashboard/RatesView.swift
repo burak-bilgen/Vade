@@ -7,7 +7,7 @@ import Networking
 
 public struct RatesView: View {
     @State private var rates: ExchangeRateSnapshot?
-    @State private var allRates: [(String, String)] = []
+    @State private var allRates: [(code: String, rate: Decimal)] = []
     @State private var isLoading = true
     private let client = ExchangeRateClient()
 
@@ -27,22 +27,28 @@ public struct RatesView: View {
             // All currencies
             if !allRates.isEmpty {
                 Section(String(localized: "rates.all")) {
-                    ForEach(allRates, id: \.0) { (code, value) in
+                    ForEach(allRates, id: \.code) { item in
                         HStack {
-                            Text(code)
-                                .font(.system(size: 15, weight: .medium))
+                            Text(item.code)
+                                .font(Typography.font(for: .bodyEmphasis))
                             Spacer()
-                            Text(value)
-                                .font(.system(size: 15, weight: .regular, design: .monospaced))
-                                .foregroundStyle(.secondary)
+                            Text(item.rate, format: .number.precision(.fractionLength(4)))
+                                .font(Typography.font(for: .amountSmall))
+                                .foregroundStyle(ColorTokens.textSecondary)
                         }
                     }
                 }
             }
         }
         .navigationTitle(String(localized: "rates.title"))
+        #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.insetGrouped)
+        #else
+        .listStyle(.plain)
+        #endif
+        .scrollContentBackground(.hidden)
+        .background(ColorTokens.background)
         .overlay {
             if isLoading { ProgressView() }
         }
@@ -61,37 +67,32 @@ public struct RatesView: View {
         let (usdRate, eurRate, goldRate) = await (usd, eur, gold)
         rates = ExchangeRateSnapshot(usdRate: usdRate, eurRate: eurRate, goldRate: goldRate, lastUpdate: await client.lastUpdateDate())
 
-        // Also fetch all rates for detail view
-        if let allData = try? await fetchAllRates() {
+        // Fetch all rates via client
+        if let allData = try? await client.fetchAllRates() {
             allRates = allData
         }
     }
 
-    private func fetchAllRates() async throws -> [(String, String)] {
-        let url = URL(string: "https://finans.truncgil.com/v3/today.json")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] ?? [:]
-        return json.compactMap { (key, value) -> (String, String)? in
-            guard let dict = value as? [String: Any],
-                  let selling = dict["Selling"] as? String,
-                  dict["Type"] as? String == "Currency" else { return nil }
-            return (key, selling)
-        }.sorted { $0.0 < $1.0 }
-    }
-
     private func rateRow(flag: String, code: String, label: String, rate: Decimal?) -> some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Spacing.m) {
             Text(flag).font(.title3)
             VStack(alignment: .leading, spacing: 2) {
-                Text(label).font(.system(size: 15, weight: .medium))
-                Text(code).font(.system(size: 12)).foregroundStyle(.tertiary)
+                Text(label)
+                    .font(Typography.font(for: .bodyEmphasis))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                Text(code)
+                    .font(Typography.font(for: .label))
+                    .foregroundStyle(ColorTokens.textTertiary)
             }
             Spacer()
             if let rate {
                 Text(rate, format: .number.precision(.fractionLength(4)))
-                    .font(.system(size: 17, weight: .semibold, design: .monospaced))
+                    .font(Typography.font(for: .amount))
+                    .foregroundStyle(ColorTokens.textPrimary)
             } else {
-                Text("--").foregroundStyle(.tertiary)
+                Text("--")
+                    .font(Typography.font(for: .amount))
+                    .foregroundStyle(ColorTokens.textTertiary)
             }
         }
     }

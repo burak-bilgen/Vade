@@ -1,99 +1,176 @@
 import SwiftUI
 import SwiftData
+import Core
 import DesignSystem
 import Domain
 import Data
 import Observability
 
-// MARK: - Quick Add Sheet
+// MARK: - Quick Add ViewModel
 
-struct QuickAddSheet: View {
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var modelContext
-    @State private var name = ""
-    @State private var amount = ""
-    @State private var kind: CurrencyKind = .tryCoin
-    @State private var direction: DebtDirection = .receivable
-    @State private var isSaving = false
+@MainActor
+@Observable
+final class QuickAddViewModel {
+    var name = ""
+    var amount = ""
+    var kind: CurrencyKind = .tryCoin
+    var direction: DebtDirection = .receivable
+    var isSaving = false
+    var errorMessage: String?
+
+    private let personRepo: AddPersonUseCase
+    private let debtRepo: AddDebtUseCase
+    private let analytics: any AnalyticsTracking
     let onDone: () async -> Void
 
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    TextField(String(localized: "quickAdd.person"), text: $name)
-                        .disabled(isSaving)
-                    TextField(String(localized: "quickAdd.amount"), text: $amount)
-                        .keyboardType(.decimalPad)
-                        .disabled(isSaving)
-                }
-                Section {
-                    Picker(String(localized: "quickAdd.type"), selection: $kind) {
-                        ForEach(CurrencyKind.allCases, id: \.self) { k in
-                            Text(k.rawValue).tag(k)
-                        }
-                    }
-                    .disabled(isSaving)
-                    Picker(String(localized: "quickAdd.direction"), selection: $direction) {
-                        Text(String(localized: "quickAdd.receivable")).tag(DebtDirection.receivable)
-                        Text(String(localized: "quickAdd.payable")).tag(DebtDirection.payable)
-                    }
-                    .disabled(isSaving)
-                }
-            }
-            .navigationTitle(String(localized: "quickAdd.title"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "quickAdd.cancel")) { dismiss() }
-                        .disabled(isSaving)
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    if isSaving {
-                        ProgressView()
-                    } else {
-                        Button(String(localized: "quickAdd.save")) {
-                            Task { await save() }
-                        }
-                        .disabled(name.trimmed.isEmpty || (Decimal(string: amount) ?? .zero) <= .zero)
-                    }
-                }
-            }
-        }
+    init(
+        personRepo: AddPersonUseCase,
+        debtRepo: AddDebtUseCase,
+        analytics: any AnalyticsTracking = AnalyticsService(),
+        onDone: @escaping () async -> Void
+    ) {
+        self.personRepo = personRepo
+        self.debtRepo = debtRepo
+        self.analytics = analytics
+        self.onDone = onDone
     }
 
-    // MARK: - Save via Repository Layer
+    var canSave: Bool {
+        !name.trimmed.isEmpty && (Decimal(string: amount) ?? .zero) > 0
+    }
 
-    private func save() async {
-        guard let amt = Decimal(string: amount), amt > 0, !name.trimmed.isEmpty else { return }
+    func save() async -> Bool {
+        guard var amt = Decimal(string: amount), amt > 0, !name.trimmed.isEmpty else { return false }
         isSaving = true
+        errorMessage = nil
 
         do {
-            // Use repository layer for proper audit trail and validation
-            let personRepo = PersonRepository(modelContext: modelContext)
-            let debtRepo = DebtRepository(modelContext: modelContext, auditTrail: AuditTrailService(modelContainer: modelContext.container))
-
             let person = try await personRepo.execute(
                 name: name.trimmed,
                 phoneNumber: nil,
                 notes: nil
             )
 
+            var rounded = Decimal()
+            NSDecimalRound(&rounded, &amt, 2, .plain)
             try await debtRepo.execute(
                 personID: person.id,
-                amount: amt.rounded(scale: 2),
+                amount: rounded,
                 kind: kind,
                 direction: direction,
                 note: nil,
                 dueDate: nil
             )
 
-            AnalyticsService().track(.debtAdded(kind: kind.analyticsDebtKind))
-            dismiss()
-            await onDone()
+            analytics.track(.debtAdded(kind: kind.analyticsDebtKind))
+            isSaving = false
+            return true
         } catch {
             AppLog.data.error("[QuickAdd] Save failed: \(error.localizedDescription)")
+            errorMessage = error.localizedDescription
             isSaving = false
+            return false
+        }
+    }
+}
+
+// MARK: - Quick Add Sheet
+
+struct QuickAddSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: QuickAddViewModel?
+    let onDone: () async -> Void
+
+    var body: some View {
+        NavigationStack {
+            if let vm = viewModel {
+                quickAddForm(vm)
+            }
+        }
+        .onAppear {
+            let personRepo = PersonRepository(modelContext: modelContext)
+            let debtRepo = DebtRepository(modelContext: modelContext, auditTrail: AuditTrailService(modelContainer: modelContext.container))
+            viewModel = QuickAddViewModel(
+                personRepo: personRepo,
+                debtRepo: debtRepo,
+                onDone: onDone
+            )
+        }
+    }
+
+    private func quickAddForm(_ vm: QuickAddViewModel) -> some View {
+        Form {
+            Section {
+                TextField(String(localized: "quickAdd.person"), text: Binding(
+                    get: { vm.name },
+                    set: { vm.name = $0 }
+                ))
+                .disabled(vm.isSaving)
+                TextField(String(localized: "quickAdd.amount"), text: Binding(
+                    get: { vm.amount },
+                    set: { vm.amount = $0 }
+                ))
+                #if !os(macOS)
+                .keyboardType(.decimalPad)
+                #endif
+                .disabled(vm.isSaving)
+            }
+            Section {
+                Picker(String(localized: "quickAdd.type"), selection: Binding(
+                    get: { vm.kind },
+                    set: { vm.kind = $0 }
+                )) {
+                    ForEach(CurrencyKind.allCases, id: \.self) { k in
+                        Text(k.rawValue).tag(k)
+                    }
+                }
+                .disabled(vm.isSaving)
+                Picker(String(localized: "quickAdd.direction"), selection: Binding(
+                    get: { vm.direction },
+                    set: { vm.direction = $0 }
+                )) {
+                    Text(String(localized: "quickAdd.receivable")).tag(DebtDirection.receivable)
+                    Text(String(localized: "quickAdd.payable")).tag(DebtDirection.payable)
+                }
+                .disabled(vm.isSaving)
+            }
+
+            if let error = vm.errorMessage {
+                Section {
+                    Text(error)
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.negative)
+                }
+            }
+        }
+        .navigationTitle(String(localized: "quickAdd.title"))
+        #if !os(macOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .scrollContentBackground(.hidden)
+        .background(ColorTokens.background)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(String(localized: "quickAdd.cancel")) { dismiss() }
+                    .disabled(vm.isSaving)
+            }
+            ToolbarItem(placement: .confirmationAction) {
+                if vm.isSaving {
+                    ProgressView()
+                } else {
+                    Button(String(localized: "quickAdd.save")) {
+                        Task {
+                            let success = await vm.save()
+                            if success {
+                                await vm.onDone()
+                                dismiss()
+                            }
+                        }
+                    }
+                    .disabled(!vm.canSave)
+                }
+            }
         }
     }
 }

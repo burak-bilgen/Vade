@@ -1,8 +1,6 @@
 import Foundation
-import SwiftData
 import Domain
 import Core
-import Data
 import Networking
 
 // MARK: - Dashboard ViewModel
@@ -19,17 +17,35 @@ public final class DashboardViewModel {
     public var currencyDistribution: [(kind: CurrencyKind, total: Decimal)] = []
     public var monthlyStats: MonthlyStats = .empty
     public var exchangeRates: ExchangeRateSnapshot?
+
+    // MARK: - New Chart Data
+    public var monthlyTrendData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)] = []
+    public var pendingDebtCount: Int = 0
+    public var paidDebtCount: Int = 0
+    public var archivedDebtCount: Int = 0
     public var isLoading = false
 
-    private let personRepo: PersonRepository
-    private let debtRepo: DebtRepository
-    private let balanceRepo: BalanceRepository
+    public var upcomingChartItems: [(person: String, amount: Decimal, dueDate: Date)] {
+        upcomingItems.compactMap { item in
+            guard let date = item.dueDate else { return nil }
+            return (item.person.name, item.amount, date)
+        }
+    }
+
+    private let personRepo: FetchPersonsUseCase
+    private let debtRepo: FetchDebtsForPersonUseCase
+    private let balanceRepo: CalculateBalanceUseCase
     private let rateClient: ExchangeRateProviding
 
-    public init(modelContext: ModelContext, rateClient: ExchangeRateProviding = ExchangeRateClient()) {
-        self.personRepo = PersonRepository(modelContext: modelContext)
-        self.debtRepo = DebtRepository(modelContext: modelContext)
-        self.balanceRepo = BalanceRepository(modelContext: modelContext)
+    public init(
+        personRepo: FetchPersonsUseCase,
+        debtRepo: FetchDebtsForPersonUseCase,
+        balanceRepo: CalculateBalanceUseCase,
+        rateClient: ExchangeRateProviding = ExchangeRateClient()
+    ) {
+        self.personRepo = personRepo
+        self.debtRepo = debtRepo
+        self.balanceRepo = balanceRepo
         self.rateClient = rateClient
     }
 
@@ -48,8 +64,9 @@ public final class DashboardViewModel {
             async let currencyDist = loadCurrencyDistribution()
             async let stats = loadMonthlyStats()
             async let rates = loadExchangeRates()
+            async let chartData = loadChartData()
 
-            let (_, _, _, _, _, _) = await (balances, upcoming, activity, currencyDist, stats, rates)
+            let (_, _, _, _, _, _, _) = await (balances, upcoming, activity, currencyDist, stats, rates, chartData)
         } catch {
             AppLog.data.error("[DashboardViewModel] Load failed: \(error.localizedDescription)")
         }
@@ -156,6 +173,65 @@ public final class DashboardViewModel {
             totalPersonCount: persons.count,
             pendingDebtCount: upcomingItems.count
         )
+    }
+
+    // MARK: - Chart Data Loading
+
+    private func loadChartData() async {
+        // Monthly trend: aggregate by month for last 6 months
+        let calendar = Calendar.current
+        let now = Date()
+        var trendData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)] = []
+
+        for monthOffset in (0..<6).reversed() {
+            guard let monthDate = calendar.date(byAdding: .month, value: -monthOffset, to: now) else { continue }
+            let monthComponents = calendar.dateComponents([.year, .month], from: monthDate)
+            guard let monthStart = calendar.date(from: monthComponents),
+                  let monthEnd = calendar.date(byAdding: .month, value: 1, to: monthStart) else { continue }
+
+            var monthReceivable: Decimal = 0
+            var monthPayable: Decimal = 0
+
+            for person in persons {
+                guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
+                let monthDebts = debts.filter { $0.createdAt >= monthStart && $0.createdAt < monthEnd }
+                for debt in monthDebts {
+                    if debt.direction == .receivable {
+                        monthReceivable += debt.amount
+                    } else {
+                        monthPayable += debt.amount
+                    }
+                }
+            }
+
+            let monthLabel: String = {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MMM"
+                return formatter.string(from: monthStart)
+            }()
+
+            trendData.append((monthLabel, monthReceivable, monthPayable, monthReceivable - monthPayable))
+        }
+
+        monthlyTrendData = trendData
+
+        // Status distribution counts
+        var pending = 0
+        var paid = 0
+        var archived = 0
+        for person in persons {
+            guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
+            for debt in debts {
+                switch debt.status {
+                case .pending: pending += 1
+                case .paid: paid += 1
+                case .archived: archived += 1
+                }
+            }
+        }
+        pendingDebtCount = pending
+        paidDebtCount = paid
+        archivedDebtCount = archived
     }
 }
 
