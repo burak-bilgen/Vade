@@ -22,7 +22,7 @@ public struct LanguageSelectionSheet: View {
             // Sheet Header
             HStack {
                 Text(String(localized: "settings.language.label"))
-                    .font(Typography.font(for: .title3))
+                    .font(Typography.font(for: .title2))
                     .foregroundStyle(ColorTokens.textPrimary)
                 Spacer()
                 Button(action: { dismiss() }) {
