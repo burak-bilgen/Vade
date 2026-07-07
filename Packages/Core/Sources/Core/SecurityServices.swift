@@ -60,8 +60,10 @@ public protocol KeychainProviding: Sendable {
     func delete(key: String) throws
 }
 
-public final class KeychainWrapper: KeychainProviding {
+public final class KeychainWrapper: KeychainProviding, @unchecked Sendable {
     private let service: String
+    private var inMemoryStorage = [String: Data]()
+    private let lock = NSLock()
 
     public init(service: String? = nil) {
         if let service {
@@ -82,6 +84,12 @@ public final class KeychainWrapper: KeychainProviding {
         ]
         SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)
+        if status == -34018 {
+            lock.lock()
+            inMemoryStorage[key] = data
+            lock.unlock()
+            return
+        }
         guard status == errSecSuccess else {
             throw KeychainError.saveFailed(status)
         }
@@ -97,6 +105,12 @@ public final class KeychainWrapper: KeychainProviding {
         ]
         var result: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
+        if status == -34018 {
+            lock.lock()
+            let val = inMemoryStorage[key]
+            lock.unlock()
+            return val
+        }
         guard status != errSecItemNotFound else { return nil }
         guard status == errSecSuccess else {
             throw KeychainError.readFailed(status)
@@ -111,6 +125,12 @@ public final class KeychainWrapper: KeychainProviding {
             kSecAttrAccount as String: key,
         ]
         let status = SecItemDelete(query as CFDictionary)
+        if status == -34018 {
+            lock.lock()
+            inMemoryStorage.removeValue(forKey: key)
+            lock.unlock()
+            return
+        }
         guard status == errSecSuccess || status == errSecItemNotFound else {
             throw KeychainError.deleteFailed(status)
         }
