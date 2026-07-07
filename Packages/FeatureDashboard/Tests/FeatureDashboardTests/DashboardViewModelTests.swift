@@ -53,13 +53,15 @@ struct DashboardViewModelTests {
         )
         let context = container.mainContext
 
-        let person = PersonModel(name: "Test")
-        context.insert(person)
+        let person1 = PersonModel(name: "Person 1")
+        let person2 = PersonModel(name: "Person 2")
+        context.insert(person1)
+        context.insert(person2)
         try context.save()
 
-        let receivable = DebtRecordModel(personID: person.id, amount: 1000,
+        let receivable = DebtRecordModel(personID: person1.id, amount: 1000,
                                           kindRawValue: "TRY", directionRawValue: "receivable")
-        let payable = DebtRecordModel(personID: person.id, amount: 500,
+        let payable = DebtRecordModel(personID: person2.id, amount: 500,
                                        kindRawValue: "TRY", directionRawValue: "payable")
         context.insert(receivable)
         context.insert(payable)
