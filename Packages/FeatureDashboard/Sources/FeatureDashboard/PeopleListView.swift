@@ -29,22 +29,28 @@ public struct PeopleListView: View {
     }
 
     public var body: some View {
-        Group {
-            if let vm = viewModel {
-                content(vm)
-            } else {
-                ProgressView()
-                    .entrance(.fade)
-                    .task {
-                        let vm = PeopleListViewModel(
-                            personRepo: personRepo,
-                            balanceRepo: balanceRepo,
-                            debtRepo: debtRepo,
-                            analytics: analytics
-                        )
-                        viewModel = vm
-                        await vm.loadPersons()
-                    }
+        ZStack {
+            FinanceBackgroundAnimation()
+                .ignoresSafeArea()
+            ColorTokens.background.opacity(0.12).ignoresSafeArea()
+
+            Group {
+                if let vm = viewModel {
+                    content(vm)
+                } else {
+                    ProgressView()
+                        .entrance(.fade)
+                        .task {
+                            let vm = PeopleListViewModel(
+                                personRepo: personRepo,
+                                balanceRepo: balanceRepo,
+                                debtRepo: debtRepo,
+                                analytics: analytics
+                            )
+                            viewModel = vm
+                            await vm.loadPersons()
+                        }
+                }
             }
         }
         .navigationTitle(String(localized: "tab.people"))
@@ -63,7 +69,6 @@ public struct PeopleListView: View {
             }
         }
         .refreshable { await viewModel?.loadPersons() }
-        .background(ColorTokens.background)
     }
 
     // MARK: Content

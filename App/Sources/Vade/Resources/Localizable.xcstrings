@@ -128,40 +128,16 @@
       "comment": "App display name — localized per language",
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "استحقاق"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Due"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vencimiento"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "देय"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Vade"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "到期"
           }
         }
       }
@@ -172,13 +148,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vade App — Preview"
+            "value": "Vade App: Preview"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vade Uygulaması — Önizleme"
+            "value": "Vade Uygulaması: Önizleme"
           }
         }
       }
@@ -186,40 +162,16 @@
     "app.subtitle": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تتبع الديون والائتمان"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Debt & Credit Tracker"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Control de Deudas y Créditos"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ऋण और क्रेडिट ट्रैकर"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Borç & Alacak Takibi"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "债务与信用追踪"
           }
         }
       }
@@ -295,28 +247,10 @@
     "charts.currency.empty": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لا توجد بيانات عملة بعد"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No currency data yet"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no hay datos de moneda"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अभी कोई मुद्रा डेटा नहीं"
           }
         },
         "tr": {
@@ -324,52 +258,22 @@
             "state": "translated",
             "value": "Henüz döviz verisi yok"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "暂无货币数据"
-          }
         }
       }
     },
     "charts.currency.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "توزيع العملة"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Currency Distribution"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distribución de Moneda"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "मुद्रा वितरण"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Para Birimi Dağılımı"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "货币分布"
           }
         }
       }
@@ -428,28 +332,10 @@
     "charts.monthlyTrend.empty": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لا توجد بيانات كافية بعد"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Not enough data yet"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no hay datos suficientes"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अभी पर्याप्त डेटा नहीं है"
           }
         },
         "tr": {
@@ -457,40 +343,16 @@
             "state": "translated",
             "value": "Henüz yeterli veri yok"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "数据不足"
-          }
         }
       }
     },
     "charts.monthlyTrend.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الاتجاه الشهري"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Monthly Trend"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tendencia Mensual"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "मासिक रुझान"
           }
         },
         "tr": {
@@ -498,52 +360,22 @@
             "state": "translated",
             "value": "Aylık Trend"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "月度趋势"
-          }
         }
       }
     },
     "charts.netBalance.short": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "صافي المركز"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Net Position"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Posición Neta"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "शुद्ध स्थिति"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Net Durum"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "净头寸"
           }
         }
       }
@@ -568,28 +400,10 @@
     "charts.paidVsPending.empty": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لا توجد بيانات مدفوعة أو معلقة بعد"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No paid or pending data yet"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no hay datos de pagado/pendiente"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अभी तक कोई भुगतान या लंबित डेटा नहीं"
           }
         },
         "tr": {
@@ -597,40 +411,16 @@
             "state": "translated",
             "value": "Henüz ödenen/bekleyen verisi yok"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "暂无已付/待付数据"
-          }
         }
       }
     },
     "charts.paidVsPending.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "المدفوع مقابل المعلق"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Paid vs Pending"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pagado vs Pendiente"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "भुगतान किया गया बनाम लंबित"
           }
         },
         "tr": {
@@ -638,40 +428,16 @@
             "state": "translated",
             "value": "Ödenen / Bekleyen"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已付与待付"
-          }
         }
       }
     },
     "charts.personDistribution.empty": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لا توجد بيانات توزيع للأشخاص بعد"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No person distribution data yet"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no hay datos de distribución por persona"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अभी तक कोई व्यक्ति वितरण डेटा नहीं"
           }
         },
         "tr": {
@@ -679,40 +445,16 @@
             "state": "translated",
             "value": "Henüz kişi dağılımı verisi yok"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "暂无人员分布数据"
-          }
         }
       }
     },
     "charts.personDistribution.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "توزيع الأشخاص"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Person Distribution"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distribución por Persona"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "व्यक्ति वितरण"
           }
         },
         "tr": {
@@ -720,40 +462,16 @@
             "state": "translated",
             "value": "Kişi Dağılımı"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "人员分布"
-          }
         }
       }
     },
     "charts.section.distribution": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "التوزيع"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Distribution"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distribución"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "वितरण"
           }
         },
         "tr": {
@@ -761,40 +479,16 @@
             "state": "translated",
             "value": "Dağılım"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "分布"
-          }
         }
       }
     },
     "charts.section.overview": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "نظرة عامة"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Overview"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resumen"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अवलोकन"
           }
         },
         "tr": {
@@ -802,40 +496,16 @@
             "state": "translated",
             "value": "Genel"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "概览"
-          }
         }
       }
     },
     "charts.section.people": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الأشخاص"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "People"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Personas"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "लोग"
           }
         },
         "tr": {
@@ -843,40 +513,16 @@
             "state": "translated",
             "value": "Kişiler"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "人员"
-          }
         }
       }
     },
     "charts.section.trends": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الاتجاهات"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Trends"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tendencias"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "रुझान"
           }
         },
         "tr": {
@@ -884,40 +530,16 @@
             "state": "translated",
             "value": "Trendler"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "趋势"
-          }
         }
       }
     },
     "charts.section.upcoming": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الاستحقاقات"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Due Dates"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vencimientos"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "नियत तिथियाँ"
           }
         },
         "tr": {
@@ -925,40 +547,16 @@
             "state": "translated",
             "value": "Vadeler"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "到期"
-          }
         }
       }
     },
     "charts.status.archived": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "مؤرشف"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Archived"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Archivado"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "संग्रहीत"
           }
         },
         "tr": {
@@ -966,40 +564,16 @@
             "state": "translated",
             "value": "Arşivlenen"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已归档"
-          }
         }
       }
     },
     "charts.status.empty": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لا توجد سجلات ديون بعد"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No debt records yet"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aún no hay registros de deuda"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अभी तक कोई ऋण रिकॉर्ड नहीं"
           }
         },
         "tr": {
@@ -1007,40 +581,16 @@
             "state": "translated",
             "value": "Henüz borç kaydı yok"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "暂无债务记录"
-          }
         }
       }
     },
     "charts.status.paid": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "مدفوع"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Paid"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pagado"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "भुगतान किया गया"
           }
         },
         "tr": {
@@ -1048,40 +598,16 @@
             "state": "translated",
             "value": "Ödenen"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已支付"
-          }
         }
       }
     },
     "charts.status.pending": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "قيد الانتظار"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Pending"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pendiente"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "लंबित"
           }
         },
         "tr": {
@@ -1089,40 +615,16 @@
             "state": "translated",
             "value": "Bekleyen"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "待处理"
-          }
         }
       }
     },
     "charts.status.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "توزيع الحالة"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Status Distribution"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Distribución de Estado"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "स्थिति वितरण"
           }
         },
         "tr": {
@@ -1130,52 +632,22 @@
             "state": "translated",
             "value": "Durum Dağılımı"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "状态分布"
-          }
         }
       }
     },
     "charts.status.total": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "المجموع"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Total"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Total"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "कुल"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Toplam"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "总计"
           }
         }
       }
@@ -1200,28 +672,10 @@
     "charts.upcoming.empty": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لا توجد استحقاقات قادمة"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No upcoming due dates"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay próximos vencimientos"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "कोई आगामी नियत तिथि नहीं"
           }
         },
         "tr": {
@@ -1229,40 +683,16 @@
             "state": "translated",
             "value": "Yaklaşan vade yok"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "暂无即将到期"
-          }
         }
       }
     },
     "charts.upcoming.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الاستحقاقات القادمة"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Upcoming Due Dates"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Próximos Vencimientos"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "आगामी नियत तिथियाँ"
           }
         },
         "tr": {
@@ -1270,52 +700,22 @@
             "state": "translated",
             "value": "Yaklaşan Vadeler"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "即将到期"
-          }
         }
       }
     },
     "charts.upcoming.today": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اليوم"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Today"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hoy"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "आज"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bugün"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "今天"
           }
         }
       }
@@ -1425,40 +825,16 @@
     "dashboard.action.add": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إضافة سريعة"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Quick Add"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Añadir Rápido"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "त्वरित जोड़ें"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Hızlı Ekle"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "快速添加"
           }
         }
       }
@@ -1484,40 +860,16 @@
       "comment": "Dashboard — quick action: people",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "People"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Kişiler"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -1604,6 +956,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Günaydın"
+          }
+        }
+      }
+    },
+    "dashboard.offline.message": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You are offline. Showing cached rates."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çevrimdışı mod. Kaydedilen kurlar gösteriliyor."
           }
         }
       }
@@ -1751,40 +1120,16 @@
       "comment": "Summary card — total payable label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Total Payable"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Toplam Borç"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -1793,28 +1138,10 @@
       "comment": "Summary card — total receivable label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Total Receivable"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         },
         "tr": {
@@ -1822,52 +1149,22 @@
             "state": "translated",
             "value": "Toplam Alacak"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
         }
       }
     },
     "dashboard.upcoming.overdue": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "متأخر"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Overdue"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vencido"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अतिदेय"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Gecikmiş"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已过期"
           }
         }
       }
@@ -1876,40 +1173,16 @@
       "comment": "Dashboard — upcoming payments section title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Upcoming Payments"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Yaklaşan Ödemeler"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2327,40 +1600,16 @@
       "comment": "Add debt — amount field placeholder",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Amount"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Tutar"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2369,40 +1618,16 @@
       "comment": "Add debt — cancel button",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "İptal"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2411,40 +1636,16 @@
       "comment": "Add debt — payable direction option",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "I Owe"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ben Borçluyum"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2453,40 +1654,16 @@
       "comment": "Add debt — receivable direction option",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Owes Me"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bana Borçlu"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2495,40 +1672,16 @@
       "comment": "Add debt — due date picker label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Due Date"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Vade Tarihi"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2537,40 +1690,16 @@
       "comment": "Add debt — due date toggle label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Add Due Date"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Vade Tarihi Ekle"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2579,40 +1708,16 @@
       "comment": "Add debt — note field placeholder",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Note (optional)"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Not (isteğe bağlı)"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2621,40 +1726,16 @@
       "comment": "Add debt — save button",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Save"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Kaydet"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2663,40 +1744,16 @@
       "comment": "Add debt — sheet title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Add Debt"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Borç Ekle"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -2930,13 +1987,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vade — Debt/Receivable Report"
+            "value": "Vade: Debt/Receivable Report"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vade — Borç/Alacak Raporu"
+            "value": "Vade: Borç/Alacak Raporu"
           }
         }
       }
@@ -3015,13 +2072,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vade — %@"
+            "value": "Vade: %@"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vade — %@"
+            "value": "Vade: %@"
           }
         }
       }
@@ -3032,13 +2089,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This app is not a legal document. I have read, understood, and accept."
+            "value": "I agree to the [Terms of Service](https://vade.app/terms) and [Privacy Policy](https://vade.app/privacy)."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu uygulama hukuki belge niteliği taşımaz. Okudum, anladım ve kabul ediyorum."
+            "value": "[Kullanım Şartları](https://vade.app/terms) ve [Gizlilik Politikası](https://vade.app/privacy)'nı kabul ediyorum."
           }
         }
       }
@@ -3080,28 +2137,10 @@
     "onboarding.feature.reminders": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تذكيرات تاريخ الاستحقاق"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Due Date Reminders"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recordatorios de vencimiento"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "नियत तिथि अनुस्मारक"
           }
         },
         "tr": {
@@ -3109,52 +2148,22 @@
             "state": "translated",
             "value": "Vade Bildirimleri"
           }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "到期提醒"
-          }
         }
       }
     },
     "onboarding.feature.reminders.desc": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "احصل على إشعارات عند استحقاق المدفوعات — لا تفوّت شيئًا."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Get notified when payments are due — never miss a thing."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recibe notificaciones cuando los pagos estén por vencer."
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "भुगतान की नियत तिथि पर सूचना पाएं — कभी कुछ न चूकें।"
+            "value": "Get notified when payments are due, and never miss a thing."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ödeme günü yaklaşınca sana haber verir, hiçbir şeyi kaçırmazsın."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "付款到期时收到通知，不会错过任何事。"
           }
         }
       }
@@ -3196,28 +2205,10 @@
     "onboarding.feature.track": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تتبع المستحقات والمدفوعات"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Track Receivables & Payables"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seguimiento de cuentas por cobrar y pagar"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "प्राप्य और देय ट्रैकिंग"
           }
         },
         "tr": {
@@ -3225,52 +2216,22 @@
             "state": "translated",
             "value": "Alacak & Borç Takibi"
           }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "应收应付追踪"
-          }
         }
       }
     },
     "onboarding.feature.track.desc": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اعرف من يدين لك ومن تدين له — كل ذلك في شاشة واحدة."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "See who owes you and who you owe — all on one screen."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ve quién te debe y a quién le debes, todo en una pantalla."
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "देखें कौन आपका बकायादार है और आप किसके — एक स्क्रीन पर।"
+            "value": "See who owes you and who you owe, all on one screen."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kimden alacaklı, kime borçlusun — tek ekranda net gör."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "一目了然谁欠你、你欠谁。"
+            "value": "Kimden alacaklı ve kime borçlu olduğunu tek ekranda net gör."
           }
         }
       }
@@ -3312,40 +2273,16 @@
     "onboarding.start": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ابدأ"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Get Started"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Comenzar"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "शुरू करें"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Başla"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开始使用"
           }
         }
       }
@@ -3388,40 +2325,16 @@
       "comment": "Record payment — amount field placeholder",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Payment Amount"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ödeme Tutarı"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3430,40 +2343,16 @@
       "comment": "Record payment — cancel button",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "İptal"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3472,40 +2361,16 @@
       "comment": "Record payment — note field placeholder",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Note (optional)"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Not (isteğe bağlı)"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3514,40 +2379,16 @@
       "comment": "Record payment — remaining balance label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Remaining Balance"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Kalan Borç"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3556,40 +2397,16 @@
       "comment": "Record payment — save button",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Save"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Kaydet"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3598,40 +2415,16 @@
       "comment": "Record payment — sheet title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Record Payment"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ödeme Kaydet"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3658,40 +2451,16 @@
       "comment": "Add person — cancel button",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "İptal"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3700,40 +2469,16 @@
       "comment": "Add person — name field placeholder",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Full Name"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ad Soyad"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3742,40 +2487,16 @@
       "comment": "Add person — notes field placeholder",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Notes (optional)"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Not (isteğe bağlı)"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3784,40 +2505,16 @@
       "comment": "Add person — phone field placeholder",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Phone (optional)"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Telefon (isteğe bağlı)"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3826,40 +2523,16 @@
       "comment": "Add person — save button",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Save"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Kaydet"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -3868,28 +2541,10 @@
       "comment": "Add person — sheet title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Add Person"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         },
         "tr": {
@@ -3897,40 +2552,16 @@
             "state": "translated",
             "value": "Kişi Ekle"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
         }
       }
     },
     "people.balance.payable": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "مستحق الدفع"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Payable"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Por pagar"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "देय"
           }
         },
         "tr": {
@@ -3938,40 +2569,16 @@
             "state": "translated",
             "value": "Borç"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "应付"
-          }
         }
       }
     },
     "people.balance.receivable": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "مستحق القبض"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Receivable"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Por cobrar"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "प्राप्य"
           }
         },
         "tr": {
@@ -3979,40 +2586,16 @@
             "state": "translated",
             "value": "Alacak"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "应收"
-          }
         }
       }
     },
     "people.empty.addButton": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "أضف شخصك الأول"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Add your first person"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Añade tu primera persona"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "अपना पहला व्यक्ति जोड़ें"
           }
         },
         "tr": {
@@ -4020,40 +2603,16 @@
             "state": "translated",
             "value": "İlk kişini ekle"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "添加第一个人"
-          }
         }
       }
     },
     "people.empty.payable.subtitle": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "عندما تقترض المال، سيظهر هنا"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "When you borrow money, it will appear here"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cuando pidas prestado, aparecerá aquí"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "जब आप पैसे उधार लेंगे, तो यह यहां दिखाई देगा"
           }
         },
         "tr": {
@@ -4061,40 +2620,16 @@
             "state": "translated",
             "value": "Birinden borç aldığında burada görünecek"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "当你借钱时，它会出现在这里"
-          }
         }
       }
     },
     "people.empty.payable.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "أنت لا تدين لأحد"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "You don't owe anyone"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No le debes a nadie"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "आप किसी के ऋणी नहीं हैं"
           }
         },
         "tr": {
@@ -4102,40 +2637,16 @@
             "state": "translated",
             "value": "Borçlu olduğun kişi yok"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "你不欠任何人"
-          }
         }
       }
     },
     "people.empty.receivable.subtitle": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "عندما تقرض المال، سيظهر هنا"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "When you lend money, it will appear here"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cuando prestes dinero, aparecerá aquí"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "जब आप पैसे उधार देंगे, तो यह यहां दिखाई देगा"
           }
         },
         "tr": {
@@ -4143,52 +2654,22 @@
             "state": "translated",
             "value": "Birine borç verdiğinde burada görünecek"
           }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "当你借钱给别人时，它会出现在这里"
-          }
         }
       }
     },
     "people.empty.receivable.title": {
       "extractionState": "manual",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لا أحد يدين لك بالمال"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No one owes you money"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nadie te debe dinero"
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "कोई आपको पैसे नहीं देता"
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Alacaklı olduğun kişi yok"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "没有人欠你钱"
           }
         }
       }
@@ -4214,40 +2695,16 @@
       "comment": "People list — payable segment title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "I Owe"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ben Borçluyum"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -4256,40 +2713,16 @@
       "comment": "People list — receivable segment title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Owes Me"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bana Borçlu"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -4349,40 +2782,16 @@
       "comment": "Person detail — balance header label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Net Balance"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Net Durum"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -4391,40 +2800,16 @@
       "comment": "Person detail — empty debt state subtitle",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Add a new debt or credit to get started."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Yeni bir borç veya alacak ekleyerek başla."
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -4433,40 +2818,16 @@
       "comment": "Person detail — empty debt state title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "No debt records yet"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Henüz borç kaydı yok"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -4475,40 +2836,16 @@
       "comment": "Person detail — debt history section title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Debt History"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Borç Geçmişi"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -4534,40 +2871,16 @@
       "comment": "Person detail — archived debt status label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Archived"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Arşivlendi"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -4576,40 +2889,16 @@
       "comment": "Person detail — paid debt status label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Paid"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ödendi"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -4618,40 +2907,16 @@
       "comment": "Person detail — pending debt status label",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Pending"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bekliyor"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -5053,40 +3318,16 @@
       "comment": "Settings — navigation title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Settings"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ayarlar"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -5197,40 +3438,16 @@
       "comment": "Tab bar — dashboard tab title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Dashboard"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Özet"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -5239,40 +3456,16 @@
       "comment": "Tab bar — people tab title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "People"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Kişiler"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }
@@ -5281,40 +3474,16 @@
       "comment": "Tab bar — settings tab title",
       "extractionState": "stale",
       "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Settings"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
-          }
-        },
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ayarlar"
-          }
-        },
-        "zh": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ""
           }
         }
       }

@@ -8,11 +8,7 @@ public struct LanguageSelectionSheet: View {
     
     private let languages = [
         ("tr", "Türkçe", "🇹🇷"),
-        ("en", "English", "🇬🇧"),
-        ("es", "Español", "🇪🇸"),
-        ("zh", "中文", "🇨🇳"),
-        ("hi", "हिन्दी", "🇮🇳"),
-        ("ar", "العربية", "🇦🇪")
+        ("en", "English", "🇬🇧")
     ]
     
     public init() {}
@@ -21,7 +17,7 @@ public struct LanguageSelectionSheet: View {
         VStack(spacing: Spacing.l) {
             // Sheet Header
             HStack {
-                Text(String(localized: "settings.language.label"))
+                Text(String(localized: "settings.language.label", locale: languageManager.locale))
                     .font(Typography.font(for: .title2))
                     .foregroundStyle(ColorTokens.textPrimary)
                 Spacer()

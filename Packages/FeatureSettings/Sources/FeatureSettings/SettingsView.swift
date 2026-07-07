@@ -22,145 +22,146 @@ public struct SettingsView: View {
 
     public var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: Spacing.l) {
-                    // Gradient App Header
-                    gradientHeader
-                        .entrance(.up, delay: 0.05)
+            ZStack {
+                FinanceBackgroundAnimation()
+                    .ignoresSafeArea()
+                ColorTokens.background.opacity(0.12).ignoresSafeArea()
 
-                    // Security section
-                    SuperSettingsSection(
-                        title: String(localized: "settings.section.security"),
-                        icon: "lock.shield.fill",
-                        iconColor: ColorTokens.accent
-                    ) {
-                        SuperSettingsToggleRow(
-                            icon: "faceid",
-                            iconColor: ColorTokens.accent,
-                            title: String(localized: "settings.biometric.toggle"),
-                            isOn: Binding(
-                                get: { viewModel.isBiometricEnabled },
-                                set: { viewModel.setBiometric($0) }
-                            )
-                        )
-                    }
-                    .entrance(.up, delay: 0.1)
+                ScrollView {
+                    VStack(spacing: Spacing.l) {
+                        // Gradient App Header
+                        gradientHeader
+                            .entrance(.up, delay: 0.05)
 
-                    // Preferences section
-                    SuperSettingsSection(
-                        title: String(localized: "settings.section.preferences"),
-                        icon: "slider.horizontal.3",
-                        iconColor: ColorTokens.chartPurple
-                    ) {
-                        SuperSettingsPickerRow(
-                            icon: "globe",
-                            iconColor: ColorTokens.chartPurple,
-                            title: String(localized: "settings.language.label"),
-                            selection: Binding(
-                                get: { languageManager.languageCode },
-                                set: { languageManager.setLanguage($0) }
-                            ),
-                            options: [
-                                ("tr", "Türkçe"),
-                                ("en", "English"),
-                                ("es", "Español"),
-                                ("zh", "中文"),
-                                ("hi", "हिन्दी"),
-                                ("ar", "العربية"),
-                            ]
-                        )
-
-                        SuperSettingsPickerRow(
-                            icon: "dollarsign.circle",
-                            iconColor: ColorTokens.chartPurple,
-                            title: String(localized: "settings.preferredCurrency"),
-                            selection: Binding(
-                                get: { viewModel.preferredCurrency },
-                                set: { viewModel.setCurrency($0) }
-                            ),
-                            options: [
-                                (CurrencyKind.tryCoin, CurrencyKind.tryCoin.label),
-                                (CurrencyKind.usd, CurrencyKind.usd.label),
-                                (CurrencyKind.eur, CurrencyKind.eur.label),
-                            ]
-                        )
-                    }
-                    .entrance(.up, delay: 0.15)
-
-                    // Privacy section
-                    SuperSettingsSection(
-                        title: String(localized: "settings.section.privacy"),
-                        icon: "hand.raised.fill",
-                        iconColor: ColorTokens.positive
-                    ) {
-                        SuperSettingsToggleRow(
-                            icon: "chart.bar",
-                            iconColor: ColorTokens.positive,
-                            title: String(localized: "settings.analytics.toggle"),
-                            isOn: Binding(
-                                get: { viewModel.isAnalyticsEnabled },
-                                set: { viewModel.setAnalytics($0) }
-                            )
-                        )
-                        SuperSettingsToggleRow(
-                            icon: "exclamationmark.bubble",
-                            iconColor: ColorTokens.positive,
-                            title: String(localized: "settings.crashlytics.toggle"),
-                            isOn: Binding(
-                                get: { viewModel.isCrashlyticsEnabled },
-                                set: { viewModel.setCrashlytics($0) }
-                            )
-                        )
-                    }
-                    .entrance(.up, delay: 0.2)
-
-                    // Data section
-                    SuperSettingsSection(
-                        title: String(localized: "settings.section.data"),
-                        icon: "externaldrive.fill",
-                        iconColor: ColorTokens.negative
-                    ) {
-                        NavigationLink {
-                            DataManagementView(
-                                personRepo: personRepo,
-                                debtRepo: debtRepo
-                            )
-                        } label: {
-                            SuperSettingsNavRow(
-                                icon: "trash",
-                                iconColor: ColorTokens.negative,
-                                title: String(localized: "settings.deleteData.button")
+                        // Security section
+                        SuperSettingsSection(
+                            title: String(localized: "settings.section.security"),
+                            icon: "lock.shield.fill",
+                            iconColor: ColorTokens.accent
+                        ) {
+                            SuperSettingsToggleRow(
+                                icon: "faceid",
+                                iconColor: ColorTokens.accent,
+                                title: String(localized: "settings.biometric.toggle"),
+                                isOn: Binding(
+                                    get: { viewModel.isBiometricEnabled },
+                                    set: { viewModel.setBiometric($0) }
+                                )
                             )
                         }
-                    }
-                    .entrance(.up, delay: 0.25)
+                        .entrance(.up, delay: 0.1)
 
-                    // About section
-                    SuperSettingsSection(
-                        title: String(localized: "settings.section.about"),
-                        icon: "info.circle.fill",
-                        iconColor: ColorTokens.chartTeal
-                    ) {
-                        if let privacyURL = URL(string: "https://vade.app/privacy") {
-                            Link(destination: privacyURL) {
+                        // Preferences section
+                        SuperSettingsSection(
+                            title: String(localized: "settings.section.preferences"),
+                            icon: "slider.horizontal.3",
+                            iconColor: ColorTokens.chartPurple
+                        ) {
+                            SuperSettingsPickerRow(
+                                icon: "globe",
+                                iconColor: ColorTokens.chartPurple,
+                                title: String(localized: "settings.language.label"),
+                                selection: Binding(
+                                    get: { languageManager.languageCode },
+                                    set: { languageManager.setLanguage($0) }
+                                ),
+                                options: [
+                                    ("tr", "Türkçe"),
+                                    ("en", "English"),
+                                ]
+                            )
+
+                            SuperSettingsPickerRow(
+                                icon: "dollarsign.circle",
+                                iconColor: ColorTokens.chartPurple,
+                                title: String(localized: "settings.preferredCurrency"),
+                                selection: Binding(
+                                    get: { viewModel.preferredCurrency },
+                                    set: { viewModel.setCurrency($0) }
+                                ),
+                                options: [
+                                    (CurrencyKind.tryCoin, CurrencyKind.tryCoin.label),
+                                    (CurrencyKind.usd, CurrencyKind.usd.label),
+                                    (CurrencyKind.eur, CurrencyKind.eur.label),
+                                ]
+                            )
+                        }
+                        .entrance(.up, delay: 0.15)
+
+                        // Privacy section
+                        SuperSettingsSection(
+                            title: String(localized: "settings.section.privacy"),
+                            icon: "hand.raised.fill",
+                            iconColor: ColorTokens.positive
+                        ) {
+                            SuperSettingsToggleRow(
+                                icon: "chart.bar",
+                                iconColor: ColorTokens.positive,
+                                title: String(localized: "settings.analytics.toggle"),
+                                isOn: Binding(
+                                    get: { viewModel.isAnalyticsEnabled },
+                                    set: { viewModel.setAnalytics($0) }
+                                )
+                            )
+                            SuperSettingsToggleRow(
+                                icon: "exclamationmark.bubble",
+                                iconColor: ColorTokens.positive,
+                                title: String(localized: "settings.crashlytics.toggle"),
+                                isOn: Binding(
+                                    get: { viewModel.isCrashlyticsEnabled },
+                                    set: { viewModel.setCrashlytics($0) }
+                                )
+                            )
+                        }
+                        .entrance(.up, delay: 0.2)
+
+                        // Data section
+                        SuperSettingsSection(
+                            title: String(localized: "settings.section.data"),
+                            icon: "externaldrive.fill",
+                            iconColor: ColorTokens.negative
+                        ) {
+                            NavigationLink {
+                                DataManagementView(
+                                    personRepo: personRepo,
+                                    debtRepo: debtRepo
+                                )
+                            } label: {
                                 SuperSettingsNavRow(
-                                    icon: "doc.text",
-                                    iconColor: ColorTokens.chartTeal,
-                                    title: String(localized: "settings.about.privacyPolicy")
+                                    icon: "trash",
+                                    iconColor: ColorTokens.negative,
+                                    title: String(localized: "settings.deleteData.button")
                                 )
                             }
                         }
-                    }
-                    .entrance(.up, delay: 0.3)
+                        .entrance(.up, delay: 0.25)
 
-                    // Version footer
-                    versionFooter
-                        .entrance(.fade, delay: 0.35)
+                        // About section
+                        SuperSettingsSection(
+                            title: String(localized: "settings.section.about"),
+                            icon: "info.circle.fill",
+                            iconColor: ColorTokens.chartTeal
+                        ) {
+                            if let privacyURL = URL(string: "https://vade.app/privacy") {
+                                Link(destination: privacyURL) {
+                                    SuperSettingsNavRow(
+                                        icon: "doc.text",
+                                        iconColor: ColorTokens.chartTeal,
+                                        title: String(localized: "settings.about.privacyPolicy")
+                                    )
+                                }
+                            }
+                        }
+                        .entrance(.up, delay: 0.3)
+
+                        // Version footer
+                        versionFooter
+                            .entrance(.fade, delay: 0.35)
+                    }
+                    .padding(.horizontal, Spacing.l)
+                    .padding(.bottom, Spacing.xxxl)
                 }
-                .padding(.horizontal, Spacing.l)
-                .padding(.bottom, Spacing.xxxl)
             }
-            .background(ColorTokens.background)
             .navigationTitle(String(localized: "settings.navigationTitle"))
             #if !os(macOS)
             .navigationBarTitleDisplayMode(.large)

@@ -12,26 +12,26 @@ public struct OnboardingView: View {
     @Environment(LanguageManager.self) private var languageManager
     @State private var showLanguagePicker = false
 
-    private let features: [OnboardingFeature] = [
+    private let features = [
         OnboardingFeature(
             icon: "arrow.left.arrow.right.circle.fill",
-            title: String(localized: "onboarding.feature.track"),
-            description: String(localized: "onboarding.feature.track.desc")
+            titleKey: "onboarding.feature.track",
+            descriptionKey: "onboarding.feature.track.desc"
         ),
         OnboardingFeature(
             icon: "dollarsign.arrow.circlepath",
-            title: String(localized: "onboarding.feature.currency"),
-            description: String(localized: "onboarding.feature.currency.desc")
+            titleKey: "onboarding.feature.currency",
+            descriptionKey: "onboarding.feature.currency.desc"
         ),
         OnboardingFeature(
             icon: "bell.badge.fill",
-            title: String(localized: "onboarding.feature.reminders"),
-            description: String(localized: "onboarding.feature.reminders.desc")
+            titleKey: "onboarding.feature.reminders",
+            descriptionKey: "onboarding.feature.reminders.desc"
         ),
         OnboardingFeature(
             icon: "icloud.fill",
-            title: String(localized: "onboarding.feature.sync"),
-            description: String(localized: "onboarding.feature.sync.desc")
+            titleKey: "onboarding.feature.sync",
+            descriptionKey: "onboarding.feature.sync.desc"
         ),
     ]
 
@@ -43,32 +43,16 @@ public struct OnboardingView: View {
         ZStack {
             FinanceBackgroundAnimation()
                 .ignoresSafeArea()
-            ColorTokens.background.opacity(0.85).ignoresSafeArea()
+            ColorTokens.background.opacity(0.08).ignoresSafeArea()
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
-                    HStack {
-                        Spacer()
-
-                        Button(String(localized: "onboarding.skip")) {
-                            withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                                onComplete()
-                            }
-                        }
-                        .font(Typography.font(for: .buttonSmall))
-                        .foregroundStyle(ColorTokens.accent)
-                        .padding(.trailing, Spacing.xl)
-                        .padding(.top, Spacing.s)
-                        .opacity(appear ? 1 : 0)
-                        .animation(.easeOut(duration: 0.4).delay(0.5), value: appear)
-                    }
-
-                    Spacer().frame(height: 24)
+                    Spacer().frame(height: 64)
 
                     logoSection
                         .padding(.bottom, Spacing.xxl)
 
-                    Text(String(localized: "onboarding.tagline"))
+                    Text(LocalizedStringKey("onboarding.tagline"))
                         .font(Typography.font(for: .title2))
                         .foregroundStyle(
                             LinearGradient(
@@ -83,7 +67,7 @@ public struct OnboardingView: View {
                         .offset(y: appear ? 0 : 20)
                         .animation(.easeOut(duration: 0.6).delay(0.36), value: appear)
 
-                    Text(String(localized: "onboarding.subtagline"))
+                    Text(LocalizedStringKey("onboarding.subtagline"))
                         .font(Typography.font(for: .body))
                         .foregroundStyle(
                             LinearGradient(
@@ -115,7 +99,10 @@ public struct OnboardingView: View {
                         iCloudBanner
                             .padding(.horizontal, Spacing.xl)
                             .padding(.top, Spacing.m)
-                            .transition(.move(edge: .trailing).combined(with: .opacity))
+                            .opacity(featureAppeared ? 1 : 0)
+                            .offset(y: featureAppeared ? 0 : 20)
+                            .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.65), value: featureAppeared)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
 
                     bottomSection
@@ -129,6 +116,8 @@ public struct OnboardingView: View {
             }
             .scrollBounceBehavior(.basedOnSize)
         }
+        .environment(\.locale, languageManager.locale)
+        .id(languageManager.languageCode)
         .sheet(isPresented: $showLanguagePicker) {
             LanguageSelectionSheet()
                 .presentationDetents([.medium, .large])
@@ -144,19 +133,9 @@ public struct OnboardingView: View {
     }
 
     private var logoSection: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Button(action: {}) {
-                Image(systemName: "globe")
-                    .font(.system(size: 20, weight: .semibold))
-                    .padding(Spacing.s)
-            }
-            .opacity(0)
-            .disabled(true)
-            
-            Spacer()
-            
+        ZStack {
             VStack(spacing: Spacing.xxs) {
-                Text(String(localized: "app.name"))
+                Text(LocalizedStringKey("app.name"))
                     .font(.custom(AppFont.jakartaBold, size: 48))
                     .foregroundStyle(
                         LinearGradient(
@@ -170,7 +149,7 @@ public struct OnboardingView: View {
                     .offset(y: appear ? 0 : 15)
                     .animation(.easeOut(duration: 0.6).delay(0.12), value: appear)
 
-                Text(String(localized: "app.subtitle"))
+                Text(LocalizedStringKey("app.subtitle"))
                     .font(Typography.font(for: .bodyEmphasisItalic))
                     .foregroundStyle(
                         LinearGradient(
@@ -184,20 +163,41 @@ public struct OnboardingView: View {
                     .animation(.easeOut(duration: 0.6).delay(0.24), value: appear)
             }
             
-            Spacer()
-            
-            Button(action: {
-                HapticFeedback.impact(.light)
-                showLanguagePicker = true
-            }) {
-                Image(systemName: "globe")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(ColorTokens.accent)
-                    .padding(Spacing.s)
-                    .background(Circle().fill(ColorTokens.accent.opacity(0.1)))
+            HStack {
+                Button(action: {
+                    HapticFeedback.impact(.light)
+                    showLanguagePicker = true
+                }) {
+                    Image(systemName: "globe")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundStyle(ColorTokens.accent)
+                        .padding(Spacing.s)
+                        .background(Circle().fill(ColorTokens.accent.opacity(0.1)))
+                }
+                .opacity(appear ? 1 : 0)
+                .animation(.easeOut(duration: 0.6).delay(0.24), value: appear)
+                
+                Spacer()
             }
-            .opacity(appear ? 1 : 0)
-            .animation(.easeOut(duration: 0.6).delay(0.24), value: appear)
+            
+            HStack {
+                Spacer()
+                
+                Button(action: {
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                        onComplete()
+                    }
+                }) {
+                    Text(LocalizedStringKey("onboarding.skip"))
+                        .font(Typography.font(for: .buttonSmall))
+                        .foregroundStyle(ColorTokens.accent)
+                        .padding(.horizontal, Spacing.m)
+                        .padding(.vertical, Spacing.xs)
+                        .background(Capsule().fill(ColorTokens.accent.opacity(0.08)))
+                }
+                .opacity(appear ? 1 : 0)
+                .animation(.easeOut(duration: 0.4).delay(0.5), value: appear)
+            }
         }
         .padding(.horizontal, Spacing.xl)
     }
@@ -207,7 +207,7 @@ public struct OnboardingView: View {
             Image(systemName: "icloud.slash")
                 .font(.system(size: 16))
                 .foregroundStyle(ColorTokens.warning)
-            Text(String(localized: "onboarding.icloud.notSignedIn"))
+            Text(LocalizedStringKey("onboarding.icloud.notSignedIn"))
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textPrimary)
                 .multilineTextAlignment(.leading)
@@ -228,7 +228,7 @@ public struct OnboardingView: View {
     private var bottomSection: some View {
         VStack(spacing: Spacing.l) {
             Button {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
                     accepted.toggle()
                     if accepted { HapticFeedback.impact(.light) }
                 }
@@ -236,41 +236,40 @@ public struct OnboardingView: View {
                 HStack(spacing: Spacing.m) {
                     Image(systemName: accepted ? "checkmark.circle.fill" : "circle")
                         .font(.system(size: 22))
-                        .foregroundStyle(accepted ? ColorTokens.accent : ColorTokens.textTertiary)
-                    Text(String(localized: "onboarding.disclaimer.short"))
+                        .foregroundStyle(accepted ? ColorTokens.accent : ColorTokens.textSecondary)
+                    Text(LocalizedStringKey("onboarding.disclaimer.short"))
                         .font(Typography.font(for: .body))
                         .foregroundStyle(ColorTokens.textSecondary)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
+                    Spacer()
                 }
+                .frame(maxWidth: .infinity)
             }
             .opacity(featureAppeared ? 1 : 0)
             .animation(.easeOut(duration: 0.4).delay(0.7), value: featureAppeared)
 
-            Button {
-                HapticFeedback.notification(.success)
-                onComplete()
-            } label: {
-                HStack(spacing: Spacing.s) {
-                    Text(String(localized: "onboarding.start"))
-                        .font(Typography.font(for: .button))
-                    Image(systemName: "arrow.right")
-                        .font(.system(size: 14, weight: .semibold))
+            if accepted {
+                Button {
+                    HapticFeedback.notification(.success)
+                    onComplete()
+                } label: {
+                    HStack(spacing: Spacing.s) {
+                        Text(LocalizedStringKey("onboarding.start"))
+                            .font(Typography.font(for: .button))
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 14, weight: .semibold))
+                    }
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 52)
+                    .background(Capsule().fill(ColorTokens.accent))
                 }
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 52)
-                .background(
-                    Capsule()
-                        .fill(accepted ? ColorTokens.accent : ColorTokens.border)
-                )
-                .opacity(accepted ? 1 : 0.6)
+                .transition(.asymmetric(
+                    insertion: .opacity.combined(with: .move(edge: .bottom)),
+                    removal: .opacity.combined(with: .move(edge: .bottom))
+                ))
             }
-            .disabled(!accepted)
-            .opacity(featureAppeared ? 1 : 0)
-            .offset(y: featureAppeared ? 0 : 20)
-            .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.8), value: featureAppeared)
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: accepted)
         }
     }
 
@@ -289,8 +288,8 @@ public struct OnboardingView: View {
 private struct OnboardingFeature: Identifiable {
     let id = UUID()
     let icon: String
-    let title: String
-    let description: String
+    let titleKey: String
+    let descriptionKey: String
 }
 
 private struct FeatureCard: View {
@@ -310,10 +309,10 @@ private struct FeatureCard: View {
             }
 
             VStack(alignment: .leading, spacing: 3) {
-                Text(feature.title)
+                Text(LocalizedStringKey(feature.titleKey))
                     .font(Typography.font(for: .bodyEmphasis))
                     .foregroundStyle(ColorTokens.textPrimary)
-                Text(feature.description)
+                Text(LocalizedStringKey(feature.descriptionKey))
                     .font(Typography.font(for: .caption))
                     .foregroundStyle(ColorTokens.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
