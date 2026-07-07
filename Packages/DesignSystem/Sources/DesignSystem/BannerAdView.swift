@@ -1,5 +1,4 @@
 import SwiftUI
-import DesignSystem
 
 // MARK: - Banner Ad View (Google AdMob Integration Point)
 

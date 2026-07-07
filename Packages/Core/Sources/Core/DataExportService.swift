@@ -99,7 +99,6 @@ public final class DataExportService: DataExporting {
         let pageWidth: CGFloat = 612   // US Letter
         let pageHeight: CGFloat = 792
         let margin: CGFloat = 48
-        let contentWidth = pageWidth - 2 * margin
 
         let title = String(localized: "export.pdf.title")
         let generatedDate = formatter.string(from: Date())
