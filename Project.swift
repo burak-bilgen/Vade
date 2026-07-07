@@ -43,6 +43,8 @@ let appTarget = Target.target(
     resources: [
         "App/Sources/Vade/Resources/**",
         "Vade/Assets.xcassets",
+        "Packages/DesignSystem/Sources/DesignSystem/Resources/Fonts/**",
+        "Packages/DesignSystem/Sources/DesignSystem/Resources/Colors.xcassets",
     ],
     entitlements: .file(path: "Vade/Vade.entitlements"),
     dependencies: [

@@ -15,9 +15,7 @@ let package = Package(
             name: "DesignSystem",
             dependencies: ["Core"],
             path: "Sources/DesignSystem",
-            resources: [
-                .process("Resources"),
-            ]
+            resources: []
         ),
         .testTarget(
             name: "DesignSystemTests",

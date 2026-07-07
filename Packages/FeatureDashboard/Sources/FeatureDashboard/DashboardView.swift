@@ -422,6 +422,46 @@ public struct DashboardView: View {
     }
 }
 
+// MARK: - Stat Card
+
+private struct StatCard: View {
+    let value: String
+    let label: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        VStack(spacing: Spacing.xs) {
+            ZStack {
+                Circle()
+                    .fill(color.opacity(0.15))
+                    .frame(width: 32, height: 32)
+                Image(systemName: icon)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(color)
+            }
+            Text(value)
+                .font(Typography.font(for: .headline))
+                .foregroundStyle(ColorTokens.textPrimary)
+                .contentTransition(.numericText())
+            Text(label)
+                .font(Typography.font(for: .label))
+                .foregroundStyle(ColorTokens.textTertiary)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, Spacing.ml)
+        .background(
+            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                .fill(ColorTokens.surface)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                .stroke(ColorTokens.border, lineWidth: 0.5)
+        )
+    }
+}
+
 // MARK: - Upcoming Row
 
 private struct UpcomingRow: View {

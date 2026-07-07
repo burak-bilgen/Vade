@@ -19,7 +19,8 @@ public enum AppFont {
             jetbrainsRegular, jetbrainsMedium, jetbrainsSemiBold, jetbrainsBold,
         ]
         for name in names {
-            guard let url = Bundle.module.url(forResource: name, withExtension: "ttf") else {
+            guard let url = Bundle.main.url(forResource: name, withExtension: "ttf")
+                      ?? Bundle.module.url(forResource: name, withExtension: "ttf") else {
                 assertionFailure("Font not found: \(name)")
                 continue
             }

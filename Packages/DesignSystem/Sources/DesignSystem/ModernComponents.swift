@@ -264,9 +264,9 @@ public struct ActionPill: View {
     let icon: String
     let title: String
     let color: Color
-    let action: () -> Void
+    let action: (() -> Void)?
 
-    public init(icon: String, title: String, color: Color, action: @escaping () -> Void) {
+    public init(icon: String, title: String, color: Color, action: (() -> Void)? = nil) {
         self.icon = icon
         self.title = title
         self.color = color
@@ -274,26 +274,34 @@ public struct ActionPill: View {
     }
 
     public var body: some View {
-        Button(action: action) {
-            HStack(spacing: Spacing.xs) {
-                Image(systemName: icon)
-                    .font(.system(size: 13, weight: .semibold))
-                Text(title)
-                    .font(Typography.font(for: .buttonSmall))
+        Group {
+            if let action {
+                Button(action: action) { label }
+                    .premiumPress(scale: 0.92)
+            } else {
+                label
             }
-            .foregroundStyle(color)
-            .padding(.horizontal, Spacing.l)
-            .padding(.vertical, Spacing.s)
-            .background(
-                Capsule()
-                    .fill(color.opacity(0.12))
-            )
-            .overlay(
-                Capsule()
-                    .stroke(color.opacity(0.2), lineWidth: 0.5)
-            )
         }
-        .premiumPress(scale: 0.92)
+    }
+
+    private var label: some View {
+        HStack(spacing: Spacing.xs) {
+            Image(systemName: icon)
+                .font(.system(size: 13, weight: .semibold))
+            Text(title)
+                .font(Typography.font(for: .buttonSmall))
+        }
+        .foregroundStyle(color)
+        .padding(.horizontal, Spacing.l)
+        .padding(.vertical, Spacing.s)
+        .background(
+            Capsule()
+                .fill(color.opacity(0.12))
+        )
+        .overlay(
+            Capsule()
+                .stroke(color.opacity(0.2), lineWidth: 0.5)
+        )
     }
 }
 
