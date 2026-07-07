@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		02172480113C35578D7A729C /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DC0ABC68715B1377AE6B94 /* OnboardingView.swift */; };
+		0E66EFEBF20113C3B0B65A28 /* LanguageSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90238B1E463BBAAB599CBA05 /* LanguageSelectionSheet.swift */; };
+		11A9AE83913AC349DEA22426 /* FinanceBackgroundAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA5293EA522A2EA632AE47E /* FinanceBackgroundAnimation.swift */; };
 		27E197B38AF0D421C95A82C8 /* FeatureOnboarding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1013DC473CF628F07352DE25 /* FeatureOnboarding.framework */; };
 		36753E770734D9C34B04B17B /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F2CDB77590E3E3F45EAA1C /* Domain.framework */; };
 		58E2A2F977FC7A10C6BD8356 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC371F514E8F67D77A33828 /* OnboardingTests.swift */; };
@@ -78,6 +80,7 @@
 
 /* Begin PBXFileReference section */
 		1013DC473CF628F07352DE25 /* FeatureOnboarding.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureOnboarding.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CA5293EA522A2EA632AE47E /* FinanceBackgroundAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceBackgroundAnimation.swift; sourceTree = "<group>"; };
 		576FE6D320B030034E619C71 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC371F514E8F67D77A33828 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		61A1DD111E62175889A97CAF /* CloudKitStatusCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitStatusCheck.swift; sourceTree = "<group>"; };
@@ -85,6 +88,7 @@
 		76DC0ABC68715B1377AE6B94 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7755CC2222BE03EBF527DEDB /* FeatureOnboardingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureOnboardingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F2CDB77590E3E3F45EAA1C /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		90238B1E463BBAAB599CBA05 /* LanguageSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSelectionSheet.swift; sourceTree = "<group>"; };
 		A18DC03112ED7EABD5271FC0 /* FeatureOnboarding-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureOnboarding-Info.plist"; sourceTree = "<group>"; };
 		E0170EA29035D18C408BDE01 /* FeatureOnboardingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureOnboardingTests-Info.plist"; sourceTree = "<group>"; };
 		FD233C9D0DC5F884C88D83FC /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				61A1DD111E62175889A97CAF /* CloudKitStatusCheck.swift */,
+				1CA5293EA522A2EA632AE47E /* FinanceBackgroundAnimation.swift */,
+				90238B1E463BBAAB599CBA05 /* LanguageSelectionSheet.swift */,
 				76DC0ABC68715B1377AE6B94 /* OnboardingView.swift */,
 			);
 			path = FeatureOnboarding;
@@ -301,6 +307,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A356898646DC6F7A6A0DB67C /* CloudKitStatusCheck.swift in Sources */,
+				11A9AE83913AC349DEA22426 /* FinanceBackgroundAnimation.swift in Sources */,
+				0E66EFEBF20113C3B0B65A28 /* LanguageSelectionSheet.swift in Sources */,
 				02172480113C35578D7A729C /* OnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
