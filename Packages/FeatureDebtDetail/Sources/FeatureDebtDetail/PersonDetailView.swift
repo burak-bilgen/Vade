@@ -30,7 +30,17 @@ public struct PersonDetailView: View {
                 ProgressView()
                     .entrance(.fade)
                     .task {
-                        let vm = PersonDetailViewModel(person: person, modelContext: modelContext, analytics: analytics)
+                        let auditTrail = AuditTrailService(modelContainer: modelContext.container)
+                        let debtRepo = DebtRepository(modelContext: modelContext, auditTrail: auditTrail)
+                        let balanceRepo = BalanceRepository(modelContext: modelContext)
+                        let paymentRepo = PaymentRepository(modelContext: modelContext, auditTrail: auditTrail)
+                        let vm = PersonDetailViewModel(
+                            person: person,
+                            debtRepo: debtRepo,
+                            balanceRepo: balanceRepo,
+                            paymentRepo: paymentRepo,
+                            analytics: analytics
+                        )
                         viewModel = vm
                         await vm.loadData()
                         withAnimation(.spring(response: 0.5)) {
@@ -41,7 +51,9 @@ public struct PersonDetailView: View {
         }
         .background(ColorTokens.background)
         .navigationTitle(person.name)
+        #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button(String(localized: "personDetail.addDebt.button"), systemImage: "plus") {
@@ -105,7 +117,12 @@ public struct PersonDetailView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(Spacing.xxl)
-                .glass(GlassStyle.standard)
+                .background(ColorTokens.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                        .stroke(ColorTokens.border, lineWidth: 0.5)
+                )
 
                 // Debt count summary — staggered entrance
                 HStack(spacing: Spacing.m) {
@@ -341,7 +358,9 @@ private struct AddDebtSheet: View {
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(ColorTokens.textPrimary)
                         .multilineTextAlignment(.center)
+                        #if !os(macOS)
                         .keyboardType(.decimalPad)
+                        #endif
                         .disabled(isSaving)
                 }
                 .padding(.top, Spacing.xl)
@@ -446,7 +465,9 @@ private struct AddDebtSheet: View {
             }
             .background(ColorTokens.background)
             .navigationTitle(String(localized: "debt.add.title"))
+            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(localized: "debt.add.cancel")) { dismiss() }
@@ -539,7 +560,9 @@ private struct RecordPaymentSheet: View {
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(ColorTokens.textPrimary)
                         .multilineTextAlignment(.center)
+                        #if !os(macOS)
                         .keyboardType(.decimalPad)
+                        #endif
                         .disabled(isSaving)
                 }
 
@@ -595,7 +618,9 @@ private struct RecordPaymentSheet: View {
             }
             .background(ColorTokens.background)
             .navigationTitle(String(localized: "payment.title"))
+            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(localized: "payment.cancel")) { dismiss() }
@@ -624,6 +649,13 @@ private struct RecordPaymentSheet: View {
                 )
         }
         .disabled(isSaving)
+    }
+
+    private func save() async {
+        guard let amount = parsedAmount, amount > 0 else { return }
+        isSaving = true
+        await onSave(amount, note.trimmed.isEmpty ? nil : note.trimmed)
+        isSaving = false
     }
 }
 

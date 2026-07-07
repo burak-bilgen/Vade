@@ -27,9 +27,15 @@ struct PersonDetailViewModelTests {
         context.insert(debt)
         try context.save()
 
+        let auditTrail = AuditTrailService(modelContainer: context.container)
+        let debtRepo = DebtRepository(modelContext: context, auditTrail: auditTrail)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let paymentRepo = PaymentRepository(modelContext: context, auditTrail: auditTrail)
         let vm = PersonDetailViewModel(
             person: person.toDomain(),
-            modelContext: context
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            paymentRepo: paymentRepo
         )
         await vm.loadData()
 
@@ -52,9 +58,15 @@ struct PersonDetailViewModelTests {
         context.insert(person)
         try context.save()
 
+        let auditTrail = AuditTrailService(modelContainer: context.container)
+        let debtRepo = DebtRepository(modelContext: context, auditTrail: auditTrail)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let paymentRepo = PaymentRepository(modelContext: context, auditTrail: auditTrail)
         let vm = PersonDetailViewModel(
             person: person.toDomain(),
-            modelContext: context
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            paymentRepo: paymentRepo
         )
         await vm.loadData()
         #expect(vm.debts.isEmpty)
@@ -83,9 +95,15 @@ struct PersonDetailViewModelTests {
         context.insert(debt)
         try context.save()
 
+        let auditTrail = AuditTrailService(modelContainer: context.container)
+        let debtRepo = DebtRepository(modelContext: context, auditTrail: auditTrail)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let paymentRepo = PaymentRepository(modelContext: context, auditTrail: auditTrail)
         let vm = PersonDetailViewModel(
             person: person.toDomain(),
-            modelContext: context
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            paymentRepo: paymentRepo
         )
         await vm.loadData()
         #expect(vm.balance == 1000)

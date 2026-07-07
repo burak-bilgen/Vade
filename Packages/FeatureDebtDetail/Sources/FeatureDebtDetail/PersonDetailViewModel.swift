@@ -1,8 +1,6 @@
 import Foundation
-import SwiftData
 import Domain
 import Core
-import Data
 import Observability
 
 // MARK: - Person Detail ViewModel
@@ -15,27 +13,26 @@ public final class PersonDetailViewModel {
     public var isLoading = false
 
     let person: Person
-    private let modelContext: ModelContext
-    private let debtRepo: DebtRepository
-    private let balanceRepo: BalanceRepository
-    private let paymentRepo: PaymentRepository
+    private let debtRepo: AddDebtUseCase & FetchDebtsForPersonUseCase
+    private let balanceRepo: CalculateBalanceUseCase
+    private let paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase
     private let analytics: any AnalyticsTracking
     private let notificationService: NotificationScheduling?
 
     public init(
         person: Person,
-        modelContext: ModelContext,
+        debtRepo: AddDebtUseCase & FetchDebtsForPersonUseCase,
+        balanceRepo: CalculateBalanceUseCase,
+        paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase,
         analytics: any AnalyticsTracking = AnalyticsService(),
         notificationService: NotificationScheduling? = nil
     ) {
         self.person = person
-        self.modelContext = modelContext
+        self.debtRepo = debtRepo
+        self.balanceRepo = balanceRepo
+        self.paymentRepo = paymentRepo
         self.analytics = analytics
         self.notificationService = notificationService
-        let auditTrail = AuditTrailService(modelContainer: modelContext.container)
-        self.debtRepo = DebtRepository(modelContext: modelContext, auditTrail: auditTrail)
-        self.balanceRepo = BalanceRepository(modelContext: modelContext)
-        self.paymentRepo = PaymentRepository(modelContext: modelContext, auditTrail: auditTrail)
     }
 
     public func loadData() async {
@@ -104,10 +101,7 @@ public final class PersonDetailViewModel {
 
     private func isDebtFullyPaid(_ debtRecordID: UUID) async -> Bool {
         guard let debt = debts.first(where: { $0.id == debtRecordID }) else { return false }
-        let descriptor = FetchDescriptor<PaymentModel>(
-            predicate: #Predicate { $0.debtRecordID == debtRecordID }
-        )
-        guard let payments = try? modelContext.fetch(descriptor) else { return false }
+        guard let payments = try? await paymentRepo.execute(for: debtRecordID) else { return false }
         let totalPaid = payments.reduce(Decimal.zero) { $0 + $1.amount }
         return totalPaid >= debt.amount
     }
