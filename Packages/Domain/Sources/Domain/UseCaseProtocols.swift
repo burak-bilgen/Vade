@@ -58,4 +58,5 @@ public protocol CurrencyConverting: Sendable {
 
 public protocol AnalyticsTracking: Sendable {
     func track(_ event: AnalyticsEvent)
+    func setOptOut(_ optOut: Bool)
 }

@@ -3,7 +3,6 @@ import SwiftData
 import DesignSystem
 import Core
 import Domain
-import Data
 import Observability
 
 // MARK: - Data Management View
@@ -22,9 +21,17 @@ public struct DataManagementView: View {
     @State private var pendingExportAction: (() async -> Void)?
 
     private let exportService = DataExportService()
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
+    private let personRepo: FetchPersonsUseCase
+    private let debtRepo: FetchDebtsForPersonUseCase
 
-    public init() {}
+    public init(
+        personRepo: FetchPersonsUseCase,
+        debtRepo: FetchDebtsForPersonUseCase
+    ) {
+        self.personRepo = personRepo
+        self.debtRepo = debtRepo
+    }
 
     public var body: some View {
         List {
@@ -187,10 +194,7 @@ public struct DataManagementView: View {
     }
 
     private func fetchExportRows() async -> [ExportRow] {
-        // Uses MainActor-isolated context — safe from within View body
-        let repo = PersonRepository(modelContext: modelContext)
-        guard let persons = try? await repo.execute(includeArchived: true) else { return [] }
-        let debtRepo = DebtRepository(modelContext: modelContext)
+        guard let persons = try? await personRepo.execute(includeArchived: true) else { return [] }
 
         var rows: [ExportRow] = []
         for person in persons {
@@ -236,9 +240,4 @@ private struct ShareSheet: UIViewControllerRepresentable {
 }
 #endif
 
-#Preview {
-    NavigationStack {
-        DataManagementView()
-    }
-    .modelContainer(for: [PersonModel.self, DebtRecordModel.self, PaymentModel.self, AuditEntryModel.self], inMemory: true)
-}
+// Preview disabled: requires repository injection.

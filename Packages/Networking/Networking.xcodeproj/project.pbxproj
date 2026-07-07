@@ -16,6 +16,7 @@
 		74A81A1723139DF2F78D0497 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D42DE84BC519CF784D5A17 /* Core.framework */; };
 		850B864D06F0309CD61FB29E /* CurrencyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951AB4DF1AF92B3FE513ACF /* CurrencyConverter.swift */; };
 		A3543933B9D668F9A0BFB7B7 /* ExchangeRateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFE79912BAF1516989D95C2 /* ExchangeRateClient.swift */; };
+		FBF1E9FA15A012EAEF9F7B57 /* ExchangeRateClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C844FEEA94897E30ADDA4AA0 /* ExchangeRateClientTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		68D42DE84BC519CF784D5A17 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95586702619AFCD66C00D94E /* Networking-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Networking-Info.plist"; sourceTree = "<group>"; };
 		B4DAB5356F2C66003A3BA515 /* NetworkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C844FEEA94897E30ADDA4AA0 /* ExchangeRateClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateClientTests.swift; sourceTree = "<group>"; };
 		E951AB4DF1AF92B3FE513ACF /* CurrencyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverter.swift; sourceTree = "<group>"; };
 		FDFE79912BAF1516989D95C2 /* ExchangeRateClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				508143BE1CF4F6769032A731 /* CurrencyConverterTests.swift */,
+				C844FEEA94897E30ADDA4AA0 /* ExchangeRateClientTests.swift */,
 				551C7B8FAD6AA35AE1D92BBA /* RatesCacheTests.swift */,
 			);
 			path = NetworkingTests;
@@ -274,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40D7C71E9F6ED8FB784212F3 /* CurrencyConverterTests.swift in Sources */,
+				FBF1E9FA15A012EAEF9F7B57 /* ExchangeRateClientTests.swift in Sources */,
 				5D87EA0DCD9DDCBA930522BA /* RatesCacheTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,6 @@ let package = Package(
     dependencies: [
         .package(path: "Packages/Core"),
         .package(path: "Packages/DesignSystem"),
-        .package(path: "Packages/DIContainer"),
         .package(path: "Packages/Observability"),
         .package(path: "Packages/Domain"),
         .package(path: "Packages/Data"),
@@ -27,7 +26,6 @@ let package = Package(
             dependencies: [
                 "Core",
                 "DesignSystem",
-                "DIContainer",
                 "Observability",
                 "Domain",
                 "Data",

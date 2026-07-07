@@ -6,27 +6,10 @@ import FeatureDashboard
 import FeatureDebtDetail
 import FeatureSettings
 import DesignSystem
-import DIContainer
 import Domain
+import Data
 import Observability
-
-@MainActor
-final class AppCoordinator: Coordinator {
-    weak var parentCoordinator: (any Coordinator)? = nil
-    var childCoordinators: [any Coordinator] = []
-
-    private let modelContainer: ModelContainer
-    private let diContainer: Container
-
-    init(modelContainer: ModelContainer, container: Container) {
-        self.modelContainer = modelContainer
-        self.diContainer = container
-    }
-
-    func start() -> AnyView {
-        AnyView(CoordinatorRootView())
-    }
-}
+import Networking
 
 // MARK: - Coordinator Root View
 
@@ -35,14 +18,16 @@ final class AppCoordinator: Coordinator {
 public struct CoordinatorRootView: View {
     @State private var onboardingDone = false
     @Environment(LanguageManager.self) private var languageManager
-    private let analytics: any AnalyticsTracking = AnalyticsService()
+    @Environment(\.modelContext) private var modelContext
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     public var body: some View {
         ZStack {
             ColorTokens.background
             if onboardingDone {
-                MainTabView()
+                MainTabView(modelContext: modelContext)
                     .id(languageManager.languageCode)
+                    .environment(analytics)
             } else {
                 OnboardingView {
                     onboardingDone = true
@@ -57,26 +42,57 @@ public struct CoordinatorRootView: View {
 // MARK: - Main Tab View
 
 private struct MainTabView: View {
+    let modelContext: ModelContext
+
     var body: some View {
+        let auditTrail = AuditTrailService(modelContainer: modelContext.container)
+        let personRepo = PersonRepository(modelContext: modelContext)
+        let debtRepo = DebtRepository(modelContext: modelContext, auditTrail: auditTrail)
+        let balanceRepo = BalanceRepository(modelContext: modelContext)
+        let paymentRepo = PaymentRepository(modelContext: modelContext, auditTrail: auditTrail)
+        let rateClient = ExchangeRateClient()
+
         TabView {
             Tab(String(localized: "tab.dashboard"), systemImage: "house") {
                 NavigationStack {
-                    DashboardView()
-                        .navigationBarTitleDisplayMode(.inline)
+                    DashboardView(
+                        personRepo: personRepo,
+                        debtRepo: debtRepo,
+                        balanceRepo: balanceRepo,
+                        rateClient: rateClient
+                    )
+                    .navigationBarTitleDisplayMode(.inline)
                 }
                 .tint(ColorTokens.accent)
             }
             Tab(String(localized: "tab.people"), systemImage: "person.2") {
                 NavigationStack {
-                    PeopleListView()
-                        .navigationBarTitleDisplayMode(.inline)
+                    PeopleListView(
+                        personRepo: personRepo,
+                        debtRepo: debtRepo,
+                        balanceRepo: balanceRepo,
+                        paymentRepo: paymentRepo
+                    )
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationDestination(for: Person.self) { person in
+                        PersonDetailView(
+                            person: person,
+                            personRepo: personRepo,
+                            debtRepo: debtRepo,
+                            balanceRepo: balanceRepo,
+                            paymentRepo: paymentRepo
+                        )
+                    }
                 }
                 .tint(ColorTokens.accent)
             }
             Tab(String(localized: "tab.settings"), systemImage: "gearshape") {
                 NavigationStack {
-                    SettingsView()
-                        .navigationBarTitleDisplayMode(.inline)
+                    SettingsView(
+                        personRepo: personRepo,
+                        debtRepo: debtRepo
+                    )
+                    .navigationBarTitleDisplayMode(.inline)
                 }
                 .tint(ColorTokens.accent)
             }

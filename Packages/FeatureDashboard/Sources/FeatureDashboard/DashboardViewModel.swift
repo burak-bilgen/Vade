@@ -8,22 +8,22 @@ import Networking
 @MainActor
 @Observable
 public final class DashboardViewModel {
-    public var persons: [Person] = []
-    public var totalReceivable: Decimal = .zero
-    public var totalPayable: Decimal = .zero
-    public var netBalance: Decimal = .zero
-    public var upcomingItems: [(id: UUID, person: Person, amount: Decimal, dueDate: Date?)] = []
-    public var recentActivity: [ActivityItem] = []
-    public var currencyDistribution: [(kind: CurrencyKind, total: Decimal)] = []
-    public var monthlyStats: MonthlyStats = .empty
-    public var exchangeRates: ExchangeRateSnapshot?
+    public private(set) var persons: [Person] = []
+    public private(set) var totalReceivable: Decimal = .zero
+    public private(set) var totalPayable: Decimal = .zero
+    public private(set) var netBalance: Decimal = .zero
+    public private(set) var upcomingItems: [(id: UUID, person: Person, amount: Decimal, dueDate: Date?)] = []
+    public private(set) var recentActivity: [ActivityItem] = []
+    public private(set) var currencyDistribution: [(kind: CurrencyKind, total: Decimal)] = []
+    public private(set) var monthlyStats: MonthlyStats = .empty
+    public private(set) var exchangeRates: ExchangeRateSnapshot?
 
     // MARK: - New Chart Data
-    public var monthlyTrendData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)] = []
-    public var pendingDebtCount: Int = 0
-    public var paidDebtCount: Int = 0
-    public var archivedDebtCount: Int = 0
-    public var isLoading = false
+    public private(set) var monthlyTrendData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)] = []
+    public private(set) var pendingDebtCount: Int = 0
+    public private(set) var paidDebtCount: Int = 0
+    public private(set) var archivedDebtCount: Int = 0
+    public private(set) var isLoading = false
 
     public var upcomingChartItems: [(person: String, amount: Decimal, dueDate: Date)] {
         upcomingItems.compactMap { item in

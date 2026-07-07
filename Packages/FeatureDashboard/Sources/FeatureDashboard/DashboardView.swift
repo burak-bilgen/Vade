@@ -1,19 +1,33 @@
 import SwiftUI
-import SwiftData
 import DesignSystem
 import Domain
-import Data
+import Core
 import Observability
+import Networking
 
 // MARK: - Dashboard
 
 public struct DashboardView: View {
-    @Environment(\.modelContext) private var modelContext
     @State private var viewModel: DashboardViewModel?
     @State private var showAdd = false
-    @State private var analytics = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
-    public init() {}
+    private let personRepo: FetchPersonsUseCase
+    private let debtRepo: FetchDebtsForPersonUseCase
+    private let balanceRepo: CalculateBalanceUseCase
+    private let rateClient: ExchangeRateProviding
+
+    public init(
+        personRepo: FetchPersonsUseCase,
+        debtRepo: FetchDebtsForPersonUseCase,
+        balanceRepo: CalculateBalanceUseCase,
+        rateClient: ExchangeRateProviding = ExchangeRateClient()
+    ) {
+        self.personRepo = personRepo
+        self.debtRepo = debtRepo
+        self.balanceRepo = balanceRepo
+        self.rateClient = rateClient
+    }
 
     @State private var contentAppeared = false
 
@@ -29,16 +43,18 @@ public struct DashboardView: View {
         .background(ColorTokens.background)
         .ignoresSafeArea(.container, edges: .top)
         .sheet(isPresented: $showAdd) {
-            QuickAddSheet { await viewModel?.loadData() }
+            QuickAddSheet(
+                personRepo: personRepo,
+                debtRepo: debtRepo,
+                onDone: { await viewModel?.loadData() }
+            )
         }
         .task {
-            let personRepo = PersonRepository(modelContext: modelContext)
-            let debtRepo = DebtRepository(modelContext: modelContext)
-            let balanceRepo = BalanceRepository(modelContext: modelContext)
             let vm = DashboardViewModel(
                 personRepo: personRepo,
                 debtRepo: debtRepo,
-                balanceRepo: balanceRepo
+                balanceRepo: balanceRepo,
+                rateClient: rateClient
             )
             viewModel = vm
             await vm.loadData()
@@ -697,8 +713,4 @@ private struct CurrencyBarChart: View {
     }
 }
 
-// MARK: - Preview
-
-#Preview {
-    NavigationStack { DashboardView() }
-}
+// Preview disabled: requires repository injection.

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B11CBD657337D78AFF1C2FD /* FeatureDebtDetail.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D7D059EA699DA821815DF984 /* FeatureDebtDetail.framework */; };
+		214513285173B84B0633F3B5 /* QuickAddViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923268D3F21B190A5B6DDDE2 /* QuickAddViewModelTests.swift */; };
 		230E0F710B954610E52E46ED /* QuickAddSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F7D1F34A9B8BBCCB8C4D17 /* QuickAddSheet.swift */; };
 		26FB410ACE0BEFA1277EB1F6 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEFD0701DBB68AB660AB472 /* DashboardViewModelTests.swift */; };
 		3130861D0C62EE3529410BE5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C43634E77AF26473D30AE519 /* Data.framework */; };
@@ -108,6 +109,7 @@
 		52B8508BE9646A315573A314 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
 		644C27BD2632AF8797AC0229 /* PeopleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewModel.swift; sourceTree = "<group>"; };
 		6AD14681BE4ED154ECFCC73D /* Observability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		923268D3F21B190A5B6DDDE2 /* QuickAddViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddViewModelTests.swift; sourceTree = "<group>"; };
 		978D72E1B7B8A6E06B66B8FA /* FeatureDashboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FeatureDashboard-Info.plist"; sourceTree = "<group>"; };
 		99DF9330778FA73385C52FB9 /* FeatureDashboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureDashboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,6 +184,7 @@
 			children = (
 				0DEFD0701DBB68AB660AB472 /* DashboardViewModelTests.swift */,
 				CD25E0A26BFD631CDFC2A6E2 /* PeopleListViewModelTests.swift */,
+				923268D3F21B190A5B6DDDE2 /* QuickAddViewModelTests.swift */,
 			);
 			path = FeatureDashboardTests;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 			files = (
 				26FB410ACE0BEFA1277EB1F6 /* DashboardViewModelTests.swift in Sources */,
 				D4391F6681CAC8A122E2EA42 /* PeopleListViewModelTests.swift in Sources */,
+				214513285173B84B0633F3B5 /* QuickAddViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

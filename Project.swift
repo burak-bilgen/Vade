@@ -48,7 +48,6 @@ let appTarget = Target.target(
     dependencies: [
         .external(name: "Core"),
         .external(name: "DesignSystem"),
-        .external(name: "DIContainer"),
         .external(name: "Observability"),
         .external(name: "Domain"),
         .external(name: "Data"),

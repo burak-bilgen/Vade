@@ -1,23 +1,34 @@
 import SwiftUI
-import SwiftData
 import DesignSystem
 import Domain
-import Data
 import Observability
 
 // MARK: - Person Detail View
 
 public struct PersonDetailView: View {
     let person: Person
-    let modelContext: ModelContext
     @State private var viewModel: PersonDetailViewModel?
     @State private var showAddDebt = false
     @State private var selectedDebt: DebtRecord?
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
-    public init(person: Person, modelContext: ModelContext) {
+    private let personRepo: AddPersonUseCase & FetchPersonsUseCase
+    private let debtRepo: FetchDebtsForPersonUseCase & AddDebtUseCase
+    private let balanceRepo: CalculateBalanceUseCase
+    private let paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase
+
+    public init(
+        person: Person,
+        personRepo: AddPersonUseCase & FetchPersonsUseCase,
+        debtRepo: FetchDebtsForPersonUseCase & AddDebtUseCase,
+        balanceRepo: CalculateBalanceUseCase,
+        paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase
+    ) {
         self.person = person
-        self.modelContext = modelContext
+        self.personRepo = personRepo
+        self.debtRepo = debtRepo
+        self.balanceRepo = balanceRepo
+        self.paymentRepo = paymentRepo
     }
 
     @State private var contentAppeared = false
@@ -30,10 +41,6 @@ public struct PersonDetailView: View {
                 ProgressView()
                     .entrance(.fade)
                     .task {
-                        let auditTrail = AuditTrailService(modelContainer: modelContext.container)
-                        let debtRepo = DebtRepository(modelContext: modelContext, auditTrail: auditTrail)
-                        let balanceRepo = BalanceRepository(modelContext: modelContext)
-                        let paymentRepo = PaymentRepository(modelContext: modelContext, auditTrail: auditTrail)
                         let vm = PersonDetailViewModel(
                             person: person,
                             debtRepo: debtRepo,
@@ -665,30 +672,4 @@ private extension String {
     var trimmed: String { trimmingCharacters(in: .whitespacesAndNewlines) }
 }
 
-// MARK: - Preview
-
-#if DEBUG
-private let previewModelContainer: ModelContainer? = {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    do {
-        return try ModelContainer(for: PersonModel.self, DebtRecordModel.self, PaymentModel.self, configurations: config)
-    } catch {
-        print("Failed to create preview ModelContainer: \(error.localizedDescription)")
-        return nil
-    }
-}()
-
-#Preview {
-    NavigationStack {
-        if let container = previewModelContainer {
-            PersonDetailView(
-                person: Person(name: "Ahmet"),
-                modelContext: container.mainContext
-            )
-        } else {
-            Text("Preview container could not be created")
-                .foregroundStyle(ColorTokens.textTertiary)
-        }
-    }
-}
-#endif
+// Preview disabled: requires repository injection.

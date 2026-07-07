@@ -16,7 +16,7 @@ public final class SettingsViewModel {
 
     private let analytics: any AnalyticsTracking
 
-    public init(analytics: any AnalyticsTracking = AnalyticsService()) {
+    public init(analytics: any AnalyticsTracking = AnalyticsService.shared) {
         self.analytics = analytics
         self.isBiometricEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.biometricEnabled)
         self.isAnalyticsEnabled = !UserDefaults.standard.bool(forKey: UserDefaultsKeys.analyticsOptOut)
@@ -33,10 +33,8 @@ public final class SettingsViewModel {
 
     public func setAnalytics(_ enabled: Bool) {
         isAnalyticsEnabled = enabled
+        analytics.setOptOut(!enabled)
         analytics.track(.analyticsOptOut(!enabled))
-        if let service = analytics as? AnalyticsService {
-            service.setOptOut(!enabled)
-        }
         UserDefaults.standard.set(!enabled, forKey: UserDefaultsKeys.analyticsOptOut)
     }
 

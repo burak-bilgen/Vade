@@ -10,12 +10,11 @@ let package = Package(
     dependencies: [
         .package(path: "../Core"),
         .package(path: "../DesignSystem"),
-        .package(path: "../DIContainer"),
         .package(path: "../Domain"),
         .package(path: "../Observability"),
     ],
     targets: [
-        .target(name: "FeatureWidget", dependencies: ["Core", "DesignSystem", "DIContainer", "Domain", "Observability"]),
+        .target(name: "FeatureWidget", dependencies: ["Core", "DesignSystem", "Domain", "Observability"]),
         .testTarget(name: "FeatureWidgetTests", dependencies: ["FeatureWidget"]),
     ]
 )

@@ -3,7 +3,6 @@ import SwiftData
 import DesignSystem
 import Data
 import Core
-import DIContainer
 import Domain
 import Observability
 
@@ -25,16 +24,15 @@ struct VadeApp: App {
     private let screenProtector = ScreenProtector()
     private let notificationService = NotificationService(
         onPermissionRequested: { granted in
-            AnalyticsService().track(.notificationPermission(granted: granted))
+            AnalyticsService.shared.track(.notificationPermission(granted: granted))
         },
         onScheduled: {
-            AnalyticsService().track(.notificationScheduled)
+            AnalyticsService.shared.track(.notificationScheduled)
         }
     )
     private let metricKitService = MetricKitService()
-    @State private var diContainer = Container()
     @State private var containerError: String?
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    @State private var analytics: any AnalyticsTracking = AnalyticsService.shared
     @State private var hasTrackedAppOpen = false
 
     var body: some Scene {
@@ -77,8 +75,6 @@ struct VadeApp: App {
                     }
                 }
                 .task {
-                        FontRegistration.registerAll()
-                        assembleContainer()
                         do {
                             modelContainer = try ModelContainerFactory.create()
                         } catch {
@@ -139,13 +135,6 @@ struct VadeApp: App {
         .background(ColorTokens.background)
     }
 
-    // MARK: - DI Assembly
-
-    private func assembleContainer() {
-        diContainer.registerInstance((any BiometricAuthProviding).self, instance: biometricAuth)
-        diContainer.registerInstance((any ScreenProtecting).self, instance: screenProtector)
-        diContainer.registerInstance((any NotificationScheduling).self, instance: notificationService)
-    }
 }
 
 // MARK: - Preview

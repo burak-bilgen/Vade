@@ -10,13 +10,12 @@ let package = Package(
     dependencies: [
         .package(path: "../Core"),
         .package(path: "../DesignSystem"),
-        .package(path: "../DIContainer"),
         .package(path: "../Domain"),
         .package(path: "../Data"),
         .package(path: "../Observability"),
     ],
     targets: [
-        .target(name: "FeatureDebtDetail", dependencies: ["Core", "DesignSystem", "DIContainer", "Domain", "Data", "Observability"]),
+        .target(name: "FeatureDebtDetail", dependencies: ["Core", "DesignSystem", "Domain", "Observability"]),
         .testTarget(name: "FeatureDebtDetailTests", dependencies: ["FeatureDebtDetail", "Data"]),
     ]
 )

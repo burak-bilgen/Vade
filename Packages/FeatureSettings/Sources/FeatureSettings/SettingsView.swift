@@ -9,8 +9,16 @@ import Observability
 public struct SettingsView: View {
     @State private var viewModel = SettingsViewModel()
     @Environment(LanguageManager.self) private var languageManager
+    private let personRepo: FetchPersonsUseCase
+    private let debtRepo: FetchDebtsForPersonUseCase
 
-    public init() {}
+    public init(
+        personRepo: FetchPersonsUseCase,
+        debtRepo: FetchDebtsForPersonUseCase
+    ) {
+        self.personRepo = personRepo
+        self.debtRepo = debtRepo
+    }
 
     public var body: some View {
         NavigationStack {
@@ -113,7 +121,10 @@ public struct SettingsView: View {
                         iconColor: ColorTokens.negative
                     ) {
                         NavigationLink {
-                            DataManagementView()
+                            DataManagementView(
+                                personRepo: personRepo,
+                                debtRepo: debtRepo
+                            )
                         } label: {
                             SuperSettingsNavRow(
                                 icon: "trash",
@@ -376,8 +387,4 @@ private struct SuperSettingsNavRow: View {
     }
 }
 
-// MARK: - Preview
-
-#Preview {
-    SettingsView()
-}
+// Preview disabled: requires repository injection.

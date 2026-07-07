@@ -28,7 +28,7 @@ public struct ChartDataPoint: Identifiable, Sendable {
 /// Uses LineMark with gradient fill below the line.
 public struct MonthlyTrendChart: View {
     let monthlyData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)]
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     public init(monthlyData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)]) {
         self.monthlyData = monthlyData
@@ -85,7 +85,7 @@ public struct MonthlyTrendChart: View {
                 #endif
             }
         }
-        .onAppear {
+        .task {
             analytics.track(.chartViewed(.netTimeline))
         }
     }
@@ -111,7 +111,7 @@ public struct DebtStatusChart: View {
     let pendingCount: Int
     let paidCount: Int
     let archivedCount: Int
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     public init(pendingCount: Int, paidCount: Int, archivedCount: Int) {
         self.pendingCount = pendingCount
@@ -188,7 +188,7 @@ public struct DebtStatusChart: View {
                 }
             }
         }
-        .onAppear {
+        .task {
             analytics.track(.chartViewed(.receivableVsPayable))
         }
     }
@@ -224,7 +224,7 @@ public struct DebtStatusChart: View {
 /// Shows currency distribution as stacked area chart.
 public struct CurrencyTrendChart: View {
     let distribution: [(kind: CurrencyKind, total: Decimal)]
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     public init(distribution: [(kind: CurrencyKind, total: Decimal)]) {
         self.distribution = distribution
@@ -260,7 +260,7 @@ public struct CurrencyTrendChart: View {
                 #endif
             }
         }
-        .onAppear {
+        .task {
             analytics.track(.chartViewed(.currencyDistribution))
         }
     }
@@ -293,7 +293,7 @@ public struct CurrencyTrendChart: View {
 /// Shows upcoming due dates on a timeline with amounts.
 public struct UpcomingTimelineChart: View {
     let items: [(person: String, amount: Decimal, dueDate: Date)]
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     public init(items: [(person: String, amount: Decimal, dueDate: Date)]) {
         self.items = items
@@ -348,7 +348,7 @@ public struct UpcomingTimelineChart: View {
                 #endif
             }
         }
-        .onAppear {
+        .task {
             analytics.track(.chartViewed(.upcomingTimeline))
         }
     }
@@ -372,7 +372,7 @@ public struct UpcomingTimelineChart: View {
 public struct NetBalanceChart: View {
     let dataPoints: [ChartDataPoint]
     let netBalance: Decimal
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     public init(dataPoints: [ChartDataPoint], netBalance: Decimal) {
         self.dataPoints = dataPoints
@@ -402,7 +402,7 @@ public struct NetBalanceChart: View {
                 .foregroundStyle(ColorTokens.textTertiary)
             #endif
         }
-        .onAppear {
+        .task {
             analytics.track(.chartViewed(.netTimeline))
         }
     }
@@ -413,7 +413,7 @@ public struct NetBalanceChart: View {
 public struct DirectionPieChart: View {
     let receivable: Decimal
     let payable: Decimal
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     public init(receivable: Decimal, payable: Decimal) {
         self.receivable = receivable
@@ -454,7 +454,7 @@ public struct DirectionPieChart: View {
                 .foregroundStyle(ColorTokens.textTertiary)
             #endif
         }
-        .onAppear {
+        .task {
             analytics.track(.chartViewed(.receivableVsPayable))
         }
     }

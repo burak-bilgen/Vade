@@ -16,11 +16,11 @@ public enum DebtStatusFilter: String, CaseIterable, Sendable {
 @MainActor
 @Observable
 public final class PeopleListViewModel {
-    public var persons: [Person] = []
-    public var personBalances: [UUID: Decimal] = [:]
+    public private(set) var persons: [Person] = []
+    public private(set) var personBalances: [UUID: Decimal] = [:]
     public var selectedSegment: PeopleSegment = .receivable
     public var selectedStatusFilter: DebtStatusFilter = .all
-    public var isLoading = false
+    public private(set) var isLoading = false
     /// Maps person ID to the set of debt statuses they have.
     public private(set) var personDebtStatuses: [UUID: Set<DebtStatus>] = [:]
 
@@ -33,7 +33,7 @@ public final class PeopleListViewModel {
         personRepo: AddPersonUseCase & FetchPersonsUseCase,
         balanceRepo: CalculateBalanceUseCase,
         debtRepo: FetchDebtsForPersonUseCase,
-        analytics: any AnalyticsTracking = AnalyticsService()
+        analytics: any AnalyticsTracking = AnalyticsService.shared
     ) {
         self.personRepo = personRepo
         self.balanceRepo = balanceRepo

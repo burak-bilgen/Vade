@@ -8,9 +8,9 @@ import Observability
 @MainActor
 @Observable
 public final class PersonDetailViewModel {
-    public var debts: [DebtRecord] = []
-    public var balance: Decimal = .zero
-    public var isLoading = false
+    public private(set) var debts: [DebtRecord] = []
+    public private(set) var balance: Decimal = .zero
+    public private(set) var isLoading = false
 
     let person: Person
     private let debtRepo: AddDebtUseCase & FetchDebtsForPersonUseCase
@@ -24,7 +24,7 @@ public final class PersonDetailViewModel {
         debtRepo: AddDebtUseCase & FetchDebtsForPersonUseCase,
         balanceRepo: CalculateBalanceUseCase,
         paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase,
-        analytics: any AnalyticsTracking = AnalyticsService(),
+        analytics: any AnalyticsTracking = AnalyticsService.shared,
         notificationService: NotificationScheduling? = nil
     ) {
         self.person = person

@@ -72,7 +72,7 @@ public struct VadeTimelineProvider: TimelineProvider {
         // Track widget added once (first time timeline is requested after install)
         let hasTrackedWidget = defaults?.bool(forKey: UserDefaultsKeys.widgetHasTrackedAdded) ?? false
         if !hasTrackedWidget {
-            let analytics: any AnalyticsTracking = AnalyticsService()
+            let analytics: any AnalyticsTracking = AnalyticsService.shared
             analytics.track(.widgetAdded)
             defaults?.set(true, forKey: UserDefaultsKeys.widgetHasTrackedAdded)
         }

@@ -1,21 +1,32 @@
 import SwiftUI
-import SwiftData
 import DesignSystem
 import Domain
-import Data
-import FeatureDebtDetail
+import Core
 import Observability
 
-// MARK: - People List
-
+// Preview disabled: requires repository injection.
 public struct PeopleListView: View {
-    @Environment(\.modelContext) private var modelContext
     @State private var viewModel: PeopleListViewModel?
     @State private var showAdd = false
     @State private var searchText = ""
-    @State private var analytics: any AnalyticsTracking = AnalyticsService()
+    private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
-    public init() {}
+    private let personRepo: AddPersonUseCase & FetchPersonsUseCase
+    private let debtRepo: FetchDebtsForPersonUseCase
+    private let balanceRepo: CalculateBalanceUseCase
+    private let paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase
+
+    public init(
+        personRepo: AddPersonUseCase & FetchPersonsUseCase,
+        debtRepo: FetchDebtsForPersonUseCase,
+        balanceRepo: CalculateBalanceUseCase,
+        paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase
+    ) {
+        self.personRepo = personRepo
+        self.debtRepo = debtRepo
+        self.balanceRepo = balanceRepo
+        self.paymentRepo = paymentRepo
+    }
 
     public var body: some View {
         Group {
@@ -25,9 +36,6 @@ public struct PeopleListView: View {
                 ProgressView()
                     .entrance(.fade)
                     .task {
-                        let personRepo = PersonRepository(modelContext: modelContext)
-                        let debtRepo = DebtRepository(modelContext: modelContext)
-                        let balanceRepo = BalanceRepository(modelContext: modelContext)
                         let vm = PeopleListViewModel(
                             personRepo: personRepo,
                             balanceRepo: balanceRepo,
@@ -149,9 +157,7 @@ public struct PeopleListView: View {
                 ScrollView {
                     LazyVStack(spacing: Spacing.s) {
                         ForEach(Array(filtered.enumerated()), id: \.element.id) { i, item in
-                            NavigationLink {
-                                PersonDetailView(person: item.person, modelContext: modelContext)
-                            } label: {
+                            NavigationLink(value: item.person) {
                                 PersonCard(person: item.person, balance: item.balance)
                                     .entrance(.leading, delay: Double(i) * 0.04, duration: 0.35)
                             }
@@ -474,7 +480,4 @@ private extension String {
 }
 
 // MARK: - Preview
-
-#Preview {
-    NavigationStack { PeopleListView() }
-}
+// Preview disabled: requires repository injection.

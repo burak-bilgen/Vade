@@ -1,10 +1,7 @@
 import SwiftUI
-import SwiftData
-import Core
 import DesignSystem
 import Domain
-import Data
-import Observability
+import Core
 
 // MARK: - Quick Add ViewModel
 
@@ -26,7 +23,7 @@ final class QuickAddViewModel {
     init(
         personRepo: AddPersonUseCase,
         debtRepo: AddDebtUseCase,
-        analytics: any AnalyticsTracking = AnalyticsService(),
+        analytics: any AnalyticsTracking = AnalyticsService.shared,
         onDone: @escaping () async -> Void
     ) {
         self.personRepo = personRepo
@@ -53,7 +50,7 @@ final class QuickAddViewModel {
 
             var rounded = Decimal()
             NSDecimalRound(&rounded, &amt, 2, .plain)
-            try await debtRepo.execute(
+            _ = try await debtRepo.execute(
                 personID: person.id,
                 amount: rounded,
                 kind: kind,
@@ -78,8 +75,9 @@ final class QuickAddViewModel {
 
 struct QuickAddSheet: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var modelContext
     @State private var viewModel: QuickAddViewModel?
+    let personRepo: AddPersonUseCase
+    let debtRepo: AddDebtUseCase
     let onDone: () async -> Void
 
     var body: some View {
@@ -89,8 +87,6 @@ struct QuickAddSheet: View {
             }
         }
         .onAppear {
-            let personRepo = PersonRepository(modelContext: modelContext)
-            let debtRepo = DebtRepository(modelContext: modelContext, auditTrail: AuditTrailService(modelContainer: modelContext.container))
             viewModel = QuickAddViewModel(
                 personRepo: personRepo,
                 debtRepo: debtRepo,

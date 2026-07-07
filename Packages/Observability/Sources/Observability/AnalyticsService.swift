@@ -10,7 +10,9 @@ public final class AnalyticsService: AnalyticsTracking {
         set { _isOptedOut.withLock { $0 = newValue } }
     }
 
-    public init() {}
+    public static let shared = AnalyticsService()
+
+    init() {}
 
     public func track(_ event: AnalyticsEvent) {
         guard !isOptedOut else { return }
