@@ -14,10 +14,12 @@
 		3B0377A2FE92AD1C908FDC5B /* FontRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FF1C842A0237A81ED5C9BC /* FontRegistration.swift */; };
 		6A9D0C3784F739E22DC53C14 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */; };
 		6E30040213E536E7C5004075 /* TokensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2CCEE965F2AE9E7CAD2013 /* TokensTests.swift */; };
+		6EEA427265CD73681BDCEB05 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30515E4D13C45C3C1A50B0E6 /* Domain.framework */; };
 		7F0DF8C4F949FB311F64FDE2 /* Colors.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 4C37D51C82A32317752FAF22 /* Colors.xcassets */; };
 		910A3122AA69D00EBCDBD697 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECDED58FD5958F9EBB487DF /* HapticFeedback.swift */; };
 		9610AD45FE79B3826240A265 /* SummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A4725BC33F2ADC6622422B /* SummaryCard.swift */; };
 		9E6060CCA543D6E1DC5F39E9 /* LedgerRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EEC35F002D4D44977582DC /* LedgerRowView.swift */; };
+		A681C6E6CA944CF15BA4B91E /* Domain.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 30515E4D13C45C3C1A50B0E6 /* Domain.framework */; };
 		AD0B1C42D4A0DE65B8C6D62F /* UndoToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744480E9B8CC84363B424352 /* UndoToastView.swift */; };
 		B6C4F5740BAAB8B2A22C4DCF /* PillButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */; };
 		C438E92FA9121880084AE9AA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B7BBEAD5472C7195924AC8 /* DesignSystem.framework */; };
@@ -55,6 +57,7 @@
 			dstSubfolderSpec = 16;
 			files = (
 				38EEC3BF7BC870F37E3A7F19 /* Core.framework in Dependencies */,
+				A681C6E6CA944CF15BA4B91E /* Domain.framework in Dependencies */,
 			);
 			name = Dependencies;
 			runOnlyForDeploymentPostprocessing = 1;
@@ -103,6 +106,7 @@
 
 /* Begin PBXFileReference section */
 		0555BF632E32CCE62C1F4E54 /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
+		30515E4D13C45C3C1A50B0E6 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		357162DA0532AB5A40FBBB19 /* ModernComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernComponents.swift; sourceTree = "<group>"; };
 		36900712A6F87E70FEC776EF /* StatChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatChip.swift; sourceTree = "<group>"; };
 		42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystem_DesignSystem.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +152,7 @@
 			files = (
 				F3852BD4417863B30E30C628 /* Core.framework in Frameworks */,
 				C438E92FA9121880084AE9AA /* DesignSystem.framework in Frameworks */,
+				6EEA427265CD73681BDCEB05 /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +192,7 @@
 				42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */,
 				69B7BBEAD5472C7195924AC8 /* DesignSystem.framework */,
 				ECAFBD3892447294C1342932 /* DesignSystemTests.xctest */,
+				30515E4D13C45C3C1A50B0E6 /* Domain.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";

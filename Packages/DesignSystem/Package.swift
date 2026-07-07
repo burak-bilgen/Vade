@@ -9,11 +9,12 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Core"),
+        .package(path: "../Domain"),
     ],
     targets: [
         .target(
             name: "DesignSystem",
-            dependencies: ["Core"],
+            dependencies: ["Core", "Domain"],
             path: "Sources/DesignSystem",
             resources: []
         ),
