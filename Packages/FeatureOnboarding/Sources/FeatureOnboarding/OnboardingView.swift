@@ -38,7 +38,9 @@ public struct OnboardingView: View {
 
     public var body: some View {
         ZStack {
-            ColorTokens.background.ignoresSafeArea()
+            ChartWaveBackground()
+                .ignoresSafeArea()
+            ColorTokens.background.opacity(0.92).ignoresSafeArea()
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -121,27 +123,26 @@ public struct OnboardingView: View {
     }
 
     private var logoSection: some View {
-        VStack(spacing: Spacing.xs) {
-            Image("logo", bundle: .main)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 72, height: 72)
-                .scaleEffect(appear ? 1 : 0.85)
-                .opacity(appear ? 1 : 0)
-                .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.05), value: appear)
-
+        VStack(spacing: Spacing.xxs) {
             Text(String(localized: "app.name"))
-                .font(Typography.font(for: .title))
-                .foregroundStyle(ColorTokens.textPrimary)
+                .font(.custom(AppFont.jakartaBold, size: 48))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [ColorTokens.textPrimary, ColorTokens.accent],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .tracking(-0.5)
                 .opacity(appear ? 1 : 0)
-                .offset(y: appear ? 0 : 10)
-                .animation(.easeOut(duration: 0.5).delay(0.15), value: appear)
+                .offset(y: appear ? 0 : 15)
+                .animation(.easeOut(duration: 0.6).delay(0.12), value: appear)
 
             Text(String(localized: "app.subtitle"))
-                .font(Typography.font(for: .caption))
-                .foregroundStyle(ColorTokens.textTertiary)
+                .font(Typography.font(for: .bodyEmphasisItalic))
+                .foregroundStyle(ColorTokens.accent.opacity(0.7))
                 .opacity(appear ? 1 : 0)
-                .offset(y: appear ? 0 : 8)
+                .offset(y: appear ? 0 : 10)
                 .animation(.easeOut(duration: 0.5).delay(0.2), value: appear)
         }
     }
@@ -284,6 +285,40 @@ private struct FeatureCard: View {
                 .delay(0.3 + Double(index) * 0.1),
             value: isVisible
         )
+    }
+}
+
+// MARK: - Animated Chart Wave Background
+
+private struct ChartWaveBackground: View {
+    @State private var phase: CGFloat = 0
+
+    var body: some View {
+        TimelineView(.animation(paused: false)) { timeline in
+            let x = timeline.date.timeIntervalSinceReferenceDate
+            Canvas { context, size in
+                let w = size.width
+                let h = size.height
+                let phases: [CGFloat] = [0, 1.2, 2.5]
+                let opacities: [Double] = [0.08, 0.05, 0.04]
+                let colors: [Color] = [ColorTokens.chartBlue, ColorTokens.chartTeal, ColorTokens.chartPurple]
+
+                for (i, offset) in phases.enumerated() {
+                    var path = Path()
+                    path.move(to: CGPoint(x: 0, y: h * 0.6))
+                    for seg in 0...Int(w / 2) {
+                        let px = CGFloat(seg) * 2
+                        let angle = (px / w) * .pi * 4 + CGFloat(x * 0.4) + offset
+                        let py = h * 0.35 + sin(angle) * h * 0.06 + sin(angle * 1.6) * h * 0.03
+                        path.addLine(to: CGPoint(x: px, y: py))
+                    }
+                    path.addLine(to: CGPoint(x: w, y: h))
+                    path.addLine(to: CGPoint(x: 0, y: h))
+                    path.closeSubpath()
+                    context.fill(path, with: .color(colors[i].opacity(opacities[i])))
+                }
+            }
+        }
     }
 }
 

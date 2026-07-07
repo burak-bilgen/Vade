@@ -34,6 +34,7 @@ public struct CoordinatorRootView: View {
                     }
                     AnalyticsService.shared.track(.onboardingCompleted)
                 }
+                .id(languageManager.languageCode)
                 .transition(.opacity.animation(.easeInOut(duration: 0.5)))
             }
         }
