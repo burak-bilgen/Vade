@@ -103,11 +103,11 @@ public struct FinanceBackgroundAnimation: View {
         return CurrencyParticle(
             symbol: symbols.randomElement() ?? "$",
             position: CGPoint(x: x, y: y),
-            scale: CGFloat.random(in: 0.6...1.2),
-            rotation: Double.random(in: 0...360),
-            opacity: Double.random(in: 0.05...0.25),
-            speedY: CGFloat.random(in: -1.2...-0.4),
-            speedX: CGFloat.random(in: -0.3...0.3)
+            scale: CGFloat.random(in: 0.6 ... 1.2),
+            rotation: Double.random(in: 0 ... 360),
+            opacity: Double.random(in: 0.05 ... 0.25),
+            speedY: CGFloat.random(in: -1.2 ... -0.4),
+            speedX: CGFloat.random(in: -0.3 ... 0.3)
         )
     }
     
