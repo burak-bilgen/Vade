@@ -25,6 +25,8 @@ private final class MockRateProvider: ExchangeRateProviding, @unchecked Sendable
         return goldRate
     }
 
+    func fetchAllRates() async throws -> [(code: String, rate: Decimal)] { [] }
+
     func lastUpdateDate() async -> Date? { Date() }
 }
 

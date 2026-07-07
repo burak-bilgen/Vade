@@ -6,6 +6,7 @@ import Core
 public protocol ExchangeRateProviding: Sendable {
     func fetchRate(for currency: String) async throws -> Decimal?
     func fetchGoldRatePerGram() async throws -> Decimal?
+    func fetchAllRates() async throws -> [(code: String, rate: Decimal)]
     func lastUpdateDate() async -> Date?
 }
 
@@ -40,6 +41,8 @@ public actor RatesCache {
         rates.removeAll()
         lastUpdated = nil
     }
+
+    public func getAllRates() -> [String: Decimal] { rates }
 }
 
 // MARK: - TCMB XML Parser
@@ -186,6 +189,16 @@ public final class ExchangeRateClient: ExchangeRateProviding {
         }
 
         return try await fetchAndCacheGoldRate()
+    }
+
+    public func fetchAllRates() async throws -> [(code: String, rate: Decimal)] {
+        // Ensure cache is fresh
+        if await cache.isStale(validityInterval: cacheValidityInterval) {
+            _ = try await fetchAndCacheTCMBRates(for: "USD")
+        }
+        let allRates = await cache.getAllRates()
+        return allRates.map { (code: $0.key, rate: $0.value) }
+            .sorted { $0.code < $1.code }
     }
 
     public func lastUpdateDate() async -> Date? {

@@ -1,6 +1,7 @@
 import Foundation
 import Testing
 @testable import Networking
+import Core
 
 @Suite("RatesCache Actor")
 struct RatesCacheTests {
@@ -121,10 +122,12 @@ struct TCMBParserTests {
 @Suite("Gold Rate Parser")
 struct GoldRateParserTests {
 
-    @Test("Parses valid gold rate JSON from genelpara.com")
+    @Test("Parses valid gold rate JSON from truncgil.com")
     func testParseGoldRate() throws {
+        // Parser expects the truncgil format: { "gram-altin": { "Selling": "...," } }
+        // Turkish locale: comma is decimal separator
         let json = """
-        {"GA": {"alis": "3450.12", "satis": "3455.67"}}
+        {"gram-altin": {"Selling": "3455,67"}}
         """
         let data = Data(json.utf8)
         let rate = try TCMBParser.parseGoldRate(from: data)
