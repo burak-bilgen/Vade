@@ -64,8 +64,26 @@ tuist generate
 open Vade.xcworkspace
 ```
 
-## License
-All rights reserved. Source code is a professional portfolio project.
+## Testing & Code Coverage
+Vade uses Swift Testing framework for logic/integration verification and a custom, lightweight, native Swift snapshot testing utility for visual assurance.
+
+### Code Coverage Summary
+Core logic and calculations have high code coverage:
+- **Observability.framework** : `100.00%` (37/37 lines)
+- **Networking.framework**    : `88.52%` (185/209 lines)
+- **Domain.framework**        : `86.44%` (102/118 lines)
+- **Data.framework**          : `63.11%` (260/412 lines)
+
+*Note: UI and view-layout targets (e.g. `FeatureSettings`, `FeatureDashboard`) have lower logic coverage because their layouts are fully validated using **Visual Snapshot Tests** instead of logic unit tests.*
+
+### Test Suite Structure
+1. **Unit & Logic Tests**:
+   - Parameterized, asynchronous tests for kural calculations (`CurrencyConverter`, `TCMB XML Parser`, `RatesCache`).
+   - Business calculations (`InstallmentCalculator`, `Balance Calculations`, `Payment Recording`).
+2. **SwiftData / Integration Tests**:
+   - `BalanceRepositoryTests` verifies multi-currency conversion, partial payments, and net balance aggregation across multiple currencies with an in-memory SwiftData container.
+3. **Visual Snapshot Tests**:
+   - Native, dependency-free `ViewSnapshotter` renders SwiftUI views (e.g., `ActionPill`, `StatCard`, `GlassCard`) using `ImageRenderer` at `@2x` retina scale and asserts byte-by-byte visual equality against recorded reference PNGs.
 
 ## Documentation
 - [ADR-001: MVVM-C Architecture](docs/adr/001-mvvm-c-architecture.md)
@@ -75,3 +93,6 @@ All rights reserved. Source code is a professional portfolio project.
 - [ADR-005: Liquid Glass Adoption](docs/adr/005-liquid-glass-adoption.md)
 - [ADR-006: Firebase Analytics Event Whitelist](docs/adr/006-firebase-analytics-event-whitelist.md)
 - [ADR-007: App Name "Vade"](docs/adr/007-app-name-vade.md)
+
+## License
+All rights reserved. Source code is a professional portfolio project.
