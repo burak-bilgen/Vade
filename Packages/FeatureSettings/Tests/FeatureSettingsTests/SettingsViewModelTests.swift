@@ -4,6 +4,7 @@ import Testing
 import SwiftUI
 import Core
 
+@MainActor
 @Suite("FeatureSettings")
 struct FeatureSettingsTests {
 

@@ -12,6 +12,7 @@
 		21D52688B2F4838C3355F291 /* ViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F970029B11D489FEE216B6 /* ViewAnimation.swift */; };
 		38EEC3BF7BC870F37E3A7F19 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D3D3E20D4CF49B640DF83248 /* Core.framework */; };
 		3B0377A2FE92AD1C908FDC5B /* FontRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FF1C842A0237A81ED5C9BC /* FontRegistration.swift */; };
+		46C3F56FCC30E8113AC3803B /* DesignSystemSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8254AF30B19721869068B559 /* DesignSystemSnapshotTests.swift */; };
 		6A9D0C3784F739E22DC53C14 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42D7C40704F4FCBCDB855667 /* DesignSystem_DesignSystem.bundle */; };
 		6E30040213E536E7C5004075 /* TokensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2CCEE965F2AE9E7CAD2013 /* TokensTests.swift */; };
 		6EEA427265CD73681BDCEB05 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30515E4D13C45C3C1A50B0E6 /* Domain.framework */; };
@@ -120,6 +121,7 @@
 		6F1EF0EFB08BA33717F6C0FB /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		744480E9B8CC84363B424352 /* UndoToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoToastView.swift; sourceTree = "<group>"; };
 		808624752B73C50D44BB3D1C /* FinanceBackgroundAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceBackgroundAnimation.swift; sourceTree = "<group>"; };
+		8254AF30B19721869068B559 /* DesignSystemSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemSnapshotTests.swift; sourceTree = "<group>"; };
 		8937FA9427EEA938B58C5B3E /* DesignSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystem-Info.plist"; sourceTree = "<group>"; };
 		BE4AD9735556ECA8C8008FEC /* TuistBundle+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+DesignSystem.swift"; sourceTree = "<group>"; };
 		C776F60272D9D5B4D248FBBA /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 		8998B14D3B35302DD1CE0162 /* DesignSystemTests */ = {
 			isa = PBXGroup;
 			children = (
+				8254AF30B19721869068B559 /* DesignSystemSnapshotTests.swift */,
 				EB2CCEE965F2AE9E7CAD2013 /* TokensTests.swift */,
 			);
 			path = DesignSystemTests;
@@ -431,6 +434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46C3F56FCC30E8113AC3803B /* DesignSystemSnapshotTests.swift in Sources */,
 				6E30040213E536E7C5004075 /* TokensTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -63,6 +63,28 @@ public struct ChartsHostView: View {
     }
 
     public var body: some View {
+        ZStack {
+            FinanceBackgroundAnimation()
+                .ignoresSafeArea()
+            ColorTokens.background.opacity(0.12).ignoresSafeArea()
+
+            if !hasData {
+                ChartsSkeleton()
+                    .entrance(.fade)
+            } else {
+                content
+            }
+        }
+        .navigationTitle("dashboard.viewStatistics")
+        .task {
+            await loadRateStaleness()
+            withAnimation(.easeOut(duration: 0.4)) { hasData = true }
+        }
+    }
+
+    @State private var hasData = false
+
+    private var content: some View {
         ScrollView {
             VStack(spacing: Spacing.xl) {
                 // Quick stats header
@@ -70,11 +92,11 @@ public struct ChartsHostView: View {
 
                 // Section picker
                 Picker("", selection: $selectedChartType) {
-                    Text(String(localized: "charts.section.overview")).tag(ChartSection.overview)
-                    Text(String(localized: "charts.section.trends")).tag(ChartSection.trends)
-                    Text(String(localized: "charts.section.distribution")).tag(ChartSection.distribution)
-                    Text(String(localized: "charts.section.people")).tag(ChartSection.people)
-                    Text(String(localized: "charts.section.upcoming")).tag(ChartSection.upcoming)
+                    Text("charts.section.overview").tag(ChartSection.overview)
+                    Text("charts.section.trends").tag(ChartSection.trends)
+                    Text("charts.section.distribution").tag(ChartSection.distribution)
+                    Text("charts.section.people").tag(ChartSection.people)
+                    Text("charts.section.upcoming").tag(ChartSection.upcoming)
                 }
                 .pickerStyle(.segmented)
                 .tint(ColorTokens.accent)
@@ -96,11 +118,7 @@ public struct ChartsHostView: View {
             .padding(.horizontal, Spacing.l)
             .padding(.vertical, Spacing.l)
         }
-        .background(ColorTokens.background)
-        .navigationTitle(String(localized: "dashboard.viewStatistics"))
-        .task {
-            await loadRateStaleness()
-        }
+
     }
 
     // MARK: - Quick Stats Grid
@@ -108,25 +126,25 @@ public struct ChartsHostView: View {
     private var quickStatsGrid: some View {
         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: Spacing.m) {
             StatTile(
-                title: String(localized: "dashboard.summary.totalReceivable"),
+                title: "dashboard.summary.totalReceivable",
                 value: totalReceivable.formatted(),
                 color: ColorTokens.positive,
                 icon: "arrow.down.left"
             )
             StatTile(
-                title: String(localized: "dashboard.summary.totalPayable"),
+                title: "dashboard.summary.totalPayable",
                 value: totalPayable.formatted(),
                 color: ColorTokens.negative,
                 icon: "arrow.up.right"
             )
             StatTile(
-                title: String(localized: "charts.netBalance.short"),
+                title: "charts.netBalance.short",
                 value: netBalance.formatted(),
                 color: netBalance >= 0 ? ColorTokens.positive : ColorTokens.negative,
                 icon: "equal"
             )
             StatTile(
-                title: String(localized: "charts.status.total"),
+                title: "charts.status.total",
                 value: "\(personCount)",
                 color: ColorTokens.accent,
                 icon: "person.2"
@@ -318,6 +336,38 @@ private struct StatTile: View {
             RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
                 .stroke(ColorTokens.border, lineWidth: 0.5)
         )
+    }
+}
+
+// MARK: - Charts Loading Skeleton
+
+private struct ChartsSkeleton: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: Spacing.xl) {
+                // Stats grid skeleton
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: Spacing.m) {
+                    ForEach(0..<4, id: \.self) { _ in
+                        SkeletonCard(lines: 1)
+                            .frame(height: 64)
+                    }
+                }
+                .padding(.horizontal, Spacing.l)
+
+                // Section picker skeleton
+                ShimmerView(cornerRadius: Radius.md)
+                    .frame(height: 36)
+                    .padding(.horizontal, Spacing.l)
+
+                // Chart card skeletons
+                ForEach(0..<3, id: \.self) { _ in
+                    SkeletonCard(lines: 4)
+                        .frame(height: 220)
+                        .padding(.horizontal, Spacing.l)
+                }
+            }
+            .padding(.vertical, Spacing.l)
+        }
     }
 }
 

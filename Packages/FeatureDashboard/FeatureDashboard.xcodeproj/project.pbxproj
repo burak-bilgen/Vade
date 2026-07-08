@@ -28,6 +28,7 @@
 		D4391F6681CAC8A122E2EA42 /* PeopleListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25E0A26BFD631CDFC2A6E2 /* PeopleListViewModelTests.swift */; };
 		D5DE0F152E0D77038FDBBD00 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9B23AAFAC93BAFDC9C8370A /* Domain.framework */; };
 		D6BA2AD0BC3D852A416ED538 /* FeatureDashboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99DF9330778FA73385C52FB9 /* FeatureDashboard.framework */; };
+		D8B8730ABF0C42B095A6A0A1 /* DebtPayoffAssistantSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1C63B911DEE249B6517740 /* DebtPayoffAssistantSheet.swift */; };
 		D95AA16B400515F8B03B9F98 /* Observability.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 6AD14681BE4ED154ECFCC73D /* Observability.framework */; };
 		DDBB307ADC14E66FC1183598 /* DesignSystem_DesignSystem.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9A4C79DC007E66F8224EA56D /* DesignSystem_DesignSystem.bundle */; };
 		DDCDCF3E075857B3F8DE1426 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 1D54F422C503F06B7F1BBD38 /* Core.framework */; };
@@ -109,6 +110,7 @@
 		BD69F1700C18C321512CE6CB /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		C43634E77AF26473D30AE519 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C757ABE3899189A499E67D5D /* RatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesView.swift; sourceTree = "<group>"; };
+		CB1C63B911DEE249B6517740 /* DebtPayoffAssistantSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtPayoffAssistantSheet.swift; sourceTree = "<group>"; };
 		CD25E0A26BFD631CDFC2A6E2 /* PeopleListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewModelTests.swift; sourceTree = "<group>"; };
 		DEC5CADB6B7241646A08EB52 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		E2990D3F30640390748ECC08 /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,6 +227,7 @@
 				52B8508BE9646A315573A314 /* ChartsView.swift */,
 				BD69F1700C18C321512CE6CB /* DashboardView.swift */,
 				DEC5CADB6B7241646A08EB52 /* DashboardViewModel.swift */,
+				CB1C63B911DEE249B6517740 /* DebtPayoffAssistantSheet.swift */,
 				097AC04B229D832E93F7D61A /* PeopleListView.swift */,
 				644C27BD2632AF8797AC0229 /* PeopleListViewModel.swift */,
 				12F7D1F34A9B8BBCCB8C4D17 /* QuickAddSheet.swift */,
@@ -336,6 +339,7 @@
 				C42B08A37E5355A39625B3BF /* ChartsView.swift in Sources */,
 				4580AC4F8EAF232A11C9F679 /* DashboardView.swift in Sources */,
 				462FE9B8BE5685FECD40DE60 /* DashboardViewModel.swift in Sources */,
+				D8B8730ABF0C42B095A6A0A1 /* DebtPayoffAssistantSheet.swift in Sources */,
 				9509A9AB675A0345381730C3 /* PeopleListView.swift in Sources */,
 				8ECA489F1DDABB4B4774ED8E /* PeopleListViewModel.swift in Sources */,
 				230E0F710B954610E52E46ED /* QuickAddSheet.swift in Sources */,

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07E8A70DA62E78FCEE5873DF /* BalanceRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1415E295A979378FEC4860 /* BalanceRepositoryTests.swift */; };
 		16C52862A139490D7BF7C485 /* ModelContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D33ACAFD17F3085AC8D623 /* ModelContainerTests.swift */; };
 		21973637BDF453E3CE5420C7 /* RepositoryImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3A5BEB54DAA6ED0B2325F9 /* RepositoryImplementations.swift */; };
 		4196AC73C8ABBF529103C4C2 /* Domain.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = 06FAA1459D11CCE724C34195 /* Domain.framework */; };
@@ -70,6 +71,7 @@
 		4E75197C294DE74F5162FAA7 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50F07D3D39F487CD54CA15BF /* ModelContainerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContainerFactory.swift; sourceTree = "<group>"; };
 		5E3A5BEB54DAA6ED0B2325F9 /* RepositoryImplementations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryImplementations.swift; sourceTree = "<group>"; };
+		8B1415E295A979378FEC4860 /* BalanceRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceRepositoryTests.swift; sourceTree = "<group>"; };
 		8F8F2D8535167882EE6052BF /* DataTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DataTests-Info.plist"; sourceTree = "<group>"; };
 		C3BFC27B6D2FD06522191692 /* AuditTrailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditTrailService.swift; sourceTree = "<group>"; };
 		C487F5D2277BCC8A01F51AE0 /* DataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +176,7 @@
 		F502CC674EF16DAA0158E6E0 /* DataTests */ = {
 			isa = PBXGroup;
 			children = (
+				8B1415E295A979378FEC4860 /* BalanceRepositoryTests.swift */,
 				29D33ACAFD17F3085AC8D623 /* ModelContainerTests.swift */,
 			);
 			path = DataTests;
@@ -287,6 +290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07E8A70DA62E78FCEE5873DF /* BalanceRepositoryTests.swift in Sources */,
 				16C52862A139490D7BF7C485 /* ModelContainerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
