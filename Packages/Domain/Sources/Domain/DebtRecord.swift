@@ -33,15 +33,31 @@ public enum CurrencyKind: String, CaseIterable, Sendable, Codable {
 
     /// Display label for gold subtypes. Fiat uses currency symbol (₺, $, €).
     public var label: String {
+        localizedLabel(locale: .current)
+    }
+
+    /// Display label for gold subtypes for a specific locale.
+    public func localizedLabel(locale: Locale) -> String {
         switch self {
         case .tryCoin: return "\u{20BA}"
         case .usd: return "$"
         case .eur: return "\u{20AC}"
-        case .goldGram: return String(localized: "currency.gold.gram")
-        case .goldQuarter: return String(localized: "currency.gold.quarter")
-        case .goldHalf: return String(localized: "currency.gold.half")
-        case .goldFull: return String(localized: "currency.gold.full")
-        case .goldRepublic: return String(localized: "currency.gold.republic")
+        case .goldGram: return String(localized: "currency.gold.gram", locale: locale)
+        case .goldQuarter: return String(localized: "currency.gold.quarter", locale: locale)
+        case .goldHalf: return String(localized: "currency.gold.half", locale: locale)
+        case .goldFull: return String(localized: "currency.gold.full", locale: locale)
+        case .goldRepublic: return String(localized: "currency.gold.republic", locale: locale)
+        }
+    }
+
+    /// Format amount with currency label: "₺1.500,00" or "5,25 gr"
+    public func format(_ amount: Decimal, locale: Locale = .current) -> String {
+        let number = amount.formatted(.number.locale(locale))
+        switch self {
+        case .tryCoin, .usd, .eur:
+            return "\(localizedLabel(locale: locale))\(number)"
+        case .goldGram, .goldQuarter, .goldHalf, .goldFull, .goldRepublic:
+            return "\(number) \(localizedLabel(locale: locale))"
         }
     }
 
@@ -53,16 +69,6 @@ public enum CurrencyKind: String, CaseIterable, Sendable, Codable {
         }
     }
 
-    /// Format amount with currency label: "₺1.500,00" or "5,25 gr"
-    public func format(_ amount: Decimal) -> String {
-        let number = amount.formatted()
-        switch self {
-        case .tryCoin, .usd, .eur:
-            return "\(label)\(number)"
-        case .goldGram, .goldQuarter, .goldHalf, .goldFull, .goldRepublic:
-            return "\(number) \(label)"
-        }
-    }
 
     /// Gram equivalent for gold subtypes. Fiat currencies return 1.
     /// Values: Quarter=1.75g, Half=3.5g, Full=7g, Republic=7.216g, Gram=1g.

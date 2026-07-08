@@ -25,7 +25,6 @@ public struct CoordinatorRootView: View {
             ColorTokens.background
             if onboardingDone {
                 MainTabView(modelContext: modelContext)
-                    .id(languageManager.languageCode)
                     .transition(.opacity.animation(.easeInOut(duration: 0.5)))
             } else {
                 OnboardingView {
@@ -34,7 +33,6 @@ public struct CoordinatorRootView: View {
                     }
                     AnalyticsService.shared.track(.onboardingCompleted)
                 }
-                .id(languageManager.languageCode)
                 .transition(.opacity.animation(.easeInOut(duration: 0.5)))
             }
         }
@@ -46,18 +44,19 @@ public struct CoordinatorRootView: View {
 
 private struct MainTabView: View {
     let modelContext: ModelContext
+    @Environment(LanguageManager.self) private var languageManager
 
     var body: some View {
+        let _ = languageManager.languageCode // Observe language updates to refresh Tab labels
         let auditTrail = AuditTrailService(modelContainer: modelContext.container)
         let personRepo = PersonRepository(modelContext: modelContext)
         let debtRepo = DebtRepository(modelContext: modelContext, auditTrail: auditTrail)
-        let balanceRepo = BalanceRepository(modelContext: modelContext)
-        let paymentRepo = PaymentRepository(modelContext: modelContext, auditTrail: auditTrail)
         let rateClient = ExchangeRateClient()
-        let contactsService = ContactsService()
-
+        let converter = CurrencyConverter(rateProvider: rateClient)
+        let balanceRepo = BalanceRepository(modelContext: modelContext, converter: converter)
+        let paymentRepo = PaymentRepository(modelContext: modelContext, auditTrail: auditTrail)
         TabView {
-            Tab(String(localized: "tab.dashboard"), systemImage: "house") {
+            Tab(languageManager.localized("tab.dashboard"), systemImage: "house") {
                 NavigationStack {
                     DashboardView(
                         personRepo: personRepo,
@@ -70,14 +69,13 @@ private struct MainTabView: View {
                 }
                 .tint(ColorTokens.accent)
             }
-            Tab(String(localized: "tab.people"), systemImage: "person.2") {
+            Tab(languageManager.localized("tab.people"), systemImage: "person.2") {
                 NavigationStack {
                     PeopleListView(
                         personRepo: personRepo,
                         debtRepo: debtRepo,
                         balanceRepo: balanceRepo,
-                        paymentRepo: paymentRepo,
-                        contactsService: contactsService
+                        paymentRepo: paymentRepo
                     )
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationDestination(for: Person.self) { person in
@@ -92,7 +90,7 @@ private struct MainTabView: View {
                 }
                 .tint(ColorTokens.accent)
             }
-            Tab(String(localized: "tab.settings"), systemImage: "gearshape") {
+            Tab(languageManager.localized("tab.settings"), systemImage: "gearshape") {
                 NavigationStack {
                     SettingsView(
                         personRepo: personRepo,

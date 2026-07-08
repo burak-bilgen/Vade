@@ -3,37 +3,59 @@ import Observation
 
 // MARK: - Language Manager
 
-/// Manages the app's language selection and notifies observers of changes.
-/// When the language changes, the view tree is invalidated so all
-/// `String(localized:)` and `Text(...)` calls re-resolve automatically.
+/// Manages in-app language selection WITHOUT requiring an app restart.
+/// Uses SwiftUI's `.environment(\.locale, ...)` and `.id(languageCode)` 
+/// to force an immediate view tree rebuild with the new locale.
+/// 
+/// NOTE: `String(localized:)` reads from the system language (requires restart),
+/// so use `localized(_:)` helper for non-Text contexts, and plain Text("key")
+/// (which auto-creates LocalizedStringKey) for Text contexts.
 @available(macOS 14.0, iOS 17.0, *)
 @MainActor
 @Observable
 public final class LanguageManager {
-    /// The current language code (e.g. "tr", "en", "es", "zh", "hi", "ar").
+    @ObservationIgnored
+    public nonisolated static let shared = MainActor.assumeIsolated { LanguageManager() }
+
+    private let defaults = UserDefaults(suiteName: UserDefaultsKeys.appGroupSuite) ?? .standard
+
+    /// The current language code (e.g. "tr", "en").
     public var languageCode: String {
         didSet {
-            UserDefaults.standard.set(languageCode, forKey: UserDefaultsKeys.appLanguage)
-            UserDefaults.standard.set([languageCode], forKey: "AppleLanguages")
-            locale = Locale(identifier: languageCode)
+            defaults.set(languageCode, forKey: UserDefaultsKeys.appLanguage)
+            defaults.set([languageCode], forKey: "AppleLanguages")
         }
     }
 
     /// The current locale derived from `languageCode`.
-    public private(set) var locale: Locale
+    /// Used via `.environment(\.locale, languageManager.locale)` to propagate to all Text views.
+    public var locale: Locale {
+        Locale(identifier: languageCode)
+    }
 
     public init() {
-        let code = UserDefaults.standard.string(forKey: UserDefaultsKeys.appLanguage)
+        let defaults = UserDefaults(suiteName: UserDefaultsKeys.appGroupSuite) ?? .standard
+        let code = defaults.string(forKey: UserDefaultsKeys.appLanguage)
             ?? Locale.current.language.languageCode?.identifier
             ?? "tr"
         self.languageCode = code
-        self.locale = Locale(identifier: code)
     }
 
     /// Changes the language and persists the selection to UserDefaults.
-    /// The view tree rebuilds automatically via `.id(languageCode)` in the root view.
+    /// The view tree rebuilds automatically via `.id(languageCode)` in the root view,
+    /// and the new locale is applied via the `\.locale` environment value.
     public func setLanguage(_ code: String) {
         guard code != languageCode else { return }
         languageCode = code
+    }
+
+    /// Returns a localized string for the current locale.
+    /// Use this instead of `String(localized:)` for non-Text contexts
+    /// (e.g., accessibility labels, share text, tab titles).
+    public nonisolated func localized(_ key: String.LocalizationValue, comment: StaticString? = nil) -> String {
+        let defaults = UserDefaults(suiteName: UserDefaultsKeys.appGroupSuite) ?? .standard
+        let code = defaults.string(forKey: UserDefaultsKeys.appLanguage) ?? "tr"
+        let locale = Locale(identifier: code)
+        return String(localized: key, locale: locale)
     }
 }

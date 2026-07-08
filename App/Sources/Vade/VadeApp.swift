@@ -18,7 +18,7 @@ struct VadeApp: App {
     @State private var isAuthenticated = false
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("vade.biometric.enabled") private var isBiometricEnabled = false
-    @State private var languageManager = LanguageManager()
+    @State private var languageManager = LanguageManager.shared
 
     private let biometricAuth = BiometricAuthService()
     private let screenProtector = ScreenProtector()
@@ -48,7 +48,7 @@ struct VadeApp: App {
                         Image(systemName: "exclamationmark.triangle")
                             .font(Font.system(size: 56, weight: .bold))
                             .foregroundStyle(ColorTokens.negative)
-                        Text(String(localized: "app.error.containerFailed"))
+                        Text("app.error.containerFailed")
                             .font(Typography.font(for: .headline))
                             .foregroundStyle(ColorTokens.textPrimary)
                         Text(error)
@@ -74,7 +74,7 @@ struct VadeApp: App {
                     VStack(spacing: Spacing.l) {
                         ProgressView()
                             .scaleEffect(1.2)
-                        Text(String(localized: "app.loading"))
+                        Text("app.loading")
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textTertiary)
                     }
@@ -121,14 +121,14 @@ struct VadeApp: App {
             Image(systemName: "lock.shield")
                 .font(Font.system(size: 56, weight: .bold))
                 .foregroundStyle(ColorTokens.accent)
-            Text(String(localized: "app.locked.title"))
+            Text("app.locked.title")
                 .font(Typography.font(for: .title2))
                 .multilineTextAlignment(.center)
                 .minimumScaleFactor(0.85)
-            Button(String(localized: "app.locked.unlock")) {
+            Button("app.locked.unlock") {
                 Task {
                     let success = try? await biometricAuth.authenticate(
-                        reason: String(localized: "app.locked.biometryReason")
+                        reason: String(localized: "app.locked.biometryReason", locale: languageManager.locale)
                     )
                     isAuthenticated = success ?? false
                 }
@@ -145,5 +145,5 @@ struct VadeApp: App {
 // MARK: - Preview
 
 #Preview {
-    Text(String(localized: "app.preview.placeholder"))
+    Text("app.preview.placeholder")
 }
