@@ -46,3 +46,4 @@ GoogleService-Info.plist
 *.swp
 *~
 build_output.log
+.cursorrules
