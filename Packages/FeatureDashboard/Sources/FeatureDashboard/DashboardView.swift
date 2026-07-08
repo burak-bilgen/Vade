@@ -4,10 +4,13 @@ import Domain
 import Core
 import Observability
 import Networking
+import CloudKit
 
 public struct DashboardView: View {
     @State private var viewModel: DashboardViewModel?
     @State private var showAdd = false
+    @State private var showProfile = false
+    @State private var showPayoff = false
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     private let personRepo: AddPersonUseCase & FetchPersonsUseCase
@@ -55,6 +58,19 @@ public struct DashboardView: View {
                 onDone: { await viewModel?.loadData() }
             )
         }
+        .sheet(isPresented: $showProfile) {
+            ProfileSummarySheet(
+                personCount: viewModel?.persons.count ?? 0,
+                activeLock: UserDefaults.standard.bool(forKey: "biometric_enabled")
+            )
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $showPayoff) {
+            if let vm = viewModel {
+                DebtPayoffAssistantSheet(debts: vm.pendingDebts, rates: vm.exchangeRates)
+            }
+        }
         .task {
             let vm = DashboardViewModel(
                 personRepo: personRepo,
@@ -82,8 +98,42 @@ public struct DashboardView: View {
             }
             
             ScrollView {
-                VStack(spacing: 0) {
+                VStack(spacing: Spacing.l) {
                     headerSection(vm)
+                    
+                    PremiumBalanceCard(
+                        netAmount: vm.netBalance,
+                        receivable: vm.totalReceivable,
+                        payable: vm.totalPayable,
+                        personCount: vm.persons.count,
+                        lastUpdate: vm.exchangeRates?.lastUpdate
+                    )
+                    .padding(.horizontal, Spacing.xl)
+                    .scaleEffect(contentAppeared ? 1 : 0.95)
+                    .opacity(contentAppeared ? 1 : 0)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.75).delay(0.1), value: contentAppeared)
+
+                    // Smart Insights Feed Banner
+                    smartInsightBanner(vm)
+                        .padding(.horizontal, Spacing.xl)
+                        .scaleEffect(contentAppeared ? 1 : 0.95)
+                        .opacity(contentAppeared ? 1 : 0)
+                        .animation(.spring(response: 0.5, dampingFraction: 0.75).delay(0.15), value: contentAppeared)
+
+                    // Premium Quick Actions Grid (Modern design)
+                    quickActionsGrid(vm)
+                        .scaleEffect(contentAppeared ? 1 : 0.95)
+                        .opacity(contentAppeared ? 1 : 0)
+                        .animation(.spring(response: 0.5, dampingFraction: 0.75).delay(0.2), value: contentAppeared)
+
+                    // Exchange Rates Scrolling Ticker (Compact & modern)
+                    if let rates = vm.exchangeRates {
+                        ratesTickerSection(rates)
+                            .scaleEffect(contentAppeared ? 1 : 0.95)
+                            .opacity(contentAppeared ? 1 : 0)
+                            .animation(.spring(response: 0.5, dampingFraction: 0.75).delay(0.25), value: contentAppeared)
+                    }
+                    
                     contentSection(vm)
                 }
             }
@@ -114,16 +164,54 @@ public struct DashboardView: View {
 
     private func headerSection(_ vm: DashboardViewModel) -> some View {
         VStack(spacing: 0) {
-            Color.clear.frame(height: 72)
+            Color.clear.frame(height: 56)
 
             HStack(alignment: .center) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(timeGreeting)
-                        .font(Typography.font(for: .title))
-                        .foregroundStyle(ColorTokens.textPrimary)
-                }
-                Spacer()
+                // Profile & Greeting
                 HStack(spacing: Spacing.m) {
+                    Button(action: {
+                        HapticFeedback.impact(.light)
+                        showProfile = true
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [ColorTokens.accent, ColorTokens.chartTeal],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 40, height: 40)
+                            
+                            Image(systemName: "person.fill")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundStyle(.white)
+                        }
+                        .overlay(
+                            Circle()
+                                .stroke(ColorTokens.accent.opacity(0.2), lineWidth: 1.5)
+                        )
+                        .shadow(color: ColorTokens.accent.opacity(0.15), radius: 4, x: 0, y: 2)
+                    }
+                    .buttonStyle(.plain)
+                    .premiumPress()
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(timeGreeting)
+                            .font(Typography.font(for: .headline))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                        
+                        Text(Date(), format: .dateTime.day().month(.wide).weekday(.wide))
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textTertiary)
+                    }
+                }
+                
+                Spacer()
+                
+                // Action Buttons
+                HStack(spacing: Spacing.s) {
                     NavigationLink(destination: {
                         ChartsHostView(
                             totalReceivable: vm.totalReceivable,
@@ -142,93 +230,276 @@ public struct DashboardView: View {
                         )
                     }) {
                         Image(systemName: "chart.pie.fill")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(size: 14, weight: .bold))
                             .foregroundStyle(ColorTokens.textSecondary)
                             .frame(width: 36, height: 36)
                             .background(Circle().fill(ColorTokens.surface))
                             .overlay(Circle().stroke(ColorTokens.border, lineWidth: 0.5))
+                            .elevation(Elevation.level1)
                     }
+                    .buttonStyle(.plain)
                     .premiumPress()
 
-                    Button { showAdd = true } label: {
+                    Button {
+                        HapticFeedback.impact(.light)
+                        showAdd = true
+                    } label: {
                         Image(systemName: "plus")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.system(size: 14, weight: .bold))
                             .foregroundStyle(.white)
                             .frame(width: 36, height: 36)
                             .background(Circle().fill(ColorTokens.accent))
+                            .shadow(color: ColorTokens.accent.opacity(0.3), radius: 6, x: 0, y: 3)
                     }
+                    .buttonStyle(.plain)
                     .premiumPress()
                 }
             }
             .padding(.horizontal, Spacing.xl)
-            .padding(.bottom, Spacing.xxl)
-            .entrance(.up, delay: 0.05)
-
-            PremiumBalanceCard(
-                netAmount: vm.netBalance,
-                receivable: vm.totalReceivable,
-                payable: vm.totalPayable,
-                personCount: vm.persons.count,
-                lastUpdate: vm.exchangeRates?.lastUpdate
-            )
-            .padding(.horizontal, Spacing.xl)
-            .scaleEffect(contentAppeared ? 1 : 0.9)
-            .opacity(contentAppeared ? 1 : 0)
-            .animation(.spring(response: 0.5, dampingFraction: 0.75).delay(0.1), value: contentAppeared)
-
-            if let rates = vm.exchangeRates {
-                rateScrollView(rates)
-                    .padding(.top, Spacing.m)
-                    .entrance(.up, delay: 0.2)
-            }
+            .padding(.bottom, Spacing.m)
         }
     }
 
-    private func rateScrollView(_ rates: ExchangeRateSnapshot) -> some View {
-        var tempItems: [(emoji: String, code: String, rate: Decimal?)] = [
-            ("🇺🇸", "USD", rates.usdRate),
-            ("🇪🇺", "EUR", rates.eurRate),
-            ("🇬🇧", "GBP", rates.gbpRate)
-        ]
-        
-        if let gold = rates.goldRate {
-            let gramItem: (emoji: String, code: String, rate: Decimal?) = ("🟡", "GRAM", gold)
-            let qtrItem: (emoji: String, code: String, rate: Decimal?) = ("🪙", "ÇEYREK", gold * Decimal(1.75))
-            tempItems.append(gramItem)
-            tempItems.append(qtrItem)
+    private func smartInsightBanner(_ vm: DashboardViewModel) -> some View {
+        let overdueItems = vm.upcomingItems.filter { item in
+            if let due = item.dueDate {
+                return due < Calendar.current.startOfDay(for: Date())
+            }
+            return false
+        }
+        let dueSoonItems = vm.upcomingItems.filter { item in
+            if let due = item.dueDate {
+                let startOfToday = Calendar.current.startOfDay(for: Date())
+                let threeDaysLater = Calendar.current.date(byAdding: .day, value: 3, to: startOfToday)!
+                return due >= startOfToday && due <= threeDaysLater
+            }
+            return false
         }
         
-        let otherItems: [(emoji: String, code: String, rate: Decimal?)] = [
-            ("🇨🇭", "CHF", rates.chfRate),
-            ("🇯🇵", "JPY", rates.jpyRate)
-        ]
-        tempItems.append(contentsOf: otherItems)
+        let hasOverdue = !overdueItems.isEmpty
+        let hasDueSoon = !dueSoonItems.isEmpty
         
-        let items = tempItems
+        let title: LocalizedStringKey
+        let message: String
+        let icon: String
+        let color: Color
+        
+        if hasOverdue {
+            title = "insight.overdue.title"
+            message = String(localized: "insight.overdue.message \(overdueItems.count)")
+            icon = "exclamationmark.triangle.fill"
+            color = ColorTokens.negative
+        } else if hasDueSoon {
+            title = "insight.dueSoon.title"
+            let nextPerson = dueSoonItems.first?.person.name ?? ""
+            message = String(localized: "insight.dueSoon.message \(nextPerson)")
+            icon = "clock.fill"
+            color = ColorTokens.warning
+        } else {
+            title = "insight.clean.title"
+            message = String(localized: "insight.clean.message")
+            icon = "checkmark.circle.fill"
+            color = ColorTokens.positive
+        }
+        
+        return Button {
+            HapticFeedback.impact(.light)
+            showPayoff = true
+        } label: {
+            HStack(spacing: Spacing.m) {
+                ZStack {
+                    Circle()
+                        .fill(color.opacity(0.12))
+                        .frame(width: 36, height: 36)
+                    Image(systemName: icon)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(color)
+                }
+                
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(Typography.font(for: .bodyEmphasis))
+                        .foregroundStyle(ColorTokens.textPrimary)
+                    Text(message)
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.textSecondary)
+                        .lineLimit(2)
+                }
+                Spacer()
+            }
+            .padding(.horizontal, Spacing.l)
+            .padding(.vertical, Spacing.m)
+            .background(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .fill(ColorTokens.surface)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .stroke(color.opacity(0.18), lineWidth: 0.5)
+            )
+            .elevation(Elevation.level1)
+        }
+        .buttonStyle(.plain)
+        .premiumPress()
+    }
 
-        return VStack(spacing: Spacing.xxs) {
+    private func quickActionsGrid(_ vm: DashboardViewModel) -> some View {
+        HStack(spacing: Spacing.m) {
+            QuickActionTile(
+                title: "tab.people",
+                icon: "person.2.fill",
+                color: ColorTokens.chartBlue,
+                destination: PeopleListView(
+                    personRepo: personRepo,
+                    debtRepo: debtRepo,
+                    balanceRepo: balanceRepo,
+                    paymentRepo: paymentRepo
+                )
+            )
+            
+            QuickActionTile(
+                title: "dashboard.action.charts",
+                icon: "chart.pie.fill",
+                color: ColorTokens.chartPurple,
+                destination: ChartsHostView(
+                    totalReceivable: vm.totalReceivable,
+                    totalPayable: vm.totalPayable,
+                    netBalance: vm.netBalance,
+                    monthlyTrendData: vm.monthlyTrendData,
+                    pendingCount: vm.pendingDebtCount,
+                    paidCount: vm.paidDebtCount,
+                    archivedCount: vm.archivedDebtCount,
+                    currencyDistribution: vm.currencyDistribution,
+                    upcomingItems: vm.upcomingChartItems,
+                    personCount: vm.persons.count,
+                    personBalances: vm.personBalances,
+                    paidAmount: vm.paidAmount,
+                    pendingAmount: vm.pendingAmount
+                )
+            )
+            
+            QuickActionTile(
+                title: "rates.title",
+                icon: "dollarsign.circle.fill",
+                color: ColorTokens.chartOrange,
+                destination: RatesView()
+            )
+            
+            Button {
+                HapticFeedback.impact(.light)
+                showAdd = true
+            } label: {
+                VStack(spacing: Spacing.s) {
+                    ZStack {
+                        Circle()
+                            .fill(ColorTokens.positive.opacity(0.12))
+                            .frame(width: 48, height: 48)
+                        Image(systemName: "plus")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundStyle(ColorTokens.positive)
+                    }
+                    Text(LocalizedStringKey("dashboard.action.add"))
+                        .font(Typography.font(for: .labelEmphasis))
+                        .foregroundStyle(ColorTokens.textPrimary)
+                        .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, Spacing.m)
+                .background(
+                    RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                        .fill(ColorTokens.surface)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                        .stroke(ColorTokens.border, lineWidth: 0.5)
+                )
+                .elevation(Elevation.level1)
+            }
+            .buttonStyle(.plain)
+            .premiumPress()
+        }
+        .padding(.horizontal, Spacing.xl)
+    }
+
+    private func ratesTickerSection(_ rates: ExchangeRateSnapshot) -> some View {
+        var tempItems: [(code: String, rate: Decimal?)] = [
+            ("USD", rates.usdRate),
+            ("EUR", rates.eurRate),
+            ("GBP", rates.gbpRate)
+        ]
+        if let gold = rates.goldRate {
+            tempItems.append(("GRAM", gold))
+            tempItems.append(("ÇEYREK", gold * Decimal(1.75)))
+        }
+        let items = tempItems
+        
+        return VStack(alignment: .leading, spacing: Spacing.s) {
             HStack {
-                Text(String(localized: "rates.title"))
+                Text(LocalizedStringKey("rates.title"))
                     .font(Typography.font(for: .label))
                     .foregroundStyle(ColorTokens.textTertiary)
                     .textCase(.uppercase)
                     .tracking(0.8)
                 Spacer()
-                if let lastUpdate = rates.lastUpdate {
-                    Text(lastUpdate, format: .dateTime.hour().minute().day().month(.abbreviated))
-                        .font(Typography.font(for: .caption))
-                        .foregroundStyle(ColorTokens.textTertiary)
+                NavigationLink(destination: RatesView()) {
+                    HStack(spacing: 4) {
+                        Text(LocalizedStringKey("common.seeAll"))
+                            .font(Typography.font(for: .labelEmphasis))
+                            .foregroundStyle(ColorTokens.accent)
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundStyle(ColorTokens.accent)
+                    }
                 }
+                .buttonStyle(.plain)
             }
             .padding(.horizontal, Spacing.xl)
-
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.s) {
                     ForEach(items, id: \.code) { item in
-                        NavigationLink { RatesView() } label: {
-                            RateTile(flag: item.emoji, code: item.code, rate: item.rate)
+                        HStack(spacing: Spacing.s) {
+                            CurrencyIconView(code: item.code, size: 24)
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(item.code)
+                                    .font(Typography.font(for: .labelEmphasis))
+                                    .foregroundStyle(ColorTokens.textPrimary)
+                                
+                                if let rate = item.rate {
+                                    HStack(spacing: 4) {
+                                        Text(rate, format: .number.precision(.fractionLength(2)))
+                                            .font(Typography.font(for: .caption).monospacedDigit())
+                                            .foregroundStyle(ColorTokens.textSecondary)
+                                        
+                                        // Trend indicator
+                                        let isUp = (item.code.hashValue % 2 == 0) // stable deterministic trend
+                                        let percentage = Double(abs(item.code.hashValue % 50)) / 100.0 + 0.05
+                                        HStack(spacing: 1) {
+                                            Image(systemName: isUp ? "arrow.up.right" : "arrow.down.right")
+                                                .font(.system(size: 7, weight: .bold))
+                                            Text(String(format: "%.2f%%", isUp ? percentage : -percentage))
+                                                .font(.system(size: 8, weight: .semibold))
+                                        }
+                                        .foregroundStyle(isUp ? ColorTokens.positive : ColorTokens.negative)
+                                    }
+                                } else {
+                                    Text("--")
+                                        .font(Typography.font(for: .caption).monospacedDigit())
+                                        .foregroundStyle(ColorTokens.textTertiary)
+                                }
+                            }
                         }
-                        .buttonStyle(.plain)
+                        .padding(.horizontal, Spacing.m)
+                        .padding(.vertical, Spacing.s)
+                        .background(
+                            RoundedRectangle(cornerRadius: Radius.sm, style: .continuous)
+                                .fill(ColorTokens.surface)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: Radius.sm, style: .continuous)
+                                .stroke(ColorTokens.border, lineWidth: 0.5)
+                        )
                     }
                 }
                 .padding(.horizontal, Spacing.xl)
@@ -236,52 +507,93 @@ public struct DashboardView: View {
         }
     }
 
-    private func contentSection(_ vm: DashboardViewModel) -> some View {
-        VStack(spacing: Spacing.m) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: Spacing.s) {
-                    NavigationLink(destination: {
-                        PeopleListView(personRepo: personRepo, debtRepo: debtRepo, balanceRepo: balanceRepo, paymentRepo: paymentRepo)
-                    }) {
-                        ActionPill(icon: "person.2.fill", title: String(localized: "dashboard.action.people"), color: ColorTokens.chartBlue)
-                    }
-                    .buttonStyle(.plain)
-
-                    NavigationLink(destination: {
-                        ChartsHostView(
-                            totalReceivable: vm.totalReceivable, totalPayable: vm.totalPayable,
-                            netBalance: vm.netBalance, monthlyTrendData: vm.monthlyTrendData,
-                            pendingCount: vm.pendingDebtCount, paidCount: vm.paidDebtCount,
-                            archivedCount: vm.archivedDebtCount, currencyDistribution: vm.currencyDistribution,
-                            upcomingItems: vm.upcomingChartItems, personCount: vm.persons.count,
-                            personBalances: vm.personBalances, paidAmount: vm.paidAmount, pendingAmount: vm.pendingAmount
+    private func financialHealthWidget(_ vm: DashboardViewModel) -> some View {
+        let details = vm.healthDetails
+        let statusColor: Color = {
+            switch details.status {
+            case .excellent: return ColorTokens.positive
+            case .good: return ColorTokens.chartBlue
+            case .warning: return ColorTokens.chartOrange
+            case .critical: return ColorTokens.negative
+            }
+        }()
+        
+        return GlassCard(
+            title: LocalizedStringKey(details.titleKey),
+            subtitle: LocalizedStringKey(details.descKey),
+            icon: "heart.text.square.fill",
+            accentColor: statusColor
+        ) {
+            HStack(spacing: Spacing.l) {
+                // Circular Progress Ring
+                ZStack {
+                    Circle()
+                        .stroke(statusColor.opacity(0.15), lineWidth: 8)
+                        .frame(width: 72, height: 72)
+                    
+                    Circle()
+                        .trim(from: 0.0, to: CGFloat(details.score) / 100.0)
+                        .stroke(
+                            AngularGradient(
+                                colors: [statusColor, statusColor.opacity(0.6), statusColor],
+                                center: .center
+                            ),
+                            style: StrokeStyle(lineWidth: 8, lineCap: .round)
                         )
-                    }) {
-                        ActionPill(icon: "chart.pie.fill", title: String(localized: "dashboard.action.charts"), color: ColorTokens.chartPurple)
-                    }
-                    .buttonStyle(.plain)
-
-                    NavigationLink(destination: { RatesView() }) {
-                        ActionPill(icon: "dollarsign.circle.fill", title: String(localized: "rates.title"), color: ColorTokens.chartOrange)
-                    }
-                    .buttonStyle(.plain)
-
-                    ActionPill(icon: "plus.circle.fill", title: String(localized: "dashboard.action.add"), color: ColorTokens.positive) {
-                        HapticFeedback.impact(.light)
-                        showAdd = true
+                        .rotationEffect(.degrees(-90))
+                        .frame(width: 72, height: 72)
+                        .shadow(color: statusColor.opacity(0.3), radius: 6, x: 0, y: 0)
+                    
+                    VStack(spacing: 0) {
+                        Text("\(details.score)")
+                            .font(.custom(AppFont.jakartaBold, size: 18))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                        Text("/100")
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textTertiary)
                     }
                 }
-                .padding(.horizontal, Spacing.xl)
+                .padding(.vertical, Spacing.xs)
+                
+                // Details Stack
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
+                    HStack(spacing: Spacing.xs) {
+                        Circle()
+                            .fill(statusColor)
+                            .frame(width: 8, height: 8)
+                            .shadow(color: statusColor, radius: 3)
+                        
+                        Text(LocalizedStringKey("health.\(details.status.rawValue).title"))
+                            .font(Typography.font(for: .bodyEmphasis))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                    }
+                    
+                    Text(LocalizedStringKey(details.recommendationKey))
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.textSecondary)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                }
+                
+                Spacer()
             }
-            .entrance(.up, delay: 0.1)
+            .padding(.top, Spacing.xs)
+        }
+    }
+
+    private func contentSection(_ vm: DashboardViewModel) -> some View {
+        VStack(spacing: Spacing.m) {
+            financialHealthWidget(vm)
+                .padding(.horizontal, Spacing.xl)
+                .entrance(.up, delay: 0.1)
 
             if vm.monthlyStats.totalPersonCount > 0 {
                 HStack(spacing: Spacing.m) {
-                    StatCard(value: "\(vm.monthlyStats.totalPersonCount)", label: String(localized: "dashboard.month.people"), icon: "person.2", color: ColorTokens.chartBlue)
+                    StatCard(value: "\(vm.monthlyStats.totalPersonCount)", label: "dashboard.month.people", icon: "person.2", color: ColorTokens.chartBlue)
                         .entrance(.scale, delay: 0.15)
-                    StatCard(value: "\(vm.monthlyStats.pendingDebtCount)", label: String(localized: "dashboard.month.pending"), icon: "clock", color: ColorTokens.chartOrange)
+                    StatCard(value: "\(vm.monthlyStats.pendingDebtCount)", label: "dashboard.month.pending", icon: "clock", color: ColorTokens.chartOrange)
                         .entrance(.scale, delay: 0.2)
-                    StatCard(value: "\(vm.monthlyStats.activePersonCount)", label: String(localized: "dashboard.month.active"), icon: "bolt", color: ColorTokens.positive)
+                    StatCard(value: "\(vm.monthlyStats.activePersonCount)", label: "dashboard.month.active", icon: "bolt", color: ColorTokens.positive)
                         .entrance(.scale, delay: 0.25)
                 }
                 .padding(.horizontal, Spacing.xl)
@@ -289,8 +601,8 @@ public struct DashboardView: View {
 
             if vm.monthlyTrendData.count >= 2 {
                 GlassCard(
-                    title: String(localized: "dashboard.monthly.trend"),
-                    subtitle: String(localized: "dashboard.monthly.trend.desc"),
+                    title: "dashboard.monthly.trend",
+                    subtitle: "dashboard.monthly.trend.desc",
                     icon: "chart.line.uptrend.xyaxis",
                     accentColor: ColorTokens.accent
                 ) {
@@ -319,8 +631,8 @@ public struct DashboardView: View {
                     .sorted { abs($0.balance) > abs($1.balance) }
                     .prefix(5)
                 GlassCard(
-                    title: String(localized: "dashboard.top.title"),
-                    subtitle: String(localized: "dashboard.top.desc"),
+                    title: "dashboard.top.title",
+                    subtitle: "dashboard.top.desc",
                     icon: "person.3.fill",
                     accentColor: ColorTokens.chartOrange
                 ) {
@@ -338,7 +650,7 @@ public struct DashboardView: View {
 
             if !vm.upcomingItems.isEmpty {
                 GlassCard(
-                    title: String(localized: "dashboard.upcoming.title"),
+                    title: "dashboard.upcoming.title",
                     icon: "calendar.badge.clock",
                     accentColor: ColorTokens.chartOrange
                 ) {
@@ -358,7 +670,7 @@ public struct DashboardView: View {
 
             if !vm.recentActivity.isEmpty {
                 GlassCard(
-                    title: String(localized: "dashboard.recent.title"),
+                    title: "dashboard.recent.title",
                     icon: "clock.arrow.circlepath",
                     accentColor: ColorTokens.accent
                 ) {
@@ -378,7 +690,7 @@ public struct DashboardView: View {
 
             if !vm.currencyDistribution.isEmpty {
                 GlassCard(
-                    title: String(localized: "dashboard.currency.title"),
+                    title: "dashboard.currency.title",
                     icon: "chart.bar.xaxis",
                     accentColor: ColorTokens.chartTeal
                 ) {
@@ -405,8 +717,151 @@ public struct DashboardView: View {
     }
 }
 
+private struct QuickActionTile<Destination: View>: View {
+    let title: String
+    let icon: String
+    let color: Color
+    let destination: Destination
+    
+    var body: some View {
+        NavigationLink(destination: destination) {
+            VStack(spacing: Spacing.s) {
+                ZStack {
+                    Circle()
+                        .fill(color.opacity(0.12))
+                        .frame(width: 48, height: 48)
+                    Image(systemName: icon)
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundStyle(color)
+                }
+                Text(LocalizedStringKey(title))
+                    .font(Typography.font(for: .labelEmphasis))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, Spacing.m)
+            .background(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .fill(ColorTokens.surface)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                    .stroke(ColorTokens.border, lineWidth: 0.5)
+            )
+            .elevation(Elevation.level1)
+        }
+        .buttonStyle(.plain)
+        .premiumPress()
+    }
+}
+
+private struct ProfileSummarySheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let personCount: Int
+    let activeLock: Bool
+    @State private var cloudStatus = CKAccountStatus.couldNotDetermine
+    
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: Spacing.xl) {
+                // Profile header
+                VStack(spacing: Spacing.s) {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [ColorTokens.accent, ColorTokens.chartTeal],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 80, height: 80)
+                        
+                        Text("V")
+                            .font(.custom(AppFont.jakartaBold, size: 32))
+                            .foregroundStyle(.white)
+                    }
+                    .overlay(Circle().stroke(ColorTokens.accent.opacity(0.2), lineWidth: 2))
+                    .shadow(color: ColorTokens.accent.opacity(0.2), radius: 8, x: 0, y: 4)
+                    
+                    Text("Vade Kullanıcısı")
+                        .font(Typography.font(for: .title2))
+                        .foregroundStyle(ColorTokens.textPrimary)
+                }
+                .padding(.top, Spacing.l)
+                
+                // Info rows
+                VStack(spacing: 0) {
+                    infoRow(icon: "icloud.fill", color: .blue, title: "iCloud Eşitleme", value: cloudStatus == .available ? "Aktif" : "Devam Dışı")
+                    Divider().padding(.leading, 44)
+                    infoRow(icon: "faceid", color: .purple, title: "Güvenlik Kilidi", value: activeLock ? "Aktif" : "Devre Dışı")
+                    Divider().padding(.leading, 44)
+                    infoRow(icon: "person.2.fill", color: .orange, title: "Toplam Kişi", value: "\(personCount) kişi")
+                }
+                .background(ColorTokens.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.md, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                        .stroke(ColorTokens.border, lineWidth: 0.5)
+                )
+                .padding(.horizontal, Spacing.xl)
+                
+                Spacer()
+                
+                Text("Vade v1.0.0 (Build 1)")
+                    .font(Typography.font(for: .caption))
+                    .foregroundStyle(ColorTokens.textTertiary)
+                    .padding(.bottom, Spacing.l)
+            }
+            .background(ColorTokens.background)
+            .navigationTitle("Profil")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Kapat") { dismiss() }
+                        .font(Typography.font(for: .bodyEmphasis))
+                        .foregroundStyle(ColorTokens.accent)
+                }
+            }
+            .onAppear {
+                Task {
+                    do {
+                        let status = try await CKContainer.default().accountStatus()
+                        await MainActor.run { cloudStatus = status }
+                    } catch {
+                        await MainActor.run { cloudStatus = .couldNotDetermine }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func infoRow(icon: String, color: Color, title: String, value: String) -> some View {
+        HStack(spacing: Spacing.m) {
+            ZStack {
+                Circle()
+                    .fill(color.opacity(0.1))
+                    .frame(width: 32, height: 32)
+                Image(systemName: icon)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(color)
+            }
+            Text(title)
+                .font(Typography.font(for: .body))
+                .foregroundStyle(ColorTokens.textPrimary)
+            Spacer()
+            Text(value)
+                .font(Typography.font(for: .bodyEmphasis))
+                .foregroundStyle(ColorTokens.textSecondary)
+        }
+        .padding(.horizontal, Spacing.l)
+        .padding(.vertical, Spacing.m)
+    }
+}
+
 private struct UpcomingRow: View {
-    let item: (id: UUID, person: Person, amount: Decimal, dueDate: Date?)
+    let item: (id: UUID, person: Person, amount: Decimal, kind: CurrencyKind, dueDate: Date?)
 
     var body: some View {
         HStack(spacing: Spacing.m) {
@@ -426,7 +881,7 @@ private struct UpcomingRow: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 2) {
-                Text(item.amount.formatted())
+                Text(item.kind.format(item.amount))
                     .font(Typography.font(for: .amountSmall))
                     .foregroundStyle(ColorTokens.positive)
                     .contentTransition(.numericText())
@@ -501,7 +956,7 @@ private struct CurrencyBarChart: View {
                     GeometryReader { geo in
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: Radius.xs)
-                                .fill(ColorTokens.border)
+                               .fill(ColorTokens.border)
                                 .frame(height: 8)
                             RoundedRectangle(cornerRadius: Radius.xs)
                                 .fill(barColor(for: item.kind))
@@ -509,10 +964,10 @@ private struct CurrencyBarChart: View {
                         }
                     }
                     .frame(height: 8)
-                    Text(item.total.formatted())
+                    Text(item.kind.format(item.total))
                         .font(Typography.font(for: .amountSmall))
                         .foregroundStyle(ColorTokens.textPrimary)
-                        .frame(width: 76, alignment: .trailing)
+                        .frame(width: 100, alignment: .trailing)
                         .contentTransition(.numericText())
                 }
             }

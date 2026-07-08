@@ -12,11 +12,12 @@ public final class DashboardViewModel {
     public private(set) var totalReceivable: Decimal = .zero
     public private(set) var totalPayable: Decimal = .zero
     public private(set) var netBalance: Decimal = .zero
-    public private(set) var upcomingItems: [(id: UUID, person: Person, amount: Decimal, dueDate: Date?)] = []
+    public private(set) var upcomingItems: [(id: UUID, person: Person, amount: Decimal, kind: CurrencyKind, dueDate: Date?)] = []
     public private(set) var recentActivity: [ActivityItem] = []
     public private(set) var currencyDistribution: [(kind: CurrencyKind, total: Decimal)] = []
     public private(set) var monthlyStats: MonthlyStats = .empty
     public private(set) var exchangeRates: ExchangeRateSnapshot?
+    public private(set) var pendingDebts: [DebtRecord] = []
 
     // MARK: - New Chart Data
     public private(set) var monthlyTrendData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)] = []
@@ -65,6 +66,7 @@ public final class DashboardViewModel {
             await loadMonthlyStats()
             await loadExchangeRates()
             await loadChartData()
+            await loadPendingDebts()
         } catch {
             AppLog.data.error("[DashboardViewModel] Load failed: \(error.localizedDescription)")
         }
@@ -97,11 +99,11 @@ public final class DashboardViewModel {
     }
 
     private func loadUpcoming() async {
-        var items: [(id: UUID, person: Person, amount: Decimal, dueDate: Date?)] = []
+        var items: [(id: UUID, person: Person, amount: Decimal, kind: CurrencyKind, dueDate: Date?)] = []
         for person in persons {
             guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
             for debt in debts where debt.status == .pending && debt.dueDate != nil {
-                items.append((debt.id, person, debt.amount, debt.dueDate))
+                items.append((debt.id, person, debt.amount, debt.kind, debt.dueDate))
             }
         }
         upcomingItems = items.sorted { ($0.dueDate ?? .distantFuture) < ($1.dueDate ?? .distantFuture) }
@@ -135,6 +137,15 @@ public final class DashboardViewModel {
         }
         currencyDistribution = dist.map { ($0.key, $0.value) }
             .sorted { $0.total > $1.total }
+    }
+
+    private func loadPendingDebts() async {
+        var allPending: [DebtRecord] = []
+        for person in persons {
+            guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
+            allPending.append(contentsOf: debts.filter { $0.status == .pending })
+        }
+        pendingDebts = allPending
     }
 
     private func loadExchangeRates() async {
@@ -256,6 +267,79 @@ public final class DashboardViewModel {
         paidAmount = paidTotal
         personBalances = balanceList.sorted { abs($0.balance) > abs($1.balance) }
     }
+
+    public var financialHealthScore: Int {
+        var score = 100
+        
+        let now = Date()
+        let overdueCount = upcomingItems.filter { $0.dueDate != nil && $0.dueDate! < now }.count
+        score -= (overdueCount * 15)
+        
+        if totalReceivable > 0 {
+            let ratio = Double(truncating: (totalPayable / totalReceivable) as NSNumber)
+            if ratio > 1.5 {
+                score -= 15
+            } else if ratio > 1.0 {
+                score -= 10
+            }
+        } else if totalPayable > 0 {
+            score -= 20
+        }
+        
+        return max(30, min(100, score))
+    }
+    
+    public var healthDetails: HealthDetails {
+        let score = financialHealthScore
+        let status: HealthStatus
+        let titleKey: String
+        let descKey: String
+        let recKey: String
+        
+        let now = Date()
+        let overdueCount = upcomingItems.filter { $0.dueDate != nil && $0.dueDate! < now }.count
+        
+        if score >= 90 {
+            status = .excellent
+            titleKey = "health.excellent.title"
+            descKey = "health.desc"
+            recKey = "health.excellent.desc"
+        } else if score >= 70 {
+            status = .good
+            titleKey = "health.good.title"
+            descKey = "health.desc"
+            recKey = overdueCount > 0 ? "health.good.overdue.desc" : "health.good.desc"
+        } else if score >= 50 {
+            status = .warning
+            titleKey = "health.warning.title"
+            descKey = "health.desc"
+            recKey = overdueCount > 0 ? "health.warning.overdue.desc" : "health.warning.desc"
+        } else {
+            status = .critical
+            titleKey = "health.critical.title"
+            descKey = "health.desc"
+            recKey = "health.critical.desc"
+        }
+        
+        return HealthDetails(score: score, status: status, titleKey: titleKey, descKey: descKey, recommendationKey: recKey)
+    }
+}
+
+// MARK: - Supporting Types
+
+public enum HealthStatus: String, Sendable {
+    case excellent
+    case good
+    case warning
+    case critical
+}
+
+public struct HealthDetails: Sendable {
+    public let score: Int
+    public let status: HealthStatus
+    public let titleKey: String
+    public let descKey: String
+    public let recommendationKey: String
 }
 
 // MARK: - Supporting Types
