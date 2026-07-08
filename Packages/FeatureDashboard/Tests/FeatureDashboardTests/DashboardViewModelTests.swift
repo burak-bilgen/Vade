@@ -215,4 +215,48 @@ struct DashboardViewModelTests {
         #expect(!vm.currencyDistribution.isEmpty)
         #expect(vm.currencyDistribution.contains(where: { $0.kind == .tryCoin }))
     }
+
+    @MainActor
+    @Test("Financial health score is calculated based on overdue debts and bakiye ratios")
+    func testFinancialHealthScore() async throws {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(
+            for: PersonModel.self, DebtRecordModel.self, PaymentModel.self,
+            configurations: config
+        )
+        let context = container.mainContext
+        
+        let person = PersonModel(name: "Mehmet")
+        context.insert(person)
+        try context.save()
+        
+        // Add an overdue debt (past due date)
+        let pastDate = Calendar.current.date(byAdding: .day, value: -5, to: Date())!
+        let overdueDebt = DebtRecordModel(
+            personID: person.id,
+            amount: 200,
+            kindRawValue: "TRY",
+            directionRawValue: "payable",
+            dueDate: pastDate
+        )
+        context.insert(overdueDebt)
+        try context.save()
+        
+        let personRepo = PersonRepository(modelContext: context)
+        let debtRepo = DebtRepository(modelContext: context)
+        let balanceRepo = BalanceRepository(modelContext: context)
+        let vm = DashboardViewModel(
+            personRepo: personRepo,
+            debtRepo: debtRepo,
+            balanceRepo: balanceRepo,
+            rateClient: MockRateProvider()
+        )
+        await vm.loadData()
+        
+        // We have 1 overdue debt -> should deduct 15 points
+        // We have only payables -> should deduct 20 points
+        // Expected score: 100 - 15 - 20 = 65 -> Warning status
+        #expect(vm.financialHealthScore == 65)
+        #expect(vm.healthDetails.status == .warning)
+    }
 }
