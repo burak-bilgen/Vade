@@ -217,12 +217,31 @@ public enum RepositoryError: Error, Sendable {
 
 // MARK: - Balance Repository
 
+public struct FallbackCurrencyConverter: CurrencyConverting, Sendable {
+    public init() {}
+    public func convertToTRY(amount: Decimal, from currency: CurrencyKind) async throws -> Decimal {
+        switch currency {
+        case .tryCoin:
+            return amount
+        case .usd:
+            return amount * 32
+        case .eur:
+            return amount * 35
+        case .goldGram, .goldQuarter, .goldHalf, .goldFull, .goldRepublic:
+            return amount * currency.gramEquivalent * 2400
+        }
+    }
+    public func lastUpdateDate() async -> Date? { nil }
+}
+
 @MainActor
 public final class BalanceRepository: CalculateBalanceUseCase {
     private let modelContext: ModelContext
+    private let converter: CurrencyConverting
 
-    public init(modelContext: ModelContext) {
+    public init(modelContext: ModelContext, converter: CurrencyConverting = FallbackCurrencyConverter()) {
         self.modelContext = modelContext
+        self.converter = converter
     }
 
     public func execute(for personID: UUID) async throws -> Decimal {
@@ -230,12 +249,20 @@ public final class BalanceRepository: CalculateBalanceUseCase {
             predicate: #Predicate { $0.personID == personID && $0.statusRawValue == "pending" }
         )
         let records = try modelContext.fetch(descriptor)
-        return records.reduce(Decimal.zero) { total, record in
-            let signed = record.directionRawValue == "receivable" ? record.amount : -record.amount
+        var total: Decimal = .zero
+        for record in records {
             let paymentTotal = record.payments.reduce(Decimal.zero) { $0 + $1.amount }
-            let adjustment = record.directionRawValue == "receivable" ? -paymentTotal : +paymentTotal
-            return total + signed + adjustment
+            let netNativeAmount = record.amount - paymentTotal
+            guard let kind = CurrencyKind(rawValue: record.kindRawValue) else { continue }
+            
+            let tryAmount = try await converter.convertToTRY(amount: netNativeAmount, from: kind)
+            if record.directionRawValue == "receivable" {
+                total += tryAmount
+            } else {
+                total -= tryAmount
+            }
         }
+        return total
     }
 
     public func netBalance() async throws -> Decimal {
@@ -243,12 +270,20 @@ public final class BalanceRepository: CalculateBalanceUseCase {
             predicate: #Predicate { $0.statusRawValue == "pending" }
         )
         let records = try modelContext.fetch(descriptor)
-        return records.reduce(Decimal.zero) { total, record in
-            let signed = record.directionRawValue == "receivable" ? record.amount : -record.amount
+        var total: Decimal = .zero
+        for record in records {
             let paymentTotal = record.payments.reduce(Decimal.zero) { $0 + $1.amount }
-            let adjustment = record.directionRawValue == "receivable" ? -paymentTotal : +paymentTotal
-            return total + signed + adjustment
+            let netNativeAmount = record.amount - paymentTotal
+            guard let kind = CurrencyKind(rawValue: record.kindRawValue) else { continue }
+            
+            let tryAmount = try await converter.convertToTRY(amount: netNativeAmount, from: kind)
+            if record.directionRawValue == "receivable" {
+                total += tryAmount
+            } else {
+                total -= tryAmount
+            }
         }
+        return total
     }
 }
 
