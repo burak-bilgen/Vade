@@ -44,11 +44,13 @@ public struct ExportRow: Sendable {
 
 // MARK: - Data Export Service
 
+@MainActor
 public protocol DataExporting: Sendable {
     func exportAsCSV(rows: [ExportRow]) throws -> Data
     func exportAsPDF(rows: [ExportRow]) throws -> Data
 }
 
+@MainActor
 public final class DataExportService: DataExporting {
 
     public init() {}
@@ -56,7 +58,7 @@ public final class DataExportService: DataExporting {
     // MARK: - CSV
 
     public func exportAsCSV(rows: [ExportRow]) throws -> Data {
-        let header = String(localized: "export.csv.header")
+        let header = LanguageManager.shared.localized("export.csv.header")
         var csv = header + "\n"
         let formatter = ISO8601DateFormatter()
 
@@ -100,7 +102,7 @@ public final class DataExportService: DataExporting {
         let pageHeight: CGFloat = 792
         let margin: CGFloat = 48
 
-        let title = String(localized: "export.pdf.title")
+        let title = LanguageManager.shared.localized("export.pdf.title")
         let generatedDate = formatter.string(from: Date())
 
         let renderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight))
@@ -140,12 +142,12 @@ public final class DataExportService: DataExporting {
                 .foregroundColor: UIColor.secondaryLabel
             ]
             let columns: [(String, CGFloat)] = [
-                (String(localized: "export.pdf.col.person"), 120),
-                (String(localized: "export.pdf.col.amount"), 70),
-                (String(localized: "export.pdf.col.currency"), 50),
-                (String(localized: "export.pdf.col.direction"), 60),
-                (String(localized: "export.pdf.col.dueDate"), 80),
-                (String(localized: "export.pdf.col.status"), 60),
+                (LanguageManager.shared.localized("export.pdf.col.person"), 120),
+                (LanguageManager.shared.localized("export.pdf.col.amount"), 70),
+                (LanguageManager.shared.localized("export.pdf.col.currency"), 50),
+                (LanguageManager.shared.localized("export.pdf.col.direction"), 60),
+                (LanguageManager.shared.localized("export.pdf.col.dueDate"), 80),
+                (LanguageManager.shared.localized("export.pdf.col.status"), 60),
             ]
             var colX: CGFloat = margin
             for (header, width) in columns {
@@ -205,8 +207,9 @@ public final class DataExportService: DataExporting {
                 .font: UIFont.systemFont(ofSize: 8),
                 .foregroundColor: UIColor.tertiaryLabel
             ]
-            let footerText = String(localized: "export.pdf.footer")
-            (footerText + " — \(rows.count) " + String(localized: "export.pdf.recordCount")).draw(
+            let footerText = LanguageManager.shared.localized("export.pdf.footer")
+            let recordCountText = LanguageManager.shared.localized("export.pdf.recordCount")
+            (footerText + " — \(rows.count) " + recordCountText).draw(
                 at: CGPoint(x: margin, y: yOffset), withAttributes: footerAttrs
             )
         }

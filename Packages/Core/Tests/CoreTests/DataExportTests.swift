@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import Core
 
+@MainActor
 @Suite("DataExportService")
 struct DataExportServiceTests {
 

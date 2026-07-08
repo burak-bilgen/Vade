@@ -51,9 +51,10 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
     /// Registers the "Mark as Paid" rich notification action.
     public func registerRichActions() {
         #if canImport(UserNotifications)
+        let locale = MainActor.assumeIsolated { LanguageManager.shared.locale }
         let markAsPaid = UNNotificationAction(
             identifier: NotificationConstants.markAsPaidAction,
-            title: String(localized: "notification.action.markAsPaid"),
+            title: String(localized: "notification.action.markAsPaid", locale: locale),
             options: .foreground
         )
         let category = UNNotificationCategory(
@@ -98,9 +99,10 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
             return
         }
 
+        let locale = await MainActor.run { LanguageManager.shared.locale }
         let content = UNMutableNotificationContent()
-        content.title = String(localized: "notification.reminder.title \(personName)")
-        content.body = String(localized: "notification.reminder.body \(amount.formatted())")
+        content.title = String(localized: "notification.reminder.title \(personName)", locale: locale)
+        content.body = String(localized: "notification.reminder.body \(amount.formatted(.number.locale(locale)))", locale: locale)
         content.sound = .default
         content.categoryIdentifier = NotificationConstants.debtReminderCategory
         content.userInfo = [NotificationConstants.debtIDKey: debtID.uuidString]
@@ -137,9 +139,10 @@ public final class NotificationService: NSObject, NotificationScheduling, @unche
         let logger = Logger(subsystem: "com.vade.core", category: "notifications")
         logger.info("[Notifications] Mark as Paid action received for debt: \(debtID)")
         #if canImport(UserNotifications)
+        let locale = MainActor.assumeIsolated { LanguageManager.shared.locale }
         let content = UNMutableNotificationContent()
-        content.title = String(localized: "notification.markAsPaid.title")
-        content.body = String(localized: "notification.markAsPaid.body")
+        content.title = String(localized: "notification.markAsPaid.title", locale: locale)
+        content.body = String(localized: "notification.markAsPaid.body", locale: locale)
         content.userInfo = [
             NotificationConstants.markAsPaidDebtIDKey: debtID,
             NotificationConstants.actionKey: NotificationConstants.actionMarkAsPaid,

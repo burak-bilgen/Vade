@@ -34,10 +34,10 @@ public final class BiometricAuthService: BiometricAuthProviding {
         let context = contextProvider()
         _ = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
         switch context.biometryType {
-        case .faceID: return String(localized: "biometry.faceID")
-        case .touchID: return String(localized: "biometry.touchID")
-        case .opticID: return String(localized: "biometry.opticID")
-        default: return String(localized: "biometry.passcode")
+        case .faceID: return LanguageManager.shared.localized("biometry.faceID")
+        case .touchID: return LanguageManager.shared.localized("biometry.touchID")
+        case .opticID: return LanguageManager.shared.localized("biometry.opticID")
+        default: return LanguageManager.shared.localized("biometry.passcode")
         }
     }
 
