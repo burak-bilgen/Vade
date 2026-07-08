@@ -1,11 +1,11 @@
 import SwiftUI
 
 public struct StatChip: View {
-    let label: String
+    let label: LocalizedStringKey
     let amount: Decimal
     let color: Color
 
-    public init(label: String, amount: Decimal, color: Color) {
+    public init(label: LocalizedStringKey, amount: Decimal, color: Color) {
         self.label = label
         self.amount = amount
         self.color = color

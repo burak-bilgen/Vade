@@ -1,10 +1,10 @@
 import SwiftUI
 
 public struct EmptyStateView: View {
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
 
-    public init(title: String, subtitle: String) {
+    public init(title: LocalizedStringKey, subtitle: LocalizedStringKey) {
         self.title = title
         self.subtitle = subtitle
     }

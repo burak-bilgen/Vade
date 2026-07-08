@@ -11,6 +11,7 @@ public struct SettingsView: View {
     @Environment(LanguageManager.self) private var languageManager
     private let personRepo: FetchPersonsUseCase
     private let debtRepo: FetchDebtsForPersonUseCase
+    @State private var logoPulse = false
 
     public init(
         personRepo: FetchPersonsUseCase,
@@ -28,21 +29,21 @@ public struct SettingsView: View {
                 ColorTokens.background.opacity(0.12).ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: Spacing.l) {
+                    VStack(spacing: Spacing.xl) {
                         // Gradient App Header
                         gradientHeader
                             .entrance(.up, delay: 0.05)
 
                         // Security section
                         SuperSettingsSection(
-                            title: String(localized: "settings.section.security"),
+                            title: "settings.section.security",
                             icon: "lock.shield.fill",
                             iconColor: ColorTokens.accent
                         ) {
                             SuperSettingsToggleRow(
                                 icon: "faceid",
                                 iconColor: ColorTokens.accent,
-                                title: String(localized: "settings.biometric.toggle"),
+                                title: "settings.biometric.toggle",
                                 isOn: Binding(
                                     get: { viewModel.isBiometricEnabled },
                                     set: { viewModel.setBiometric($0) }
@@ -53,14 +54,14 @@ public struct SettingsView: View {
 
                         // Preferences section
                         SuperSettingsSection(
-                            title: String(localized: "settings.section.preferences"),
+                            title: "settings.section.preferences",
                             icon: "slider.horizontal.3",
                             iconColor: ColorTokens.chartPurple
                         ) {
                             SuperSettingsPickerRow(
                                 icon: "globe",
                                 iconColor: ColorTokens.chartPurple,
-                                title: String(localized: "settings.language.label"),
+                                title: "settings.language.label",
                                 selection: Binding(
                                     get: { languageManager.languageCode },
                                     set: { languageManager.setLanguage($0) }
@@ -68,13 +69,19 @@ public struct SettingsView: View {
                                 options: [
                                     ("tr", "Türkçe"),
                                     ("en", "English"),
+                                    ("es", "Español"),
+                                    ("zh", "简体中文"),
+                                    ("hi", "हिन्दी"),
+                                    ("ar", "العربية"),
                                 ]
                             )
+
+                            Divider().padding(.leading, 56)
 
                             SuperSettingsPickerRow(
                                 icon: "dollarsign.circle",
                                 iconColor: ColorTokens.chartPurple,
-                                title: String(localized: "settings.preferredCurrency"),
+                                title: "settings.preferredCurrency",
                                 selection: Binding(
                                     get: { viewModel.preferredCurrency },
                                     set: { viewModel.setCurrency($0) }
@@ -90,23 +97,26 @@ public struct SettingsView: View {
 
                         // Privacy section
                         SuperSettingsSection(
-                            title: String(localized: "settings.section.privacy"),
+                            title: "settings.section.privacy",
                             icon: "hand.raised.fill",
                             iconColor: ColorTokens.positive
                         ) {
                             SuperSettingsToggleRow(
                                 icon: "chart.bar",
                                 iconColor: ColorTokens.positive,
-                                title: String(localized: "settings.analytics.toggle"),
+                                title: "settings.analytics.toggle",
                                 isOn: Binding(
                                     get: { viewModel.isAnalyticsEnabled },
                                     set: { viewModel.setAnalytics($0) }
                                 )
                             )
+                            
+                            Divider().padding(.leading, 56)
+                            
                             SuperSettingsToggleRow(
                                 icon: "exclamationmark.bubble",
                                 iconColor: ColorTokens.positive,
-                                title: String(localized: "settings.crashlytics.toggle"),
+                                title: "settings.crashlytics.toggle",
                                 isOn: Binding(
                                     get: { viewModel.isCrashlyticsEnabled },
                                     set: { viewModel.setCrashlytics($0) }
@@ -117,7 +127,7 @@ public struct SettingsView: View {
 
                         // Data section
                         SuperSettingsSection(
-                            title: String(localized: "settings.section.data"),
+                            title: "settings.section.data",
                             icon: "externaldrive.fill",
                             iconColor: ColorTokens.negative
                         ) {
@@ -130,7 +140,7 @@ public struct SettingsView: View {
                                 SuperSettingsNavRow(
                                     icon: "trash",
                                     iconColor: ColorTokens.negative,
-                                    title: String(localized: "settings.deleteData.button")
+                                    title: "settings.deleteData.button"
                                 )
                             }
                         }
@@ -138,7 +148,7 @@ public struct SettingsView: View {
 
                         // About section
                         SuperSettingsSection(
-                            title: String(localized: "settings.section.about"),
+                            title: "settings.section.about",
                             icon: "info.circle.fill",
                             iconColor: ColorTokens.chartTeal
                         ) {
@@ -147,7 +157,7 @@ public struct SettingsView: View {
                                     SuperSettingsNavRow(
                                         icon: "doc.text",
                                         iconColor: ColorTokens.chartTeal,
-                                        title: String(localized: "settings.about.privacyPolicy")
+                                        title: "settings.about.privacyPolicy"
                                     )
                                 }
                             }
@@ -158,14 +168,19 @@ public struct SettingsView: View {
                         versionFooter
                             .entrance(.fade, delay: 0.35)
                     }
-                    .padding(.horizontal, Spacing.l)
+                    .padding(.horizontal, Spacing.xl)
                     .padding(.bottom, Spacing.xxxl)
                 }
             }
-            .navigationTitle(String(localized: "settings.navigationTitle"))
+            .navigationTitle(LocalizedStringKey("settings.navigationTitle"))
             #if !os(macOS)
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
             #endif
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
+                    logoPulse = true
+                }
+            }
         }
     }
 
@@ -173,34 +188,65 @@ public struct SettingsView: View {
 
     private var gradientHeader: some View {
         VStack(spacing: Spacing.s) {
-            // App icon placeholder
+            // Premium Glowing Icon Emblem (Matches onboarding)
             ZStack {
-                RoundedRectangle(cornerRadius: Radius.xl, style: .continuous)
+                Circle()
                     .fill(
+                        RadialGradient(
+                            colors: [ColorTokens.accent.opacity(logoPulse ? 0.22 : 0.12), ColorTokens.accent.opacity(0)],
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: 50
+                        )
+                    )
+                    .frame(width: 110, height: 110)
+                    .scaleEffect(logoPulse ? 1.08 : 0.92)
+                
+                Circle()
+                    .fill(ColorTokens.surface)
+                    .frame(width: 70, height: 70)
+                    .overlay(
+                        Circle()
+                            .stroke(
+                                LinearGradient(
+                                    colors: [ColorTokens.accent.opacity(0.3), ColorTokens.chartTeal.opacity(0.1)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1.5
+                            )
+                    )
+                    .elevation(Elevation.level2)
+                
+                Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+                    .font(.system(size: 34, weight: .light))
+                    .foregroundStyle(
                         LinearGradient(
-                            colors: [ColorTokens.accent, ColorTokens.chartPurple],
+                            colors: [ColorTokens.accent, ColorTokens.chartTeal],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 64, height: 64)
-                    .shadow(color: ColorTokens.accent.opacity(0.3), radius: 12, x: 0, y: 6)
-
-                Image(systemName: "arrow.triangle.2.circlepath")
-                    .font(.system(size: 26, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .shadow(color: ColorTokens.accent.opacity(0.3), radius: 5, x: 0, y: 3)
             }
+            .padding(.bottom, Spacing.xxs)
 
-            Text(String(localized: "app.name"))
-                .font(Typography.font(for: .title))
-                .foregroundStyle(ColorTokens.textPrimary)
+            Text(LocalizedStringKey("app.name"))
+                .font(.custom(AppFont.jakartaBold, size: 28))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [ColorTokens.textPrimary, ColorTokens.accent],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
 
-            Text(String(localized: "app.subtitle"))
+            Text(LocalizedStringKey("app.subtitle"))
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, Spacing.xxl)
+        .padding(.vertical, Spacing.xl)
         .background(
             RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
                 .fill(ColorTokens.surface)
@@ -209,16 +255,17 @@ public struct SettingsView: View {
             RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
                 .stroke(ColorTokens.border, lineWidth: 0.5)
         )
+        .elevation(Elevation.level1)
     }
 
     // MARK: - Version Footer
 
     private var versionFooter: some View {
         VStack(spacing: Spacing.xxs) {
-            Text(String(localized: "app.name"))
+            Text(LocalizedStringKey("app.name"))
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
-            Text(String(localized: "app.subtitle"))
+            Text(LocalizedStringKey("app.subtitle"))
                 .font(Typography.font(for: .label))
                 .foregroundStyle(ColorTokens.textTertiary.opacity(0.6))
             Text(Bundle.main.releaseVersionNumber)
@@ -233,7 +280,7 @@ public struct SettingsView: View {
 // MARK: - Super Settings Section
 
 private struct SuperSettingsSection<Content: View>: View {
-    let title: String
+    let title: LocalizedStringKey
     let icon: String
     let iconColor: Color
     @ViewBuilder let content: Content
@@ -252,7 +299,7 @@ private struct SuperSettingsSection<Content: View>: View {
                 }
 
                 Text(title)
-                    .font(Typography.font(for: .caption))
+                    .font(Typography.font(for: .labelEmphasis))
                     .foregroundStyle(iconColor)
                     .textCase(.uppercase)
                     .tracking(0.8)
@@ -287,7 +334,7 @@ private struct SuperSettingsSection<Content: View>: View {
 private struct SuperSettingsToggleRow: View {
     let icon: String
     let iconColor: Color
-    let title: String
+    let title: LocalizedStringKey
     @Binding var isOn: Bool
 
     var body: some View {
@@ -321,7 +368,7 @@ private struct SuperSettingsToggleRow: View {
 private struct SuperSettingsPickerRow<Selection: Hashable>: View {
     let icon: String
     let iconColor: Color
-    let title: String
+    let title: LocalizedStringKey
     @Binding var selection: Selection
     let options: [(Selection, String)]
 
@@ -360,7 +407,7 @@ private struct SuperSettingsPickerRow<Selection: Hashable>: View {
 private struct SuperSettingsNavRow: View {
     let icon: String
     let iconColor: Color
-    let title: String
+    let title: LocalizedStringKey
 
     var body: some View {
         HStack(spacing: Spacing.m) {
@@ -387,5 +434,3 @@ private struct SuperSettingsNavRow: View {
         .padding(.vertical, Spacing.m)
     }
 }
-
-// Preview disabled: requires repository injection.

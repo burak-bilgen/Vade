@@ -34,26 +34,32 @@ public struct PersonDetailView: View {
     @State private var contentAppeared = false
 
     public var body: some View {
-        Group {
-            if let vm = viewModel {
-                contentView(vm)
-            } else {
-                ProgressView()
-                    .entrance(.fade)
-                    .task {
-                        let vm = PersonDetailViewModel(
-                            person: person,
-                            debtRepo: debtRepo,
-                            balanceRepo: balanceRepo,
-                            paymentRepo: paymentRepo,
-                            analytics: analytics
-                        )
-                        viewModel = vm
-                        await vm.loadData()
-                        withAnimation(.spring(response: 0.5)) {
-                            contentAppeared = true
+        ZStack {
+            FinanceBackgroundAnimation()
+                .ignoresSafeArea()
+            ColorTokens.background.opacity(0.12).ignoresSafeArea()
+
+            Group {
+                if let vm = viewModel {
+                    contentView(vm)
+                } else {
+                    PersonDetailSkeleton()
+                        .entrance(.fade)
+                        .task {
+                            let vm = PersonDetailViewModel(
+                                person: person,
+                                debtRepo: debtRepo,
+                                balanceRepo: balanceRepo,
+                                paymentRepo: paymentRepo,
+                                analytics: analytics
+                            )
+                            viewModel = vm
+                            await vm.loadData()
+                            withAnimation(.spring(response: 0.5)) {
+                                contentAppeared = true
+                            }
                         }
-                    }
+                }
             }
         }
         .background(ColorTokens.background)
@@ -63,7 +69,7 @@ public struct PersonDetailView: View {
         #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(String(localized: "personDetail.addDebt.button"), systemImage: "plus") {
+                Button("personDetail.addDebt.button", systemImage: "plus") {
                     showAddDebt = true
                 }
                 .premiumPress()
@@ -95,13 +101,13 @@ public struct PersonDetailView: View {
             VStack(spacing: Spacing.l) {
                 // ✦ Balance header — Glassmorphism card
                 VStack(spacing: Spacing.xs) {
-                    Text(String(localized: "personDetail.balance.label"))
+                    Text("personDetail.balance.label")
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
 
-                    Text(vm.balance.formatted())
+                    Text(vm.balance < 0 ? "-₺\(vm.balance.magnitude.formatted())" : "₺\(vm.balance.formatted())")
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(balanceColor(vm.balance))
                         .contentTransition(.numericText(countsDown: true))
@@ -114,9 +120,13 @@ public struct PersonDetailView: View {
                     HStack(spacing: Spacing.xxs) {
                         Image(systemName: vm.balance >= 0 ? "arrow.up.forward" : "arrow.down.forward")
                             .font(.system(size: 10, weight: .bold))
-                        Text(vm.balance >= 0
-                            ? String(localized: "personDetail.balance.receivable")
-                            : String(localized: "personDetail.balance.payable"))
+                        Group {
+                            if vm.balance >= 0 {
+                                Text("personDetail.balance.receivable")
+                            } else {
+                                Text("personDetail.balance.payable")
+                            }
+                        }
                             .font(Typography.font(for: .caption))
                     }
                     .foregroundStyle(balanceColor(vm.balance))
@@ -138,7 +148,7 @@ public struct PersonDetailView: View {
                     HStack(spacing: Spacing.m) {
                         quickActionButton(
                             icon: "phone.fill",
-                            label: String(localized: "personDetail.action.call"),
+                            label: "personDetail.action.call",
                             color: ColorTokens.positive
                         ) {
                             guard let url = URL(string: "tel://\(phone.replacingOccurrences(of: " ", with: ""))") else { return }
@@ -148,7 +158,7 @@ public struct PersonDetailView: View {
 
                         quickActionButton(
                             icon: "message.fill",
-                            label: String(localized: "personDetail.action.message"),
+                            label: "personDetail.action.message",
                             color: ColorTokens.chartBlue
                         ) {
                             guard let url = URL(string: "sms://\(phone.replacingOccurrences(of: " ", with: ""))") else { return }
@@ -158,7 +168,7 @@ public struct PersonDetailView: View {
 
                         quickActionButton(
                             icon: "square.and.arrow.up",
-                            label: String(localized: "personDetail.action.share"),
+                            label: "personDetail.action.share",
                             color: ColorTokens.accent
                         ) {
                             shareBalance(vm: vm)
@@ -172,19 +182,19 @@ public struct PersonDetailView: View {
                 HStack(spacing: Spacing.m) {
                     DebtSummaryChip(
                         count: vm.debts.filter { $0.status == .pending }.count,
-                        label: String(localized: "personDetail.status.pending"),
+                        label: "personDetail.status.pending",
                         color: ColorTokens.chartOrange
                     )
                     .entrance(.scale, delay: 0.2)
                     DebtSummaryChip(
                         count: vm.debts.filter { $0.status == .paid }.count,
-                        label: String(localized: "personDetail.status.paid"),
+                        label: "personDetail.status.paid",
                         color: ColorTokens.positive
                     )
                     .entrance(.scale, delay: 0.25)
                     DebtSummaryChip(
                         count: vm.debts.filter { $0.status == .archived }.count,
-                        label: String(localized: "personDetail.status.archived"),
+                        label: "personDetail.status.archived",
                         color: ColorTokens.textTertiary
                     )
                     .entrance(.scale, delay: 0.3)
@@ -193,7 +203,7 @@ public struct PersonDetailView: View {
 
                 // Timeline header
                 HStack {
-                    Text(String(localized: "personDetail.history.title"))
+                    Text("personDetail.history.title")
                         .font(Typography.font(for: .title2))
                         .foregroundStyle(ColorTokens.textPrimary)
                     Spacer()
@@ -211,8 +221,8 @@ public struct PersonDetailView: View {
                 // Timeline — staggered entrance
                 if vm.debts.isEmpty {
                     EmptyStateView(
-                        title: String(localized: "personDetail.empty.title"),
-                        subtitle: String(localized: "personDetail.empty.subtitle")
+                        title: "personDetail.empty.title",
+                        subtitle: "personDetail.empty.subtitle"
                     )
                     .padding(.top, Spacing.xxxl)
                     .entrance(.fade)
@@ -276,7 +286,7 @@ public struct PersonDetailView: View {
     }
 
     private func shareBalance(vm: PersonDetailViewModel) {
-        let text = String(localized: "personDetail.share.text \\(person.name) \\(vm.balance.formatted())")
+        let text = "\(person.name) — \(vm.balance.formatted())"
         let av = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = scene.windows.first,
@@ -290,7 +300,7 @@ public struct PersonDetailView: View {
 
 private struct DebtSummaryChip: View {
     let count: Int
-    let label: String
+    let label: LocalizedStringKey
     let color: Color
 
     var body: some View {
@@ -346,7 +356,7 @@ private struct TimelineDebtRow: View {
                             .foregroundStyle(ColorTokens.textPrimary)
                             .lineLimit(2)
                         Spacer()
-                        Text(debt.amount.formatted())
+                        Text(debt.kind.format(debt.amount))
                             .font(Typography.font(for: .amount))
                             .foregroundStyle(debt.direction == .receivable
                                 ? ColorTokens.positive : ColorTokens.negative)
@@ -406,9 +416,9 @@ private struct TimelineDebtRow: View {
 
     private func statusLabel(_ status: DebtStatus) -> String {
         switch status {
-        case .pending: return String(localized: "personDetail.status.pending")
-        case .paid: return String(localized: "personDetail.status.paid")
-        case .archived: return String(localized: "personDetail.status.archived")
+        case .pending: return "personDetail.status.pending"
+        case .paid: return "personDetail.status.paid"
+        case .archived: return "personDetail.status.archived"
         }
     }
 
@@ -440,12 +450,12 @@ private struct AddDebtSheet: View {
             VStack(spacing: Spacing.xl) {
                 // Amount input — premium style
                 VStack(spacing: Spacing.xxs) {
-                    Text(String(localized: "debt.add.amountPlaceholder"))
+                    Text("debt.add.amountPlaceholder")
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
-                    TextField(String(localized: "debt.amount.placeholder"), text: $amountText)
+                    TextField("debt.amount.placeholder", text: $amountText)
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(ColorTokens.textPrimary)
                         .multilineTextAlignment(.center)
@@ -497,7 +507,7 @@ private struct AddDebtSheet: View {
                 HStack(spacing: Spacing.m) {
                     Image(systemName: "note.text")
                         .foregroundStyle(ColorTokens.textTertiary)
-                    TextField(String(localized: "debt.add.notePlaceholder"), text: $note)
+                    TextField("debt.add.notePlaceholder", text: $note)
                         .font(Typography.font(for: .body))
                         .disabled(isSaving)
                 }
@@ -515,7 +525,7 @@ private struct AddDebtSheet: View {
 
                 // Due date toggle
                 Toggle(isOn: $hasDueDate) {
-                    Label(String(localized: "debt.add.dueDateToggle"), systemImage: "calendar")
+                    Label("debt.add.dueDateToggle", systemImage: "calendar")
                         .font(Typography.font(for: .body))
                 }
                 .tint(ColorTokens.accent)
@@ -524,7 +534,7 @@ private struct AddDebtSheet: View {
 
                 if hasDueDate {
                     DatePicker(
-                        String(localized: "debt.add.dueDatePicker"),
+                        "debt.add.dueDatePicker",
                         selection: $dueDate,
                         displayedComponents: .date
                     )
@@ -539,8 +549,8 @@ private struct AddDebtSheet: View {
                     Task { await save() }
                 } label: {
                     HStack(spacing: Spacing.s) {
-                        if isSaving { ProgressView().tint(.black) }
-                        Text(String(localized: "debt.add.save"))
+                        if isSaving { ProgressView().tint(.white) }
+                        Text("debt.add.save")
                             .font(Typography.font(for: .button))
                     }
                     .frame(maxWidth: .infinity)
@@ -548,20 +558,20 @@ private struct AddDebtSheet: View {
                     .background(
                         Capsule().fill(canSave ? ColorTokens.accent : ColorTokens.border)
                     )
-                    .foregroundStyle(canSave && !isSaving ? .black : ColorTokens.textTertiary)
+                    .foregroundStyle(canSave && !isSaving ? .white : ColorTokens.textTertiary)
                 }
                 .disabled(!canSave || isSaving)
                 .padding(.horizontal, Spacing.xl)
                 .padding(.bottom, Spacing.xxxl)
             }
             .background(ColorTokens.background)
-            .navigationTitle(String(localized: "debt.add.title"))
+            .navigationTitle("debt.add.title")
             #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "debt.add.cancel")) { dismiss() }
+                    Button("debt.add.cancel") { dismiss() }
                         .disabled(isSaving)
                 }
             }
@@ -580,10 +590,8 @@ private struct AddDebtSheet: View {
             HStack(spacing: Spacing.xxs) {
                 Image(systemName: direction == .receivable ? "arrow.down.left" : "arrow.up.right")
                     .font(.system(size: 12, weight: .bold))
-                Text(direction == .receivable
-                    ? String(localized: "debt.add.direction.receivable")
-                    : String(localized: "debt.add.direction.payable"))
-                    .font(Typography.font(for: .buttonSmall))
+                Text(direction == .receivable                    ? "debt.add.direction.receivable" : "debt.add.direction.payable")
+                        .font(Typography.font(for: .buttonSmall))
             }
             .foregroundStyle(selectedDirection == direction ? color : ColorTokens.textTertiary)
             .frame(maxWidth: .infinity)
@@ -627,12 +635,12 @@ private struct RecordPaymentSheet: View {
         NavigationStack {
             VStack(spacing: Spacing.xl) {
                 VStack(spacing: Spacing.xxs) {
-                    Text(String(localized: "payment.remainingBalance"))
+                    Text("payment.remainingBalance")
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
-                    Text(debt.amount.formatted())
+                    Text(debt.kind.format(debt.amount))
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(debt.direction == .receivable
                             ? ColorTokens.positive : ColorTokens.negative)
@@ -642,12 +650,12 @@ private struct RecordPaymentSheet: View {
 
                 // Amount input
                 VStack(spacing: Spacing.xxs) {
-                    Text(String(localized: "payment.amountPlaceholder"))
+                    Text("payment.amountPlaceholder")
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
-                    TextField(String(localized: "debt.amount.placeholder"), text: $amountText)
+                    TextField("debt.amount.placeholder", text: $amountText)
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(ColorTokens.textPrimary)
                         .multilineTextAlignment(.center)
@@ -661,7 +669,7 @@ private struct RecordPaymentSheet: View {
                 HStack(spacing: Spacing.m) {
                     Image(systemName: "note.text")
                         .foregroundStyle(ColorTokens.textTertiary)
-                    TextField(String(localized: "payment.notePlaceholder"), text: $note)
+                    TextField("payment.notePlaceholder", text: $note)
                         .font(Typography.font(for: .body))
                         .disabled(isSaving)
                 }
@@ -681,9 +689,9 @@ private struct RecordPaymentSheet: View {
 
                 // Full amount quick fill
                 HStack(spacing: Spacing.m) {
-                    quickFillButton(amount: debt.amount, label: String(localized: "payment.full"))
-                    quickFillButton(amount: debt.amount / 2, label: String(localized: "payment.half"))
-                    quickFillButton(amount: debt.amount / 4, label: String(localized: "payment.quarter"))
+                    quickFillButton(amount: debt.amount, label: "payment.full")
+                    quickFillButton(amount: debt.amount / 2, label: "payment.half")
+                    quickFillButton(amount: debt.amount / 4, label: "payment.quarter")
                 }
                 .padding(.horizontal, Spacing.xl)
 
@@ -692,8 +700,8 @@ private struct RecordPaymentSheet: View {
                     Task { await save() }
                 } label: {
                     HStack(spacing: Spacing.s) {
-                        if isSaving { ProgressView().tint(.black) }
-                        Text(String(localized: "payment.save"))
+                        if isSaving { ProgressView().tint(.white) }
+                        Text("payment.save")
                             .font(Typography.font(for: .button))
                     }
                     .frame(maxWidth: .infinity)
@@ -701,20 +709,20 @@ private struct RecordPaymentSheet: View {
                     .background(
                         Capsule().fill(canSave ? ColorTokens.accent : ColorTokens.border)
                     )
-                    .foregroundStyle(canSave && !isSaving ? .black : ColorTokens.textTertiary)
+                    .foregroundStyle(canSave && !isSaving ? .white : ColorTokens.textTertiary)
                 }
                 .disabled(!canSave || isSaving)
                 .padding(.horizontal, Spacing.xl)
                 .padding(.bottom, Spacing.xxxl)
             }
             .background(ColorTokens.background)
-            .navigationTitle(String(localized: "payment.title"))
+            .navigationTitle("payment.title")
             #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "payment.cancel")) { dismiss() }
+                    Button("payment.cancel") { dismiss() }
                         .disabled(isSaving)
                 }
             }
@@ -754,6 +762,47 @@ private struct RecordPaymentSheet: View {
 
 private extension String {
     var trimmed: String { trimmingCharacters(in: .whitespacesAndNewlines) }
+}
+
+// MARK: - Loading Skeleton
+
+private struct PersonDetailSkeleton: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: Spacing.l) {
+                // Balance skeleton
+                SkeletonCard(lines: 2)
+                    .frame(height: 120)
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.top, Spacing.l)
+
+                // Quick actions skeleton
+                HStack(spacing: Spacing.m) {
+                    ForEach(0..<3, id: \.self) { _ in
+                        ShimmerView(cornerRadius: Radius.md)
+                            .frame(height: 72)
+                    }
+                }
+                .padding(.horizontal, Spacing.xl)
+
+                // Chips skeleton
+                HStack(spacing: Spacing.m) {
+                    ForEach(0..<3, id: \.self) { _ in
+                        ShimmerView(cornerRadius: Radius.md)
+                            .frame(height: 64)
+                    }
+                }
+                .padding(.horizontal, Spacing.xl)
+
+                // Timeline items skeleton
+                ForEach(0..<4, id: \.self) { _ in
+                    SkeletonCard(lines: 2)
+                        .padding(.horizontal, Spacing.xl)
+                }
+            }
+            .padding(.vertical, Spacing.l)
+        }
+    }
 }
 
 // Preview disabled: requires repository injection.

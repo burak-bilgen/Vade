@@ -196,7 +196,7 @@ struct QuickAddSheet: View {
                     }
                 } label: {
                     HStack(spacing: Spacing.s) {
-                        if vm.isSaving { ProgressView().tint(.black) }
+                        if vm.isSaving { ProgressView().tint(.white) }
                         Text(String(localized: "quickAdd.save"))
                             .font(Typography.font(for: .button))
                     }
@@ -205,7 +205,7 @@ struct QuickAddSheet: View {
                     .background(
                         Capsule().fill(vm.canSave ? ColorTokens.accent : ColorTokens.border)
                     )
-                    .foregroundStyle(vm.canSave && !vm.isSaving ? .black : ColorTokens.textTertiary)
+                    .foregroundStyle(vm.canSave && !vm.isSaving ? .white : ColorTokens.textTertiary)
                 }
                 .disabled(!vm.canSave || vm.isSaving)
                 .padding(.horizontal, Spacing.xl)

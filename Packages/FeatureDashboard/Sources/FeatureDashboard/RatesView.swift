@@ -3,85 +3,223 @@ import DesignSystem
 import Domain
 import Networking
 
-// MARK: - Exchange Rates View
+// MARK: - Exchange Rates View — Modern Redesign
 
 public struct RatesView: View {
     @State private var rates: ExchangeRateSnapshot?
     @State private var allRates: [(code: String, rate: Decimal)] = []
+    @State private var selectedCode: String = "USD"
     @State private var isLoading = true
+    @State private var conversionAmount = ""
     private let client = ExchangeRateClient()
 
-    private static let majorCurrencies: [(flag: String, code: String, key: String)] = [
-        ("🇺🇸", "USD", "rates.usd"),
-        ("🇪🇺", "EUR", "rates.eur"),
-        ("🇬🇧", "GBP", "rates.gbp"),
-        ("🇨🇭", "CHF", "rates.chf"),
-        ("🇯🇵", "JPY", "rates.jpy"),
-        ("🪙", "XAU", "currency.gold.gram"),
-    ]
+    private static let majorCodes: [String] = ["USD", "EUR", "GBP", "CHF", "JPY", "XAU"]
+
+    private var majorRates: [(code: String, rate: Decimal?, label: String)] {
+        Self.majorCodes.map { code in
+            let label: String = {
+                switch code {
+                case "USD": return String(localized: "rates.usd")
+                case "EUR": return String(localized: "rates.eur")
+                case "GBP": return String(localized: "rates.gbp")
+                case "CHF": return String(localized: "rates.chf")
+                case "JPY": return String(localized: "rates.jpy")
+                case "XAU": return String(localized: "currency.gold.gram")
+                default: return code
+                }
+            }()
+            return (code, self.rate(for: code), label)
+        }
+    }
 
     public init() {}
 
     public var body: some View {
-        List {
-            if let rates {
-                Section(String(localized: "rates.major")) {
-                    ForEach(Self.majorCurrencies, id: \.code) { currency in
-                        rateRow(
-                            flag: currency.flag,
-                            code: currency.code,
-                            label: String(localized: LocalizedStringResource(stringLiteral: currency.key)),
-                            rate: self.rate(for: currency.code, snapshot: rates)
-                        )
-                    }
+        ZStack {
+            FinanceBackgroundAnimation()
+                .ignoresSafeArea()
+            ColorTokens.background.opacity(0.12).ignoresSafeArea()
+
+            if isLoading && rates == nil {
+                RatesSkeleton()
+                    .entrance(.fade)
+            } else {
+                content
+            }
+        }
+        .navigationTitle(String(localized: "rates.title"))
+        .navigationBarTitleDisplayMode(.inline)
+        .refreshable { await loadRates() }
+        .task { await loadRates() }
+    }
+
+    private var content: some View {
+        ScrollView {
+            VStack(spacing: Spacing.xl) {
+                // Selected currency — large prominent card
+                if let selectedRate = rate(for: selectedCode) {
+                    ProminentRateCard(
+                        code: selectedCode == "XAU" ? "GRAM" : selectedCode,
+                        rate: selectedCode == "XAU" ? rates?.goldRate : selectedRate,
+                        lastUpdate: rates?.lastUpdate
+                    )
+                    .padding(.horizontal, Spacing.xl)
+                    .entrance(.scale, delay: 0.05)
                 }
 
-                if let lastUpdate = rates.lastUpdate {
+                // Quick converter input
+                VStack(spacing: Spacing.m) {
+                    HStack(spacing: Spacing.m) {
+                        Image(systemName: "arrow.left.arrow.right")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(ColorTokens.textTertiary)
+
+                        Text(String(localized: "rates.converter.title"))
+                            .font(Typography.font(for: .label))
+                            .foregroundStyle(ColorTokens.textTertiary)
+                            .textCase(.uppercase)
+                            .tracking(0.8)
+
+                        Spacer()
+                    }
+
+                    HStack(spacing: Spacing.m) {
+                        // Amount input
+                        TextField("100", text: $conversionAmount)
+                            .font(Typography.font(for: .title))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                            .keyboardType(.decimalPad)
+                            .frame(width: 100)
+
+                        Text(selectedCode == "XAU" ? "GRAM" : selectedCode)
+                            .font(Typography.font(for: .bodyEmphasis))
+                            .foregroundStyle(ColorTokens.textSecondary)
+
+                        Text("=")
+                            .font(Typography.font(for: .title))
+                            .foregroundStyle(ColorTokens.textTertiary)
+
+                        if let amount = Decimal(string: conversionAmount.isEmpty ? "0" : conversionAmount),
+                           let rate = (selectedCode == "XAU" ? rates?.goldRate : rate(for: selectedCode)) {
+                            let result = amount * rate
+                            Text(result.formatted())
+                                .font(Typography.font(for: .title))
+                                .foregroundStyle(ColorTokens.accent)
+                                .contentTransition(.numericText())
+
+                            Text("TL")
+                                .font(Typography.font(for: .bodyEmphasis))
+                                .foregroundStyle(ColorTokens.textSecondary)
+                        }
+                    }
+                    .padding(.horizontal, Spacing.l)
+                    .padding(.vertical, Spacing.ml)
+                    .background(
+                        RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                            .fill(ColorTokens.surface)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                            .stroke(ColorTokens.border, lineWidth: 0.5)
+                    )
+                }
+                .padding(.horizontal, Spacing.xl)
+                .entrance(.up, delay: 0.1)
+
+                // All currencies — tappable to select
+                VStack(alignment: .leading, spacing: Spacing.s) {
+                    Text(String(localized: "rates.major"))
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.textTertiary)
+                        .textCase(.uppercase)
+                        .tracking(0.8)
+                        .padding(.horizontal, Spacing.xl)
+
+                    VStack(spacing: 0) {
+                        ForEach(Array(majorRates.enumerated()), id: \.element.code) { i, item in
+                            RateTileRow(
+                                code: item.code,
+                                label: item.label,
+                                rate: item.rate,
+                                isSelected: item.code == selectedCode
+                            ) {
+                                withAnimation(.spring(response: 0.3)) {
+                                    selectedCode = item.code
+                                }
+                                HapticFeedback.impact(.light)
+                            }
+                            if i < majorRates.count - 1 {
+                                DashedDivider()
+                                    .padding(.leading, 72)
+                            }
+                        }
+                    }
+                    .background(
+                        RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                            .fill(ColorTokens.surface)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                            .stroke(ColorTokens.border, lineWidth: 0.5)
+                    )
+                    .padding(.horizontal, Spacing.xl)
+                }
+                .entrance(.up, delay: 0.15)
+
+                // All rates section
+                if !allRates.isEmpty {
+                    VStack(alignment: .leading, spacing: Spacing.s) {
+                        Text(String(localized: "rates.all"))
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textTertiary)
+                            .textCase(.uppercase)
+                            .tracking(0.8)
+                            .padding(.horizontal, Spacing.xl)
+
+                        VStack(spacing: 0) {
+                            ForEach(Array(allRates.enumerated()), id: \.element.code) { i, item in
+                                AllRateRow(code: item.code, rate: item.rate)
+                                if i < allRates.count - 1 {
+                                    DashedDivider()
+                                        .padding(.leading, 72)
+                                }
+                            }
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                                .fill(ColorTokens.surface)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                                .stroke(ColorTokens.border, lineWidth: 0.5)
+                        )
+                        .padding(.horizontal, Spacing.xl)
+                    }
+                    .entrance(.up, delay: 0.2)
+                }
+
+                // Last update
+                if let lastUpdate = rates?.lastUpdate {
                     HStack {
                         Image(systemName: "clock")
-                            .font(Typography.font(for: .caption))
+                            .font(.caption)
                             .foregroundStyle(ColorTokens.textTertiary)
                         Text(lastUpdate, format: .dateTime.hour().minute().day().month(.abbreviated))
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textTertiary)
                     }
-                    .listRowBackground(ColorTokens.background)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .entrance(.fade, delay: 0.25)
                 }
-            }
 
-            if !allRates.isEmpty {
-                Section(String(localized: "rates.all")) {
-                    ForEach(allRates, id: \.code) { item in
-                        HStack(spacing: Spacing.m) {
-                            Text(flag(for: item.code))
-                                .font(Typography.font(for: .headline))
-                            VStack(alignment: .leading, spacing: 1) {
-                                Text(item.code)
-                                    .font(Typography.font(for: .bodyEmphasis))
-                                    .foregroundStyle(ColorTokens.textPrimary)
-                                Text(currencyName(for: item.code))
-                                    .font(Typography.font(for: .label))
-                                    .foregroundStyle(ColorTokens.textTertiary)
-                            }
-                            Spacer()
-                            Text(item.rate, format: .number.precision(.fractionLength(4)))
-                                .font(Typography.font(for: .amount))
-                                .foregroundStyle(ColorTokens.textPrimary)
-                        }
-                    }
-                }
+                Spacer().frame(height: Spacing.xxxl)
             }
+            .padding(.vertical, Spacing.l)
         }
-        .navigationTitle(String(localized: "rates.title"))
-        .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
-        .background(ColorTokens.background)
-        .overlay {
-            if isLoading { ProgressView() }
+        .background(Color.clear)
+        .onChange(of: selectedCode) { _, _ in
+            conversionAmount = ""
         }
-        .refreshable { await loadRates() }
-        .task { await loadRates() }
     }
 
     private func loadRates() async {
@@ -107,80 +245,101 @@ public struct RatesView: View {
         }
     }
 
-    private func rate(for code: String, snapshot: ExchangeRateSnapshot) -> Decimal? {
+    private func rate(for code: String) -> Decimal? {
+        guard let rates else { return nil }
         switch code {
-        case "USD": return snapshot.usdRate
-        case "EUR": return snapshot.eurRate
-        case "GBP": return snapshot.gbpRate
-        case "CHF": return snapshot.chfRate
-        case "JPY": return snapshot.jpyRate
-        case "XAU": return snapshot.goldRate
+        case "USD": return rates.usdRate
+        case "EUR": return rates.eurRate
+        case "GBP": return rates.gbpRate
+        case "CHF": return rates.chfRate
+        case "JPY": return rates.jpyRate
+        case "XAU": return rates.goldRate
         default: return nil
         }
     }
+}
 
-    private func rateRow(flag: String, code: String, label: String, rate: Decimal?) -> some View {
+// MARK: - Rate Tile Row
+
+private struct RateTileRow: View {
+    let code: String
+    let label: String
+    let rate: Decimal?
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: Spacing.l) {
+                CurrencyIconView(code: code, size: 38)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(code == "XAU" ? "GRAM" : code)
+                        .font(Typography.font(for: .bodyEmphasis))
+                        .foregroundStyle(ColorTokens.textPrimary)
+                    Text(label)
+                        .font(Typography.font(for: .caption))
+                        .foregroundStyle(ColorTokens.textTertiary)
+                }
+
+                Spacer()
+
+                if let rate {
+                    Text(rate, format: .number.precision(.fractionLength(2)))
+                        .font(Typography.font(for: .amount))
+                        .foregroundStyle(ColorTokens.textPrimary)
+                        .contentTransition(.numericText())
+                } else {
+                    Text("--")
+                        .font(Typography.font(for: .amount))
+                        .foregroundStyle(ColorTokens.textTertiary)
+                }
+
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 14))
+                        .foregroundStyle(ColorTokens.accent)
+                }
+            }
+            .padding(.horizontal, Spacing.l)
+            .padding(.vertical, Spacing.m)
+            .background(isSelected ? ColorTokens.accentLight : Color.clear)
+        }
+        .buttonStyle(.plain)
+        .animation(.spring(response: 0.2), value: isSelected)
+    }
+}
+
+// MARK: - All Rate Row
+
+private struct AllRateRow: View {
+    let code: String
+    let rate: Decimal
+
+    var body: some View {
         HStack(spacing: Spacing.l) {
-            Text(flag)
-                .font(Typography.font(for: .title2))
-            VStack(alignment: .leading, spacing: 1) {
-                Text(label)
+            CurrencyIconView(code: code, size: 34)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(code)
                     .font(Typography.font(for: .bodyEmphasis))
                     .foregroundStyle(ColorTokens.textPrimary)
-                Text(code)
-                    .font(Typography.font(for: .label))
+                Text(currencyDisplayName(for: code))
+                    .font(Typography.font(for: .caption))
                     .foregroundStyle(ColorTokens.textTertiary)
             }
+
             Spacer()
-            if let rate {
-                Text(rate, format: .number.precision(.fractionLength(4)))
-                    .font(Typography.font(for: .amount))
-                    .foregroundStyle(ColorTokens.textPrimary)
-            } else {
-                Text("--")
-                    .font(Typography.font(for: .amount))
-                    .foregroundStyle(ColorTokens.textSecondary)
-            }
+
+            Text(rate, format: .number.precision(.fractionLength(2)))
+                .font(Typography.font(for: .amount))
+                .foregroundStyle(ColorTokens.textPrimary)
         }
-        .padding(.vertical, Spacing.xxs)
+        .padding(.horizontal, Spacing.l)
+        .padding(.vertical, Spacing.m)
     }
 
-    private func flag(for code: String) -> String {
-        switch code {
-        case "USD": return "🇺🇸"
-        case "EUR": return "🇪🇺"
-        case "GBP": return "🇬🇧"
-        case "CHF": return "🇨🇭"
-        case "JPY": return "🇯🇵"
-        case "CAD": return "🇨🇦"
-        case "AUD": return "🇦🇺"
-        case "CNY": return "🇨🇳"
-        case "SEK": return "🇸🇪"
-        case "NOK": return "🇳🇴"
-        case "DKK": return "🇩🇰"
-        case "SAR": return "🇸🇦"
-        case "KWD": return "🇰🇼"
-        case "BGN": return "🇧🇬"
-        case "RON": return "🇷🇴"
-        case "RUB": return "🇷🇺"
-        case "IRR": return "🇮🇷"
-        case "KRW": return "🇰🇷"
-        case "ZAR": return "🇿🇦"
-        case "BRL": return "🇧🇷"
-        case "INR": return "🇮🇳"
-        case "MXN": return "🇲🇽"
-        case "MYR": return "🇲🇾"
-        case "NZD": return "🇳🇿"
-        case "PHP": return "🇵🇭"
-        case "SGD": return "🇸🇬"
-        case "THB": return "🇹🇭"
-        case "TRY": return "🇹🇷"
-        case "XAU": return "🪙"
-        default: return "💱"
-        }
-    }
-
-    private func currencyName(for code: String) -> String {
+    private func currencyDisplayName(for code: String) -> String {
         switch code {
         case "USD": return String(localized: "rates.usd")
         case "EUR": return String(localized: "rates.eur")
@@ -188,6 +347,57 @@ public struct RatesView: View {
         case "CHF": return String(localized: "rates.chf")
         case "JPY": return String(localized: "rates.jpy")
         default: return code
+        }
+    }
+}
+
+// MARK: - Rates Loading Skeleton
+
+private struct RatesSkeleton: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: Spacing.l) {
+                // Section header skeleton
+                ShimmerView(cornerRadius: Radius.sm)
+                    .frame(width: 100, height: 14)
+                    .padding(.horizontal, Spacing.l)
+                    .padding(.top, Spacing.l)
+
+                // Rates card skeleton
+                VStack(spacing: 0) {
+                    ForEach(0..<6, id: \.self) { i in
+                        HStack(spacing: Spacing.l) {
+                            ShimmerView(cornerRadius: Radius.sm)
+                                .frame(width: 28, height: 28)
+                            VStack(alignment: .leading, spacing: 4) {
+                                ShimmerView(cornerRadius: Radius.xs)
+                                    .frame(width: 80, height: 12)
+                                ShimmerView(cornerRadius: Radius.xs)
+                                    .frame(width: 36, height: 10)
+                            }
+                            Spacer()
+                            ShimmerView(cornerRadius: Radius.xs)
+                                .frame(width: 60, height: 14)
+                        }
+                        .padding(.horizontal, Spacing.l)
+                        .padding(.vertical, Spacing.m)
+                        if i < 5 {
+                            DashedDivider()
+                                .padding(.leading, 76)
+                        }
+                    }
+                }
+                .background(
+                    RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                        .fill(ColorTokens.surface)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                        .stroke(ColorTokens.border, lineWidth: 0.5)
+                )
+                .padding(.horizontal, Spacing.l)
+            }
+            .padding(.vertical, Spacing.l)
         }
     }
 }

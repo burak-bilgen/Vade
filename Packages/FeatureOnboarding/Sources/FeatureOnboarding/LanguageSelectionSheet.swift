@@ -8,7 +8,11 @@ public struct LanguageSelectionSheet: View {
     
     private let languages = [
         ("tr", "Türkçe", "🇹🇷"),
-        ("en", "English", "🇬🇧")
+        ("en", "English", "🇬🇧"),
+        ("es", "Español", "🇪🇸"),
+        ("zh", "简体中文", "🇨🇳"),
+        ("hi", "हिन्दी", "🇮🇳"),
+        ("ar", "العربية", "🇸🇦")
     ]
     
     public init() {}

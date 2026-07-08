@@ -22,7 +22,7 @@ public struct SummaryCard: View {
 
             VStack(spacing: Spacing.l) {
                 // "Net Durum" label
-                Text(String(localized: "dashboard.summary.netBalance", comment: "Summary card title"))
+                Text("dashboard.summary.netBalance", comment: "Summary card title")
                     .font(Typography.font(for: .caption))
                     .foregroundStyle(ColorTokens.textTertiary)
 
@@ -36,13 +36,13 @@ public struct SummaryCard: View {
                 HStack(spacing: Spacing.xxl) {
                     statView(
                         prefix: "\u{2191}",
-                        label: String(localized: "dashboard.summary.totalReceivable", comment: "Total receivable amount"),
+                        label: "dashboard.summary.totalReceivable",
                         amount: totalReceivable,
                         color: ColorTokens.positive
                     )
                     statView(
                         prefix: "\u{2193}",
-                        label: String(localized: "dashboard.summary.totalPayable", comment: "Total payable amount"),
+                        label: "dashboard.summary.totalPayable",
                         amount: totalPayable,
                         color: ColorTokens.negative
                     )
@@ -60,9 +60,9 @@ public struct SummaryCard: View {
         return netAmount > 0 ? ColorTokens.positive : ColorTokens.negative
     }
 
-    private func statView(prefix: String, label: String, amount: Decimal, color: Color) -> some View {
+    private func statView(prefix: String, label: LocalizedStringKey, amount: Decimal, color: Color) -> some View {
         VStack(spacing: Spacing.xs) {
-            Text("\(prefix) \(label)")
+            (Text(prefix) + Text(" ") + Text(label))
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
             Text(amount.formatted())

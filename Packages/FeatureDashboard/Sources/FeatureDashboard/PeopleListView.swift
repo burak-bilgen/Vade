@@ -9,6 +9,7 @@ public struct PeopleListView: View {
     @State private var viewModel: PeopleListViewModel?
     @State private var showAdd = false
     @State private var searchText = ""
+    @Namespace private var segmentAnimation
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
     private let personRepo: AddPersonUseCase & FetchPersonsUseCase
@@ -38,7 +39,7 @@ public struct PeopleListView: View {
                 if let vm = viewModel {
                     content(vm)
                 } else {
-                    ProgressView()
+                    PeopleListSkeleton()
                         .entrance(.fade)
                         .task {
                             let vm = PeopleListViewModel(
@@ -56,9 +57,18 @@ public struct PeopleListView: View {
         .navigationTitle(String(localized: "tab.people"))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(String(localized: "people.add.button"), systemImage: "person.badge.plus") {
+                Button(action: {
+                    HapticFeedback.impact(.light)
                     showAdd = true
+                }) {
+                    Image(systemName: "person.badge.plus")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().fill(ColorTokens.accent))
+                        .shadow(color: ColorTokens.accent.opacity(0.3), radius: 6, x: 0, y: 3)
                 }
+                .buttonStyle(.plain)
                 .premiumPress()
             }
         }
@@ -75,7 +85,7 @@ public struct PeopleListView: View {
 
     private func content(_ vm: PeopleListViewModel) -> some View {
         VStack(spacing: 0) {
-            // Premium Search Bar
+            // Premium Search Bar (Glassmorphic)
             HStack(spacing: Spacing.s) {
                 Image(systemName: "magnifyingglass")
                     .font(Typography.font(for: .body))
@@ -100,18 +110,19 @@ public struct PeopleListView: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                    .stroke(!searchText.isEmpty ? ColorTokens.accent : ColorTokens.border, lineWidth: 1)
+                    .stroke(!searchText.isEmpty ? ColorTokens.accent.opacity(0.5) : ColorTokens.border, lineWidth: 0.5)
                     .animation(.easeInOut(duration: 0.2), value: !searchText.isEmpty)
             )
             .padding(.horizontal, Spacing.xl)
             .padding(.vertical, Spacing.m)
             .entrance(.up, delay: 0.1)
 
-            // Premium Segment Control
+            // Premium Segment Control (With smooth sliding indicator animation)
             HStack(spacing: Spacing.xxs) {
                 ForEach(PeopleSegment.allCases, id: \.self) { segment in
                     Button {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                        HapticFeedback.impact(.light)
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.78)) {
                             vm.selectedSegment = segment
                         }
                     } label: {
@@ -130,17 +141,19 @@ public struct PeopleListView: View {
                             : ColorTokens.textTertiary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, Spacing.s)
-                        .background(
-                            Capsule()
-                                .fill(vm.selectedSegment == segment
-                                    ? (segment == .receivable
-                                        ? ColorTokens.positiveLight.opacity(0.2)
-                                        : ColorTokens.negativeLight.opacity(0.2))
-                                    : Color.clear)
-                        )
+                        .background {
+                            if vm.selectedSegment == segment {
+                                Capsule()
+                                    .fill(segment == .receivable
+                                        ? ColorTokens.positiveLight.opacity(0.18)
+                                        : ColorTokens.negativeLight.opacity(0.18))
+                                    .matchedGeometryEffect(id: "activeSegment", in: segmentAnimation)
+                            }
+                        }
                         .contentShape(.capsule)
                     }
-                    .premiumPress(scale: 0.92)
+                    .buttonStyle(.plain)
+                    .premiumPress(scale: 0.94)
                 }
             }
             .padding(Spacing.xxs)
@@ -212,9 +225,9 @@ public struct PeopleListView: View {
 
                 Circle()
                     .stroke(segment == .receivable
-                        ? ColorTokens.positive.opacity(0.2)
-                        : ColorTokens.negative.opacity(0.2),
-                        lineWidth: 2)
+                        ? ColorTokens.positive.opacity(0.18)
+                        : ColorTokens.negative.opacity(0.18),
+                        lineWidth: 1.5)
                     .frame(width: 80, height: 80)
 
                 Image(systemName: segment == .receivable
@@ -243,22 +256,31 @@ public struct PeopleListView: View {
             }
 
             Button {
-                    HapticFeedback.impact(.light)
-                    showAdd = true
-                } label: {
+                HapticFeedback.impact(.light)
+                showAdd = true
+            } label: {
                 HStack(spacing: Spacing.s) {
                     Image(systemName: "person.badge.plus")
+                        .font(.system(size: 14, weight: .bold))
                     Text(String(localized: "people.empty.addButton"))
                         .font(Typography.font(for: .buttonSmall))
                 }
-                .foregroundStyle(.black)
+                .foregroundStyle(.white)
                 .padding(.horizontal, Spacing.xl)
                 .padding(.vertical, Spacing.m)
                 .background(
                     Capsule()
-                        .fill(ColorTokens.accent)
+                        .fill(
+                            LinearGradient(
+                                colors: [ColorTokens.accent, ColorTokens.accent.opacity(0.85)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                 )
+                .shadow(color: ColorTokens.accent.opacity(0.25), radius: 6, x: 0, y: 3)
             }
+            .buttonStyle(.plain)
             .premiumPress()
 
             Spacer()
@@ -290,32 +312,39 @@ private struct PersonCard: View {
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: 4) {
-                Text(balance.formatted())
-                    .font(Typography.font(for: .amount))
-                    .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
-                    .contentTransition(.numericText())
+            HStack(spacing: Spacing.m) {
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text(balance.formatted())
+                        .font(Typography.font(for: .amount))
+                        .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
+                        .contentTransition(.numericText())
 
-                // Direction badge
-                HStack(spacing: 3) {
-                    Image(systemName: balance >= 0
-                        ? "arrow.down.left"
-                        : "arrow.up.right")
-                        .font(.system(size: 8, weight: .bold))
-                    Text(balance >= 0
-                        ? String(localized: "people.balance.receivable")
-                        : String(localized: "people.balance.payable"))
-                        .font(Typography.font(for: .label))
+                    // Direction badge
+                    HStack(spacing: 3) {
+                        Image(systemName: balance >= 0
+                            ? "arrow.down.left"
+                            : "arrow.up.right")
+                            .font(.system(size: 8, weight: .bold))
+                        Text(balance >= 0
+                            ? String(localized: "people.balance.receivable")
+                            : String(localized: "people.balance.payable"))
+                            .font(Typography.font(for: .label))
+                    }
+                    .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
+                    .padding(.horizontal, Spacing.s)
+                    .padding(.vertical, Spacing.xxxs)
+                    .background(
+                        Capsule()
+                            .fill(balance >= 0
+                                ? ColorTokens.positiveLight.opacity(0.2)
+                                : ColorTokens.negativeLight.opacity(0.2))
+                    )
                 }
-                .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
-                .padding(.horizontal, Spacing.s)
-                .padding(.vertical, Spacing.xxxs)
-                .background(
-                    Capsule()
-                        .fill(balance >= 0
-                            ? ColorTokens.positiveLight.opacity(0.2)
-                            : ColorTokens.negativeLight.opacity(0.2))
-                )
+                
+                // Chevron hint to prompt navigation
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(ColorTokens.textTertiary)
             }
         }
         .padding(Spacing.l)
@@ -326,15 +355,16 @@ private struct PersonCard: View {
         .overlay(
             RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
                 .stroke(ColorTokens.border, lineWidth: 0.5)
-        )            .overlay(
-                // Left accent bar
-                RoundedRectangle(cornerRadius: 1.5)
-                    .fill(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
-                    .frame(width: 3)
-                    .padding(.vertical, Spacing.s),
-                alignment: .leading
-            )
-            .accessibilityElement(children: .combine)
+        )
+        .overlay(
+            // Left accent bar
+            RoundedRectangle(cornerRadius: 1.5)
+                .fill(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
+                .frame(width: 3)
+                .padding(.vertical, Spacing.s),
+            alignment: .leading
+        )
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -404,7 +434,7 @@ private struct AddPremiumSheet: View {
                     HStack(spacing: Spacing.s) {
                         if isSaving {
                             ProgressView()
-                                .tint(.black)
+                                .tint(.white)
                         }
                         Text(String(localized: "people.add.save"))
                             .font(Typography.font(for: .button))
@@ -418,8 +448,8 @@ private struct AddPremiumSheet: View {
                                 : ColorTokens.accent)
                     )
                     .foregroundStyle(name.trimmed.isEmpty || isSaving
-                        ? ColorTokens.textTertiary
-                        : .black)
+                        ? ColorTokens.textSecondary
+                        : .white)
                 }
                 .disabled(name.trimmed.isEmpty || isSaving)
                 .padding(.horizontal, Spacing.xl)
@@ -480,11 +510,39 @@ private struct PremiumTextField: View {
     }
 }
 
+// MARK: - People List Loading Skeleton
+
+private struct PeopleListSkeleton: View {
+    var body: some View {
+        VStack(spacing: 0) {
+            // Search bar skeleton
+            ShimmerView(cornerRadius: Radius.md)
+                .frame(height: 44)
+                .padding(.horizontal, Spacing.xl)
+                .padding(.vertical, Spacing.m)
+
+            // Segment skeleton
+            ShimmerView(cornerRadius: Radius.pill)
+                .frame(height: 40)
+                .padding(.horizontal, Spacing.xl)
+                .padding(.bottom, Spacing.m)
+
+            // Person cards skeleton
+            ScrollView {
+                LazyVStack(spacing: Spacing.s) {
+                    ForEach(0..<5, id: \.self) { _ in
+                        SkeletonCard(lines: 2)
+                            .padding(.horizontal, Spacing.xl)
+                    }
+                }
+                .padding(.top, Spacing.xxs)
+            }
+        }
+    }
+}
+
 // MARK: - Helpers
 
 private extension String {
     var trimmed: String { trimmingCharacters(in: .whitespacesAndNewlines) }
 }
-
-// MARK: - Preview
-// Preview disabled: requires repository injection.

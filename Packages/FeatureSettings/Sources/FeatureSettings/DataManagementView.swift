@@ -43,7 +43,7 @@ public struct DataManagementView: View {
                     showExportWarning = true
                 } label: {
                     Label(
-                        String(localized: "data.export.csv"),
+                        "data.export.csv",
                         systemImage: "tablecells"
                     )
                 }
@@ -53,12 +53,12 @@ public struct DataManagementView: View {
                     showExportWarning = true
                 } label: {
                     Label(
-                        String(localized: "data.export.pdf"),
+                        "data.export.pdf",
                         systemImage: "doc.richtext"
                     )
                 }
             } header: {
-                Text(String(localized: "data.section.export"))
+                Text("data.section.export")
             }
 
             // Delete section
@@ -67,55 +67,55 @@ public struct DataManagementView: View {
                     showDeleteConfirmation = true
                 } label: {
                     Label(
-                        String(localized: "data.delete.allData"),
+                        "data.delete.allData",
                         systemImage: "trash"
                     )
                 }
             } header: {
-                Text(String(localized: "data.section.danger"))
+                Text("data.section.danger")
             }
         }
-        .navigationTitle(String(localized: "data.navigationTitle"))
+        .navigationTitle("data.navigationTitle")
         .alert(
-            String(localized: "data.delete.confirmTitle"),
+            "data.delete.confirmTitle",
             isPresented: $showDeleteConfirmation
         ) {
-            Button(String(localized: "data.delete.cancel"), role: .cancel) {}
-            Button(String(localized: "data.delete.continue"), role: .destructive) {
+            Button("data.delete.cancel", role: .cancel) {}
+            Button("data.delete.continue", role: .destructive) {
                 showDeleteSecondConfirm = true
             }
         } message: {
-            Text(String(localized: "data.delete.confirmMessage"))
+            Text("data.delete.confirmMessage")
         }
         .alert(
-            String(localized: "data.export.warningTitle"),
+            "data.export.warningTitle",
             isPresented: $showExportWarning
         ) {
-            Button(String(localized: "data.export.cancel"), role: .cancel) {
+            Button("data.export.cancel", role: .cancel) {
                 pendingExportAction = nil
             }
-            Button(String(localized: "data.export.continue")) {
+            Button("data.export.continue") {
                 Task { await pendingExportAction?() }
             }
         } message: {
-            Text(String(localized: "data.export.warningMessage"))
+            Text("data.export.warningMessage")
         }
         .alert(
-            String(localized: "data.delete.finalTitle"),
+            "data.delete.finalTitle",
             isPresented: $showDeleteSecondConfirm
         ) {
-            Button(String(localized: "data.delete.cancel"), role: .cancel) {}
-            Button(String(localized: "data.delete.confirm"), role: .destructive) {
+            Button("data.delete.cancel", role: .cancel) {}
+            Button("data.delete.confirm", role: .destructive) {
                 Task { await deleteAllData() }
             }
         } message: {
-            Text(String(localized: "data.delete.finalMessage"))
+            Text("data.delete.finalMessage")
         }
         .overlay(alignment: .bottom) {
             if showUndo {
                 UndoToastView(
-                    message: String(localized: "data.delete.undoMessage"),
-                    undoLabel: String(localized: "data.delete.undo"),
+                    message: "data.delete.undoMessage",
+                    undoLabel: "data.delete.undo",
                     undoAction: { Task { await undoDelete() } },
                     onDismiss: { showUndo = false; deletedDataBackup = nil }
                 )
@@ -206,8 +206,7 @@ public struct DataManagementView: View {
                     amount: debt.amount,
                     currency: debt.kind.rawValue,
                     direction: debt.direction == .receivable
-                        ? String(localized: "export.direction.receivable")
-                        : String(localized: "export.direction.payable"),
+                        ? "export.direction.receivable" : "export.direction.payable",
                     dueDate: debt.dueDate,
                     status: debt.status.rawValue,
                     createdAt: debt.createdAt

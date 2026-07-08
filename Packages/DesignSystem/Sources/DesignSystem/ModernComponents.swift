@@ -100,7 +100,7 @@ public struct SectionHeader: View {
                 .font(Typography.font(for: .title2))
             Spacer()
             if let action {
-                Button(String(localized: "common.seeAll"), action: action)
+                Button("common.seeAll", action: action)
                     .font(Typography.font(for: .caption))
                     .foregroundStyle(ColorTokens.accent)
             }
@@ -199,7 +199,7 @@ public struct PremiumBalanceCard: View {
                     Circle()
                         .fill(netAmount >= 0 ? ColorTokens.positive : ColorTokens.negative)
                         .frame(width: 8, height: 8)
-                    Text(String(localized: "dashboard.balance.net"))
+                    Text("dashboard.balance.net")
                         .font(Typography.font(for: .caption))
                         .foregroundStyle(.white.opacity(0.6))
                         .textCase(.uppercase)
@@ -231,7 +231,7 @@ public struct PremiumBalanceCard: View {
                     .lineLimit(1)
 
                 if netAmount > 0 {
-                    Text(String(localized: "dashboard.balance.receivable.net"))
+                    Text("dashboard.balance.receivable.net")
                         .font(Typography.font(for: .caption))
                         .foregroundStyle(ColorTokens.positive.opacity(0.8))
                         .padding(.bottom, 6)
@@ -257,7 +257,7 @@ public struct PremiumBalanceCard: View {
         HStack(spacing: 0) {
             metricItem(
                 value: receivable,
-                label: String(localized: "dashboard.summary.totalReceivable"),
+                label: "dashboard.summary.totalReceivable",
                 color: ColorTokens.positive,
                 icon: "arrow.down.left"
             )
@@ -268,7 +268,7 @@ public struct PremiumBalanceCard: View {
 
             metricItem(
                 value: payable,
-                label: String(localized: "dashboard.summary.totalPayable"),
+                label: "dashboard.summary.totalPayable",
                 color: ColorTokens.negative,
                 icon: "arrow.up.right"
             )
@@ -306,15 +306,15 @@ public struct PremiumBalanceCard: View {
 // MARK: - Glass Card
 
 public struct GlassCard<Content: View>: View {
-    let title: String?
-    let subtitle: String?
+    let title: LocalizedStringKey?
+    let subtitle: LocalizedStringKey?
     let icon: String?
     let accentColor: Color
     let content: Content
 
     public init(
-        title: String? = nil,
-        subtitle: String? = nil,
+        title: LocalizedStringKey? = nil,
+        subtitle: LocalizedStringKey? = nil,
         icon: String? = nil,
         accentColor: Color = ColorTokens.accent,
         @ViewBuilder content: () -> Content
@@ -373,11 +373,11 @@ public struct GlassCard<Content: View>: View {
 
 public struct ActionPill: View {
     let icon: String
-    let title: String
+    let title: LocalizedStringKey
     let color: Color
     let action: (() -> Void)?
 
-    public init(icon: String, title: String, color: Color, action: (() -> Void)? = nil) {
+    public init(icon: String, title: LocalizedStringKey, color: Color, action: (() -> Void)? = nil) {
         self.icon = icon
         self.title = title
         self.color = color
@@ -460,8 +460,7 @@ public struct LeaderboardRow: View {
                     Image(systemName: isReceivable ? "arrow.down.left" : "arrow.up.right")
                         .font(.system(size: 8, weight: .bold))
                     Text(isReceivable
-                        ? String(localized: "people.balance.receivable")
-                        : String(localized: "people.balance.payable"))
+                        ? "people.balance.receivable" : "people.balance.payable")
                         .font(Typography.font(for: .label))
                 }
                 .foregroundStyle(isReceivable ? ColorTokens.positive : ColorTokens.negative)
@@ -494,7 +493,7 @@ public struct MetricRow: View {
     public var body: some View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(String(localized: "dashboard.summary.totalReceivable"))
+                Text("dashboard.summary.totalReceivable")
                     .font(Typography.font(for: .label))
                     .foregroundStyle(ColorTokens.textTertiary)
                 Text(receivable.formatted())
@@ -509,7 +508,7 @@ public struct MetricRow: View {
                 .overlay(ColorTokens.border)
 
             VStack(alignment: .trailing, spacing: 2) {
-                Text(String(localized: "dashboard.summary.totalPayable"))
+                Text("dashboard.summary.totalPayable")
                     .font(Typography.font(for: .label))
                     .foregroundStyle(ColorTokens.textTertiary)
                 Text(payable.formatted())
@@ -588,52 +587,191 @@ public struct MiniSparkline: View {
     }
 }
 
-// MARK: - Rate Tile (for dashboard strip)
+// MARK: - Currency Icon Helper
 
-public struct RateTile: View {
-    let flag: String
+public struct CurrencyIconView: View {
     let code: String
-    let rate: Decimal?
+    let size: CGFloat
 
-    public init(flag: String, code: String, rate: Decimal?) {
-        self.flag = flag
+    public init(code: String, size: CGFloat = 32) {
         self.code = code
-        self.rate = rate
+        self.size = size
+    }
+
+    private var iconName: String {
+        switch code {
+        case "USD": return "dollarsign.circle.fill"
+        case "EUR": return "eurosign.circle.fill"
+        case "GBP": return "sterlingsign.circle.fill"
+        case "CHF": return "francsign.circle.fill"
+        case "JPY": return "yensign.circle.fill"
+        case "XAU", "GRAM", "ÇEYREK": return "seal.fill"
+        default: return "dollarsign.circle.fill"
+        }
+    }
+
+    private var tintColor: Color {
+        switch code {
+        case "USD": return Color(red: 0.13, green: 0.55, blue: 0.21)  // Green
+        case "EUR": return Color(red: 0.00, green: 0.40, blue: 0.80)  // Blue
+        case "GBP": return Color(red: 0.80, green: 0.20, blue: 0.40)  // Pink-red
+        case "CHF": return Color(red: 0.80, green: 0.20, blue: 0.20)  // Red
+        case "JPY": return Color(red: 0.80, green: 0.60, blue: 0.00)  // Gold
+        case "XAU", "GRAM", "ÇEYREK": return Color(red: 0.85, green: 0.55, blue: 0.10)  // Orange-gold
+        default: return ColorTokens.accent
+        }
     }
 
     public var body: some View {
-        VStack(spacing: Spacing.xxs) {
-            Text(flag)
-                .font(.title2)
-            Text(code)
-                .font(Typography.font(for: .bodyEmphasis))
-                .foregroundStyle(ColorTokens.textSecondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
-            if let rate {
-                Text(rate, format: .number.precision(.fractionLength(4)))
-                    .font(Typography.font(for: .body).monospacedDigit())
-                    .foregroundStyle(ColorTokens.textPrimary)
-                    .contentTransition(.numericText())
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+        ZStack {
+            Circle()
+                .fill(tintColor.opacity(0.15))
+                .frame(width: size, height: size)
+            Image(systemName: iconName)
+                .font(.system(size: size * 0.5, weight: .semibold))
+                .foregroundStyle(tintColor)
+        }
+    }
+}
+
+// MARK: - Rate Tile (for dashboard strip) — Modern Redesign
+
+public struct RateTile: View {
+    let code: String
+    let rate: Decimal?
+    let isSelected: Bool
+    let action: (() -> Void)?
+
+    public init(code: String, rate: Decimal?, isSelected: Bool = false, action: (() -> Void)? = nil) {
+        self.code = code
+        self.rate = rate
+        self.isSelected = isSelected
+        self.action = action
+    }
+
+    public var body: some View {
+        Group {
+            if let action {
+                Button(action: action) { tileContent }
+                    .buttonStyle(.plain)
             } else {
-                Text("--")
-                    .font(Typography.font(for: .body).monospacedDigit())
-                    .foregroundStyle(ColorTokens.textTertiary)
+                tileContent
             }
         }
-        .padding(.horizontal, Spacing.ml)
-        .padding(.vertical, Spacing.m)
-        .frame(minWidth: 80)
+    }
+
+    private var tileContent: some View {
+        HStack(spacing: Spacing.m) {
+            CurrencyIconView(code: code, size: 36)
+
+            VStack(alignment: .leading, spacing: 1) {
+                Text(code)
+                    .font(Typography.font(for: .bodyEmphasis))
+                    .foregroundStyle(ColorTokens.textPrimary)
+                    .lineLimit(1)
+
+                if let rate {
+                    Text(rate, format: .number.precision(.fractionLength(2)))
+                        .font(Typography.font(for: .amountSmall).monospacedDigit())
+                        .foregroundStyle(ColorTokens.textSecondary)
+                        .contentTransition(.numericText())
+                        .lineLimit(1)
+                } else {
+                    Text("--")
+                        .font(Typography.font(for: .amountSmall).monospacedDigit())
+                        .foregroundStyle(ColorTokens.textTertiary)
+                }
+            }
+
+            Spacer(minLength: 0)
+
+            if isSelected {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(ColorTokens.accent)
+            }
+        }
+        .padding(.horizontal, Spacing.l)
+        .padding(.vertical, Spacing.ml)
+        .frame(minWidth: 140)
         .background(
             RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .fill(ColorTokens.surface)
+                .fill(isSelected ? ColorTokens.accentLight : ColorTokens.surface)
         )
         .overlay(
             RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .stroke(ColorTokens.border, lineWidth: 0.5)
+                .stroke(isSelected ? ColorTokens.accent.opacity(0.5) : ColorTokens.border, lineWidth: isSelected ? 1.5 : 0.5)
         )
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
+    }
+}
+
+// MARK: - Prominent Rate Card (for selected currency)
+
+public struct ProminentRateCard: View {
+    let code: String
+    let rate: Decimal?
+    let lastUpdate: Date?
+
+    public init(code: String, rate: Decimal?, lastUpdate: Date? = nil) {
+        self.code = code
+        self.rate = rate
+        self.lastUpdate = lastUpdate
+    }
+
+    public var body: some View {
+        HStack(spacing: Spacing.xl) {
+            CurrencyIconView(code: code, size: 48)
+
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                Text(code)
+                    .font(Typography.font(for: .headline))
+                    .foregroundStyle(.white)
+
+                if let rate {
+                    Text(rate, format: .number.precision(.fractionLength(2)))
+                        .font(.custom(AppFont.jakartaBold, size: 28))
+                        .foregroundStyle(.white)
+                        .contentTransition(.numericText())
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+
+                    Text("1 \(code) = \(rate, format: .number.precision(.fractionLength(2))) TL")
+                        .font(Typography.font(for: .label))
+                        .foregroundStyle(.white.opacity(0.6))
+                } else {
+                    Text("--")
+                        .font(.custom(AppFont.jakartaBold, size: 28))
+                        .foregroundStyle(.white.opacity(0.6))
+                }
+
+                if let lastUpdate {
+                    Text(lastUpdate, format: .dateTime.hour().minute().day().month(.abbreviated))
+                        .font(Typography.font(for: .label))
+                        .foregroundStyle(.white.opacity(0.4))
+                }
+            }
+
+            Spacer()
+        }
+        .padding(Spacing.xl)
+        .frame(maxWidth: .infinity)
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(red: 0.05, green: 0.06, blue: 0.15),
+                    Color(red: 0.08, green: 0.10, blue: 0.22),
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        )
+        .clipShape(RoundedRectangle(cornerRadius: Radius.xl, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: Radius.xl, style: .continuous)
+                .stroke(.white.opacity(0.08), lineWidth: 0.5)
+        )
+        .elevation(Elevation.level2)
     }
 }
 
@@ -641,11 +779,11 @@ public struct RateTile: View {
 
 public struct StatCard: View {
     let value: String
-    let label: String
+    let label: LocalizedStringKey
     let icon: String
     let color: Color
 
-    public init(value: String, label: String, icon: String, color: Color) {
+    public init(value: String, label: LocalizedStringKey, icon: String, color: Color) {
         self.value = value
         self.label = label
         self.icon = icon
