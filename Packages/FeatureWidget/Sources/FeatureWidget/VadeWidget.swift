@@ -56,9 +56,9 @@ public struct VadeTimelineProvider: TimelineProvider {
         // Read shared data from App Groups UserDefaults
         // Store Decimal as String to avoid Double precision loss in UserDefaults
         let defaults = UserDefaults(suiteName: UserDefaultsKeys.appGroupSuite)
-        let balance = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetNetBalance) ?? "0") ?? .zero
-        let receivable = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetTotalReceivable) ?? "0") ?? .zero
-        let payable = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetTotalPayable) ?? "0") ?? .zero
+        let balance = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetNetBalance) ?? "0", locale: Locale(identifier: "en_US")) ?? .zero
+        let receivable = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetTotalReceivable) ?? "0", locale: Locale(identifier: "en_US")) ?? .zero
+        let payable = Decimal(string: defaults?.string(forKey: UserDefaultsKeys.widgetTotalPayable) ?? "0", locale: Locale(identifier: "en_US")) ?? .zero
         let count = defaults?.integer(forKey: UserDefaultsKeys.widgetPersonCount) ?? 0
 
         let entry = VadeWidgetEntry(

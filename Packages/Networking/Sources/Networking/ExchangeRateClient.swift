@@ -100,11 +100,23 @@ enum TCMBParser {
 /// Parses a Turkish-format decimal string (e.g. "6.256,89" → 6256.89).
 /// Removes thousands separators (".") then replaces decimal comma (",") with ".".
 private func parseTurkishDecimal(_ string: String) -> Decimal? {
-    let normalized = string
-        .trimmingCharacters(in: .whitespacesAndNewlines)
-        .replacingOccurrences(of: ".", with: "")
-        .replacingOccurrences(of: ",", with: ".")
-    return Decimal(string: normalized)
+    let cleaned = string.trimmingCharacters(in: .whitespacesAndNewlines)
+    if cleaned.contains(",") && cleaned.contains(".") {
+        if let commaIndex = cleaned.firstIndex(of: ","),
+           let dotIndex = cleaned.firstIndex(of: "."),
+           commaIndex > dotIndex {
+            let normalized = cleaned.replacingOccurrences(of: ".", with: "").replacingOccurrences(of: ",", with: ".")
+            return Decimal(string: normalized, locale: Locale(identifier: "en_US"))
+        } else {
+            let normalized = cleaned.replacingOccurrences(of: ",", with: "")
+            return Decimal(string: normalized, locale: Locale(identifier: "en_US"))
+        }
+    } else if cleaned.contains(",") {
+        let normalized = cleaned.replacingOccurrences(of: ",", with: ".")
+        return Decimal(string: normalized, locale: Locale(identifier: "en_US"))
+    } else {
+        return Decimal(string: cleaned, locale: Locale(identifier: "en_US"))
+    }
 }
 
 // MARK: - TCMB XML Parser (SAX-style via FoundationXML)

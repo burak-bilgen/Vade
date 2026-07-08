@@ -45,3 +45,4 @@ GoogleService-Info.plist
 .DS_Store
 *.swp
 *~
+build_output.log
