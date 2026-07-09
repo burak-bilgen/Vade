@@ -299,7 +299,7 @@ public struct PremiumBalanceCard: View {
                     .font(Typography.font(for: .bodyEmphasis))
                     .foregroundStyle(.white)
                     .contentTransition(.numericText())
-                Text(label)
+                Text(LocalizedStringKey(label))
                     .font(Typography.font(for: .label))
                     .foregroundStyle(.white.opacity(0.4))
             }
