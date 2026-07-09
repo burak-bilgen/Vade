@@ -461,7 +461,7 @@
       }
     },
     "accessibility.payable": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -478,7 +478,7 @@
       }
     },
     "accessibility.receivable": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -532,7 +532,7 @@
     },
     "app.locked.biometryReason": {
       "comment": "Lock screen — biometric auth reason string",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -567,7 +567,7 @@
     },
     "app.locked.unlock": {
       "comment": "Lock screen — unlock button",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -738,7 +738,7 @@
       }
     },
     "charts.direction.payable": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -755,7 +755,7 @@
       }
     },
     "charts.direction.receivable": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -772,7 +772,7 @@
       }
     },
     "charts.direction.title": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -840,7 +840,7 @@
       }
     },
     "charts.netBalance.title": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1112,7 +1112,7 @@
       }
     },
     "charts.unavailable": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1311,42 +1311,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Grafikler"
-          }
-        }
-      }
-    },
-    "dashboard.action.people": {
-      "comment": "Dashboard — quick action: people",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "People"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kişiler"
-          }
-        }
-      }
-    },
-    "dashboard.action.people.subtitle %lld": {
-      "comment": "Subtitle for people quick action tile, shows count",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld people"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld kişi"
           }
         }
       }
@@ -1606,60 +1570,6 @@
         }
       }
     },
-    "dashboard.quickActions.analytics": {
-      "comment": "Quick action tile subtitle for analytics",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analytics"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Analizler"
-          }
-        }
-      }
-    },
-    "dashboard.quickActions.quickAdd": {
-      "comment": "Quick action tile subtitle for quick add",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quick Add"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hızlı Ekle"
-          }
-        }
-      }
-    },
-    "dashboard.quickActions.rates": {
-      "comment": "Quick action tile subtitle for exchange rates",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rates"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kurlar"
-          }
-        }
-      }
-    },
     "dashboard.recent.title": {
       "extractionState": "manual",
       "localizations": {
@@ -1679,7 +1589,7 @@
     },
     "dashboard.summary.totalPayable": {
       "comment": "Summary card — total payable label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1697,7 +1607,7 @@
     },
     "dashboard.summary.totalReceivable": {
       "comment": "Summary card — total receivable label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1766,7 +1676,7 @@
     },
     "dashboard.upcoming.title": {
       "comment": "Dashboard — upcoming payments section title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1784,7 +1694,7 @@
     },
     "dashboard.viewStatistics": {
       "comment": "Dashboard — view statistics navigation link",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1835,7 +1745,7 @@
       }
     },
     "data.delete.allData": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1852,7 +1762,7 @@
       }
     },
     "data.delete.cancel": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1869,7 +1779,7 @@
       }
     },
     "data.delete.confirm": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1886,7 +1796,7 @@
       }
     },
     "data.delete.confirmMessage": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1903,7 +1813,7 @@
       }
     },
     "data.delete.confirmTitle": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1920,7 +1830,7 @@
       }
     },
     "data.delete.continue": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1937,7 +1847,7 @@
       }
     },
     "data.delete.finalMessage": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1954,7 +1864,7 @@
       }
     },
     "data.delete.finalTitle": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1971,7 +1881,7 @@
       }
     },
     "data.delete.undo": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1988,7 +1898,7 @@
       }
     },
     "data.delete.undoMessage": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2005,7 +1915,7 @@
       }
     },
     "data.export.csv": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2022,7 +1932,7 @@
       }
     },
     "data.export.pdf": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2039,7 +1949,7 @@
       }
     },
     "data.navigationTitle": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2056,7 +1966,7 @@
       }
     },
     "data.section.danger": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2073,7 +1983,7 @@
       }
     },
     "data.section.export": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2091,7 +2001,7 @@
     },
     "debt.add.amountPlaceholder": {
       "comment": "Add debt — amount field placeholder",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2109,7 +2019,7 @@
     },
     "debt.add.cancel": {
       "comment": "Add debt — cancel button",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2127,7 +2037,7 @@
     },
     "debt.add.direction.payable": {
       "comment": "Add debt — payable direction option",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2145,7 +2055,7 @@
     },
     "debt.add.direction.receivable": {
       "comment": "Add debt — receivable direction option",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2163,7 +2073,7 @@
     },
     "debt.add.dueDatePicker": {
       "comment": "Add debt — due date picker label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2181,7 +2091,7 @@
     },
     "debt.add.dueDateToggle": {
       "comment": "Add debt — due date toggle label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2199,7 +2109,7 @@
     },
     "debt.add.notePlaceholder": {
       "comment": "Add debt — note field placeholder",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2217,7 +2127,7 @@
     },
     "debt.add.save": {
       "comment": "Add debt — save button",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2235,7 +2145,7 @@
     },
     "debt.add.title": {
       "comment": "Add debt — sheet title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2253,7 +2163,7 @@
     },
     "debt.amount.placeholder": {
       "comment": "Placeholder text for debt amount input field",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2271,7 +2181,7 @@
     },
     "exchangeRate.stale": {
       "comment": "Exchange rate staleness indicator — format with hours",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2305,7 +2215,7 @@
       }
     },
     "export.direction.payable": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2322,7 +2232,7 @@
       }
     },
     "export.direction.receivable": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2493,7 +2403,7 @@
     },
     "health.critical.desc": {
       "comment": "Financial Health: health.critical.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2511,7 +2421,7 @@
     },
     "health.critical.title": {
       "comment": "Financial Health: health.critical.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2529,7 +2439,7 @@
     },
     "health.desc": {
       "comment": "Financial Health: health.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2547,7 +2457,7 @@
     },
     "health.excellent.desc": {
       "comment": "Financial Health: health.excellent.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2565,7 +2475,7 @@
     },
     "health.excellent.title": {
       "comment": "Financial Health: health.excellent.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2583,7 +2493,7 @@
     },
     "health.good.desc": {
       "comment": "Financial Health: health.good.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2601,7 +2511,7 @@
     },
     "health.good.overdue.desc": {
       "comment": "Financial Health: health.good.overdue.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2619,7 +2529,7 @@
     },
     "health.good.title": {
       "comment": "Financial Health: health.good.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2635,27 +2545,9 @@
         }
       }
     },
-    "health.title": {
-      "comment": "Financial Health: health.title",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Financial Health"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Finansal Sağlık"
-          }
-        }
-      }
-    },
     "health.warning.desc": {
       "comment": "Financial Health: health.warning.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2673,7 +2565,7 @@
     },
     "health.warning.overdue.desc": {
       "comment": "Financial Health: health.warning.overdue.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2691,7 +2583,7 @@
     },
     "health.warning.title": {
       "comment": "Financial Health: health.warning.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2709,7 +2601,7 @@
     },
     "insight.clean.message": {
       "comment": "Smart Insights: insight.clean.message",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2727,7 +2619,7 @@
     },
     "insight.clean.title": {
       "comment": "Smart Insights: insight.clean.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2745,7 +2637,7 @@
     },
     "insight.dueSoon.message %@": {
       "comment": "Smart Insights: insight.dueSoon.message %@",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2763,7 +2655,7 @@
     },
     "insight.dueSoon.title": {
       "comment": "Smart Insights: insight.dueSoon.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2781,7 +2673,7 @@
     },
     "insight.overdue.message %lld": {
       "comment": "Smart Insights: insight.overdue.message %lld",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2799,7 +2691,7 @@
     },
     "insight.overdue.title": {
       "comment": "Smart Insights: insight.overdue.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3140,7 +3032,7 @@
     },
     "payment.amountPlaceholder": {
       "comment": "Record payment — amount field placeholder",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3158,7 +3050,7 @@
     },
     "payment.cancel": {
       "comment": "Record payment — cancel button",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3176,7 +3068,7 @@
     },
     "payment.notePlaceholder": {
       "comment": "Record payment — note field placeholder",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3194,7 +3086,7 @@
     },
     "payment.remainingBalance": {
       "comment": "Record payment — remaining balance label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3212,7 +3104,7 @@
     },
     "payment.save": {
       "comment": "Record payment — save button",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3230,7 +3122,7 @@
     },
     "payment.title": {
       "comment": "Record payment — sheet title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3248,7 +3140,7 @@
     },
     "payoff.currencyRisk.desc": {
       "comment": "Payoff Strategy: payoff.currencyRisk.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3266,7 +3158,7 @@
     },
     "payoff.currencyRisk.title": {
       "comment": "Payoff Strategy: payoff.currencyRisk.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3284,7 +3176,7 @@
     },
     "payoff.disclaimer": {
       "comment": "Payoff Strategy: payoff.disclaimer",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3302,7 +3194,7 @@
     },
     "payoff.highRisk.desc": {
       "comment": "Payoff Strategy: payoff.highRisk.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3320,7 +3212,7 @@
     },
     "payoff.highRisk.title": {
       "comment": "Payoff Strategy: payoff.highRisk.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3338,7 +3230,7 @@
     },
     "payoff.noDebts": {
       "comment": "Payoff Strategy: payoff.noDebts",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3356,7 +3248,7 @@
     },
     "payoff.noDueDate": {
       "comment": "Payoff Strategy: payoff.noDueDate",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3374,7 +3266,7 @@
     },
     "payoff.overview.desc": {
       "comment": "Payoff Strategy: payoff.overview.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3392,7 +3284,7 @@
     },
     "payoff.overview.title": {
       "comment": "Payoff Strategy: payoff.overview.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3410,7 +3302,7 @@
     },
     "payoff.standard.desc": {
       "comment": "Payoff Strategy: payoff.standard.desc",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3428,7 +3320,7 @@
     },
     "payoff.standard.title": {
       "comment": "Payoff Strategy: payoff.standard.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3446,7 +3338,7 @@
     },
     "payoff.title": {
       "comment": "Payoff Strategy: payoff.title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3464,7 +3356,7 @@
     },
     "payoff.totalAmount": {
       "comment": "Payoff Strategy: payoff.totalAmount",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3500,7 +3392,7 @@
     },
     "people.add.cancel": {
       "comment": "Add person — cancel button",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3518,7 +3410,7 @@
     },
     "people.add.namePlaceholder": {
       "comment": "Add person — name field placeholder",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3536,7 +3428,7 @@
     },
     "people.add.notesPlaceholder": {
       "comment": "Add person — notes field placeholder",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3554,7 +3446,7 @@
     },
     "people.add.phonePlaceholder": {
       "comment": "Add person — phone field placeholder",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3572,7 +3464,7 @@
     },
     "people.add.save": {
       "comment": "Add person — save button",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3590,7 +3482,7 @@
     },
     "people.add.title": {
       "comment": "Add person — sheet title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3726,7 +3618,7 @@
       }
     },
     "people.search.placeholder": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3744,7 +3636,7 @@
     },
     "people.segment.payable": {
       "comment": "People list — payable segment title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3762,7 +3654,7 @@
     },
     "people.segment.receivable": {
       "comment": "People list — receivable segment title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3831,7 +3723,7 @@
     },
     "personDetail.balance.label": {
       "comment": "Person detail — balance header label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3849,7 +3741,7 @@
     },
     "personDetail.empty.subtitle": {
       "comment": "Person detail — empty debt state subtitle",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3867,7 +3759,7 @@
     },
     "personDetail.empty.title": {
       "comment": "Person detail — empty debt state title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3885,7 +3777,7 @@
     },
     "personDetail.history.title": {
       "comment": "Person detail — debt history section title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3920,7 +3812,7 @@
     },
     "personDetail.status.archived": {
       "comment": "Person detail — archived debt status label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3938,7 +3830,7 @@
     },
     "personDetail.status.paid": {
       "comment": "Person detail — paid debt status label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3956,7 +3848,7 @@
     },
     "personDetail.status.pending": {
       "comment": "Person detail — pending debt status label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4212,7 +4104,7 @@
     },
     "rates.eur": {
       "comment": "Euro label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4264,7 +4156,7 @@
     },
     "rates.usd": {
       "comment": "US Dollar label",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4298,7 +4190,7 @@
       }
     },
     "settings.analytics.toggle": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4315,7 +4207,7 @@
       }
     },
     "settings.biometric.toggle": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4332,7 +4224,7 @@
       }
     },
     "settings.crashlytics.toggle": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4349,7 +4241,7 @@
       }
     },
     "settings.deleteData.button": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4366,7 +4258,7 @@
       }
     },
     "settings.language.label": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4384,7 +4276,7 @@
     },
     "settings.navigationTitle": {
       "comment": "Settings — navigation title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4418,7 +4310,7 @@
       }
     },
     "settings.section.about": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4435,7 +4327,7 @@
       }
     },
     "settings.section.data": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4452,7 +4344,7 @@
       }
     },
     "settings.section.preferences": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4469,7 +4361,7 @@
       }
     },
     "settings.section.privacy": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4486,7 +4378,7 @@
       }
     },
     "settings.section.security": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4504,7 +4396,7 @@
     },
     "tab.dashboard": {
       "comment": "Tab bar — dashboard tab title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4522,7 +4414,7 @@
     },
     "tab.people": {
       "comment": "Tab bar — people tab title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -4540,7 +4432,7 @@
     },
     "tab.settings": {
       "comment": "Tab bar — settings tab title",
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
