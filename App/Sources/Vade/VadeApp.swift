@@ -66,6 +66,7 @@ struct VadeApp: App {
                         .modelContainer(container)
                         .environment(languageManager)
                         .environment(\.locale, languageManager.locale)
+                        .id(languageManager.languageCode)
                         .preferredColorScheme(.light)
                 }
             } else {
