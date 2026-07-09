@@ -70,15 +70,15 @@ Vade uses Swift Testing framework for logic/integration verification and a custo
 ### Code Coverage Summary
 Core logic and calculations have high code coverage:
 - **Observability.framework** : `100.00%` (37/37 lines)
-- **Networking.framework**    : `88.52%` (185/209 lines)
+- **Networking.framework**    : `89.00%` (186/209 lines)
 - **Domain.framework**        : `86.44%` (102/118 lines)
-- **Data.framework**          : `63.11%` (260/412 lines)
+- **Data.framework**          : `84.47%` (348/412 lines)
 
-*Note: UI and view-layout targets (e.g. `FeatureSettings`, `FeatureDashboard`) have lower logic coverage because their layouts are fully validated using **Visual Snapshot Tests** instead of logic unit tests.*
+*Note: UI and view-layout targets have visual snapshot tests, and ViewModels are fully unit-tested to ensure reliable functionality.*
 
 ### Test Suite Structure
 1. **Unit & Logic Tests**:
-   - Parameterized, asynchronous tests for kural calculations (`CurrencyConverter`, `TCMB XML Parser`, `RatesCache`).
+   - Parameterized, asynchronous tests for rate conversion calculations (`CurrencyConverter`, `TCMB XML Parser`, `RatesCache`).
    - Business calculations (`InstallmentCalculator`, `Balance Calculations`, `Payment Recording`).
 2. **SwiftData / Integration Tests**:
    - `BalanceRepositoryTests` verifies multi-currency conversion, partial payments, and net balance aggregation across multiple currencies with an in-memory SwiftData container.

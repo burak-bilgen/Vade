@@ -235,15 +235,15 @@ public struct OnboardingView: View {
                         .font(.system(size: 28))
                         .foregroundStyle(ColorTokens.positive)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Ahmet Yılmaz")
+                        Text(LocalizedStringKey("onboarding.mock.person1.name"))
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textPrimary)
-                        Text("Alacaklıyım")
+                        Text(LocalizedStringKey("onboarding.mock.person1.status"))
                             .font(Typography.font(for: .label))
                             .foregroundStyle(ColorTokens.textSecondary)
                     }
                     Spacer()
-                    Text("1,250 TL")
+                    Text(LocalizedStringKey("onboarding.mock.person1.amount"))
                         .font(Typography.font(for: .amountSmall))
                         .foregroundStyle(ColorTokens.positive)
                 }
@@ -265,15 +265,15 @@ public struct OnboardingView: View {
                         .font(.system(size: 28))
                         .foregroundStyle(ColorTokens.negative)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Elif Demir")
+                        Text(LocalizedStringKey("onboarding.mock.person2.name"))
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textPrimary)
-                        Text("Borçluyum")
+                        Text(LocalizedStringKey("onboarding.mock.person2.status"))
                             .font(Typography.font(for: .label))
                             .foregroundStyle(ColorTokens.textSecondary)
                     }
                     Spacer()
-                    Text("750 TL")
+                    Text(LocalizedStringKey("onboarding.mock.person2.amount"))
                         .font(Typography.font(for: .amountSmall))
                         .foregroundStyle(ColorTokens.negative)
                 }
@@ -325,11 +325,11 @@ public struct OnboardingView: View {
             VStack(spacing: Spacing.s) {
                 HStack(spacing: Spacing.m) {
                     CurrencyIconView(code: "USD", size: 36)
-                    Text("ABD Doları")
+                    Text(LocalizedStringKey("onboarding.mock.usd.name"))
                         .font(Typography.font(for: .bodyEmphasis))
                         .foregroundStyle(ColorTokens.textPrimary)
                     Spacer()
-                    Text("33.45 TL")
+                    Text(LocalizedStringKey("onboarding.mock.usd.rate"))
                         .font(Typography.font(for: .amountSmall).monospacedDigit())
                         .foregroundStyle(ColorTokens.textSecondary)
                 }
@@ -347,11 +347,11 @@ public struct OnboardingView: View {
 
                 HStack(spacing: Spacing.m) {
                     CurrencyIconView(code: "XAU", size: 36)
-                    Text("Gram Altın")
+                    Text(LocalizedStringKey("onboarding.mock.gold.name"))
                         .font(Typography.font(for: .bodyEmphasis))
                         .foregroundStyle(ColorTokens.textPrimary)
                     Spacer()
-                    Text("2,480 TL")
+                    Text(LocalizedStringKey("onboarding.mock.gold.rate"))
                         .font(Typography.font(for: .amountSmall).monospacedDigit())
                         .foregroundStyle(ColorTokens.textSecondary)
                 }
@@ -412,10 +412,10 @@ public struct OnboardingView: View {
                             .foregroundStyle(ColorTokens.accent)
                     }
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("iCloud Eşitlemesi")
+                        Text(LocalizedStringKey("onboarding.icloud.title"))
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textPrimary)
-                        Text(cloudStatus == .available ? "Bağlandı ve Hazır" : "Otomatik Bulut Yedekleme")
+                        Text(cloudStatus == .available ? String(localized: "onboarding.icloud.connected") : String(localized: "onboarding.icloud.automaticSync"))
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textTertiary)
                     }
@@ -447,10 +447,10 @@ public struct OnboardingView: View {
                             .foregroundStyle(ColorTokens.accent)
                     }
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Vade Hatırlatıcısı")
+                        Text(LocalizedStringKey("onboarding.notification.title"))
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textPrimary)
-                        Text("Ahmet'in ödeme günü geldi!")
+                        Text(LocalizedStringKey("onboarding.notification.body"))
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textSecondary)
                     }
@@ -616,7 +616,7 @@ public struct OnboardingView: View {
                     }
                 } label: {
                     HStack(spacing: Spacing.s) {
-                        Text("İleri")
+                        Text(LocalizedStringKey("onboarding.next"))
                             .font(Typography.font(for: .button))
                         Image(systemName: "arrow.right")
                             .font(.system(size: 14, weight: .semibold))

@@ -786,7 +786,7 @@ private struct ProfileSummarySheet: View {
                     .overlay(Circle().stroke(ColorTokens.accent.opacity(0.2), lineWidth: 2))
                     .shadow(color: ColorTokens.accent.opacity(0.2), radius: 8, x: 0, y: 4)
                     
-                    Text("Vade Kullanıcısı")
+                    Text(LocalizedStringKey("profile.user.defaultName"))
                         .font(Typography.font(for: .title2))
                         .foregroundStyle(ColorTokens.textPrimary)
                 }
@@ -794,11 +794,11 @@ private struct ProfileSummarySheet: View {
                 
                 // Info rows
                 VStack(spacing: 0) {
-                    infoRow(icon: "icloud.fill", color: .blue, title: "iCloud Eşitleme", value: cloudStatus == .available ? "Aktif" : "Devam Dışı")
+                    infoRow(icon: "icloud.fill", color: .blue, title: String(localized: "profile.icloud.sync"), value: cloudStatus == .available ? String(localized: "profile.status.active") : String(localized: "profile.status.inactive"))
                     Divider().padding(.leading, 44)
-                    infoRow(icon: "faceid", color: .purple, title: "Güvenlik Kilidi", value: activeLock ? "Aktif" : "Devre Dışı")
+                    infoRow(icon: "faceid", color: .purple, title: String(localized: "profile.security.lock"), value: activeLock ? String(localized: "profile.status.active") : String(localized: "profile.status.disabled"))
                     Divider().padding(.leading, 44)
-                    infoRow(icon: "person.2.fill", color: .orange, title: "Toplam Kişi", value: "\(personCount) kişi")
+                    infoRow(icon: "person.2.fill", color: .orange, title: String(localized: "profile.total.people"), value: String(format: String(localized: "profile.people.count"), personCount))
                 }
                 .background(ColorTokens.surface)
                 .clipShape(RoundedRectangle(cornerRadius: Radius.md, style: .continuous))
@@ -816,11 +816,11 @@ private struct ProfileSummarySheet: View {
                     .padding(.bottom, Spacing.l)
             }
             .background(ColorTokens.background)
-            .navigationTitle("Profil")
+            .navigationTitle(LocalizedStringKey("profile.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Kapat") { dismiss() }
+                    Button(LocalizedStringKey("profile.close")) { dismiss() }
                         .font(Typography.font(for: .bodyEmphasis))
                         .foregroundStyle(ColorTokens.accent)
                 }
