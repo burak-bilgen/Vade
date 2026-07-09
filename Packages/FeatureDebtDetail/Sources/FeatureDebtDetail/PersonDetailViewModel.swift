@@ -2,6 +2,7 @@ import Foundation
 import Domain
 import Core
 import Observability
+import Networking
 
 // MARK: - Person Detail ViewModel
 
@@ -10,12 +11,14 @@ import Observability
 public final class PersonDetailViewModel {
     public private(set) var debts: [DebtRecord] = []
     public private(set) var balance: Decimal = .zero
+    public private(set) var displayCurrency: CurrencyKind = .tryCoin
     public private(set) var isLoading = false
 
     let person: Person
     private let debtRepo: AddDebtUseCase & FetchDebtsForPersonUseCase
     private let balanceRepo: CalculateBalanceUseCase
     private let paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase
+    private let rateClient: any ExchangeRateProviding
     private let analytics: any AnalyticsTracking
     private let notificationService: NotificationScheduling?
 
@@ -24,6 +27,7 @@ public final class PersonDetailViewModel {
         debtRepo: AddDebtUseCase & FetchDebtsForPersonUseCase,
         balanceRepo: CalculateBalanceUseCase,
         paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase,
+        rateClient: any ExchangeRateProviding = ExchangeRateClient(),
         analytics: any AnalyticsTracking = AnalyticsService.shared,
         notificationService: NotificationScheduling? = nil
     ) {
@@ -31,6 +35,7 @@ public final class PersonDetailViewModel {
         self.debtRepo = debtRepo
         self.balanceRepo = balanceRepo
         self.paymentRepo = paymentRepo
+        self.rateClient = rateClient
         self.analytics = analytics
         self.notificationService = notificationService
     }
@@ -40,7 +45,20 @@ public final class PersonDetailViewModel {
         defer { isLoading = false }
         do {
             debts = try await debtRepo.execute(for: person.id)
-            balance = try await balanceRepo.execute(for: person.id)
+            let rawBalance = try await balanceRepo.execute(for: person.id)
+            
+            let saved = UserDefaults.standard.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
+            let preferred = CurrencyKind(rawValue: saved) ?? .tryCoin
+            displayCurrency = preferred
+            
+            var rate: Decimal = 1
+            if preferred != .tryCoin {
+                let converter = CurrencyConverter(rateProvider: rateClient)
+                if let r = try? await converter.convertToTRY(amount: 1, from: preferred), r > 0 {
+                    rate = r
+                }
+            }
+            balance = rawBalance / rate
         } catch {
             AppLog.data.error("[PersonDetailViewModel] Load failed: \(error.localizedDescription)")
         }

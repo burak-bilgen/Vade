@@ -14,7 +14,7 @@ public struct DataManagementView: View {
     @State private var showDeleteConfirmation = false
     @State private var showDeleteSecondConfirm = false
     @State private var isExporting = false
-    @State private var exportedData: Data?
+    @State private var exportedFileURL: URL?
     @State private var showShareSheet = false
     @State private var showUndo = false
     @State private var deletedDataBackup: DeletedDataBackup?
@@ -122,9 +122,9 @@ public struct DataManagementView: View {
             }
         }
         .sheet(isPresented: $showShareSheet) {
-            if let data = exportedData {
+            if let url = exportedFileURL {
                 #if canImport(UIKit)
-                ShareSheet(activityItems: [data])
+                ShareSheet(activityItems: [url])
                 #endif
             }
         }
@@ -136,7 +136,10 @@ public struct DataManagementView: View {
         let rows = await fetchExportRows()
         guard !rows.isEmpty else { return }
         if let data = try? exportService.exportAsCSV(rows: rows) {
-            exportedData = data
+            let tempDir = FileManager.default.temporaryDirectory
+            let fileURL = tempDir.appendingPathComponent("Vade_Export.csv")
+            try? data.write(to: fileURL)
+            exportedFileURL = fileURL
             showShareSheet = true
             analytics.track(.exportUsed(format: "csv"))
         }
@@ -146,7 +149,10 @@ public struct DataManagementView: View {
         let rows = await fetchExportRows()
         guard !rows.isEmpty else { return }
         if let data = try? exportService.exportAsPDF(rows: rows) {
-            exportedData = data
+            let tempDir = FileManager.default.temporaryDirectory
+            let fileURL = tempDir.appendingPathComponent("Vade_Export.pdf")
+            try? data.write(to: fileURL)
+            exportedFileURL = fileURL
             showShareSheet = true
             analytics.track(.exportUsed(format: "pdf"))
         }

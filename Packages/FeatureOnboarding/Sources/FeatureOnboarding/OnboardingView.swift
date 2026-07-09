@@ -5,37 +5,20 @@ import Core
 
 public struct OnboardingView: View {
     let onComplete: () -> Void
-    @State private var appear = false
-    @State private var featureAppeared = false
+    @State private var activeTab = 0
     @State private var accepted = false
     @State private var cloudStatus = CKAccountStatus.couldNotDetermine
     @Environment(LanguageManager.self) private var languageManager
     @State private var showLanguagePicker = false
     @State private var disclaimerShakeOffset: CGFloat = 0
     @State private var logoPulse = false
-
-    private let features = [
-        OnboardingFeature(
-            icon: "arrow.left.arrow.right.circle.fill",
-            titleKey: "onboarding.feature.track",
-            descriptionKey: "onboarding.feature.track.desc"
-        ),
-        OnboardingFeature(
-            icon: "dollarsign.arrow.circlepath",
-            titleKey: "onboarding.feature.currency",
-            descriptionKey: "onboarding.feature.currency.desc"
-        ),
-        OnboardingFeature(
-            icon: "bell.badge.fill",
-            titleKey: "onboarding.feature.reminders",
-            descriptionKey: "onboarding.feature.reminders.desc"
-        ),
-        OnboardingFeature(
-            icon: "icloud.fill",
-            titleKey: "onboarding.feature.sync",
-            descriptionKey: "onboarding.feature.sync.desc"
-        ),
-    ]
+    @State private var isAnimating = false
+    
+    // Independent animations states for each page to prevent double animation jumpiness
+    @State private var welcomeAnimate = false
+    @State private var trackAnimate = false
+    @State private var currencyAnimate = false
+    @State private var syncAnimate = false
 
     public init(onComplete: @escaping () -> Void) {
         self.onComplete = onComplete
@@ -43,102 +26,59 @@ public struct OnboardingView: View {
 
     public var body: some View {
         ZStack {
+            // Shared premium animated background
             FinanceBackgroundAnimation()
                 .ignoresSafeArea()
             ColorTokens.background.opacity(0.12).ignoresSafeArea()
 
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    Spacer().frame(height: 72)
-
-                    logoSection
-                        .padding(.bottom, Spacing.xl)
-
-                    Text(LocalizedStringKey("onboarding.tagline"))
-                        .font(Typography.font(for: .title2))
-                        .foregroundStyle(
-                            LinearGradient(
-                                colors: [ColorTokens.textPrimary, ColorTokens.accent],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, Spacing.xxl)
-                        .opacity(appear ? 1 : 0)
-                        .offset(y: appear ? 0 : 20)
-                        .animation(.easeOut(duration: 0.6).delay(0.36), value: appear)
-
-                    Text(LocalizedStringKey("onboarding.subtagline"))
-                        .font(Typography.font(for: .body))
-                        .foregroundStyle(
-                            LinearGradient(
-                                colors: [ColorTokens.textSecondary, ColorTokens.textTertiary],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, Spacing.xxl)
-                        .padding(.top, Spacing.xs)
-                        .opacity(appear ? 1 : 0)
-                        .offset(y: appear ? 0 : 15)
-                        .animation(.easeOut(duration: 0.6).delay(0.48), value: appear)
-
-                    VStack(spacing: Spacing.s) {
-                        ForEach(Array(features.enumerated()), id: \.offset) { index, feature in
-                            FeatureCard(
-                                feature: feature,
-                                index: index,
-                                isVisible: featureAppeared
-                            )
-                        }
-                    }
-                    .padding(.horizontal, Spacing.xl)
-                    .padding(.top, Spacing.xl)
-
-                    if cloudStatus != .available && cloudStatus != .couldNotDetermine {
-                        iCloudBanner
-                            .padding(.horizontal, Spacing.xl)
-                            .padding(.top, Spacing.m)
-                            .opacity(featureAppeared ? 1 : 0)
-                            .offset(y: featureAppeared ? 0 : 20)
-                            .animation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.65), value: featureAppeared)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                    }
-
-                    bottomSection
-                        .padding(.horizontal, Spacing.xl)
-                        .padding(.top, Spacing.xl)
-                        .padding(.bottom, Spacing.xxl)
-
-                    Spacer().frame(height: 12)
+            VStack(spacing: 0) {
+                // Top navigation bar
+                topBarOverlay
+                    .padding(.top, 12)
+                
+                // Horizontal swiper TabView
+                TabView(selection: $activeTab) {
+                    welcomeTab
+                        .tag(0)
+                    
+                    trackTab
+                        .tag(1)
+                    
+                    currencyTab
+                        .tag(2)
+                    
+                    syncTab
+                        .tag(3)
                 }
-                .frame(maxWidth: .infinity)
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                
+                // Bottom controls & custom indicators
+                bottomNavigation
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.bottom, Spacing.xxl)
             }
-            .scrollBounceBehavior(.basedOnSize)
         }
         .environment(\.locale, languageManager.locale)
         .id(languageManager.languageCode)
-        .overlay(alignment: .top) {
-            topBarOverlay
-        }
         .sheet(isPresented: $showLanguagePicker) {
             LanguageSelectionSheet()
-                .presentationDetents([.medium, .large])
+                .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
         .onAppear {
-            withAnimation(.easeOut(duration: 0.6)) { appear = true }
-            withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
+            checkCloudStatus()
+            triggerAnimateState(for: 0)
+            withAnimation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true)) {
                 logoPulse = true
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                withAnimation(.easeOut(duration: 0.5)) { featureAppeared = true }
-            }
-            checkCloudStatus()
+        }
+        .onChange(of: activeTab) { _, newTab in
+            HapticFeedback.selection()
+            triggerAnimateState(for: newTab)
         }
     }
+
+    // MARK: - Navigation Top Bar
 
     private var topBarOverlay: some View {
         HStack {
@@ -166,58 +106,59 @@ public struct OnboardingView: View {
                         .stroke(ColorTokens.accent.opacity(0.15), lineWidth: 1)
                 )
             }
-            .opacity(appear ? 1 : 0)
-            .animation(.easeOut(duration: 0.6).delay(0.2), value: appear)
 
             Spacer()
 
-            Button(action: {
-                HapticFeedback.impact(.light)
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                    onComplete()
+            if activeTab < 3 {
+                Button(action: {
+                    HapticFeedback.impact(.light)
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                        onComplete()
+                    }
+                }) {
+                    Text(LocalizedStringKey("onboarding.skip"))
+                        .font(Typography.font(for: .labelEmphasis))
+                        .foregroundStyle(ColorTokens.textSecondary)
+                        .padding(.horizontal, Spacing.m)
+                        .padding(.vertical, Spacing.xs)
+                        .background(
+                            Capsule()
+                                .fill(ColorTokens.textSecondary.opacity(0.06))
+                        )
                 }
-            }) {
-                Text(LocalizedStringKey("onboarding.skip"))
-                    .font(Typography.font(for: .labelEmphasis))
-                    .foregroundStyle(ColorTokens.textSecondary)
-                    .padding(.horizontal, Spacing.m)
-                    .padding(.vertical, Spacing.xs)
-                    .background(
-                        Capsule()
-                            .fill(ColorTokens.textSecondary.opacity(0.06))
-                    )
             }
-            .opacity(appear ? 1 : 0)
-            .animation(.easeOut(duration: 0.6).delay(0.24), value: appear)
         }
         .padding(.horizontal, Spacing.xl)
-        .padding(.top, 16)
     }
 
-    private var logoSection: some View {
-        VStack(spacing: Spacing.xs) {
-            // Premium Glowing Icon Emblem
+    // MARK: - Tab 0: Welcome Screen
+
+    private var welcomeTab: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            
+            // Premium Glowing Logo Emblem
             ZStack {
                 Circle()
                     .fill(
                         RadialGradient(
-                            colors: [ColorTokens.accent.opacity(logoPulse ? 0.25 : 0.15), ColorTokens.accent.opacity(0)],
+                            colors: [ColorTokens.accent.opacity(logoPulse ? 0.22 : 0.12), ColorTokens.accent.opacity(0)],
                             center: .center,
                             startRadius: 0,
-                            endRadius: 60
+                            endRadius: 75
                         )
                     )
-                    .frame(width: 130, height: 130)
-                    .scaleEffect(logoPulse ? 1.1 : 0.9)
+                    .frame(width: 160, height: 160)
+                    .scaleEffect(logoPulse ? 1.08 : 0.94)
                 
                 Circle()
                     .fill(ColorTokens.surface)
-                    .frame(width: 80, height: 80)
+                    .frame(width: 96, height: 96)
                     .overlay(
                         Circle()
                             .stroke(
                                 LinearGradient(
-                                    colors: [ColorTokens.accent.opacity(0.3), ColorTokens.chartTeal.opacity(0.1)],
+                                    colors: [ColorTokens.accent.opacity(0.4), ColorTokens.chartTeal.opacity(0.1)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ),
@@ -227,7 +168,7 @@ public struct OnboardingView: View {
                     .elevation(Elevation.level2)
                 
                 Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
-                    .font(.system(size: 38, weight: .light))
+                    .font(.system(size: 46, weight: .light))
                     .foregroundStyle(
                         LinearGradient(
                             colors: [ColorTokens.accent, ColorTokens.chartTeal],
@@ -235,15 +176,15 @@ public struct OnboardingView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .shadow(color: ColorTokens.accent.opacity(0.3), radius: 6, x: 0, y: 3)
+                    .shadow(color: ColorTokens.accent.opacity(0.3), radius: 8, x: 0, y: 4)
             }
-            .scaleEffect(appear ? 1 : 0.7)
-            .opacity(appear ? 1 : 0)
-            .animation(.spring(response: 0.6, dampingFraction: 0.72).delay(0.12), value: appear)
-            .padding(.bottom, Spacing.xs)
+            .scaleEffect(welcomeAnimate ? 1 : 0.8)
+            .opacity(welcomeAnimate ? 1 : 0)
+            .animation(.spring(response: 0.6, dampingFraction: 0.72).delay(0.1), value: welcomeAnimate)
+            .padding(.bottom, Spacing.l)
 
             Text(LocalizedStringKey("app.name"))
-                .font(.custom(AppFont.jakartaBold, size: 52))
+                .font(.custom(AppFont.jakartaBold, size: 58))
                 .foregroundStyle(
                     LinearGradient(
                         colors: [ColorTokens.textPrimary, ColorTokens.accent],
@@ -251,23 +192,312 @@ public struct OnboardingView: View {
                         endPoint: .trailing
                     )
                 )
-                .tracking(-0.8)
-                .opacity(appear ? 1 : 0)
-                .offset(y: appear ? 0 : 15)
-                .animation(.easeOut(duration: 0.6).delay(0.18), value: appear)
+                .tracking(-1.2)
+                .scaleEffect(welcomeAnimate ? 1.0 : 0.95)
+                .opacity(welcomeAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.2), value: welcomeAnimate)
 
-            Text(LocalizedStringKey("app.subtitle"))
-                .font(Typography.font(for: .bodyEmphasisItalic))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [ColorTokens.accent, ColorTokens.chartTeal],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
+            Text(LocalizedStringKey("onboarding.tagline"))
+                .font(Typography.font(for: .title2))
+                .foregroundStyle(ColorTokens.textPrimary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.s)
+                .offset(y: welcomeAnimate ? 0 : 15)
+                .opacity(welcomeAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.32), value: welcomeAnimate)
+
+            Text(LocalizedStringKey("onboarding.subtagline"))
+                .font(Typography.font(for: .body))
+                .foregroundStyle(ColorTokens.textSecondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.xs)
+                .offset(y: welcomeAnimate ? 0 : 15)
+                .opacity(welcomeAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.44), value: welcomeAnimate)
+            
+            Spacer()
+        }
+    }
+
+    // MARK: - Tab 1: Debt Tracker Visualisation
+
+    private var trackTab: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            
+            // Transaction card simulation
+            VStack(spacing: Spacing.m) {
+                // Card 1: Ahmet Borç Alacak
+                HStack(spacing: Spacing.m) {
+                    Image(systemName: "arrow.down.left.circle.fill")
+                        .font(.system(size: 28))
+                        .foregroundStyle(ColorTokens.positive)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Ahmet Yılmaz")
+                            .font(Typography.font(for: .bodyEmphasis))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                        Text("Alacaklıyım")
+                            .font(Typography.font(for: .label))
+                            .foregroundStyle(ColorTokens.textSecondary)
+                    }
+                    Spacer()
+                    Text("1,250 TL")
+                        .font(Typography.font(for: .amountSmall))
+                        .foregroundStyle(ColorTokens.positive)
+                }
+                .padding(Spacing.m)
+                .background(ColorTokens.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.md, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                        .stroke(ColorTokens.positive.opacity(0.2), lineWidth: 1)
                 )
-                .opacity(appear ? 1 : 0)
-                .offset(y: appear ? 0 : 10)
-                .animation(.easeOut(duration: 0.6).delay(0.28), value: appear)
+                .elevation(Elevation.level1)
+                .offset(x: trackAnimate ? 0 : -100)
+                .opacity(trackAnimate ? 1 : 0)
+                .animation(.spring(response: 0.6, dampingFraction: 0.76).delay(0.25), value: trackAnimate)
+                
+                // Card 2: Elif Borç Veren
+                HStack(spacing: Spacing.m) {
+                    Image(systemName: "arrow.up.right.circle.fill")
+                        .font(.system(size: 28))
+                        .foregroundStyle(ColorTokens.negative)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Elif Demir")
+                            .font(Typography.font(for: .bodyEmphasis))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                        Text("Borçluyum")
+                            .font(Typography.font(for: .label))
+                            .foregroundStyle(ColorTokens.textSecondary)
+                    }
+                    Spacer()
+                    Text("750 TL")
+                        .font(Typography.font(for: .amountSmall))
+                        .foregroundStyle(ColorTokens.negative)
+                }
+                .padding(Spacing.m)
+                .background(ColorTokens.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.md, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
+                        .stroke(ColorTokens.negative.opacity(0.2), lineWidth: 1)
+                )
+                .elevation(Elevation.level1)
+                .offset(x: trackAnimate ? 0 : 100)
+                .opacity(trackAnimate ? 1 : 0)
+                .animation(.spring(response: 0.6, dampingFraction: 0.76).delay(0.4), value: trackAnimate)
+            }
+            .padding(.horizontal, Spacing.xl)
+            .padding(.bottom, Spacing.xl)
+            
+            Text(LocalizedStringKey("onboarding.feature.track"))
+                .font(Typography.font(for: .title2))
+                .foregroundStyle(ColorTokens.textPrimary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.xxl)
+                .offset(y: trackAnimate ? 0 : 15)
+                .opacity(trackAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.1), value: trackAnimate)
+
+            Text(LocalizedStringKey("onboarding.feature.track.desc"))
+                .font(Typography.font(for: .body))
+                .foregroundStyle(ColorTokens.textSecondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.s)
+                .offset(y: trackAnimate ? 0 : 15)
+                .opacity(trackAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.2), value: trackAnimate)
+            
+            Spacer()
+        }
+    }
+
+    // MARK: - Tab 2: Live Currency rates
+
+    private var currencyTab: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            
+            // Currency rates simulation
+            VStack(spacing: Spacing.s) {
+                HStack(spacing: Spacing.m) {
+                    CurrencyIconView(code: "USD", size: 36)
+                    Text("ABD Doları")
+                        .font(Typography.font(for: .bodyEmphasis))
+                        .foregroundStyle(ColorTokens.textPrimary)
+                    Spacer()
+                    Text("33.45 TL")
+                        .font(Typography.font(for: .amountSmall).monospacedDigit())
+                        .foregroundStyle(ColorTokens.textSecondary)
+                }
+                .padding(.horizontal, Spacing.l)
+                .padding(.vertical, Spacing.m)
+                .background(ColorTokens.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.md))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.md)
+                        .stroke(ColorTokens.border, lineWidth: 0.5)
+                )
+                .scaleEffect(currencyAnimate ? 1 : 0.8)
+                .opacity(currencyAnimate ? 1 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.72).delay(0.2), value: currencyAnimate)
+
+                HStack(spacing: Spacing.m) {
+                    CurrencyIconView(code: "XAU", size: 36)
+                    Text("Gram Altın")
+                        .font(Typography.font(for: .bodyEmphasis))
+                        .foregroundStyle(ColorTokens.textPrimary)
+                    Spacer()
+                    Text("2,480 TL")
+                        .font(Typography.font(for: .amountSmall).monospacedDigit())
+                        .foregroundStyle(ColorTokens.textSecondary)
+                }
+                .padding(.horizontal, Spacing.l)
+                .padding(.vertical, Spacing.m)
+                .background(ColorTokens.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.md))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.md)
+                        .stroke(ColorTokens.border, lineWidth: 0.5)
+                )
+                .scaleEffect(currencyAnimate ? 1 : 0.8)
+                .opacity(currencyAnimate ? 1 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.72).delay(0.35), value: currencyAnimate)
+            }
+            .padding(.horizontal, Spacing.xl)
+            .padding(.bottom, Spacing.xl)
+            
+            Text(LocalizedStringKey("onboarding.feature.currency"))
+                .font(Typography.font(for: .title2))
+                .foregroundStyle(ColorTokens.textPrimary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.xxl)
+                .offset(y: currencyAnimate ? 0 : 15)
+                .opacity(currencyAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.1), value: currencyAnimate)
+
+            Text(LocalizedStringKey("onboarding.feature.currency.desc"))
+                .font(Typography.font(for: .body))
+                .foregroundStyle(ColorTokens.textSecondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.s)
+                .offset(y: currencyAnimate ? 0 : 15)
+                .opacity(currencyAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.2), value: currencyAnimate)
+            
+            Spacer()
+        }
+    }
+
+    // MARK: - Tab 3: iCloud Sync & Disclaimer
+
+    private var syncTab: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            
+            // iCloud & notification simulation
+            VStack(spacing: Spacing.s) {
+                // iCloud indicator
+                HStack(spacing: Spacing.m) {
+                    ZStack {
+                        Circle()
+                            .fill(ColorTokens.accent.opacity(0.1))
+                            .frame(width: 38, height: 38)
+                        Image(systemName: "icloud.fill")
+                            .font(.system(size: 18))
+                            .foregroundStyle(ColorTokens.accent)
+                    }
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("iCloud Eşitlemesi")
+                            .font(Typography.font(for: .bodyEmphasis))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                        Text(cloudStatus == .available ? "Bağlandı ve Hazır" : "Otomatik Bulut Yedekleme")
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textTertiary)
+                    }
+                    Spacer()
+                    if cloudStatus == .available {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(ColorTokens.positive)
+                    }
+                }
+                .padding(Spacing.m)
+                .background(ColorTokens.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.md))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.md)
+                        .stroke(ColorTokens.border, lineWidth: 0.5)
+                )
+                .scaleEffect(syncAnimate ? 1 : 0.8)
+                .opacity(syncAnimate ? 1 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.72).delay(0.15), value: syncAnimate)
+
+                // Notification Simulation Card
+                HStack(spacing: Spacing.m) {
+                    ZStack {
+                        Circle()
+                            .fill(ColorTokens.accent.opacity(0.1))
+                            .frame(width: 38, height: 38)
+                        Image(systemName: "bell.badge.fill")
+                            .font(.system(size: 18))
+                            .foregroundStyle(ColorTokens.accent)
+                    }
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Vade Hatırlatıcısı")
+                            .font(Typography.font(for: .bodyEmphasis))
+                            .foregroundStyle(ColorTokens.textPrimary)
+                        Text("Ahmet'in ödeme günü geldi!")
+                            .font(Typography.font(for: .caption))
+                            .foregroundStyle(ColorTokens.textSecondary)
+                    }
+                    Spacer()
+                }
+                .padding(Spacing.m)
+                .background(ColorTokens.surface)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.md))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.md)
+                        .stroke(ColorTokens.border, lineWidth: 0.5)
+                )
+                .scaleEffect(syncAnimate ? 1 : 0.8)
+                .opacity(syncAnimate ? 1 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.72).delay(0.28), value: syncAnimate)
+            }
+            .padding(.horizontal, Spacing.xl)
+            .padding(.bottom, Spacing.ml)
+            
+            Text(LocalizedStringKey("onboarding.feature.sync"))
+                .font(Typography.font(for: .title2))
+                .foregroundStyle(ColorTokens.textPrimary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.xxl)
+                .offset(y: syncAnimate ? 0 : 15)
+                .opacity(syncAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.1), value: syncAnimate)
+
+            Text(LocalizedStringKey("onboarding.feature.sync.desc"))
+                .font(Typography.font(for: .body))
+                .foregroundStyle(ColorTokens.textSecondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.xxl)
+                .padding(.top, Spacing.s)
+                .offset(y: syncAnimate ? 0 : 15)
+                .opacity(syncAnimate ? 1 : 0)
+                .animation(.easeOut(duration: 0.5).delay(0.2), value: syncAnimate)
+            
+            if cloudStatus != .available && cloudStatus != .couldNotDetermine {
+                iCloudBanner
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.top, Spacing.m)
+                    .opacity(syncAnimate ? 1 : 0)
+                    .animation(.easeOut(duration: 0.5).delay(0.4), value: syncAnimate)
+            }
+            
+            Spacer()
         }
     }
 
@@ -294,76 +524,142 @@ public struct OnboardingView: View {
         )
     }
 
-    private var bottomSection: some View {
-        VStack(spacing: Spacing.l) {
-            Button {
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
-                    accepted.toggle()
-                    if accepted { HapticFeedback.impact(.light) }
-                }
-            } label: {
-                HStack(spacing: Spacing.m) {
-                    Image(systemName: accepted ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 22))
-                        .foregroundStyle(accepted ? ColorTokens.accent : ColorTokens.textSecondary)
-                    Text(LocalizedStringKey("onboarding.disclaimer.short"))
-                        .font(Typography.font(for: .body))
-                        .foregroundStyle(ColorTokens.textSecondary)
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity)
-            }
-            .offset(x: disclaimerShakeOffset)
-            .opacity(featureAppeared ? 1 : 0)
-            .animation(.easeOut(duration: 0.4).delay(0.7), value: featureAppeared)
+    // MARK: - Bottom Navigation Controls
 
-            Button {
-                if accepted {
-                    HapticFeedback.notification(.success)
-                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                        onComplete()
-                    }
-                } else {
-                    HapticFeedback.notification(.warning)
-                    shakeDisclaimer()
-                }
-            } label: {
-                HStack(spacing: Spacing.s) {
-                    Text(LocalizedStringKey("onboarding.start"))
-                        .font(Typography.font(for: .button))
-                    Image(systemName: "arrow.right")
-                        .font(.system(size: 14, weight: .semibold))
-                }
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 54)
-                .background(
+    private var bottomNavigation: some View {
+        VStack(spacing: Spacing.l) {
+            // Custom page indicators
+            HStack(spacing: Spacing.s) {
+                ForEach(0..<4) { index in
                     Capsule()
-                        .fill(
-                            accepted
-                            ? LinearGradient(
-                                colors: [ColorTokens.accent, ColorTokens.accent.opacity(0.85)],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                              )
-                            : LinearGradient(
-                                colors: [ColorTokens.textSecondary.opacity(0.4), ColorTokens.textSecondary.opacity(0.35)],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                              )
-                        )
-                )
-                .shadow(
-                    color: accepted ? ColorTokens.accent.opacity(0.3) : Color.clear,
-                    radius: 10,
-                    x: 0,
-                    y: 5
-                )
+                        .fill(activeTab == index ? ColorTokens.accent : ColorTokens.textSecondary.opacity(0.3))
+                        .frame(width: activeTab == index ? 24 : 8, height: 8)
+                        .animation(.spring(response: 0.35, dampingFraction: 0.72), value: activeTab)
+                }
             }
-            .opacity(featureAppeared ? 1 : 0)
-            .animation(.easeOut(duration: 0.4).delay(0.75), value: featureAppeared)
+            .padding(.top, Spacing.s)
+
+            if activeTab == 3 {
+                // Disclaimer Checkbox
+                Button {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                        accepted.toggle()
+                        if accepted { HapticFeedback.impact(.light) }
+                    }
+                } label: {
+                    HStack(spacing: Spacing.m) {
+                        Image(systemName: accepted ? "checkmark.circle.fill" : "circle")
+                            .font(.system(size: 22))
+                            .foregroundStyle(accepted ? ColorTokens.accent : ColorTokens.textSecondary)
+                        Text(LocalizedStringKey("onboarding.disclaimer.short"))
+                            .font(Typography.font(for: .body))
+                            .foregroundStyle(ColorTokens.textSecondary)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .offset(x: disclaimerShakeOffset)
+                .transition(.opacity.combined(with: .move(edge: .bottom)))
+                
+                // Get Started Button
+                Button {
+                    if accepted {
+                        HapticFeedback.notification(.success)
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                            onComplete()
+                        }
+                    } else {
+                        HapticFeedback.notification(.warning)
+                        shakeDisclaimer()
+                    }
+                } label: {
+                    HStack(spacing: Spacing.s) {
+                        Text(LocalizedStringKey("onboarding.start"))
+                            .font(Typography.font(for: .button))
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 14, weight: .semibold))
+                    }
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 54)
+                    .background(
+                        Capsule()
+                            .fill(
+                                accepted
+                                ? LinearGradient(
+                                    colors: [ColorTokens.accent, ColorTokens.accent.opacity(0.85)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                  )
+                                : LinearGradient(
+                                    colors: [ColorTokens.textSecondary.opacity(0.4), ColorTokens.textSecondary.opacity(0.35)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                  )
+                            )
+                    )
+                    .shadow(
+                        color: accepted ? ColorTokens.accent.opacity(0.3) : Color.clear,
+                        radius: 10,
+                        x: 0,
+                        y: 5
+                    )
+                }
+                .transition(.opacity.combined(with: .move(edge: .bottom)))
+            } else {
+                // Next Button
+                Button {
+                    withAnimation(.spring(response: 0.45, dampingFraction: 0.78)) {
+                        activeTab += 1
+                    }
+                } label: {
+                    HStack(spacing: Spacing.s) {
+                        Text("İleri")
+                            .font(Typography.font(for: .button))
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 14, weight: .semibold))
+                    }
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 54)
+                    .background(
+                        Capsule()
+                            .fill(
+                                LinearGradient(
+                                    colors: [ColorTokens.accent, ColorTokens.accent.opacity(0.85)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                    )
+                }
+            }
+        }
+    }
+
+    // MARK: - Helper Actions & Methods
+
+    private func triggerAnimateState(for tab: Int) {
+        // Reset all states
+        welcomeAnimate = false
+        trackAnimate = false
+        currencyAnimate = false
+        syncAnimate = false
+        
+        // Trigger active tab state
+        switch tab {
+        case 0:
+            welcomeAnimate = true
+        case 1:
+            trackAnimate = true
+        case 2:
+            currencyAnimate = true
+        case 3:
+            syncAnimate = true
+        default:
+            break
         }
     }
 
@@ -399,79 +695,5 @@ public struct OnboardingView: View {
                 await MainActor.run { cloudStatus = .couldNotDetermine }
             }
         }
-    }
-}
-
-private struct OnboardingFeature: Identifiable {
-    let id = UUID()
-    let icon: String
-    let titleKey: String
-    let descriptionKey: String
-}
-
-private struct FeatureCard: View {
-    let feature: OnboardingFeature
-    let index: Int
-    let isVisible: Bool
-
-    var body: some View {
-        HStack(spacing: Spacing.l) {
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [ColorTokens.accent.opacity(0.15), ColorTokens.accent.opacity(0.04)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 48, height: 48)
-                    .overlay(
-                        Circle()
-                            .stroke(ColorTokens.accent.opacity(0.2), lineWidth: 1)
-                    )
-
-                Image(systemName: feature.icon)
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [ColorTokens.accent, ColorTokens.accent.opacity(0.8)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(LocalizedStringKey(feature.titleKey))
-                    .font(Typography.font(for: .bodyEmphasis))
-                    .foregroundStyle(ColorTokens.textPrimary)
-                Text(LocalizedStringKey(feature.descriptionKey))
-                    .font(Typography.font(for: .caption))
-                    .foregroundStyle(ColorTokens.textSecondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            Spacer(minLength: Spacing.m)
-        }
-        .padding(.horizontal, Spacing.l)
-        .padding(.vertical, Spacing.m)
-        .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .fill(ColorTokens.surface)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
-                .stroke(ColorTokens.accent.opacity(0.12), lineWidth: 1)
-        )
-        .elevation(Elevation.level1)
-        .opacity(isVisible ? 1 : 0)
-        .offset(x: isVisible ? 0 : -30)
-        .animation(
-            .spring(response: 0.52, dampingFraction: 0.76)
-                .delay(0.3 + Double(index) * 0.1),
-            value: isVisible
-        )
     }
 }

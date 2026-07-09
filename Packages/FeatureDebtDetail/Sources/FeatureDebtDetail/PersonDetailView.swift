@@ -6,6 +6,7 @@ import Observability
 // MARK: - Person Detail View
 
 public struct PersonDetailView: View {
+    @Environment(\.locale) private var locale
     let person: Person
     @State private var viewModel: PersonDetailViewModel?
     @State private var showAddDebt = false
@@ -107,7 +108,7 @@ public struct PersonDetailView: View {
                         .textCase(.uppercase)
                         .tracking(0.8)
 
-                    Text(vm.balance < 0 ? "-₺\(vm.balance.magnitude.formatted())" : "₺\(vm.balance.formatted())")
+                    Text(formattedBalance(amount: vm.balance, currency: vm.displayCurrency))
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(balanceColor(vm.balance))
                         .contentTransition(.numericText(countsDown: true))
@@ -293,6 +294,12 @@ public struct PersonDetailView: View {
               let root = window.rootViewController else { return }
         root.present(av, animated: true)
         HapticFeedback.impact(.light)
+    }
+
+    private func formattedBalance(amount: Decimal, currency: CurrencyKind) -> String {
+        let isNegative = amount < 0
+        let absFormatted = currency.format(amount.magnitude, locale: locale)
+        return isNegative ? "-\(absFormatted)" : absFormatted
     }
 }
 

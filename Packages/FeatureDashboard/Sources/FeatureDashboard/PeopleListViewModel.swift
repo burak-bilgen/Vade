@@ -2,6 +2,7 @@ import Foundation
 import Domain
 import Core
 import Observability
+import Networking
 
 // MARK: - Status Filter
 
@@ -18,6 +19,7 @@ public enum DebtStatusFilter: String, CaseIterable, Sendable {
 public final class PeopleListViewModel {
     public private(set) var persons: [Person] = []
     public private(set) var personBalances: [UUID: Decimal] = [:]
+    public private(set) var displayCurrency: CurrencyKind = .tryCoin
     public var selectedSegment: PeopleSegment = .receivable
     public var selectedStatusFilter: DebtStatusFilter = .all
     public private(set) var isLoading = false
@@ -27,17 +29,20 @@ public final class PeopleListViewModel {
     private let personRepo: AddPersonUseCase & FetchPersonsUseCase
     private let balanceRepo: CalculateBalanceUseCase
     private let debtRepo: FetchDebtsForPersonUseCase
+    private let rateClient: any ExchangeRateProviding
     private let analytics: any AnalyticsTracking
 
     public init(
         personRepo: AddPersonUseCase & FetchPersonsUseCase,
         balanceRepo: CalculateBalanceUseCase,
         debtRepo: FetchDebtsForPersonUseCase,
+        rateClient: any ExchangeRateProviding = ExchangeRateClient(),
         analytics: any AnalyticsTracking = AnalyticsService.shared
     ) {
         self.personRepo = personRepo
         self.balanceRepo = balanceRepo
         self.debtRepo = debtRepo
+        self.rateClient = rateClient
         self.analytics = analytics
     }
 
@@ -73,11 +78,26 @@ public final class PeopleListViewModel {
         defer { isLoading = false }
         do {
             persons = try await personRepo.execute(includeArchived: false)
+            
+            let saved = UserDefaults.standard.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
+            let preferred = CurrencyKind(rawValue: saved) ?? .tryCoin
+            displayCurrency = preferred
+            
+            var rate: Decimal = 1
+            if preferred != .tryCoin {
+                let converter = CurrencyConverter(rateProvider: rateClient)
+                if let r = try? await converter.convertToTRY(amount: 1, from: preferred), r > 0 {
+                    rate = r
+                }
+            }
+            
             // Pre-compute all balances in parallel
             var balances: [UUID: Decimal] = [:]
             var statuses: [UUID: Set<DebtStatus>] = [:]
             for person in persons {
-                balances[person.id] = try await balanceRepo.execute(for: person.id)
+                let rawBalance = try await balanceRepo.execute(for: person.id)
+                balances[person.id] = rawBalance / rate
+                
                 let debts = try await debtRepo.execute(for: person.id)
                 statuses[person.id] = Set(debts.map(\.status))
             }

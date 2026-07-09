@@ -17,7 +17,7 @@ struct VadeApp: App {
     @State private var modelContainer: ModelContainer?
     @State private var isAuthenticated = false
     @Environment(\.scenePhase) private var scenePhase
-    @AppStorage("vade.biometric.enabled") private var isBiometricEnabled = false
+    @AppStorage(UserDefaultsKeys.biometricEnabled) private var isBiometricEnabled = false
     @State private var languageManager = LanguageManager.shared
 
     private let biometricAuth = BiometricAuthService()
