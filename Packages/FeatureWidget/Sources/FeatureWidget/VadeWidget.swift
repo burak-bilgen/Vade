@@ -95,11 +95,11 @@ public struct VadeWidgetEntryView: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(String(localized: "app.name"))
+            Text(LanguageManager.shared.localized("app.name"))
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textPrimary)
                 .minimumScaleFactor(0.85)
-            Text(String(localized: "app.subtitle"))
+            Text(LanguageManager.shared.localized("app.subtitle"))
                 .font(Typography.font(for: .label))
                 .foregroundStyle(ColorTokens.textTertiary)
                 .minimumScaleFactor(0.75)
@@ -122,7 +122,7 @@ public struct VadeWidgetEntryView: View {
                     .minimumScaleFactor(0.85)
             }
 
-            Text("\(entry.personCount) \(String(localized: "widget.personCount"))")
+            Text("\(entry.personCount) \(LanguageManager.shared.localized("widget.personCount"))")
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
                 .minimumScaleFactor(0.85)
@@ -148,8 +148,8 @@ public struct VadeWidget: Widget {
         ) { entry in
             VadeWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName(String(localized: "widget.displayName"))
-        .description(String(localized: "widget.description"))
+        .configurationDisplayName(LanguageManager.shared.localized("widget.displayName"))
+        .description(LanguageManager.shared.localized("widget.description"))
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
