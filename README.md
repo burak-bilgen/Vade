@@ -7,7 +7,7 @@ Track who owes you and who you owe. Offline-first, iCloud-synced across devices,
 Know exactly how much you're owed, what currency it's in, and when it's due. No spreadsheets, no mental math.
 
 - Track debts and receivables in TRY, USD, EUR, and physical gold
-- Gold types: gram, çeyrek, yarım, tam, cumhuriyet (auto-converted from gram price)
+- Gold types: Gram Gold, Quarter, Half, Full, Republic (auto-converted from gram price)
 - Live exchange rates from TCMB with offline fallback
 - Partial payments, installments, automatic balance recalculation
 - Quick actions per person: call, message, share
@@ -16,7 +16,7 @@ Know exactly how much you're owed, what currency it's in, and when it's due. No 
 - Append-only audit trail for every mutation
 - PDF/CSV export
 - Home screen widget
-- 6 languages: Turkish, English, Spanish, Mandarin Chinese, Hindi, Arabic (RTL)
+- 2 languages: Turkish, English
 - VoiceOver and Dynamic Type support
 
 ## Architecture
@@ -102,7 +102,7 @@ Swift Testing framework (`@Test`, parameterized). No XCTest.
 
 ```bash
 git clone https://github.com/burak-bilgen/Vade.git
-cd vade
+cd Vade
 
 brew install tuist
 tuist generate
