@@ -24,52 +24,80 @@
 
 ## 📱 Screenshots
 
+### 👋 Onboarding Flow
+
 <table>
   <tr>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding1.png" width="140" alt="Onboarding 1"><br>
+    <td align="center" width="25%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding1.png" width="200" alt="Onboarding 1"><br>
       <sub>Welcome</sub>
     </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding2.png" width="140" alt="Onboarding 2"><br>
+    <td align="center" width="25%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding2.png" width="200" alt="Onboarding 2"><br>
       <sub>Track</sub>
     </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding3.png" width="140" alt="Onboarding 3"><br>
+    <td align="center" width="25%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding3.png" width="200" alt="Onboarding 3"><br>
       <sub>Currencies</sub>
     </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding4.png" width="140" alt="Onboarding 4"><br>
+    <td align="center" width="25%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding4.png" width="200" alt="Onboarding 4"><br>
       <sub>iCloud Sync</sub>
     </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/dashboard.png" width="140" alt="Dashboard"><br>
+  </tr>
+</table>
+
+### 🏠 Dashboard & Quick Actions
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/dashboard.png" width="200" alt="Dashboard"><br>
       <sub>Dashboard</sub>
     </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/quickAdd.png" width="140" alt="Quick Add"><br>
+    <td align="center" width="50%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/quickAdd.png" width="200" alt="Quick Add"><br>
       <sub>Quick Add</sub>
     </td>
   </tr>
+</table>
+
+### 👥 People Management
+
+<table>
   <tr>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/addPerson.png" width="140" alt="Add Person"><br>
+    <td align="center" width="50%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/people.png" width="200" alt="People"><br>
+      <sub>People List</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/addPerson.png" width="200" alt="Add Person"><br>
       <sub>Add Person</sub>
     </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/people.png" width="140" alt="People"><br>
-      <sub>People</sub>
-    </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/statistics.png" width="140" alt="Statistics"><br>
+  </tr>
+</table>
+
+### 📊 Analytics & Exchange Rates
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/statistics.png" width="200" alt="Statistics"><br>
       <sub>Statistics</sub>
     </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/exchangeRates.png" width="140" alt="Exchange Rates"><br>
+    <td align="center" width="50%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/exchangeRates.png" width="200" alt="Exchange Rates"><br>
       <sub>Exchange Rates</sub>
     </td>
-    <td align="center" width="16%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/settings.png" width="140" alt="Settings"><br>
+  </tr>
+</table>
+
+### ⚙️ Settings
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/settings.png" width="200" alt="Settings"><br>
       <sub>Settings</sub>
     </td>
   </tr>
