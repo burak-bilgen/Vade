@@ -8,6 +8,7 @@ import Observability
 
 public struct SettingsView: View {
     @State private var viewModel = SettingsViewModel()
+    @Environment(\.locale) private var locale
     @Environment(LanguageManager.self) private var languageManager
     private let personRepo: FetchPersonsUseCase
     private let debtRepo: FetchDebtsForPersonUseCase
@@ -148,7 +149,10 @@ public struct SettingsView: View {
                             icon: "info.circle.fill",
                             iconColor: ColorTokens.chartTeal
                         ) {
-                            if let privacyURL = URL(string: "https://vade.app/privacy") {
+                            let privacyURLString = locale.identifier.hasPrefix("tr")
+                                ? "https://github.com/burak-bilgen/Vade/blob/main/PRIVACY_POLICY_TR.md"
+                                : "https://github.com/burak-bilgen/Vade/blob/main/PRIVACY_POLICY_EN.md"
+                            if let privacyURL = URL(string: privacyURLString) {
                                 Link(destination: privacyURL) {
                                     SuperSettingsNavRow(
                                         icon: "doc.text",

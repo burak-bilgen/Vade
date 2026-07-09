@@ -2924,13 +2924,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "I agree to the [Terms of Service](https://vade.app/terms) and [Privacy Policy](https://vade.app/privacy)."
+            "value": "I accept the [Privacy Policy & Legal Disclaimer](https://github.com/burak-bilgen/Vade/blob/main/PRIVACY_POLICY_EN.md)."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "[Kullanım Şartları](https://vade.app/terms) ve [Gizlilik Politikası](https://vade.app/privacy)'nı kabul ediyorum."
+            "value": "[Gizlilik Politikası ve Yasal Uyarı](https://github.com/burak-bilgen/Vade/blob/main/PRIVACY_POLICY_TR.md)'nı kabul ediyorum."
           }
         }
       }
@@ -4299,18 +4299,18 @@
       }
     },
     "settings.about.privacyPolicy": {
-      "extractionState": "stale",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Privacy Policy"
+            "value": "Privacy Policy & Disclaimer"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gizlilik Politikası"
+            "value": "Gizlilik Politikası ve Yasal Uyarı"
           }
         }
       }
