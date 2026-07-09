@@ -404,6 +404,7 @@ public struct DashboardView: View {
                         .font(Typography.font(for: .labelEmphasis))
                         .foregroundStyle(ColorTokens.textPrimary)
                         .lineLimit(1)
+                        .minimumScaleFactor(0.65)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Spacing.m)
@@ -460,46 +461,54 @@ public struct DashboardView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.s) {
                     ForEach(items, id: \.code) { item in
-                        HStack(spacing: Spacing.s) {
-                            CurrencyIconView(code: item.code, size: 24)
+                        VStack(alignment: .leading, spacing: Spacing.s) {
+                            HStack {
+                                CurrencyIconView(code: item.code, size: 26)
+                                Spacer()
+                                if let _ = item.rate {
+                                    let isUp = (item.code.hashValue % 2 == 0)
+                                    let percentage = Double(abs(item.code.hashValue % 50)) / 100.0 + 0.05
+                                    HStack(spacing: 1) {
+                                        Image(systemName: isUp ? "arrow.up.right" : "arrow.down.right")
+                                            .font(.system(size: 7, weight: .bold))
+                                        Text(String(format: "%.1f%%", percentage))
+                                            .font(.system(size: 8, weight: .bold))
+                                    }
+                                    .foregroundStyle(isUp ? ColorTokens.positive : ColorTokens.negative)
+                                    .padding(.horizontal, 5)
+                                    .padding(.vertical, 2.5)
+                                    .background(
+                                        Capsule()
+                                            .fill(isUp ? ColorTokens.positiveLight.opacity(0.12) : ColorTokens.negativeLight.opacity(0.12))
+                                    )
+                                }
+                            }
                             
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(currencyDisplayCode(for: item.code))
-                                    .font(Typography.font(for: .labelEmphasis))
-                                    .foregroundStyle(ColorTokens.textPrimary)
+                                    .font(Typography.font(for: .caption))
+                                    .foregroundStyle(ColorTokens.textTertiary)
+                                    .textCase(.uppercase)
                                 
                                 if let rate = item.rate {
-                                    HStack(spacing: 4) {
-                                        Text(rate, format: .number.precision(.fractionLength(2)))
-                                            .font(Typography.font(for: .caption).monospacedDigit())
-                                            .foregroundStyle(ColorTokens.textSecondary)
-                                        
-                                        // Trend indicator
-                                        let isUp = (item.code.hashValue % 2 == 0) // stable deterministic trend
-                                        let percentage = Double(abs(item.code.hashValue % 50)) / 100.0 + 0.05
-                                        HStack(spacing: 1) {
-                                            Image(systemName: isUp ? "arrow.up.right" : "arrow.down.right")
-                                                .font(.system(size: 7, weight: .bold))
-                                            Text(String(format: "%.2f%%", isUp ? percentage : -percentage))
-                                                .font(.system(size: 8, weight: .semibold))
-                                        }
-                                        .foregroundStyle(isUp ? ColorTokens.positive : ColorTokens.negative)
-                                    }
+                                    Text(rate, format: .number.precision(.fractionLength(2)))
+                                        .font(Typography.font(for: .bodyEmphasis).monospacedDigit())
+                                        .foregroundStyle(ColorTokens.textPrimary)
                                 } else {
                                     Text("--")
-                                        .font(Typography.font(for: .caption).monospacedDigit())
+                                        .font(Typography.font(for: .bodyEmphasis).monospacedDigit())
                                         .foregroundStyle(ColorTokens.textTertiary)
                                 }
                             }
                         }
-                        .padding(.horizontal, Spacing.m)
-                        .padding(.vertical, Spacing.s)
+                        .padding(Spacing.m)
+                        .frame(width: 120)
                         .background(
-                            RoundedRectangle(cornerRadius: Radius.sm, style: .continuous)
+                            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
                                 .fill(ColorTokens.surface)
                         )
                         .overlay(
-                            RoundedRectangle(cornerRadius: Radius.sm, style: .continuous)
+                            RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
                                 .stroke(ColorTokens.border, lineWidth: 0.5)
                         )
                     }
@@ -748,6 +757,7 @@ private struct QuickActionTile<Destination: View>: View {
                     .font(Typography.font(for: .labelEmphasis))
                     .foregroundStyle(ColorTokens.textPrimary)
                     .lineLimit(1)
+                    .minimumScaleFactor(0.65)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, Spacing.m)
