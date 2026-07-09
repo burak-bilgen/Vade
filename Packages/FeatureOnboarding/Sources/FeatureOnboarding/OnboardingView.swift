@@ -9,7 +9,6 @@ public struct OnboardingView: View {
     @State private var accepted = false
     @State private var cloudStatus = CKAccountStatus.couldNotDetermine
     @Environment(LanguageManager.self) private var languageManager
-    @State private var showLanguagePicker = false
     @State private var disclaimerShakeOffset: CGFloat = 0
     @State private var logoPulse = false
     @State private var isAnimating = false
@@ -60,11 +59,6 @@ public struct OnboardingView: View {
         }
         .environment(\.locale, languageManager.locale)
         .id(languageManager.languageCode)
-        .sheet(isPresented: $showLanguagePicker) {
-            LanguageSelectionSheet()
-                .presentationDetents([.medium])
-                .presentationDragIndicator(.visible)
-        }
         .onAppear {
             checkCloudStatus()
             triggerAnimateState(for: 0)
@@ -82,31 +76,6 @@ public struct OnboardingView: View {
 
     private var topBarOverlay: some View {
         HStack {
-            Button(action: {
-                HapticFeedback.impact(.light)
-                showLanguagePicker = true
-            }) {
-                HStack(spacing: Spacing.xxs) {
-                    Image(systemName: "globe")
-                        .font(.system(size: 13, weight: .bold))
-                    Text(languageDisplayName(for: languageManager.languageCode))
-                        .font(Typography.font(for: .labelEmphasis))
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 9, weight: .bold))
-                }
-                .foregroundStyle(ColorTokens.accent)
-                .padding(.horizontal, Spacing.m)
-                .padding(.vertical, Spacing.xs)
-                .background(
-                    Capsule()
-                        .fill(ColorTokens.accent.opacity(0.08))
-                )
-                .overlay(
-                    Capsule()
-                        .stroke(ColorTokens.accent.opacity(0.15), lineWidth: 1)
-                )
-            }
-
             Spacer()
 
             if activeTab < 3 {

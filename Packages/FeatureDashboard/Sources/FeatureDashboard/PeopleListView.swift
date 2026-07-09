@@ -54,7 +54,7 @@ public struct PeopleListView: View {
                 }
             }
         }
-        .navigationTitle(String(localized: "tab.people"))
+        .navigationTitle(LocalizedStringKey("tab.people"))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button(action: {
@@ -90,7 +90,7 @@ public struct PeopleListView: View {
                 Image(systemName: "magnifyingglass")
                     .font(Typography.font(for: .body))
                     .foregroundStyle(ColorTokens.textTertiary)
-                TextField(String(localized: "people.search.placeholder"), text: $searchText)
+                TextField("people.search.placeholder", text: $searchText)
                     .font(Typography.font(for: .body))
                     .foregroundStyle(ColorTokens.textPrimary)
                     .autocorrectionDisabled()
@@ -132,8 +132,8 @@ public struct PeopleListView: View {
                                 : "arrow.up.right.circle.fill")
                                 .font(.system(size: 12))
                             Text(segment == .receivable
-                                ? String(localized: "people.segment.receivable")
-                                : String(localized: "people.segment.payable"))
+                                ? LocalizedStringKey("people.segment.receivable")
+                                : LocalizedStringKey("people.segment.payable"))
                                 .font(Typography.font(for: .buttonSmall))
                         }
                         .foregroundStyle(vm.selectedSegment == segment
@@ -241,14 +241,14 @@ public struct PeopleListView: View {
 
             VStack(spacing: Spacing.xs) {
                 Text(segment == .receivable
-                    ? String(localized: "people.empty.receivable.title")
-                    : String(localized: "people.empty.payable.title"))
+                    ? LocalizedStringKey("people.empty.receivable.title")
+                    : LocalizedStringKey("people.empty.payable.title"))
                     .font(Typography.font(for: .headline))
                     .foregroundStyle(ColorTokens.textSecondary)
 
                 Text(segment == .receivable
-                    ? String(localized: "people.empty.receivable.subtitle")
-                    : String(localized: "people.empty.payable.subtitle"))
+                    ? LocalizedStringKey("people.empty.receivable.subtitle")
+                    : LocalizedStringKey("people.empty.payable.subtitle"))
                     .font(Typography.font(for: .body))
                     .foregroundStyle(ColorTokens.textTertiary)
                     .multilineTextAlignment(.center)
@@ -262,7 +262,7 @@ public struct PeopleListView: View {
                 HStack(spacing: Spacing.s) {
                     Image(systemName: "person.badge.plus")
                         .font(.system(size: 14, weight: .bold))
-                    Text(String(localized: "people.empty.addButton"))
+                    Text("people.empty.addButton")
                         .font(Typography.font(for: .buttonSmall))
                 }
                 .foregroundStyle(.white)
@@ -327,8 +327,8 @@ private struct PersonCard: View {
                             : "arrow.up.right")
                             .font(.system(size: 8, weight: .bold))
                         Text(balance >= 0
-                            ? String(localized: "people.balance.receivable")
-                            : String(localized: "people.balance.payable"))
+                            ? LocalizedStringKey("people.balance.receivable")
+                            : LocalizedStringKey("people.balance.payable"))
                             .font(Typography.font(for: .label))
                     }
                     .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
@@ -410,17 +410,17 @@ private struct AddPremiumSheet: View {
                 VStack(spacing: Spacing.m) {
                     PremiumTextField(
                         icon: "person.fill",
-                        placeholder: String(localized: "people.add.namePlaceholder"),
+                        placeholder: "people.add.namePlaceholder",
                         text: $name
                     )
                     PremiumTextField(
                         icon: "phone.fill",
-                        placeholder: String(localized: "people.add.phonePlaceholder"),
+                        placeholder: "people.add.phonePlaceholder",
                         text: $phone
                     )
                     PremiumTextField(
                         icon: "note.text",
-                        placeholder: String(localized: "people.add.notesPlaceholder"),
+                        placeholder: "people.add.notesPlaceholder",
                         text: $notes
                     )
                 }
@@ -437,7 +437,7 @@ private struct AddPremiumSheet: View {
                             ProgressView()
                                 .tint(.white)
                         }
-                        Text(String(localized: "people.add.save"))
+                        Text("people.add.save")
                             .font(Typography.font(for: .button))
                     }
                     .frame(maxWidth: .infinity)
@@ -457,13 +457,13 @@ private struct AddPremiumSheet: View {
                 .padding(.bottom, Spacing.xxxl)
             }
             .background(ColorTokens.background)
-            .navigationTitle(String(localized: "people.add.title"))
+            .navigationTitle(LocalizedStringKey("people.add.title"))
             #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "people.add.cancel")) { dismiss() }
+                    Button(LocalizedStringKey("people.add.cancel")) { dismiss() }
                         .disabled(isSaving)
                 }
             }
@@ -485,7 +485,7 @@ private struct AddPremiumSheet: View {
 
 private struct PremiumTextField: View {
     let icon: String
-    let placeholder: String
+    let placeholder: LocalizedStringKey
     @Binding var text: String
 
     var body: some View {
