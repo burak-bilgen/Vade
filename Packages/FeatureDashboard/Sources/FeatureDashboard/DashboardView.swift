@@ -960,6 +960,7 @@ private struct ActivityRow: View {
 }
 
 private struct CurrencyBarChart: View {
+    @Environment(\.locale) private var locale
     let distribution: [(kind: CurrencyKind, total: Decimal)]
     private let maxTotal: Decimal
 
