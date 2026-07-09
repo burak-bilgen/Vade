@@ -382,7 +382,7 @@ public struct OnboardingView: View {
                         Text(LocalizedStringKey("onboarding.icloud.title"))
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textPrimary)
-                        Text(cloudStatus == .available ? String(localized: "onboarding.icloud.connected") : String(localized: "onboarding.icloud.automaticSync"))
+                        Text(cloudStatus == .available ? LocalizedStringKey("onboarding.icloud.connected") : LocalizedStringKey("onboarding.icloud.automaticSync"))
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textTertiary)
                     }

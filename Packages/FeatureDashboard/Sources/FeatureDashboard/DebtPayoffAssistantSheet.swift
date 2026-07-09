@@ -134,7 +134,7 @@ public struct DebtPayoffAssistantSheet: View {
             #endif
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(String(localized: "common.done")) {
+                    Button("common.done") {
                         dismiss()
                     }
                     .font(Typography.font(for: .bodyEmphasis))

@@ -82,6 +82,7 @@ public struct ChartsHostView: View {
         }
     }
 
+    @Environment(\.locale) private var locale
     @State private var hasData = false
 
     private var content: some View {
@@ -157,12 +158,12 @@ public struct ChartsHostView: View {
     private var overviewSection: some View {
         VStack(spacing: Spacing.l) {
             // Monthly trend (compact)
-            chartCard(title: String(localized: "charts.monthlyTrend.title")) {
+            chartCard(title: String(localized: "charts.monthlyTrend.title", locale: locale)) {
                 MonthlyTrendChart(monthlyData: monthlyTrendData)
             }
 
             // Status distribution
-            chartCard(title: String(localized: "charts.status.title")) {
+            chartCard(title: String(localized: "charts.status.title", locale: locale)) {
                 DebtStatusChart(pendingCount: pendingCount, paidCount: paidCount, archivedCount: archivedCount)
             }
         }
@@ -172,14 +173,14 @@ public struct ChartsHostView: View {
 
     private var trendsSection: some View {
         VStack(spacing: Spacing.l) {
-            chartCard(title: String(localized: "charts.monthlyTrend.title")) {
+            chartCard(title: String(localized: "charts.monthlyTrend.title", locale: locale)) {
                 MonthlyTrendChart(monthlyData: monthlyTrendData)
             }
 
-            chartCard(title: String(localized: "charts.netBalance.title")) {
+            chartCard(title: String(localized: "charts.netBalance.title", locale: locale)) {
                 let netDataPoints: [ChartDataPoint] = [
-                    ChartDataPoint(label: String(localized: "charts.direction.receivable"), value: totalReceivable, color: ColorTokens.positive),
-                    ChartDataPoint(label: String(localized: "charts.direction.payable"), value: totalPayable, color: ColorTokens.negative),
+                    ChartDataPoint(label: String(localized: "charts.direction.receivable", locale: locale), value: totalReceivable, color: ColorTokens.positive),
+                    ChartDataPoint(label: String(localized: "charts.direction.payable", locale: locale), value: totalPayable, color: ColorTokens.negative),
                 ]
                 NetBalanceChart(dataPoints: netDataPoints, netBalance: netBalance)
             }
@@ -190,11 +191,11 @@ public struct ChartsHostView: View {
 
     private var distributionSection: some View {
         VStack(spacing: Spacing.l) {
-            chartCard(title: String(localized: "charts.direction.title")) {
+            chartCard(title: String(localized: "charts.direction.title", locale: locale)) {
                 DirectionPieChart(receivable: totalReceivable, payable: totalPayable)
             }
 
-            chartCard(title: String(localized: "charts.currency.title")) {
+            chartCard(title: String(localized: "charts.currency.title", locale: locale)) {
                 CurrencyTrendChart(distribution: currencyDistribution)
             }
 
@@ -216,11 +217,11 @@ public struct ChartsHostView: View {
 
     private var peopleSection: some View {
         VStack(spacing: Spacing.l) {
-            chartCard(title: String(localized: "charts.personDistribution.title")) {
+            chartCard(title: String(localized: "charts.personDistribution.title", locale: locale)) {
                 PersonDistributionChart(personBalances: personBalances)
             }
 
-            chartCard(title: String(localized: "charts.paidVsPending.title")) {
+            chartCard(title: String(localized: "charts.paidVsPending.title", locale: locale)) {
                 PaidVsPendingAmountChart(paidAmount: paidAmount, pendingAmount: pendingAmount)
             }
         }
@@ -230,14 +231,14 @@ public struct ChartsHostView: View {
 
     private var upcomingSection: some View {
         VStack(spacing: Spacing.l) {
-            chartCard(title: String(localized: "charts.upcoming.title")) {
+            chartCard(title: String(localized: "charts.upcoming.title", locale: locale)) {
                 UpcomingTimelineChart(items: upcomingItems)
             }
 
             // List upcoming items
             if !upcomingItems.isEmpty {
                 VStack(alignment: .leading, spacing: Spacing.s) {
-                    Text(String(localized: "dashboard.upcoming.title"))
+                    Text("dashboard.upcoming.title")
                         .font(Typography.font(for: .title2))
                         .foregroundStyle(ColorTokens.textPrimary)
 
@@ -294,7 +295,7 @@ public struct ChartsHostView: View {
         let elapsed = Date().timeIntervalSince(lastDate)
         let hours = Int(elapsed / 3600)
         if hours >= 1 {
-            let format = String(localized: "exchangeRate.stale")
+            let format = String(localized: "exchangeRate.stale", locale: locale)
             lastRateUpdateInfo = String(format: format, hours)
         } else {
             lastRateUpdateInfo = nil

@@ -5,6 +5,7 @@ import SwiftUI
 /// Displays an undo bar at the bottom with auto-dismiss.
 /// Used for delete operations - gives the user 5-10 seconds to undo.
 public struct UndoToastView: View {
+    @Environment(\.locale) private var locale
     let message: LocalizedStringKey
     let undoLabel: LocalizedStringKey
     let undoAction: () -> Void
@@ -28,7 +29,7 @@ public struct UndoToastView: View {
         HStack(spacing: Spacing.m) {
             Image(systemName: "trash")
                 .foregroundStyle(ColorTokens.negative)
-                .accessibilityLabel(String(localized: "accessibility.deleted"))
+                .accessibilityLabel(String(localized: "accessibility.deleted", locale: locale))
             Text(message)
                 .font(Typography.font(for: .body))
                 .foregroundStyle(ColorTokens.textPrimary)

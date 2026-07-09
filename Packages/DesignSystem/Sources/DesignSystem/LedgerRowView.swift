@@ -2,6 +2,7 @@ import SwiftUI
 import Core
 
 public struct LedgerRowView: View {
+    @Environment(\.locale) private var locale
     let name: String
     let amount: Decimal
     let subtitle: String?
@@ -52,8 +53,8 @@ public struct LedgerRowView: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
         .accessibilityHint(isPositive
-            ? String(localized: "accessibility.receivable")
-            : String(localized: "accessibility.payable"))
+            ? String(localized: "accessibility.receivable", locale: locale)
+            : String(localized: "accessibility.payable", locale: locale))
         .overlay(alignment: .bottom) {
             Rectangle()
                 .fill(ColorTokens.border)
@@ -62,7 +63,7 @@ public struct LedgerRowView: View {
     }
 
     private var accessibilityLabel: String {
-        let arrow = isPositive ? String(localized: "accessibility.receivable") : String(localized: "accessibility.payable")
+        let arrow = isPositive ? String(localized: "accessibility.receivable", locale: locale) : String(localized: "accessibility.payable", locale: locale)
         return "\(name), \(amount.formatted()), \(arrow)"
     }
 
