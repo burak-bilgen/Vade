@@ -13,9 +13,10 @@ let package = Package(
         .package(path: "../Domain"),
         .package(path: "../Data"),
         .package(path: "../Observability"),
+        .package(path: "../Networking"),
     ],
     targets: [
-        .target(name: "FeatureDebtDetail", dependencies: ["Core", "DesignSystem", "Domain", "Observability"]),
+        .target(name: "FeatureDebtDetail", dependencies: ["Core", "DesignSystem", "Domain", "Observability", "Networking"]),
         .testTarget(name: "FeatureDebtDetailTests", dependencies: ["FeatureDebtDetail", "Data"]),
     ]
 )

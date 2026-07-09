@@ -3,9 +3,21 @@ import Testing
 import SwiftData
 @testable import FeatureDashboard
 @testable import Data
+@testable import Networking
+import Core
+
+private actor MockRateProvider: ExchangeRateProviding {
+    func fetchRate(for currency: String) async throws -> Decimal? { 1.0 }
+    func fetchGoldRatePerGram() async throws -> Decimal? { 2000.0 }
+    func fetchAllRates() async throws -> [(code: String, rate: Decimal)] { [] }
+    func lastUpdateDate() async -> Date? { nil }
+}
 
 @Suite("PeopleListViewModel")
 struct PeopleListViewModelTests {
+    public init() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.preferredCurrency)
+    }
 
     @MainActor
     @Test("Loads persons and computes balances")
@@ -32,7 +44,8 @@ struct PeopleListViewModelTests {
         let vm = PeopleListViewModel(
             personRepo: personRepo,
             balanceRepo: balanceRepo,
-            debtRepo: debtRepo
+            debtRepo: debtRepo,
+            rateClient: MockRateProvider()
         )
         await vm.loadPersons()
 
@@ -66,7 +79,8 @@ struct PeopleListViewModelTests {
         let vm = PeopleListViewModel(
             personRepo: personRepo,
             balanceRepo: balanceRepo,
-            debtRepo: debtRepo
+            debtRepo: debtRepo,
+            rateClient: MockRateProvider()
         )
         await vm.loadPersons()
         vm.selectedSegment = .receivable
@@ -100,7 +114,8 @@ struct PeopleListViewModelTests {
         let vm = PeopleListViewModel(
             personRepo: personRepo,
             balanceRepo: balanceRepo,
-            debtRepo: debtRepo
+            debtRepo: debtRepo,
+            rateClient: MockRateProvider()
         )
         await vm.loadPersons()
         vm.selectedSegment = .payable
@@ -123,7 +138,8 @@ struct PeopleListViewModelTests {
         let vm = PeopleListViewModel(
             personRepo: personRepo,
             balanceRepo: balanceRepo,
-            debtRepo: debtRepo
+            debtRepo: debtRepo,
+            rateClient: MockRateProvider()
         )
         await vm.loadPersons()
         #expect(vm.persons.isEmpty)

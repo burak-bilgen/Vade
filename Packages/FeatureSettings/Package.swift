@@ -16,5 +16,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "FeatureSettings", dependencies: ["Core", "DesignSystem", "Domain", "Data", "Observability"]),
+        .testTarget(name: "FeatureSettingsTests", dependencies: ["FeatureSettings"]),
     ]
 )

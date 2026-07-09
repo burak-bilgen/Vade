@@ -4,9 +4,21 @@ import SwiftData
 import Domain
 @testable import FeatureDebtDetail
 @testable import Data
+@testable import Networking
+import Core
+
+private actor MockRateProvider: ExchangeRateProviding {
+    func fetchRate(for currency: String) async throws -> Decimal? { 1.0 }
+    func fetchGoldRatePerGram() async throws -> Decimal? { 2000.0 }
+    func fetchAllRates() async throws -> [(code: String, rate: Decimal)] { [] }
+    func lastUpdateDate() async -> Date? { nil }
+}
 
 @Suite("PersonDetailViewModel")
 struct PersonDetailViewModelTests {
+    public init() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.preferredCurrency)
+    }
 
     @MainActor
     @Test("Initial state loads debts and computes balance")
@@ -35,7 +47,8 @@ struct PersonDetailViewModelTests {
             person: person.toDomain(),
             debtRepo: debtRepo,
             balanceRepo: balanceRepo,
-            paymentRepo: paymentRepo
+            paymentRepo: paymentRepo,
+            rateClient: MockRateProvider()
         )
         await vm.loadData()
 
@@ -66,7 +79,8 @@ struct PersonDetailViewModelTests {
             person: person.toDomain(),
             debtRepo: debtRepo,
             balanceRepo: balanceRepo,
-            paymentRepo: paymentRepo
+            paymentRepo: paymentRepo,
+            rateClient: MockRateProvider()
         )
         await vm.loadData()
         #expect(vm.debts.isEmpty)
@@ -103,7 +117,8 @@ struct PersonDetailViewModelTests {
             person: person.toDomain(),
             debtRepo: debtRepo,
             balanceRepo: balanceRepo,
-            paymentRepo: paymentRepo
+            paymentRepo: paymentRepo,
+            rateClient: MockRateProvider()
         )
         await vm.loadData()
         #expect(vm.balance == 1000)

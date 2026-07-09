@@ -106,6 +106,7 @@ public struct DashboardView: View {
                         receivable: vm.totalReceivable,
                         payable: vm.totalPayable,
                         personCount: vm.persons.count,
+                        currency: vm.displayCurrency,
                         lastUpdate: vm.exchangeRates?.lastUpdate
                     )
                     .padding(.horizontal, Spacing.xl)

@@ -12,6 +12,7 @@ public final class DashboardViewModel {
     public private(set) var totalReceivable: Decimal = .zero
     public private(set) var totalPayable: Decimal = .zero
     public private(set) var netBalance: Decimal = .zero
+    public private(set) var displayCurrency: CurrencyKind = .tryCoin
     public private(set) var upcomingItems: [(id: UUID, person: Person, amount: Decimal, kind: CurrencyKind, dueDate: Date?)] = []
     public private(set) var recentActivity: [ActivityItem] = []
     public private(set) var currencyDistribution: [(kind: CurrencyKind, total: Decimal)] = []
@@ -82,6 +83,18 @@ public final class DashboardViewModel {
                 receivable += balance
             } else if balance < 0 {
                 payable += balance.magnitude
+            }
+        }
+
+        let saved = UserDefaults.standard.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
+        let preferred = CurrencyKind(rawValue: saved) ?? .tryCoin
+        displayCurrency = preferred
+
+        if preferred != .tryCoin {
+            let converter = CurrencyConverter(rateProvider: rateClient)
+            if let rate = try? await converter.convertToTRY(amount: 1, from: preferred), rate > 0 {
+                receivable = receivable / rate
+                payable = payable / rate
             }
         }
 
@@ -197,6 +210,7 @@ public final class DashboardViewModel {
         let calendar = Calendar.current
         let now = Date()
         var trendData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)] = []
+        let converter = CurrencyConverter(rateProvider: rateClient)
 
         for monthOffset in (0..<6).reversed() {
             guard let monthDate = calendar.date(byAdding: .month, value: -monthOffset, to: now) else { continue }
@@ -211,10 +225,11 @@ public final class DashboardViewModel {
                 guard let debts = try? await debtRepo.execute(for: person.id) else { continue }
                 let monthDebts = debts.filter { $0.createdAt >= monthStart && $0.createdAt < monthEnd }
                 for debt in monthDebts {
+                    let tryAmount = (try? await converter.convertToTRY(amount: debt.amount, from: debt.kind)) ?? debt.amount
                     if debt.direction == .receivable {
-                        monthReceivable += debt.amount
+                        monthReceivable += tryAmount
                     } else {
-                        monthPayable += debt.amount
+                        monthPayable += tryAmount
                     }
                 }
             }
@@ -246,14 +261,15 @@ public final class DashboardViewModel {
                 case .paid: paid += 1
                 case .archived: archived += 1
                 }
+                let tryAmount = (try? await converter.convertToTRY(amount: debt.amount, from: debt.kind)) ?? debt.amount
                 if debt.direction == .receivable {
-                    if debt.status == .pending { pendingTotal += debt.amount }
-                    if debt.status == .paid { paidTotal += debt.amount }
-                    personBalance += debt.amount
+                    if debt.status == .pending { pendingTotal += tryAmount }
+                    if debt.status == .paid { paidTotal += tryAmount }
+                    personBalance += tryAmount
                 } else {
-                    if debt.status == .pending { pendingTotal += debt.amount }
-                    if debt.status == .paid { paidTotal += debt.amount }
-                    personBalance -= debt.amount
+                    if debt.status == .pending { pendingTotal += tryAmount }
+                    if debt.status == .paid { paidTotal += tryAmount }
+                    personBalance -= tryAmount
                 }
             }
             if personBalance != 0 || !balanceList.isEmpty {

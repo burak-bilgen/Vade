@@ -176,7 +176,7 @@ public struct PeopleListView: View {
                     LazyVStack(spacing: Spacing.s) {
                         ForEach(Array(filtered.enumerated()), id: \.element.id) { i, item in
                             NavigationLink(value: item.person) {
-                                PersonCard(person: item.person, balance: item.balance)
+                                PersonCard(person: item.person, balance: item.balance, currency: vm.displayCurrency)
                                     .entrance(.leading, delay: Double(i) * 0.04, duration: 0.35)
                             }
                             .buttonStyle(.plain)
@@ -294,6 +294,7 @@ public struct PeopleListView: View {
 private struct PersonCard: View {
     let person: Person
     let balance: Decimal
+    let currency: CurrencyKind
 
     var body: some View {
         HStack(spacing: Spacing.m) {
@@ -314,7 +315,7 @@ private struct PersonCard: View {
 
             HStack(spacing: Spacing.m) {
                 VStack(alignment: .trailing, spacing: 4) {
-                    Text(balance.formatted())
+                    Text(currency.format(balance))
                         .font(Typography.font(for: .amount))
                         .foregroundStyle(balance >= 0 ? ColorTokens.positive : ColorTokens.negative)
                         .contentTransition(.numericText())

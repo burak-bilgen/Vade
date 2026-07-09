@@ -1,5 +1,6 @@
 import SwiftUI
 import Core
+import Domain
 
 // MARK: - Avatar View
 
@@ -115,13 +116,15 @@ public struct PremiumBalanceCard: View {
     let receivable: Decimal
     let payable: Decimal
     let personCount: Int
+    let currency: CurrencyKind
     let lastUpdate: Date?
 
-    public init(netAmount: Decimal, receivable: Decimal, payable: Decimal, personCount: Int, lastUpdate: Date? = nil) {
+    public init(netAmount: Decimal, receivable: Decimal, payable: Decimal, personCount: Int, currency: CurrencyKind = .tryCoin, lastUpdate: Date? = nil) {
         self.netAmount = netAmount
         self.receivable = receivable
         self.payable = payable
         self.personCount = personCount
+        self.currency = currency
         self.lastUpdate = lastUpdate
     }
 
@@ -223,7 +226,7 @@ public struct PremiumBalanceCard: View {
 
             // Net amount — large, bold
             HStack(alignment: .firstTextBaseline, spacing: Spacing.s) {
-                Text(netAmount.formatted())
+                Text(currency.format(netAmount))
                     .font(.custom(AppFont.jakartaBold, size: 38))
                     .foregroundStyle(.white)
                     .contentTransition(.numericText(countsDown: true))
@@ -259,7 +262,8 @@ public struct PremiumBalanceCard: View {
                 value: receivable,
                 label: "dashboard.summary.totalReceivable",
                 color: ColorTokens.positive,
-                icon: "arrow.down.left"
+                icon: "arrow.down.left",
+                currency: currency
             )
 
             Divider()
@@ -270,7 +274,8 @@ public struct PremiumBalanceCard: View {
                 value: payable,
                 label: "dashboard.summary.totalPayable",
                 color: ColorTokens.negative,
-                icon: "arrow.up.right"
+                icon: "arrow.up.right",
+                currency: currency
             )
         }
         .padding(.horizontal, Spacing.xl)
@@ -284,13 +289,13 @@ public struct PremiumBalanceCard: View {
         )
     }
 
-    private func metricItem(value: Decimal, label: String, color: Color, icon: String) -> some View {
+    private func metricItem(value: Decimal, label: String, color: Color, icon: String, currency: CurrencyKind) -> some View {
         HStack(spacing: Spacing.s) {
             Image(systemName: icon)
                 .font(.system(size: 10, weight: .bold))
                 .foregroundStyle(color.opacity(0.7))
             VStack(alignment: .leading, spacing: 1) {
-                Text(value.formatted())
+                Text(currency.format(value))
                     .font(Typography.font(for: .bodyEmphasis))
                     .foregroundStyle(.white)
                     .contentTransition(.numericText())
