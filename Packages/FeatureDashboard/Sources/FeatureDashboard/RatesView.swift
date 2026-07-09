@@ -6,6 +6,7 @@ import Networking
 // MARK: - Exchange Rates View — Modern Redesign
 
 public struct RatesView: View {
+    @Environment(\.locale) private var locale
     @State private var rates: ExchangeRateSnapshot?
     @State private var allRates: [(code: String, rate: Decimal)] = []
     @State private var selectedCode: String = "USD"
@@ -91,7 +92,7 @@ public struct RatesView: View {
                             .keyboardType(.decimalPad)
                             .frame(width: 100)
 
-                        Text(selectedCode == "XAU" ? "GRAM" : selectedCode)
+                        Text(currencyDisplayCode(for: selectedCode == "XAU" ? "GRAM" : selectedCode))
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textSecondary)
 
@@ -257,11 +258,20 @@ public struct RatesView: View {
         default: return nil
         }
     }
+
+    private func currencyDisplayCode(for code: String) -> String {
+        switch code {
+        case "GRAM": return String(localized: "currency.displayCode.gram", locale: locale)
+        case "ÇEYREK", "CEYREK": return String(localized: "currency.displayCode.quarter", locale: locale)
+        default: return code
+        }
+    }
 }
 
 // MARK: - Rate Tile Row
 
 private struct RateTileRow: View {
+    @Environment(\.locale) private var locale
     let code: String
     let label: LocalizedStringKey
     let rate: Decimal?
@@ -274,7 +284,7 @@ private struct RateTileRow: View {
                 CurrencyIconView(code: code, size: 38)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(code == "XAU" ? "GRAM" : code)
+                    Text(currencyDisplayCode(for: code == "XAU" ? "GRAM" : code))
                         .font(Typography.font(for: .bodyEmphasis))
                         .foregroundStyle(ColorTokens.textPrimary)
                     Text(label)
@@ -307,6 +317,14 @@ private struct RateTileRow: View {
         }
         .buttonStyle(.plain)
         .animation(.spring(response: 0.2), value: isSelected)
+    }
+
+    private func currencyDisplayCode(for code: String) -> String {
+        switch code {
+        case "GRAM": return String(localized: "currency.displayCode.gram", locale: locale)
+        case "ÇEYREK", "CEYREK": return String(localized: "currency.displayCode.quarter", locale: locale)
+        default: return code
+        }
     }
 }
 

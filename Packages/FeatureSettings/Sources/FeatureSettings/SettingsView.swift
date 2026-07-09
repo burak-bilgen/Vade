@@ -69,10 +69,6 @@ public struct SettingsView: View {
                                 options: [
                                     ("tr", "Türkçe"),
                                     ("en", "English"),
-                                    ("es", "Español"),
-                                    ("zh", "简体中文"),
-                                    ("hi", "हिन्दी"),
-                                    ("ar", "العربية"),
                                 ]
                             )
 

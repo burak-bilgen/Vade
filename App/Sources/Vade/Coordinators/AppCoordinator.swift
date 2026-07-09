@@ -56,7 +56,7 @@ private struct MainTabView: View {
         let balanceRepo = BalanceRepository(modelContext: modelContext, converter: converter)
         let paymentRepo = PaymentRepository(modelContext: modelContext, auditTrail: auditTrail)
         TabView {
-            Tab(languageManager.localized("tab.dashboard"), systemImage: "house") {
+            Tab("tab.dashboard", systemImage: "house") {
                 NavigationStack {
                     DashboardView(
                         personRepo: personRepo,
@@ -69,7 +69,7 @@ private struct MainTabView: View {
                 }
                 .tint(ColorTokens.accent)
             }
-            Tab(languageManager.localized("tab.people"), systemImage: "person.2") {
+            Tab("tab.people", systemImage: "person.2") {
                 NavigationStack {
                     PeopleListView(
                         personRepo: personRepo,
@@ -90,7 +90,7 @@ private struct MainTabView: View {
                 }
                 .tint(ColorTokens.accent)
             }
-            Tab(languageManager.localized("tab.settings"), systemImage: "gearshape") {
+            Tab("tab.settings", systemImage: "gearshape") {
                 NavigationStack {
                     SettingsView(
                         personRepo: personRepo,

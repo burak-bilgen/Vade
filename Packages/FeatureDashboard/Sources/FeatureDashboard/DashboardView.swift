@@ -7,6 +7,7 @@ import Networking
 import CloudKit
 
 public struct DashboardView: View {
+    @Environment(\.locale) private var locale
     @State private var viewModel: DashboardViewModel?
     @State private var showAdd = false
     @State private var showProfile = false
@@ -287,18 +288,18 @@ public struct DashboardView: View {
         
         if hasOverdue {
             title = "insight.overdue.title"
-            message = String(localized: "insight.overdue.message \(overdueItems.count)")
+            message = String(localized: "insight.overdue.message \(overdueItems.count)", locale: locale)
             icon = "exclamationmark.triangle.fill"
             color = ColorTokens.negative
         } else if hasDueSoon {
             title = "insight.dueSoon.title"
             let nextPerson = dueSoonItems.first?.person.name ?? ""
-            message = String(localized: "insight.dueSoon.message \(nextPerson)")
+            message = String(localized: "insight.dueSoon.message \(nextPerson)", locale: locale)
             icon = "clock.fill"
             color = ColorTokens.warning
         } else {
             title = "insight.clean.title"
-            message = String(localized: "insight.clean.message")
+            message = String(localized: "insight.clean.message", locale: locale)
             icon = "checkmark.circle.fill"
             color = ColorTokens.positive
         }
@@ -463,7 +464,7 @@ public struct DashboardView: View {
                             CurrencyIconView(code: item.code, size: 24)
                             
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(item.code)
+                                Text(currencyDisplayCode(for: item.code))
                                     .font(Typography.font(for: .labelEmphasis))
                                     .foregroundStyle(ColorTokens.textPrimary)
                                 
@@ -708,12 +709,20 @@ public struct DashboardView: View {
         .background(ColorTokens.background)
     }
 
-    private var timeGreeting: String {
+    private var timeGreeting: LocalizedStringKey {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 6..<12: return String(localized: "dashboard.greeting.morning")
-        case 12..<18: return String(localized: "dashboard.greeting.afternoon")
-        default: return String(localized: "dashboard.greeting.evening")
+        case 6..<12: return "dashboard.greeting.morning"
+        case 12..<18: return "dashboard.greeting.afternoon"
+        default: return "dashboard.greeting.evening"
+        }
+    }
+
+    private func currencyDisplayCode(for code: String) -> String {
+        switch code {
+        case "GRAM": return String(localized: "currency.displayCode.gram", locale: locale)
+        case "ÇEYREK", "CEYREK": return String(localized: "currency.displayCode.quarter", locale: locale)
+        default: return code
         }
     }
 }
@@ -759,6 +768,7 @@ private struct QuickActionTile<Destination: View>: View {
 
 private struct ProfileSummarySheet: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.locale) private var locale
     let personCount: Int
     let activeLock: Bool
     @State private var cloudStatus = CKAccountStatus.couldNotDetermine
@@ -794,11 +804,11 @@ private struct ProfileSummarySheet: View {
                 
                 // Info rows
                 VStack(spacing: 0) {
-                    infoRow(icon: "icloud.fill", color: .blue, title: "profile.icloud.sync", value: cloudStatus == .available ? String(localized: "profile.status.active") : String(localized: "profile.status.inactive"))
+                    infoRow(icon: "icloud.fill", color: .blue, title: "profile.icloud.sync", value: cloudStatus == .available ? String(localized: "profile.status.active", locale: locale) : String(localized: "profile.status.inactive", locale: locale))
                     Divider().padding(.leading, 44)
-                    infoRow(icon: "faceid", color: .purple, title: "profile.security.lock", value: activeLock ? String(localized: "profile.status.active") : String(localized: "profile.status.disabled"))
+                    infoRow(icon: "faceid", color: .purple, title: "profile.security.lock", value: activeLock ? String(localized: "profile.status.active", locale: locale) : String(localized: "profile.status.disabled", locale: locale))
                     Divider().padding(.leading, 44)
-                    infoRow(icon: "person.2.fill", color: .orange, title: "profile.total.people", value: String(format: String(localized: "profile.people.count"), personCount))
+                    infoRow(icon: "person.2.fill", color: .orange, title: "profile.total.people", value: String(format: String(localized: "profile.people.count", locale: locale), personCount))
                 }
                 .background(ColorTokens.surface)
                 .clipShape(RoundedRectangle(cornerRadius: Radius.md, style: .continuous))
@@ -887,7 +897,7 @@ private struct UpcomingRow: View {
                     .foregroundStyle(ColorTokens.positive)
                     .contentTransition(.numericText())
                 if let date = item.dueDate, isOverdue(date) {
-                    Text(String(localized: "dashboard.upcoming.overdue"))
+                    Text("dashboard.upcoming.overdue")
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.warning)
                         .padding(.horizontal, Spacing.xs)

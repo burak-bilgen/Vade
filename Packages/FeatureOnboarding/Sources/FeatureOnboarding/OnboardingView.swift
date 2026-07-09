@@ -678,10 +678,6 @@ public struct OnboardingView: View {
         switch code {
         case "tr": return "Türkçe"
         case "en": return "English"
-        case "es": return "Español"
-        case "zh": return "简体中文"
-        case "hi": return "हिन्दी"
-        case "ar": return "العربية"
         default: return "English"
         }
     }
