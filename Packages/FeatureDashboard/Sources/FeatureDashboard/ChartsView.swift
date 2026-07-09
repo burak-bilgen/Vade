@@ -3,9 +3,7 @@ import DesignSystem
 import Domain
 import Observability
 
-#if canImport(Charts)
 import Charts
-#endif
 
 // MARK: - Chart Animations
 
@@ -48,7 +46,6 @@ public struct MonthlyTrendChart: View {
             if monthlyData.isEmpty {
                 emptyChartPlaceholder
             } else {
-                #if canImport(Charts)
                 Chart {
                     ForEach(monthlyData, id: \.month) { item in
                         LineMark(
@@ -86,10 +83,6 @@ public struct MonthlyTrendChart: View {
                 .chartLegend(position: .bottom, alignment: .center)
                 .animation(chartAnimation, value: monthlyData.count)
                 .frame(height: 200)
-            #else
-            Text("charts.unavailable")
-                .foregroundStyle(ColorTokens.textTertiary)
-            #endif
             }
         }
         .task {
@@ -138,7 +131,6 @@ public struct DebtStatusChart: View {
             if totalCount == 0 {
                 emptyChartPlaceholder
             } else {
-                #if canImport(Charts)
                 Chart {
                     if pendingCount > 0 {
                         SectorMark(
@@ -185,10 +177,6 @@ public struct DebtStatusChart: View {
                             .foregroundStyle(ColorTokens.textTertiary)
                     }
                 }
-                #else
-                Text("charts.unavailable")
-                    .foregroundStyle(ColorTokens.textTertiary)
-                #endif
 
                 // Legend
                 HStack(spacing: Spacing.l) {
@@ -250,7 +238,6 @@ public struct CurrencyTrendChart: View {
             if distribution.isEmpty {
                 emptyChartPlaceholder
             } else {
-                #if canImport(Charts)
                 Chart {
                     ForEach(distribution, id: \.kind) { item in
                         BarMark(
@@ -267,10 +254,6 @@ public struct CurrencyTrendChart: View {
                 .chartLegend(position: .bottom, alignment: .center)
                 .animation(chartAnimation, value: distribution.count)
                 .frame(height: 160)
-                #else
-                Text("charts.unavailable")
-                    .foregroundStyle(ColorTokens.textTertiary)
-                #endif
             }
         }
         .task {
@@ -322,7 +305,6 @@ public struct UpcomingTimelineChart: View {
             if items.isEmpty {
                 emptyChartPlaceholder
             } else {
-                #if canImport(Charts)
                 Chart {
                     // Today reference line
                     RuleMark(x: .value("Today", Date()))
@@ -358,10 +340,6 @@ public struct UpcomingTimelineChart: View {
                 .chartLegend(position: .bottom, alignment: .center)
                 .animation(chartAnimation, value: items.count)
                 .frame(height: 180)
-                #else
-                Text("charts.unavailable")
-                    .foregroundStyle(ColorTokens.textTertiary)
-                #endif
             }
         }
         .task {
@@ -402,7 +380,6 @@ public struct NetBalanceChart: View {
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
-            #if canImport(Charts)
             Chart(dataPoints) { point in
                 BarMark(
                     x: .value("Label", point.label),
@@ -416,10 +393,6 @@ public struct NetBalanceChart: View {
             .chartLegend(position: .bottom, alignment: .center)
             .animation(chartAnimation, value: dataPoints.count)
             .frame(height: 200)
-            #else
-            Text("charts.unavailable")
-                .foregroundStyle(ColorTokens.textTertiary)
-            #endif
         }
         .task {
             analytics.track(.chartViewed(.netTimeline))
@@ -446,7 +419,6 @@ public struct DirectionPieChart: View {
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
-            #if canImport(Charts)
             let data: [ChartDataPoint] = [
                 ChartDataPoint(
                     label: String(localized: "charts.direction.receivable", locale: locale),
@@ -471,10 +443,6 @@ public struct DirectionPieChart: View {
             .chartLegend(position: .bottom, alignment: .center)
             .animation(chartAnimation, value: receivable + payable)
             .frame(height: 200)
-            #else
-            Text("charts.unavailable")
-                .foregroundStyle(ColorTokens.textTertiary)
-            #endif
         }
         .task {
             analytics.track(.chartViewed(.receivableVsPayable))
@@ -502,7 +470,6 @@ public struct PersonDistributionChart: View {
             if personBalances.isEmpty {
                 emptyChartPlaceholder
             } else {
-                #if canImport(Charts)
                 Chart(personBalances, id: \.name) { item in
                     BarMark(
                         x: .value("Balance", NSDecimalNumber(decimal: abs(item.balance)).doubleValue),
@@ -522,10 +489,6 @@ public struct PersonDistributionChart: View {
                 .chartLegend(position: .bottom, alignment: .center)
                 .animation(chartAnimation, value: personBalances.count)
                 .frame(height: max(120, CGFloat(personBalances.count * 40)))
-                #else
-                Text("charts.unavailable")
-                    .foregroundStyle(ColorTokens.textTertiary)
-                #endif
             }
         }
         .task {
@@ -569,7 +532,6 @@ public struct PaidVsPendingAmountChart: View {
             if paidAmount == 0 && pendingAmount == 0 {
                 emptyChartPlaceholder
             } else {
-                #if canImport(Charts)
                 Chart {
                     BarMark(
                         x: .value("Type", String(localized: "charts.status.paid", locale: locale)),
@@ -591,10 +553,6 @@ public struct PaidVsPendingAmountChart: View {
                 .chartLegend(position: .bottom, alignment: .center)
                 .animation(chartAnimation, value: paidAmount + pendingAmount)
                 .frame(height: 200)
-                #else
-                Text("charts.unavailable")
-                    .foregroundStyle(ColorTokens.textTertiary)
-                #endif
             }
         }
         .task {
