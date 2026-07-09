@@ -48,7 +48,7 @@ public struct RatesView: View {
                 content
             }
         }
-        .navigationTitle(String(localized: "rates.title"))
+        .navigationTitle("rates.title")
         .navigationBarTitleDisplayMode(.inline)
         .refreshable { await loadRates() }
         .task { await loadRates() }
@@ -75,7 +75,7 @@ public struct RatesView: View {
                             .font(.system(size: 12, weight: .semibold))
                             .foregroundStyle(ColorTokens.textTertiary)
 
-                        Text(String(localized: "rates.converter.title"))
+                        Text("rates.converter.title")
                             .font(Typography.font(for: .label))
                             .foregroundStyle(ColorTokens.textTertiary)
                             .textCase(.uppercase)
@@ -108,7 +108,7 @@ public struct RatesView: View {
                                 .foregroundStyle(ColorTokens.accent)
                                 .contentTransition(.numericText())
 
-                            Text(String(localized: "currency.tl"))
+                            Text("currency.tl")
                                 .font(Typography.font(for: .bodyEmphasis))
                                 .foregroundStyle(ColorTokens.textSecondary)
                         }
@@ -129,7 +129,7 @@ public struct RatesView: View {
 
                 // All currencies - tappable to select
                 VStack(alignment: .leading, spacing: Spacing.s) {
-                    Text(String(localized: "rates.major"))
+                    Text("rates.major")
                         .font(Typography.font(for: .caption))
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
@@ -170,7 +170,7 @@ public struct RatesView: View {
                 // All rates section
                 if !allRates.isEmpty {
                     VStack(alignment: .leading, spacing: Spacing.s) {
-                        Text(String(localized: "rates.all"))
+                        Text("rates.all")
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textTertiary)
                             .textCase(.uppercase)
@@ -331,6 +331,7 @@ private struct RateTileRow: View {
 // MARK: - All Rate Row
 
 private struct AllRateRow: View {
+    @Environment(\.locale) private var locale
     let code: String
     let rate: Decimal
 
@@ -359,11 +360,11 @@ private struct AllRateRow: View {
 
     private func currencyDisplayName(for code: String) -> String {
         switch code {
-        case "USD": return String(localized: "rates.usd")
-        case "EUR": return String(localized: "rates.eur")
-        case "GBP": return String(localized: "rates.gbp")
-        case "CHF": return String(localized: "rates.chf")
-        case "JPY": return String(localized: "rates.jpy")
+        case "USD": return String(localized: "rates.usd", locale: locale)
+        case "EUR": return String(localized: "rates.eur", locale: locale)
+        case "GBP": return String(localized: "rates.gbp", locale: locale)
+        case "CHF": return String(localized: "rates.chf", locale: locale)
+        case "JPY": return String(localized: "rates.jpy", locale: locale)
         default: return code
         }
     }

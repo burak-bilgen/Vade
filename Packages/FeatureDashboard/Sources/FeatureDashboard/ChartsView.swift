@@ -31,6 +31,7 @@ public struct ChartDataPoint: Identifiable, Sendable {
 /// Shows net balance trend over the last 6 months.
 /// Uses LineMark with gradient fill below the line.
 public struct MonthlyTrendChart: View {
+    @Environment(\.locale) private var locale
     let monthlyData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)]
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
@@ -40,7 +41,7 @@ public struct MonthlyTrendChart: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "charts.monthlyTrend.title"))
+            Text("charts.monthlyTrend.title")
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
@@ -86,7 +87,7 @@ public struct MonthlyTrendChart: View {
                 .animation(chartAnimation, value: monthlyData.count)
                 .frame(height: 200)
             #else
-            Text(String(localized: "charts.unavailable"))
+            Text("charts.unavailable")
                 .foregroundStyle(ColorTokens.textTertiary)
             #endif
             }
@@ -101,7 +102,7 @@ public struct MonthlyTrendChart: View {
             Image(systemName: "chart.line.uptrend.xyaxis")
                 .font(.system(size: 32))
                 .foregroundStyle(ColorTokens.textTertiary)
-            Text(String(localized: "charts.monthlyTrend.empty"))
+            Text("charts.monthlyTrend.empty")
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
         }
@@ -114,6 +115,7 @@ public struct MonthlyTrendChart: View {
 
 /// Donut chart showing pending vs paid vs archived debt distribution.
 public struct DebtStatusChart: View {
+    @Environment(\.locale) private var locale
     let pendingCount: Int
     let paidCount: Int
     let archivedCount: Int
@@ -129,7 +131,7 @@ public struct DebtStatusChart: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "charts.status.title"))
+            Text("charts.status.title")
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
@@ -178,21 +180,21 @@ public struct DebtStatusChart: View {
                         Text("\(totalCount)")
                             .font(Typography.font(for: .title))
                             .foregroundStyle(ColorTokens.textPrimary)
-                        Text(String(localized: "charts.status.total"))
+                        Text("charts.status.total")
                             .font(Typography.font(for: .label))
                             .foregroundStyle(ColorTokens.textTertiary)
                     }
                 }
                 #else
-                Text(String(localized: "charts.unavailable"))
+                Text("charts.unavailable")
                     .foregroundStyle(ColorTokens.textTertiary)
                 #endif
 
                 // Legend
                 HStack(spacing: Spacing.l) {
-                    legendItem(color: ColorTokens.chartOrange, label: String(localized: "charts.status.pending"), count: pendingCount)
-                    legendItem(color: ColorTokens.positive, label: String(localized: "charts.status.paid"), count: paidCount)
-                    legendItem(color: ColorTokens.textTertiary, label: String(localized: "charts.status.archived"), count: archivedCount)
+                    legendItem(color: ColorTokens.chartOrange, label: String(localized: "charts.status.pending", locale: locale), count: pendingCount)
+                    legendItem(color: ColorTokens.positive, label: String(localized: "charts.status.paid", locale: locale), count: paidCount)
+                    legendItem(color: ColorTokens.textTertiary, label: String(localized: "charts.status.archived", locale: locale), count: archivedCount)
                 }
             }
         }
@@ -218,7 +220,7 @@ public struct DebtStatusChart: View {
             Image(systemName: "chart.pie")
                 .font(.system(size: 32))
                 .foregroundStyle(ColorTokens.textTertiary)
-            Text(String(localized: "charts.status.empty"))
+            Text("charts.status.empty")
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
         }
@@ -241,7 +243,7 @@ public struct CurrencyTrendChart: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "charts.currency.title"))
+            Text("charts.currency.title")
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
@@ -266,7 +268,7 @@ public struct CurrencyTrendChart: View {
                 .animation(chartAnimation, value: distribution.count)
                 .frame(height: 160)
                 #else
-                Text(String(localized: "charts.unavailable"))
+                Text("charts.unavailable")
                     .foregroundStyle(ColorTokens.textTertiary)
                 #endif
             }
@@ -290,7 +292,7 @@ public struct CurrencyTrendChart: View {
             Image(systemName: "chart.bar.fill")
                 .font(.system(size: 32))
                 .foregroundStyle(ColorTokens.textTertiary)
-            Text(String(localized: "charts.currency.empty"))
+            Text("charts.currency.empty")
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
         }
@@ -303,6 +305,7 @@ public struct CurrencyTrendChart: View {
 
 /// Shows upcoming due dates on a timeline with amounts.
 public struct UpcomingTimelineChart: View {
+    @Environment(\.locale) private var locale
     let items: [(person: String, amount: Decimal, dueDate: Date)]
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
@@ -312,7 +315,7 @@ public struct UpcomingTimelineChart: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "charts.upcoming.title"))
+            Text("charts.upcoming.title")
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
@@ -326,7 +329,7 @@ public struct UpcomingTimelineChart: View {
                         .foregroundStyle(ColorTokens.accent.opacity(0.5))
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
                         .annotation(position: .top) {
-                            Text(String(localized: "charts.upcoming.today"))
+                            Text("charts.upcoming.today")
                                 .font(Typography.font(for: .label))
                                 .foregroundStyle(ColorTokens.accent)
                         }
@@ -356,7 +359,7 @@ public struct UpcomingTimelineChart: View {
                 .animation(chartAnimation, value: items.count)
                 .frame(height: 180)
                 #else
-                Text(String(localized: "charts.unavailable"))
+                Text("charts.unavailable")
                     .foregroundStyle(ColorTokens.textTertiary)
                 #endif
             }
@@ -371,7 +374,7 @@ public struct UpcomingTimelineChart: View {
             Image(systemName: "calendar.badge.clock")
                 .font(.system(size: 32))
                 .foregroundStyle(ColorTokens.textTertiary)
-            Text(String(localized: "charts.upcoming.empty"))
+            Text("charts.upcoming.empty")
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
         }
@@ -383,6 +386,7 @@ public struct UpcomingTimelineChart: View {
 // MARK: - Net Balance Chart (legacy)
 
 public struct NetBalanceChart: View {
+    @Environment(\.locale) private var locale
     let dataPoints: [ChartDataPoint]
     let netBalance: Decimal
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
@@ -394,7 +398,7 @@ public struct NetBalanceChart: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "charts.netBalance.title"))
+            Text("charts.netBalance.title")
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
@@ -413,7 +417,7 @@ public struct NetBalanceChart: View {
             .animation(chartAnimation, value: dataPoints.count)
             .frame(height: 200)
             #else
-            Text(String(localized: "charts.unavailable"))
+            Text("charts.unavailable")
                 .foregroundStyle(ColorTokens.textTertiary)
             #endif
         }
@@ -426,6 +430,7 @@ public struct NetBalanceChart: View {
 // MARK: - Direction Pie Chart (legacy)
 
 public struct DirectionPieChart: View {
+    @Environment(\.locale) private var locale
     let receivable: Decimal
     let payable: Decimal
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
@@ -437,19 +442,19 @@ public struct DirectionPieChart: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "charts.direction.title"))
+            Text("charts.direction.title")
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
             #if canImport(Charts)
             let data: [ChartDataPoint] = [
                 ChartDataPoint(
-                    label: String(localized: "charts.direction.receivable"),
+                    label: String(localized: "charts.direction.receivable", locale: locale),
                     value: receivable,
                     color: ColorTokens.positive
                 ),
                 ChartDataPoint(
-                    label: String(localized: "charts.direction.payable"),
+                    label: String(localized: "charts.direction.payable", locale: locale),
                     value: payable,
                     color: ColorTokens.negative
                 ),
@@ -467,7 +472,7 @@ public struct DirectionPieChart: View {
             .animation(chartAnimation, value: receivable + payable)
             .frame(height: 200)
             #else
-            Text(String(localized: "charts.unavailable"))
+            Text("charts.unavailable")
                 .foregroundStyle(ColorTokens.textTertiary)
             #endif
         }
@@ -480,6 +485,7 @@ public struct DirectionPieChart: View {
 // MARK: - Person Distribution Chart (Horizontal Bar)
 
 public struct PersonDistributionChart: View {
+    @Environment(\.locale) private var locale
     let personBalances: [(name: String, balance: Decimal)]
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
@@ -489,7 +495,7 @@ public struct PersonDistributionChart: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "charts.personDistribution.title"))
+            Text("charts.personDistribution.title")
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
@@ -517,7 +523,7 @@ public struct PersonDistributionChart: View {
                 .animation(chartAnimation, value: personBalances.count)
                 .frame(height: max(120, CGFloat(personBalances.count * 40)))
                 #else
-                Text(String(localized: "charts.unavailable"))
+                Text("charts.unavailable")
                     .foregroundStyle(ColorTokens.textTertiary)
                 #endif
             }
@@ -532,7 +538,7 @@ public struct PersonDistributionChart: View {
             Image(systemName: "person.2")
                 .font(.system(size: 32))
                 .foregroundStyle(ColorTokens.textTertiary)
-            Text(String(localized: "charts.personDistribution.empty"))
+            Text("charts.personDistribution.empty")
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
         }
@@ -544,6 +550,7 @@ public struct PersonDistributionChart: View {
 // MARK: - Paid vs Pending Amount Chart
 
 public struct PaidVsPendingAmountChart: View {
+    @Environment(\.locale) private var locale
     let paidAmount: Decimal
     let pendingAmount: Decimal
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
@@ -555,7 +562,7 @@ public struct PaidVsPendingAmountChart: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: Spacing.m) {
-            Text(String(localized: "charts.paidVsPending.title"))
+            Text("charts.paidVsPending.title")
                 .font(Typography.font(for: .title2))
                 .foregroundStyle(ColorTokens.textPrimary)
 
@@ -565,14 +572,14 @@ public struct PaidVsPendingAmountChart: View {
                 #if canImport(Charts)
                 Chart {
                     BarMark(
-                        x: .value("Type", String(localized: "charts.status.paid")),
+                        x: .value("Type", String(localized: "charts.status.paid", locale: locale)),
                         y: .value("Amount", NSDecimalNumber(decimal: paidAmount).doubleValue)
                     )
                     .foregroundStyle(ColorTokens.positive)
                     .cornerRadius(Radius.xs)
 
                     BarMark(
-                        x: .value("Type", String(localized: "charts.status.pending")),
+                        x: .value("Type", String(localized: "charts.status.pending", locale: locale)),
                         y: .value("Amount", NSDecimalNumber(decimal: pendingAmount).doubleValue)
                     )
                     .foregroundStyle(ColorTokens.chartOrange)
@@ -585,7 +592,7 @@ public struct PaidVsPendingAmountChart: View {
                 .animation(chartAnimation, value: paidAmount + pendingAmount)
                 .frame(height: 200)
                 #else
-                Text(String(localized: "charts.unavailable"))
+                Text("charts.unavailable")
                     .foregroundStyle(ColorTokens.textTertiary)
                 #endif
             }
@@ -600,7 +607,7 @@ public struct PaidVsPendingAmountChart: View {
             Image(systemName: "chart.bar.xaxis")
                 .font(.system(size: 32))
                 .foregroundStyle(ColorTokens.textTertiary)
-            Text(String(localized: "charts.paidVsPending.empty"))
+            Text("charts.paidVsPending.empty")
                 .font(Typography.font(for: .caption))
                 .foregroundStyle(ColorTokens.textTertiary)
         }
