@@ -132,6 +132,10 @@ public final class DebtRepository: AddDebtUseCase, FetchDebtsForPersonUseCase, U
         entity.note = note
         entity.dueDate = dueDate
         entity.updatedAt = Date()
+        
+        let totalPaid = entity.payments.reduce(Decimal.zero) { $0 + $1.amount }
+        entity.statusRawValue = totalPaid >= amount ? "paid" : "pending"
+        
         try modelContext.save()
 
         await auditTrail?.recordEdit(
@@ -185,6 +189,12 @@ public final class PaymentRepository: RecordPaymentUseCase, FetchPaymentsForDebt
         )
         if let debt = try modelContext.fetch(debtDescriptor).first {
             payment.debtRecord = debt
+            
+            // Check if the total payments equal or exceed the debt amount
+            let totalPaid = debt.payments.reduce(Decimal.zero) { $0 + $1.amount } + amount
+            if totalPaid >= debt.amount {
+                debt.statusRawValue = "paid"
+            }
         }
         modelContext.insert(payment)
         try modelContext.save()
@@ -323,6 +333,7 @@ public extension DebtRecordModel {
                 direction: DebtDirection(rawValue: rawDirection) ?? .receivable,
                 note: note, dueDate: dueDate,
                 status: DebtStatus(rawValue: rawStatus) ?? .pending,
+                payments: payments.map { $0.toDomain() },
                 createdAt: createdAt, updatedAt: updatedAt
             )
         }
@@ -333,6 +344,7 @@ public extension DebtRecordModel {
                 id: debtID, personID: personID, amount: amount, kind: kind,
                 direction: .receivable, note: note, dueDate: dueDate,
                 status: DebtStatus(rawValue: rawStatus) ?? .pending,
+                payments: payments.map { $0.toDomain() },
                 createdAt: createdAt, updatedAt: updatedAt
             )
         }
@@ -342,7 +354,9 @@ public extension DebtRecordModel {
             return DebtRecord(
                 id: debtID, personID: personID, amount: amount, kind: kind,
                 direction: direction, note: note, dueDate: dueDate,
-                status: .pending, createdAt: createdAt, updatedAt: updatedAt
+                status: .pending,
+                payments: payments.map { $0.toDomain() },
+                createdAt: createdAt, updatedAt: updatedAt
             )
         }
         return DebtRecord(
@@ -354,6 +368,7 @@ public extension DebtRecordModel {
             note: note,
             dueDate: dueDate,
             status: status,
+            payments: payments.map { $0.toDomain() },
             createdAt: createdAt,
             updatedAt: updatedAt
         )

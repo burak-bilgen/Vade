@@ -647,7 +647,7 @@ private struct RecordPaymentSheet: View {
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
-                    Text(debt.kind.format(debt.amount))
+                    Text(debt.kind.format(debt.remainingBalance))
                         .font(Typography.font(for: .displayMedium))
                         .foregroundStyle(debt.direction == .receivable
                             ? ColorTokens.positive : ColorTokens.negative)
@@ -696,9 +696,9 @@ private struct RecordPaymentSheet: View {
 
                 // Full amount quick fill
                 HStack(spacing: Spacing.m) {
-                    quickFillButton(amount: debt.amount, label: "payment.full")
-                    quickFillButton(amount: debt.amount / 2, label: "payment.half")
-                    quickFillButton(amount: debt.amount / 4, label: "payment.quarter")
+                    quickFillButton(amount: debt.remainingBalance, label: "payment.full")
+                    quickFillButton(amount: debt.remainingBalance / 2, label: "payment.half")
+                    quickFillButton(amount: debt.remainingBalance / 4, label: "payment.quarter")
                 }
                 .padding(.horizontal, Spacing.xl)
 

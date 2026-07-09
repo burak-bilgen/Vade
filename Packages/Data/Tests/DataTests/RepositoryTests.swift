@@ -197,4 +197,89 @@ struct RepositoryTests {
         #expect(entries[0].newValue == "B")
         #expect(entries[0].reasonRawValue == AuditReason.cloudKitConflict.rawValue)
     }
+
+    @Test("Debt status transitions automatically on payment entries and debt edits")
+    @MainActor
+    func testDebtStatusTransitions() async throws {
+        let container = try createTestContainer()
+        let context = container.mainContext
+        let auditService = AuditTrailService(modelContainer: container)
+        let debtRepo = DebtRepository(modelContext: context, auditTrail: auditService)
+        let paymentRepo = PaymentRepository(modelContext: context, auditTrail: auditService)
+
+        let personID = UUID()
+
+        // 1. Create a debt record of 1000 TRY
+        let debt = try await debtRepo.execute(
+            personID: personID,
+            amount: 1000,
+            kind: .tryCoin,
+            direction: .receivable,
+            note: "Borç",
+            dueDate: nil
+        )
+        #expect(debt.status == .pending)
+        #expect(debt.remainingBalance == 1000)
+
+        // Fetch SwiftData entity directly to verify DB state
+        let debtID = debt.id
+        let fetchedEntity = try context.fetch(FetchDescriptor<DebtRecordModel>(
+            predicate: #Predicate { $0.id == debtID }
+        )).first!
+        #expect(fetchedEntity.statusRawValue == "pending")
+
+        // 2. Record partial payment of 400 TRY
+        _ = try await paymentRepo.execute(debtRecordID: debt.id, amount: 400, note: "Kısmi ödeme")
+        #expect(fetchedEntity.statusRawValue == "pending")
+        
+        let fetchedDebt1: DebtRecord? = try await debtRepo.execute(debtID: debt.id)
+        #expect(fetchedDebt1?.status == .pending)
+        #expect(fetchedDebt1?.remainingBalance == 600)
+
+        // 3. Record remaining payment of 600 TRY
+        _ = try await paymentRepo.execute(debtRecordID: debt.id, amount: 600, note: "Kapatma ödemesi")
+        #expect(fetchedEntity.statusRawValue == "paid")
+
+        let fetchedDebt2: DebtRecord? = try await debtRepo.execute(debtID: debt.id)
+        #expect(fetchedDebt2?.status == .paid)
+        #expect(fetchedDebt2?.remainingBalance == 0)
+
+        // 4. Update debt amount to 1200 TRY (making it unpaid again)
+        _ = try await debtRepo.execute(
+            debtID: debt.id,
+            amount: 1200,
+            kind: .tryCoin,
+            direction: .receivable,
+            note: "Güncellenmiş borç",
+            dueDate: nil
+        )
+        #expect(fetchedEntity.statusRawValue == "pending")
+
+        let fetchedDebt3: DebtRecord? = try await debtRepo.execute(debtID: debt.id)
+        #expect(fetchedDebt3?.status == .pending)
+        #expect(fetchedDebt3?.remainingBalance == 200)
+
+        // 5. Pay the remainder 200 TRY
+        _ = try await paymentRepo.execute(debtRecordID: debt.id, amount: 200, note: "Kalan ödeme")
+        #expect(fetchedEntity.statusRawValue == "paid")
+
+        let fetchedDebt4: DebtRecord? = try await debtRepo.execute(debtID: debt.id)
+        #expect(fetchedDebt4?.status == .paid)
+        #expect(fetchedDebt4?.remainingBalance == 0)
+
+        // 6. Update debt amount down to 1000 TRY (already fully covered)
+        _ = try await debtRepo.execute(
+            debtID: debt.id,
+            amount: 1000,
+            kind: .tryCoin,
+            direction: .receivable,
+            note: "Düşürülmüş borç",
+            dueDate: nil
+        )
+        #expect(fetchedEntity.statusRawValue == "paid")
+        
+        let fetchedDebt5: DebtRecord? = try await debtRepo.execute(debtID: debt.id)
+        #expect(fetchedDebt5?.status == .paid)
+        #expect(fetchedDebt5?.remainingBalance == 0)
+    }
 }

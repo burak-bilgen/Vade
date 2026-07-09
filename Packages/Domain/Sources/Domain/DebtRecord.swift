@@ -109,8 +109,14 @@ public struct DebtRecord: Identifiable, Hashable, Sendable {
     public var note: String?
     public var dueDate: Date?
     public var status: DebtStatus
+    public var payments: [Payment]
     public var createdAt: Date
     public var updatedAt: Date
+
+    public var remainingBalance: Decimal {
+        let totalPaid = payments.reduce(Decimal.zero) { $0 + $1.amount }
+        return max(.zero, amount - totalPaid)
+    }
 
     public init(
         id: UUID = UUID(),
@@ -121,6 +127,7 @@ public struct DebtRecord: Identifiable, Hashable, Sendable {
         note: String? = nil,
         dueDate: Date? = nil,
         status: DebtStatus = .pending,
+        payments: [Payment] = [],
         createdAt: Date = Date(),
         updatedAt: Date = Date()
     ) {
@@ -132,6 +139,7 @@ public struct DebtRecord: Identifiable, Hashable, Sendable {
         self.note = note
         self.dueDate = dueDate
         self.status = status
+        self.payments = payments
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
