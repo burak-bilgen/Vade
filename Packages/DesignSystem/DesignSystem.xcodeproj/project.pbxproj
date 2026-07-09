@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0CA9BC667EC5CCF0B482A094 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C776F60272D9D5B4D248FBBA /* BannerAdView.swift */; };
 		10674F2C4DFA5A86AE37D895 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0555BF632E32CCE62C1F4E54 /* Tokens.swift */; };
 		21D52688B2F4838C3355F291 /* ViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F970029B11D489FEE216B6 /* ViewAnimation.swift */; };
 		38EEC3BF7BC870F37E3A7F19 /* Core.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = D3D3E20D4CF49B640DF83248 /* Core.framework */; };
@@ -124,7 +123,6 @@
 		8254AF30B19721869068B559 /* DesignSystemSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemSnapshotTests.swift; sourceTree = "<group>"; };
 		8937FA9427EEA938B58C5B3E /* DesignSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DesignSystem-Info.plist"; sourceTree = "<group>"; };
 		BE4AD9735556ECA8C8008FEC /* TuistBundle+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+DesignSystem.swift"; sourceTree = "<group>"; };
-		C776F60272D9D5B4D248FBBA /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		CECDED58FD5958F9EBB487DF /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		D0A4725BC33F2ADC6622422B /* SummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCard.swift; sourceTree = "<group>"; };
 		D3D3E20D4CF49B640DF83248 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,7 +221,6 @@
 			isa = PBXGroup;
 			children = (
 				E188A934756F825D89DAFCCC /* Resources */,
-				C776F60272D9D5B4D248FBBA /* BannerAdView.swift */,
 				E00CE096012CAE7C41A7C382 /* EmptyStateView.swift */,
 				808624752B73C50D44BB3D1C /* FinanceBackgroundAnimation.swift */,
 				D6FF1C842A0237A81ED5C9BC /* FontRegistration.swift */,
@@ -412,7 +409,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6018B5F7748E322214C52D6 /* TuistBundle+DesignSystem.swift in Sources */,
-				0CA9BC667EC5CCF0B482A094 /* BannerAdView.swift in Sources */,
 				F4E880DDA8212965C61F5BC2 /* EmptyStateView.swift in Sources */,
 				B78C19BC0F76F3787A45038D /* FinanceBackgroundAnimation.swift in Sources */,
 				3B0377A2FE92AD1C908FDC5B /* FontRegistration.swift in Sources */,

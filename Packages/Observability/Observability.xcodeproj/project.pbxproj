@@ -13,7 +13,6 @@
 		6A3406EF7A71DF0954354BA9 /* Domain.framework in Dependencies */ = {isa = PBXBuildFile; fileRef = FE80301CDDF1A895CED89DF6 /* Domain.framework */; };
 		71CAAB7685273E73FA02D7CF /* Observability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60C6DACCA3978A761E09FF2C /* Observability.framework */; };
 		81927826A81086B722023B67 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC271A4628283FAA99725D5 /* AnalyticsService.swift */; };
-		8AA92BE1B7E404A2D80BF3F4 /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4DDB26CADB11A76703A51F /* AdService.swift */; };
 		C644ABA09E11A476D7BEA6CD /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE80301CDDF1A895CED89DF6 /* Domain.framework */; };
 		CCA851C896F24615B026315C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC78EE4D4A0676606323E447 /* Core.framework */; };
 /* End PBXBuildFile section */
@@ -65,7 +64,6 @@
 /* Begin PBXFileReference section */
 		23871AD98124AC49FBCCDAEF /* ObservabilityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObservabilityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC271A4628283FAA99725D5 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
-		4F4DDB26CADB11A76703A51F /* AdService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdService.swift; sourceTree = "<group>"; };
 		60C6DACCA3978A761E09FF2C /* Observability.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observability.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92F16B35096D6CF63D5EBB97 /* AnalyticsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsServiceTests.swift; sourceTree = "<group>"; };
 		A832AC717CE9B27E4471751B /* CrashlyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashlyticsService.swift; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 		00939BC9D2609777CE0445A7 /* Observability */ = {
 			isa = PBXGroup;
 			children = (
-				4F4DDB26CADB11A76703A51F /* AdService.swift */,
 				3EC271A4628283FAA99725D5 /* AnalyticsService.swift */,
 				A832AC717CE9B27E4471751B /* CrashlyticsService.swift */,
 			);
@@ -273,7 +270,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AA92BE1B7E404A2D80BF3F4 /* AdService.swift in Sources */,
 				81927826A81086B722023B67 /* AnalyticsService.swift in Sources */,
 				3D93B59BB0C6B29F1090727B /* CrashlyticsService.swift in Sources */,
 			);

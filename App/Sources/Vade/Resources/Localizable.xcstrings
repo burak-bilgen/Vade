@@ -47,7 +47,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bağlandı ve Hazır"
+            "value": "Bağlı ve Hazır"
           }
         }
       }
@@ -387,7 +387,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Devam Dışı"
+            "value": "Pasif"
           }
         }
       }
@@ -490,24 +490,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Alacak"
-          }
-        }
-      }
-    },
-    "ads.placeholder": {
-      "comment": "Banner ad placeholder shown when AdMob SDK not integrated",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ad space"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reklam alanı"
           }
         }
       }
@@ -1619,7 +1601,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Çevrimdışı mod. Kaydedilen kurlar gösteriliyor."
+            "value": "Çevrimdışısınız. Önbellekteki kurlar gösteriliyor."
           }
         }
       }
@@ -1760,7 +1742,7 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "İlk Sıradakiler"
+            "value": "Zirvedekiler"
           }
         }
       }
@@ -3925,13 +3907,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%@ — Balance: %@"
+            "value": "%@ - Balance: %@"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "%@ — Bakiye: %@"
+            "value": "%@ - Bakiye: %@"
           }
         }
       }
@@ -4706,6 +4688,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "ÇEYREK"
+          }
+        }
+      }
+    },
+    "currency.tl": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TL"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TL"
+          }
+        }
+      }
+    },
+    "profile.version": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vade v1.0.0 (Build 1)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vade v1.0.0 (Build 1)"
           }
         }
       }
