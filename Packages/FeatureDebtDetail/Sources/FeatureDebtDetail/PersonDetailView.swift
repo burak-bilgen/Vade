@@ -358,7 +358,7 @@ private struct TimelineDebtRow: View {
                 // Card content
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     HStack {
-                        Text(debt.note ?? debt.kind.rawValue)
+                        Text(debt.note ?? debt.kind.displayName)
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textPrimary)
                             .lineLimit(2)
@@ -372,7 +372,7 @@ private struct TimelineDebtRow: View {
 
                     // Meta row
                     HStack(spacing: Spacing.s) {
-                        Label(debt.kind.rawValue, systemImage: debt.kind.isFiat ? "dollarsign" : "star")
+                        Label(debt.kind.displayName, systemImage: debt.kind.isFiat ? "dollarsign" : "star")
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textTertiary)
 
@@ -482,7 +482,7 @@ private struct AddDebtSheet: View {
                                     selectedKind = kind
                                 }
                             } label: {
-                                Text(kind.rawValue)
+                                Text(kind.displayName)
                                     .font(Typography.font(for: .buttonSmall))
                                     .foregroundStyle(selectedKind == kind
                                         ? (kind.isFiat ? ColorTokens.positive : ColorTokens.chartOrange)

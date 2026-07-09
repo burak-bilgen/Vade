@@ -129,7 +129,7 @@ struct QuickAddSheet: View {
                                     vm.kind = kind
                                 }
                             } label: {
-                                Text(kind.rawValue)
+                                Text(kind.displayName)
                                     .font(Typography.font(for: .buttonSmall))
                                     .foregroundStyle(vm.kind == kind
                                         ? (kind.isFiat ? ColorTokens.positive : ColorTokens.chartOrange)

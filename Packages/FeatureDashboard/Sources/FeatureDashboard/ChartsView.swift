@@ -251,7 +251,7 @@ public struct CurrencyTrendChart: View {
                 Chart {
                     ForEach(distribution, id: \.kind) { item in
                         BarMark(
-                            x: .value("Currency", item.kind.rawValue),
+                            x: .value("Currency", item.kind.displayName),
                             y: .value("Total", NSDecimalNumber(decimal: item.total).doubleValue)
                         )
                         .foregroundStyle(barColor(for: item.kind))

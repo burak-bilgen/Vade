@@ -972,7 +972,7 @@ private struct CurrencyBarChart: View {
         VStack(spacing: Spacing.s) {
             ForEach(distribution, id: \.kind) { item in
                 HStack(spacing: Spacing.m) {
-                    Text(item.kind.rawValue)
+                    Text(item.kind.displayName)
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textSecondary)
                         .frame(width: 36, alignment: .leading)

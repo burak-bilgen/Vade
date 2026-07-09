@@ -70,6 +70,25 @@ public enum CurrencyKind: String, CaseIterable, Sendable, Codable {
     }
 
 
+    /// Localized display name for the currency type (e.g. "Gram Gold", "USD", "Çeyrek").
+    public var displayName: String {
+        localizedDisplayName(locale: .current)
+    }
+
+    /// Localized display name for a specific locale.
+    public func localizedDisplayName(locale: Locale) -> String {
+        switch self {
+        case .tryCoin: return "TRY"
+        case .usd: return "USD"
+        case .eur: return "EUR"
+        case .goldGram: return String(localized: "currency.name.gramGold", locale: locale)
+        case .goldQuarter: return String(localized: "currency.name.quarter", locale: locale)
+        case .goldHalf: return String(localized: "currency.name.half", locale: locale)
+        case .goldFull: return String(localized: "currency.name.full", locale: locale)
+        case .goldRepublic: return String(localized: "currency.name.republic", locale: locale)
+        }
+    }
+
     /// Gram equivalent for gold subtypes. Fiat currencies return 1.
     /// Values: Quarter=1.75g, Half=3.5g, Full=7g, Republic=7.216g, Gram=1g.
     public var gramEquivalent: Decimal {
