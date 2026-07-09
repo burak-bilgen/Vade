@@ -76,6 +76,7 @@ final class QuickAddViewModel {
 
 struct QuickAddSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.locale) private var locale
     @State private var viewModel: QuickAddViewModel?
     let personRepo: AddPersonUseCase
     let debtRepo: AddDebtUseCase
@@ -101,12 +102,12 @@ struct QuickAddSheet: View {
             VStack(spacing: Spacing.xl) {
                 // Amount input
                 VStack(spacing: Spacing.xxs) {
-                    Text(String(localized: "quickAdd.amountLabel"))
+                    Text("quickAdd.amountLabel")
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
-                    TextField(String(localized: "debt.amount.placeholder"), text: Binding(
+                    TextField("debt.amount.placeholder", text: Binding(
                         get: { vm.amount },
                         set: { vm.amount = $0 }
                     ))
@@ -129,7 +130,7 @@ struct QuickAddSheet: View {
                                     vm.kind = kind
                                 }
                             } label: {
-                                Text(kind.displayName)
+                                Text(kind.localizedDisplayName(locale: locale))
                                     .font(Typography.font(for: .buttonSmall))
                                     .foregroundStyle(vm.kind == kind
                                         ? (kind.isFiat ? ColorTokens.positive : ColorTokens.chartOrange)
@@ -159,12 +160,12 @@ struct QuickAddSheet: View {
 
                 // Person name
                 VStack(spacing: Spacing.xxs) {
-                    Text(String(localized: "quickAdd.personLabel"))
+                    Text("quickAdd.personLabel")
                         .font(Typography.font(for: .label))
                         .foregroundStyle(ColorTokens.textTertiary)
                         .textCase(.uppercase)
                         .tracking(0.8)
-                    TextField(String(localized: "quickAdd.personPlaceholder"), text: Binding(
+                    TextField("quickAdd.personPlaceholder", text: Binding(
                         get: { vm.name },
                         set: { vm.name = $0 }
                     ))
@@ -197,7 +198,7 @@ struct QuickAddSheet: View {
                 } label: {
                     HStack(spacing: Spacing.s) {
                         if vm.isSaving { ProgressView().tint(.white) }
-                        Text(String(localized: "quickAdd.save"))
+                        Text("quickAdd.save")
                             .font(Typography.font(for: .button))
                     }
                     .frame(maxWidth: .infinity)
@@ -215,13 +216,13 @@ struct QuickAddSheet: View {
         }
         .scrollBounceBehavior(.basedOnSize)
         .background(ColorTokens.background)
-        .navigationTitle(String(localized: "quickAdd.title"))
+        .navigationTitle(String(localized: "quickAdd.title", locale: locale))
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button(String(localized: "quickAdd.cancel")) { dismiss() }
+                Button("quickAdd.cancel") { dismiss() }
                     .disabled(vm.isSaving)
             }
         }
@@ -235,8 +236,8 @@ struct QuickAddSheet: View {
                 Image(systemName: direction == .receivable ? "arrow.down.left" : "arrow.up.right")
                     .font(.system(size: 12, weight: .bold))
                 Text(direction == .receivable
-                    ? String(localized: "quickAdd.receivable")
-                    : String(localized: "quickAdd.payable"))
+                    ? String(localized: "quickAdd.receivable", locale: locale)
+                    : String(localized: "quickAdd.payable", locale: locale))
                     .font(Typography.font(for: .buttonSmall))
             }
             .foregroundStyle(vm.direction == direction ? color : ColorTokens.textTertiary)

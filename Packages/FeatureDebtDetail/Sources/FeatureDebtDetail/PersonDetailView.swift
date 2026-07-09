@@ -332,6 +332,7 @@ private struct DebtSummaryChip: View {
 // MARK: - Timeline Debt Row
 
 private struct TimelineDebtRow: View {
+    @Environment(\.locale) private var locale
     let debt: DebtRecord
     let isLast: Bool
     let onTap: () -> Void
@@ -358,7 +359,7 @@ private struct TimelineDebtRow: View {
                 // Card content
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     HStack {
-                        Text(debt.note ?? debt.kind.displayName)
+                        Text(debt.note ?? debt.kind.localizedDisplayName(locale: locale))
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textPrimary)
                             .lineLimit(2)
@@ -372,7 +373,7 @@ private struct TimelineDebtRow: View {
 
                     // Meta row
                     HStack(spacing: Spacing.s) {
-                        Label(debt.kind.displayName, systemImage: debt.kind.isFiat ? "dollarsign" : "star")
+                        Label(debt.kind.localizedDisplayName(locale: locale), systemImage: debt.kind.isFiat ? "dollarsign" : "star")
                             .font(Typography.font(for: .caption))
                             .foregroundStyle(ColorTokens.textTertiary)
 
@@ -423,9 +424,9 @@ private struct TimelineDebtRow: View {
 
     private func statusLabel(_ status: DebtStatus) -> String {
         switch status {
-        case .pending: return String(localized: "personDetail.status.pending")
-        case .paid: return String(localized: "personDetail.status.paid")
-        case .archived: return String(localized: "personDetail.status.archived")
+        case .pending: return String(localized: "personDetail.status.pending", locale: locale)
+        case .paid: return String(localized: "personDetail.status.paid", locale: locale)
+        case .archived: return String(localized: "personDetail.status.archived", locale: locale)
         }
     }
 
@@ -438,6 +439,7 @@ private struct TimelineDebtRow: View {
 
 private struct AddDebtSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.locale) private var locale
     @State private var amountText = ""
     @State private var selectedKind: CurrencyKind = .tryCoin
     @State private var selectedDirection: DebtDirection = .receivable
@@ -482,7 +484,7 @@ private struct AddDebtSheet: View {
                                     selectedKind = kind
                                 }
                             } label: {
-                                Text(kind.displayName)
+                                Text(kind.localizedDisplayName(locale: locale))
                                     .font(Typography.font(for: .buttonSmall))
                                     .foregroundStyle(selectedKind == kind
                                         ? (kind.isFiat ? ColorTokens.positive : ColorTokens.chartOrange)
