@@ -1,118 +1,223 @@
-# Vade
+<p align="center">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding1.png" width="120" alt="Vade Logo">
+</p>
 
-Track who owes you and who you owe. Offline-first, iCloud-synced across devices, multi-currency with physical gold support. Built for the Turkish market.
+<h1 align="center">Vade</h1>
 
-## What it does
+<p align="center">
+  <strong>Debt tracking, reimagined.</strong><br>
+  Multi-currency · iCloud Sync · Physical Gold · Offline-first
+</p>
 
-Know exactly how much you're owed, what currency it's in, and when it's due. No spreadsheets, no mental math.
+<p align="center">
+  <img src="https://img.shields.io/badge/iOS-18+-000?style=flat&logo=apple&logoColor=white">
+  <img src="https://img.shields.io/badge/Swift-6-F05138?style=flat&logo=swift&logoColor=white">
+  <img src="https://img.shields.io/badge/SwiftUI-✓-007AFF?style=flat">
+  <img src="https://img.shields.io/badge/License-Proprietary-red">
+</p>
 
-- Track debts and receivables in TRY, USD, EUR, and physical gold
-- Gold types: Gram Gold, Quarter, Half, Full, Republic (auto-converted from gram price)
-- Live exchange rates from TCMB with offline fallback
-- Partial payments, installments, automatic balance recalculation
-- Quick actions per person: call, message, share
-- Due date reminders (local notifications, no server)
-- Face ID / Touch ID app lock with background blur
-- Append-only audit trail for every mutation
-- PDF/CSV export
-- Home screen widget
-- 2 languages: Turkish, English
-- VoiceOver and Dynamic Type support
+<br>
 
-## Architecture
+---
 
-**iOS 18+ · Swift 6 · Strict concurrency** (complete data-race safety at compile time).
+## 📱 Screenshots
 
-MVVM but not the "view model owns everything" kind. View-first: views trust SwiftUI's natural lifecycle, view models only handle business logic and state. Coordinator pattern covers navigation flows where NavigationStack falls short.
+<table>
+  <tr>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding1.png" width="140" alt="Onboarding 1"><br>
+      <sub>Welcome</sub>
+    </td>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding2.png" width="140" alt="Onboarding 2"><br>
+      <sub>Track</sub>
+    </td>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding3.png" width="140" alt="Onboarding 3"><br>
+      <sub>Currencies</sub>
+    </td>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding4.png" width="140" alt="Onboarding 4"><br>
+      <sub>iCloud Sync</sub>
+    </td>
+  </tr>
+</table>
 
-The project is split into 12 SPM packages. Reason: incremental build performance. Change one feature, only that package recompiles. Each package has its own tests, runnable in isolation.
+<table>
+  <tr>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/dashboard.png" width="140" alt="Dashboard"><br>
+      <sub>Dashboard</sub>
+    </td>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/quickAdd.png" width="140" alt="Quick Add"><br>
+      <sub>Quick Add</sub>
+    </td>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/addPerson.png" width="140" alt="Add Person"><br>
+      <sub>Add Person</sub>
+    </td>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/people.png" width="140" alt="People List"><br>
+      <sub>People</sub>
+    </td>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/statistics.png" width="140" alt="Statistics"><br>
+      <sub>Statistics</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/exchangeRates.png" width="140" alt="Exchange Rates"><br>
+      <sub>Exchange Rates</sub>
+    </td>
+    <td align="center" width="20%">
+      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/settings.png" width="140" alt="Settings"><br>
+      <sub>Settings</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## ✨ Features
+
+| | |
+|---|---|
+| 💰 **Multi-Currency** | TRY, USD, EUR, and physical gold types (Gram, Quarter, Half, Full, Republic) |
+| 🔄 **iCloud Sync** | SwiftData + CloudKit — no backend, just your iCloud |
+| 📊 **Live Rates** | Real-time exchange rates from TCMB with offline caching |
+| 🏅 **Physical Gold** | Auto-converts gram prices to Çeyrek, Yarım, Tam, Cumhuriyet |
+| 📅 **Due Reminders** | Local notifications for upcoming and overdue debts |
+| 🔐 **Privacy First** | Face ID / Touch ID app lock with background blur |
+| 📄 **Export** | CSV and PDF export of all your data |
+| 📱 **Widget** | Home screen widget showing your net balance |
+| 🌙 **Dark Mode** | Premium dark-only design, built for finance |
+| 🌐 **Bilingual** | Turkish & English |
+| ♿ **Accessible** | VoiceOver & Dynamic Type support |
+| 📝 **Audit Trail** | Append-only log for every change |
+
+---
+
+## 🏗 Architecture
+
+**iOS 18+ · Swift 6 · Strict Concurrency** — complete data-race safety at compile time.
+
+### MVVM-C (View-First)
+
+Views trust SwiftUI's natural lifecycle. View models handle business logic and state. Coordinator pattern covers navigation where `NavigationStack` falls short.
+
+```
+Feature/                     # SPM package per feature
+├── Sources/
+│   ├── SomeFeatureView.swift
+│   ├── SomeFeatureViewModel.swift
+│   └── ...
+├── Tests/
+└── Package.swift
+```
+
+**12 SPM packages** — incremental builds. Change one feature, only that package recompiles.
 
 ### SwiftData + CloudKit
 
-No backend. SwiftData on device, CloudKit private database in the cloud. User's own iCloud account handles sync.
+| Layer | Technology |
+|-------|-----------|
+| Local DB | SwiftData (`@Model`) |
+| Cloud Sync | CloudKit Private Database |
+| Conflict Resolution | Append-only audit log + merge policy |
+| Offline | Works fully offline, syncs on reconnect |
 
-- `@Model` classes map automatically to CloudKit records
-- Schema constraints (unique, required) configured manually via `CKRecord`
-- Conflict resolution: SwiftData's built-in merge policy is sufficient because the append-only audit log makes data loss virtually impossible
-- No internet? Works locally. Internet comes back? Syncs in the background. User never notices.
+### Domain / Data Separation
 
-### Design System (in-house component library)
+```
+Domain/                      # Pure Swift, no UIKit/SwiftUI
+├── DebtRecord.swift
+├── CurrencyKind.swift
+├── Protocols/               # UseCase interfaces
+└── ...
 
-Everything lives in the `DesignSystem` package:
+Data/                        # SwiftData implementation
+├── RepositoryImplementations.swift
+├── Models/                  # @Model classes
+└── ...
+```
 
-- **ColorTokens**: Dark-only palette. Financial apps look better in dark mode, so we committed to it.
-- **Spacing/Radius system**: 4px base grid. `Spacing.xs = 4`, `Spacing.s = 8`, `Spacing.m = 12`... Fully scalable.
-- **Typography**: System font + Jakarta Sans (custom). `Typography.font(for:)` enum-based type scale.
-- **Components**: GlassCard, PremiumBalanceCard, StatCard, ActionPill, RateTile, MetricTile, and more. Every component is reusable, unit-testable, and has snapshot tests.
-- **FinanceBackgroundAnimation**: Canvas-based animated background for that premium finance app feel.
+### Design System
 
-### Domain / Data separation
+In-house component library in `DesignSystem` package:
 
-The Domain package contains only Swift models and calculation logic. It imports Foundation but knows nothing about SwiftUI. This means:
-
-- Domain can be used on any platform
-- Testing is trivial (no UI, no dependencies)
-- Everything is `Sendable` for thread safety
-
-The Data package abstracts everything SwiftData-related behind a repository pattern. UseCase protocols are defined in Domain, implementations live in Data. ViewModels depend on UseCases, never on SwiftData directly.
+- **ColorTokens**: Dark-only financial palette
+- **Typography**: System font + Jakarta Sans, enum-based type scale
+- **Components**: `GlassCard`, `PremiumBalanceCard`, `StatCard`, `RateTile`, `ActionPill`, and more
+- **FinanceBackgroundAnimation**: Canvas-based animated background
 
 ### Networking
 
-`ExchangeRateClient`: Parses TCMB XML, runs conversions through `CurrencyConverter`. `RatesCache` holds a 30-minute cache because TCMB updates rates once per day anyway. Offline? Shows cached data.
+`ExchangeRateClient` parses TCMB XML with a 30-minute cache. Offline? Shows cached data. Always works.
 
-### Concurrency strategy
+### Physical Gold Pricing
 
-Swift 6 strict concurrency. We chose structs + Sendable over actors because:
+| Type | Gram Weight |
+|------|-------------|
+| Gram Gold | 1.0g |
+| Quarter (Çeyrek) | 1.75g |
+| Half (Yarım) | 3.5g |
+| Full (Tam) | 7.0g |
+| Republic (Cumhuriyet) | 7.216g |
 
-- Actors introduce deadlock risk (especially with reentrancy)
-- Our data model is mostly immutable
-- SwiftData `@Model` types run on `@MainActor` anyway, no need for actor isolation
+API fetches XAU (troy ounce), divides by gram, multiplies by each type's weight.
 
-### Physical gold pricing
+---
 
-A separate `CurrencyKind` enum case for each physical gold type. Conversions: çeyrek = 1.75g, yarım = 3.5g, tam = 7.0g, cumhuriyet = 7.216g. The API fetches XAU (troy ounce) and divides by gram, then multiplies by each type's gram weight.
+## 🧪 Testing
 
-## Testing strategy
+| Area | Coverage |
+|------|----------|
+| Domain calculations | 86%+ |
+| Repository / Data | 84%+ |
+| Networking | 89%+ |
+| Analytics events | 100% |
+| Snapshots | Native `ImageRenderer`-based (zero deps) |
+| ViewModels | Full coverage |
 
-Swift Testing framework (`@Test`, parameterized). No XCTest.
+Framework: **Swift Testing** (`@Test`, parameterized). No XCTest.
 
-- **Domain calculations**: InstallmentCalculator, CurrencyConverter, balance aggregation -- 86%+ coverage
-- **Repository/Data**: In-memory SwiftData container for integration tests -- 84%+ coverage
-- **Networking**: Mock URLProtocol for API tests -- 89%+ coverage
-- **Observability**: Analytics event whitelist validation -- 100% coverage
-- **Snapshot**: Native `ImageRenderer`-based snapshot tests for UI components (zero third-party dependencies)
-- **ViewModels**: Full unit test coverage
+---
 
-## Tech stack
+## 🛠 Tech Stack
 
 | Layer | Choice | Why |
 |-------|--------|-----|
-| UI | SwiftUI | iOS 18 minimum, SwiftUI is mature enough |
-| Language | Swift 6 | Strict concurrency, Sendable |
-| Architecture | MVVM-C | Testable, SwiftUI-compatible navigation |
-| Database | SwiftData | Apple's next-gen persistence, CloudKit built-in |
-| Sync | CloudKit Private DB | No backend, user's own iCloud |
-| Network | URLSession + async/await | No extra dependencies, OS-level |
-| Testing | Swift Testing | Apple's XCTest successor |
+| UI | SwiftUI | iOS 18+ |
+| Language | Swift 6 | Strict concurrency |
+| Architecture | MVVM-C | Testable navigation |
+| Database | SwiftData | CloudKit built-in |
+| Sync | CloudKit | No backend required |
 | Charts | Swift Charts | iOS 16+, native |
 | Widget | WidgetKit | iOS 14+ |
-| Project Gen | Tuist | Keep Xcode project files out of git |
+| Project Gen | Tuist | No Xcode project in git |
+| CI | GitHub Actions | On push & PR |
 
-## Getting started
+---
+
+## 🚀 Getting Started
 
 ```bash
 git clone https://github.com/burak-bilgen/Vade.git
 cd Vade
 
+# Install Tuist (project generation)
 brew install tuist
 tuist generate
 
 open Vade.xcworkspace
 ```
 
-Requires Xcode 16+ and iOS 18+ SDK.
+Requires **Xcode 16+** and **iOS 18+ SDK**.
 
+---
 
-## License
+## 📄 License
 
 All rights reserved. Professional portfolio project.
