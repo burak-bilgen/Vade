@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding1.png" width="120" alt="Vade Logo">
-</p>
-
 <h1 align="center">Vade</h1>
 
 <p align="center">
