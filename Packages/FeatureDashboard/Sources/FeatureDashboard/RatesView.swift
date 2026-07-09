@@ -3,7 +3,7 @@ import DesignSystem
 import Domain
 import Networking
 
-// MARK: - Exchange Rates View — Modern Redesign
+// MARK: - Exchange Rates View
 
 public struct RatesView: View {
     @Environment(\.locale) private var locale
@@ -57,7 +57,7 @@ public struct RatesView: View {
     private var content: some View {
         ScrollView {
             VStack(spacing: Spacing.xl) {
-                // Selected currency — large prominent card
+                // Selected currency - large prominent card
                 if let selectedRate = rate(for: selectedCode) {
                     ProminentRateCard(
                         code: selectedCode == "XAU" ? "GRAM" : selectedCode,
@@ -108,7 +108,7 @@ public struct RatesView: View {
                                 .foregroundStyle(ColorTokens.accent)
                                 .contentTransition(.numericText())
 
-                            Text("TL")
+                            Text(String(localized: "currency.tl"))
                                 .font(Typography.font(for: .bodyEmphasis))
                                 .foregroundStyle(ColorTokens.textSecondary)
                         }
@@ -127,7 +127,7 @@ public struct RatesView: View {
                 .padding(.horizontal, Spacing.xl)
                 .entrance(.up, delay: 0.1)
 
-                // All currencies — tappable to select
+                // All currencies - tappable to select
                 VStack(alignment: .leading, spacing: Spacing.s) {
                     Text(String(localized: "rates.major"))
                         .font(Typography.font(for: .caption))

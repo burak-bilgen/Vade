@@ -6,7 +6,11 @@ Please read this Privacy Policy and Legal Disclaimer ("Disclaimer") carefully be
 
 ---
 
-## 1. No Warranties & Limitation of Liability
+## 1. Purpose & Disclaimer
+
+Vade is a demonstration project developed to showcase software architecture, design patterns, and modern iOS development practices. It is provided for educational and portfolio purposes. While the application is functional, it is not intended to serve as a primary financial record-keeping tool. Users who choose to use it for actual tracking do so at their own risk and should maintain independent records and backups.
+
+## 2. No Warranties & Limitation of Liability
 
 The App is provided on an **"AS IS"** and **"AS AVAILABLE"** basis without any warranties of any kind, whether express or implied, including but not limited to warranties of accuracy, completeness, reliability, suitability, or availability of the App's functionalities.
 
@@ -19,7 +23,7 @@ The App is provided on an **"AS IS"** and **"AS AVAILABLE"** basis without any w
 
 ---
 
-## 2. Personal Data & Privacy
+## 3. Personal Data & Privacy
 
 We value your privacy. The App is designed with a **privacy-first** approach:
 
@@ -30,13 +34,13 @@ We value your privacy. The App is designed with a **privacy-first** approach:
 
 ---
 
-## 3. Changes to this Disclaimer
+## 4. Changes to this Disclaimer
 
 We reserve the right to modify or replace this Disclaimer at any time. Your continued use of the App following any changes constitutes acceptance of the new Disclaimer.
 
 ---
 
-## 4. Contact
+## 5. Contact
 
 If you have any questions regarding this Disclaimer, you can contact the developer via GitHub at:
 [https://github.com/burak-bilgen](https://github.com/burak-bilgen)

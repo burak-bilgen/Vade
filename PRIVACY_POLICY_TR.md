@@ -6,7 +6,11 @@ Lütfen **Vade** uygulamasını ("Uygulama") kullanmadan önce bu Gizlilik Polit
 
 ---
 
-## 1. Sorumluluk Sınırlandırması ve Garanti Muafiyeti
+## 1. Amaç ve Sorumluluk Reddi
+
+Vade, yazılım mimarisi, tasarım desenleri ve modern iOS geliştirme pratiklerini sergilemek amacıyla geliştirilmiş bir demo projesidir. Eğitim ve portfolyo amaçlı sunulmaktadır. Uygulama çalışır durumda olmakla birlikte, birincil finansal kayıt aracı olarak kullanılmak üzere tasarlanmamıştır. Gerçek borç/alacak takibi için kullananlar bunu kendi sorumluluğunda yapar ve bağımsız kayıtlar ile yedekler tutmalıdır.
+
+## 2. Sorumluluk Sınırlandırması ve Garanti Muafiyeti
 
 Uygulama, **"OLDUĞU GİBİ"** ve **"MÜMKÜN OLDUĞU SÜRECE"** esasıyla, hiçbir açık veya zımni garanti verilmeksizin sunulmaktadır. Geliştirici (Burak Bilgen), uygulamanın işlevlerinin doğruluğu, eksiksizliği, güvenilirliği veya kesintisizliği konusunda hiçbir taahhütte bulunmaz.
 
@@ -16,7 +20,7 @@ Uygulama, **"OLDUĞU GİBİ"** ve **"MÜMKÜN OLDUĞU SÜRECE"** esasıyla, hiç
 
 ---
 
-## 2. Kişisel Veriler ve Gizlilik
+## 3. Kişisel Veriler ve Gizlilik
 
 Gizliliğinize önem veriyoruz. Uygulama tamamen **gizlilik odaklı** mimariyle tasarlanmıştır:
 
@@ -27,13 +31,13 @@ Gizliliğinize önem veriyoruz. Uygulama tamamen **gizlilik odaklı** mimariyle 
 
 ---
 
-## 3. Sözleşme Değişiklikleri
+## 4. Sözleşme Değişiklikleri
 
 Bu Yasal Uyarı metnini dilediğimiz zaman güncelleme hakkımız saklıdır. Uygulamayı kullanmaya devam etmeniz, güncellenen sözleşme şartlarını kabul ettiğiniz anlamına gelir.
 
 ---
 
-## 4. İletişim
+## 5. İletişim
 
 Bu yasal uyarı ile ilgili sorularınız için geliştiriciyle GitHub üzerinden iletişime geçebilirsiniz:
 [https://github.com/burak-bilgen](https://github.com/burak-bilgen)
