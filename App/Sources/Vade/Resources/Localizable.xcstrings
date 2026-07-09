@@ -1111,23 +1111,6 @@
         }
       }
     },
-    "charts.unavailable": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Charts unavailable on this platform."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grafikler bu platformda kullanılamıyor."
-          }
-        }
-      }
-    },
     "charts.upcoming.empty": {
       "extractionState": "manual",
       "localizations": {
