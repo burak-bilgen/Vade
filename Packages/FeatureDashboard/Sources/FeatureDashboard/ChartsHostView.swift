@@ -305,7 +305,7 @@ public struct ChartsHostView: View {
 // MARK: - Stat Tile
 
 private struct StatTile: View {
-    let title: String
+    let title: LocalizedStringKey
     let value: String
     let color: Color
     let icon: String

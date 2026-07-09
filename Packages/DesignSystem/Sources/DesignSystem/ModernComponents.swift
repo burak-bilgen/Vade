@@ -59,11 +59,11 @@ public struct BalanceChip: View {
 // MARK: - Metric Tile
 
 public struct MetricTile: View {
-    let label: String
+    let label: LocalizedStringKey
     let value: Decimal
     let color: Color
 
-    public init(label: String, value: Decimal, color: Color) {
+    public init(label: LocalizedStringKey, value: Decimal, color: Color) {
         self.label = label
         self.value = value
         self.color = color
@@ -87,10 +87,10 @@ public struct MetricTile: View {
 // MARK: - Section Header
 
 public struct SectionHeader: View {
-    let title: String
+    let title: LocalizedStringKey
     var action: (() -> Void)?
 
-    public init(_ title: String, action: (() -> Void)? = nil) {
+    public init(_ title: LocalizedStringKey, action: (() -> Void)? = nil) {
         self.title = title
         self.action = action
     }

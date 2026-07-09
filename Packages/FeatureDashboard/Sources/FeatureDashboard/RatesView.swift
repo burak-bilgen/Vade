@@ -139,7 +139,7 @@ public struct RatesView: View {
                         ForEach(Array(majorRates.enumerated()), id: \.element.code) { i, item in
                             RateTileRow(
                                 code: item.code,
-                                label: item.label,
+                                label: LocalizedStringKey(item.label),
                                 rate: item.rate,
                                 isSelected: item.code == selectedCode
                             ) {
@@ -263,7 +263,7 @@ public struct RatesView: View {
 
 private struct RateTileRow: View {
     let code: String
-    let label: String
+    let label: LocalizedStringKey
     let rate: Decimal?
     let isSelected: Bool
     let action: () -> Void

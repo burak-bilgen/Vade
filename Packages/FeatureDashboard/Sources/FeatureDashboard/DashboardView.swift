@@ -794,11 +794,11 @@ private struct ProfileSummarySheet: View {
                 
                 // Info rows
                 VStack(spacing: 0) {
-                    infoRow(icon: "icloud.fill", color: .blue, title: String(localized: "profile.icloud.sync"), value: cloudStatus == .available ? String(localized: "profile.status.active") : String(localized: "profile.status.inactive"))
+                    infoRow(icon: "icloud.fill", color: .blue, title: "profile.icloud.sync", value: cloudStatus == .available ? String(localized: "profile.status.active") : String(localized: "profile.status.inactive"))
                     Divider().padding(.leading, 44)
-                    infoRow(icon: "faceid", color: .purple, title: String(localized: "profile.security.lock"), value: activeLock ? String(localized: "profile.status.active") : String(localized: "profile.status.disabled"))
+                    infoRow(icon: "faceid", color: .purple, title: "profile.security.lock", value: activeLock ? String(localized: "profile.status.active") : String(localized: "profile.status.disabled"))
                     Divider().padding(.leading, 44)
-                    infoRow(icon: "person.2.fill", color: .orange, title: String(localized: "profile.total.people"), value: String(format: String(localized: "profile.people.count"), personCount))
+                    infoRow(icon: "person.2.fill", color: .orange, title: "profile.total.people", value: String(format: String(localized: "profile.people.count"), personCount))
                 }
                 .background(ColorTokens.surface)
                 .clipShape(RoundedRectangle(cornerRadius: Radius.md, style: .continuous))
@@ -838,7 +838,7 @@ private struct ProfileSummarySheet: View {
         }
     }
     
-    private func infoRow(icon: String, color: Color, title: String, value: String) -> some View {
+    private func infoRow(icon: String, color: Color, title: LocalizedStringKey, value: String) -> some View {
         HStack(spacing: Spacing.m) {
             ZStack {
                 Circle()
