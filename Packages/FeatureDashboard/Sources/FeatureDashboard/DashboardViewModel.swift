@@ -41,17 +41,20 @@ public final class DashboardViewModel {
     private let debtRepo: FetchDebtsForPersonUseCase
     private let balanceRepo: CalculateBalanceUseCase
     private let rateClient: ExchangeRateProviding
+    private let defaults: UserDefaults
 
     public init(
         personRepo: FetchPersonsUseCase,
         debtRepo: FetchDebtsForPersonUseCase,
         balanceRepo: CalculateBalanceUseCase,
-        rateClient: ExchangeRateProviding = ExchangeRateClient()
+        rateClient: ExchangeRateProviding = ExchangeRateClient(),
+        defaults: UserDefaults = .standard
     ) {
         self.personRepo = personRepo
         self.debtRepo = debtRepo
         self.balanceRepo = balanceRepo
         self.rateClient = rateClient
+        self.defaults = defaults
     }
 
     public func loadData() async {
@@ -86,7 +89,7 @@ public final class DashboardViewModel {
             }
         }
 
-        let saved = UserDefaults.standard.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
+        let saved = defaults.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
         let preferred = CurrencyKind(rawValue: saved) ?? .tryCoin
         displayCurrency = preferred
 
@@ -103,11 +106,11 @@ public final class DashboardViewModel {
         netBalance = receivable - payable
 
         // Write widget data to shared App Group UserDefaults
-        if let defaults = UserDefaults(suiteName: UserDefaultsKeys.appGroupSuite) {
-            defaults.set(netBalance.description, forKey: UserDefaultsKeys.widgetNetBalance)
-            defaults.set(totalReceivable.description, forKey: UserDefaultsKeys.widgetTotalReceivable)
-            defaults.set(totalPayable.description, forKey: UserDefaultsKeys.widgetTotalPayable)
-            defaults.set(persons.count, forKey: UserDefaultsKeys.widgetPersonCount)
+        if let widgetDefaults = UserDefaults(suiteName: UserDefaultsKeys.appGroupSuite) {
+            widgetDefaults.set(netBalance.description, forKey: UserDefaultsKeys.widgetNetBalance)
+            widgetDefaults.set(totalReceivable.description, forKey: UserDefaultsKeys.widgetTotalReceivable)
+            widgetDefaults.set(totalPayable.description, forKey: UserDefaultsKeys.widgetTotalPayable)
+            widgetDefaults.set(persons.count, forKey: UserDefaultsKeys.widgetPersonCount)
         }
     }
 

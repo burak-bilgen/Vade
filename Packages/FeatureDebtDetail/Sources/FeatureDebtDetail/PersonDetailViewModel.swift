@@ -21,6 +21,7 @@ public final class PersonDetailViewModel {
     private let rateClient: any ExchangeRateProviding
     private let analytics: any AnalyticsTracking
     private let notificationService: NotificationScheduling?
+    private let defaults: UserDefaults
 
     public init(
         person: Person,
@@ -29,7 +30,8 @@ public final class PersonDetailViewModel {
         paymentRepo: RecordPaymentUseCase & FetchPaymentsForDebtUseCase,
         rateClient: any ExchangeRateProviding = ExchangeRateClient(),
         analytics: any AnalyticsTracking = AnalyticsService.shared,
-        notificationService: NotificationScheduling? = nil
+        notificationService: NotificationScheduling? = nil,
+        defaults: UserDefaults = .standard
     ) {
         self.person = person
         self.debtRepo = debtRepo
@@ -38,6 +40,7 @@ public final class PersonDetailViewModel {
         self.rateClient = rateClient
         self.analytics = analytics
         self.notificationService = notificationService
+        self.defaults = defaults
     }
 
     public func loadData() async {
@@ -47,7 +50,7 @@ public final class PersonDetailViewModel {
             debts = try await debtRepo.execute(for: person.id)
             let rawBalance = try await balanceRepo.execute(for: person.id)
             
-            let saved = UserDefaults.standard.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
+            let saved = defaults.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
             let preferred = CurrencyKind(rawValue: saved) ?? .tryCoin
             displayCurrency = preferred
             

@@ -408,6 +408,7 @@ public struct DashboardView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Spacing.m)
+                .padding(.horizontal, Spacing.s)
                 .background(
                     RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
                         .fill(ColorTokens.surface)
@@ -761,6 +762,7 @@ private struct QuickActionTile<Destination: View>: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, Spacing.m)
+            .padding(.horizontal, Spacing.s)
             .background(
                 RoundedRectangle(cornerRadius: Radius.md, style: .continuous)
                     .fill(ColorTokens.surface)
@@ -830,7 +832,7 @@ private struct ProfileSummarySheet: View {
                 
                 Spacer()
                 
-                Text("Vade v1.0.0 (Build 1)")
+                Text(LocalizedStringKey("profile.version"))
                     .font(Typography.font(for: .caption))
                     .foregroundStyle(ColorTokens.textTertiary)
                     .padding(.bottom, Spacing.l)

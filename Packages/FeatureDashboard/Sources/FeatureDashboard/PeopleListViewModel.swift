@@ -31,19 +31,22 @@ public final class PeopleListViewModel {
     private let debtRepo: FetchDebtsForPersonUseCase
     private let rateClient: any ExchangeRateProviding
     private let analytics: any AnalyticsTracking
+    private let defaults: UserDefaults
 
     public init(
         personRepo: AddPersonUseCase & FetchPersonsUseCase,
         balanceRepo: CalculateBalanceUseCase,
         debtRepo: FetchDebtsForPersonUseCase,
         rateClient: any ExchangeRateProviding = ExchangeRateClient(),
-        analytics: any AnalyticsTracking = AnalyticsService.shared
+        analytics: any AnalyticsTracking = AnalyticsService.shared,
+        defaults: UserDefaults = .standard
     ) {
         self.personRepo = personRepo
         self.balanceRepo = balanceRepo
         self.debtRepo = debtRepo
         self.rateClient = rateClient
         self.analytics = analytics
+        self.defaults = defaults
     }
 
     public var filteredPersons: [(person: Person, balance: Decimal)] {
@@ -79,7 +82,7 @@ public final class PeopleListViewModel {
         do {
             persons = try await personRepo.execute(includeArchived: false)
             
-            let saved = UserDefaults.standard.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
+            let saved = defaults.string(forKey: UserDefaultsKeys.preferredCurrency) ?? CurrencyKind.tryCoin.rawValue
             let preferred = CurrencyKind(rawValue: saved) ?? .tryCoin
             displayCurrency = preferred
             
