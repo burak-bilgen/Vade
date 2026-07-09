@@ -72,30 +72,11 @@ public struct OnboardingView: View {
         }
     }
 
-    // MARK: - Navigation Top Bar
+    // MARK: - Navigation Top Bar (empty spacer, skip button removed)
 
     private var topBarOverlay: some View {
         HStack {
             Spacer()
-
-            if activeTab < 3 {
-                Button(action: {
-                    HapticFeedback.impact(.light)
-                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                        onComplete()
-                    }
-                }) {
-                    Text(LocalizedStringKey("onboarding.skip"))
-                        .font(Typography.font(for: .labelEmphasis))
-                        .foregroundStyle(ColorTokens.textSecondary)
-                        .padding(.horizontal, Spacing.m)
-                        .padding(.vertical, Spacing.xs)
-                        .background(
-                            Capsule()
-                                .fill(ColorTokens.textSecondary.opacity(0.06))
-                        )
-                }
-            }
         }
         .padding(.horizontal, Spacing.xl)
     }
