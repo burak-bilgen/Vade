@@ -19,12 +19,12 @@ public struct RatesView: View {
         Self.majorCodes.map { code in
             let label: String = {
                 switch code {
-                case "USD": return String(localized: "rates.usd")
-                case "EUR": return String(localized: "rates.eur")
-                case "GBP": return String(localized: "rates.gbp")
-                case "CHF": return String(localized: "rates.chf")
-                case "JPY": return String(localized: "rates.jpy")
-                case "XAU": return String(localized: "currency.gold.gram")
+                case "USD": return "rates.usd"
+                case "EUR": return "rates.eur"
+                case "GBP": return "rates.gbp"
+                case "CHF": return "rates.chf"
+                case "JPY": return "rates.jpy"
+                case "XAU": return "currency.gold.gram"
                 default: return code
                 }
             }()

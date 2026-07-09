@@ -614,12 +614,12 @@ public struct PaidVsPendingAmountChart: View {
     ScrollView {
         VStack(spacing: Spacing.l) {
             MonthlyTrendChart(monthlyData: [
-                ("Oca", 1000, 500, 500),
-                ("Şub", 2000, 800, 1200),
+                ("Jan", 1000, 500, 500),
+                ("Feb", 2000, 800, 1200),
                 ("Mar", 1500, 2000, -500),
-                ("Nis", 3000, 1000, 2000),
+                ("Apr", 3000, 1000, 2000),
                 ("May", 2500, 1500, 1000),
-                ("Haz", 4000, 2000, 2000),
+                ("Jun", 4000, 2000, 2000),
             ])
             DebtStatusChart(pendingCount: 5, paidCount: 3, archivedCount: 1)
             CurrencyTrendChart(distribution: [
@@ -629,14 +629,14 @@ public struct PaidVsPendingAmountChart: View {
                 (.goldGram, 500),
             ])
             UpcomingTimelineChart(items: [
-                ("Ahmet", 1500, Date().addingTimeInterval(86400 * 3)),
-                ("Ayşe", 750, Date().addingTimeInterval(86400 * 7)),
-                ("Mehmet", 2000, Date().addingTimeInterval(86400 * 14)),
+                ("Alice", 1500, Date().addingTimeInterval(86400 * 3)),
+                ("Bob", 750, Date().addingTimeInterval(86400 * 7)),
+                ("Charlie", 2000, Date().addingTimeInterval(86400 * 14)),
             ])
             PersonDistributionChart(personBalances: [
-                ("Ahmet", 2500),
-                ("Ayşe", -1200),
-                ("Mehmet", 800),
+                ("Alice", 2500),
+                ("Bob", -1200),
+                ("Charlie", 800),
             ])
             PaidVsPendingAmountChart(paidAmount: 3500, pendingAmount: 8200)
         }

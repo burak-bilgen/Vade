@@ -128,7 +128,7 @@ public struct DebtPayoffAssistantSheet: View {
                     .padding(.vertical, Spacing.l)
                 }
             }
-            .navigationTitle("payoff.title")
+            .navigationTitle(LocalizedStringKey("payoff.title"))
             #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif

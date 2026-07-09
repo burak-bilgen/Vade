@@ -45,7 +45,7 @@ public struct EmptyStateView: View {
 }
 
 #Preview {
-    EmptyStateView(title: "Henüz kimseyle bir hesabın yok",
-                   subtitle: "İlk kişini ekleyerek başla.")
+    EmptyStateView(title: "No transaction records yet",
+                   subtitle: "Start by adding your first contact.")
         .background(ColorTokens.background)
 }

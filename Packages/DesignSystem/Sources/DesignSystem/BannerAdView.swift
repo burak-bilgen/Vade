@@ -17,8 +17,8 @@ public struct BannerAdView: View {
     }
 
     public var body: some View {
-        // Placeholder: GoogleMobileAds SDK henüz eklenmediğinde boş alan.
-        // Gerçek implementasyon:
+        // Placeholder: Empty space when GoogleMobileAds SDK is not yet added.
+        // Real implementation:
         // GADBannerViewRepresentable(adUnitID: adUnitID)
         //     .frame(height: 50)
         Rectangle()

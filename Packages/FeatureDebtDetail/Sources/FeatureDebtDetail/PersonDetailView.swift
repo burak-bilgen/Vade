@@ -260,7 +260,7 @@ public struct PersonDetailView: View {
 
     // MARK: - Quick Actions
 
-    private func quickActionButton(icon: String, label: String, color: Color, action: @escaping () -> Void) -> some View {
+    private func quickActionButton(icon: String, label: LocalizedStringKey, color: Color, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(spacing: Spacing.xxs) {
                 Image(systemName: icon)
@@ -408,7 +408,7 @@ private struct TimelineDebtRow: View {
         .accessibilityAddTraits(debt.status == .pending ? .isButton : [])
         .accessibilityLabel(
             debt.status == .pending
-                ? "\\(debt.amount.formatted()), \(statusLabel(debt.status))"
+                ? "\(debt.kind.format(debt.amount)), \(statusLabel(debt.status))"
                 : ""
         )
     }
@@ -423,9 +423,9 @@ private struct TimelineDebtRow: View {
 
     private func statusLabel(_ status: DebtStatus) -> String {
         switch status {
-        case .pending: return "personDetail.status.pending"
-        case .paid: return "personDetail.status.paid"
-        case .archived: return "personDetail.status.archived"
+        case .pending: return String(localized: "personDetail.status.pending")
+        case .paid: return String(localized: "personDetail.status.paid")
+        case .archived: return String(localized: "personDetail.status.archived")
         }
     }
 
@@ -572,7 +572,7 @@ private struct AddDebtSheet: View {
                 .padding(.bottom, Spacing.xxxl)
             }
             .background(ColorTokens.background)
-            .navigationTitle("debt.add.title")
+            .navigationTitle(LocalizedStringKey("debt.add.title"))
             #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
@@ -723,7 +723,7 @@ private struct RecordPaymentSheet: View {
                 .padding(.bottom, Spacing.xxxl)
             }
             .background(ColorTokens.background)
-            .navigationTitle("payment.title")
+            .navigationTitle(LocalizedStringKey("payment.title"))
             #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
@@ -738,7 +738,7 @@ private struct RecordPaymentSheet: View {
 
     private var canSave: Bool { (parsedAmount ?? .zero) > 0 }
 
-    private func quickFillButton(amount: Decimal, label: String) -> some View {
+    private func quickFillButton(amount: Decimal, label: LocalizedStringKey) -> some View {
         Button {
             amountText = amount.formatted()
         } label: {

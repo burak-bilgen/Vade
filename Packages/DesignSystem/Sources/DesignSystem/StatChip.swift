@@ -30,8 +30,8 @@ public struct StatChip: View {
 #if DEBUG
 #Preview {
     VStack {
-        StatChip(label: "Toplam Alacak", amount: 15000, color: ColorTokens.positive)
-        StatChip(label: "Toplam Borç", amount: 8500, color: ColorTokens.negative)
+        StatChip(label: "Total Receivable", amount: 15000, color: ColorTokens.positive)
+        StatChip(label: "Total Payable", amount: 8500, color: ColorTokens.negative)
     }
 }
 #endif

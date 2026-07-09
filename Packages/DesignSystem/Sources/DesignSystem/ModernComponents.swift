@@ -465,7 +465,8 @@ public struct LeaderboardRow: View {
                     Image(systemName: isReceivable ? "arrow.down.left" : "arrow.up.right")
                         .font(.system(size: 8, weight: .bold))
                     Text(isReceivable
-                        ? "people.balance.receivable" : "people.balance.payable")
+                        ? LocalizedStringKey("people.balance.receivable")
+                        : LocalizedStringKey("people.balance.payable"))
                         .font(Typography.font(for: .label))
                 }
                 .foregroundStyle(isReceivable ? ColorTokens.positive : ColorTokens.negative)
