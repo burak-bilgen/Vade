@@ -231,6 +231,7 @@ public struct DebtStatusChart: View {
 
 /// Shows currency distribution as stacked area chart.
 public struct CurrencyTrendChart: View {
+    @Environment(\.locale) private var locale
     let distribution: [(kind: CurrencyKind, total: Decimal)]
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
@@ -251,7 +252,7 @@ public struct CurrencyTrendChart: View {
                 Chart {
                     ForEach(distribution, id: \.kind) { item in
                         BarMark(
-                            x: .value("Currency", item.kind.displayName)
+                            x: .value("Currency", item.kind.localizedDisplayName(locale: locale)),
                             y: .value("Total", NSDecimalNumber(decimal: item.total).doubleValue)
                         )
                         .foregroundStyle(barColor(for: item.kind))

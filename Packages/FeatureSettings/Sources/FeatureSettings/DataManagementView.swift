@@ -210,7 +210,7 @@ public struct DataManagementView: View {
                 rows.append(ExportRow(
                     personName: person.name,
                     amount: debt.amount,
-                    currency: debt.kind.displayName,
+                    currency: debt.kind.localizedDisplayName(locale: LanguageManager.shared.locale),
                     direction: debt.direction == .receivable
                         ? "export.direction.receivable" : "export.direction.payable",
                     dueDate: debt.dueDate,
