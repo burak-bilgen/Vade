@@ -29,7 +29,6 @@ public struct ChartDataPoint: Identifiable, Sendable {
 /// Shows net balance trend over the last 6 months.
 /// Uses LineMark with gradient fill below the line.
 public struct MonthlyTrendChart: View {
-    @Environment(\.locale) private var locale
     let monthlyData: [(month: String, receivable: Decimal, payable: Decimal, net: Decimal)]
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
@@ -288,7 +287,6 @@ public struct CurrencyTrendChart: View {
 
 /// Shows upcoming due dates on a timeline with amounts.
 public struct UpcomingTimelineChart: View {
-    @Environment(\.locale) private var locale
     let items: [(person: String, amount: Decimal, dueDate: Date)]
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
@@ -364,7 +362,6 @@ public struct UpcomingTimelineChart: View {
 // MARK: - Net Balance Chart (legacy)
 
 public struct NetBalanceChart: View {
-    @Environment(\.locale) private var locale
     let dataPoints: [ChartDataPoint]
     let netBalance: Decimal
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
@@ -453,7 +450,6 @@ public struct DirectionPieChart: View {
 // MARK: - Person Distribution Chart (Horizontal Bar)
 
 public struct PersonDistributionChart: View {
-    @Environment(\.locale) private var locale
     let personBalances: [(name: String, balance: Decimal)]
     private let analytics: any AnalyticsTracking = AnalyticsService.shared
 
