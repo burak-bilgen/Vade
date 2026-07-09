@@ -15,7 +15,7 @@ public struct SummaryCard: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            // Top accent stripe — subtle indicator of net position
+            // Top accent stripe - subtle indicator of net position
             Rectangle()
                 .fill(stripeColor)
                 .frame(height: 3)

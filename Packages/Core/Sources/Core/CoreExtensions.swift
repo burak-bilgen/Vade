@@ -15,7 +15,7 @@ public extension Decimal {
     var absoluteValue: Decimal { magnitude }
 
     func formatted(using locale: Locale = .current) -> String {
-        // Check cache under lock — formatting inside the lock ensures
+        // Check cache under lock - formatting inside the lock ensures
         // the cached formatter is never used concurrently by two threads.
         var result: String?
         Self.formatterQueue.sync {

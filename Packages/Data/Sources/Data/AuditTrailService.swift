@@ -12,7 +12,7 @@ public protocol AuditTrailRecording: Sendable {
 
 // MARK: - Audit Trail Service
 
-/// Append-only audit trail — every mutation and CloudKit conflict is recorded.
+/// Append-only audit trail - every mutation and CloudKit conflict is recorded.
 /// Entries are never modified or deleted.
 public final class AuditTrailService: AuditTrailRecording {
     private let modelContainer: ModelContainer

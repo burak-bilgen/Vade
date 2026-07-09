@@ -32,7 +32,7 @@ struct ExchangeRateClientTests {
         let client = ExchangeRateClient()
         do {
             let rates = try await client.fetchAllRates()
-            // Network succeeded — should not crash, rates is an array
+            // Network succeeded - should not crash, rates is an array
             #expect(rates is [(code: String, rate: Decimal)])
         } catch {
             #expect(error is ExchangeRateError)

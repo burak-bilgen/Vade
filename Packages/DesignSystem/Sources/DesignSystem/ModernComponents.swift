@@ -109,7 +109,7 @@ public struct SectionHeader: View {
     }
 }
 
-// MARK: - Premium Balance Card — Modern Banking Style
+// MARK: - Premium Balance Card
 
 public struct PremiumBalanceCard: View {
     let netAmount: Decimal
@@ -146,7 +146,7 @@ public struct PremiumBalanceCard: View {
 
     private var cardBackground: some View {
         ZStack {
-            // Base gradient — dark, premium
+            // Base gradient - dark, premium
             RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous)
                 .fill(
                     LinearGradient(
@@ -160,7 +160,7 @@ public struct PremiumBalanceCard: View {
                     )
                 )
 
-            // Subtle radial highlight — top-right glow
+            // Subtle radial highlight - top-right glow
             RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous)
                 .fill(
                     RadialGradient(
@@ -174,7 +174,7 @@ public struct PremiumBalanceCard: View {
                     )
                 )
 
-            // Accent tint stripe — thin gradient line at top
+            // Accent tint stripe - thin gradient line at top
             RoundedRectangle(cornerRadius: Radius.xxl, style: .continuous)
                 .stroke(
                     LinearGradient(
@@ -224,7 +224,7 @@ public struct PremiumBalanceCard: View {
                 .background(.white.opacity(0.08), in: .capsule)
             }
 
-            // Net amount — large, bold
+            // Net amount - large, bold
             HStack(alignment: .firstTextBaseline, spacing: Spacing.s) {
                 Text(currency.format(netAmount))
                     .font(.custom(AppFont.jakartaBold, size: 38))
@@ -640,7 +640,7 @@ public struct CurrencyIconView: View {
     }
 }
 
-// MARK: - Rate Tile (for dashboard strip) — Modern Redesign
+// MARK: - Rate Tile (for dashboard strip)
 
 public struct RateTile: View {
     let code: String

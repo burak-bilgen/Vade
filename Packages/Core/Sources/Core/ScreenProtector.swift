@@ -57,7 +57,7 @@ public final class ScreenProtector: ScreenProtecting, @unchecked Sendable {
                 field.isSecureTextEntry = true
                 field.tag = 9992
                 window.addSubview(field)
-                // Keep it offscreen — it just needs to be in the view hierarchy
+                // Keep it offscreen - it just needs to be in the view hierarchy
                 field.center = CGPoint(x: -100, y: -100)
                 logger.info("[ScreenProtector] Screenshot blocking enabled")
             } else {

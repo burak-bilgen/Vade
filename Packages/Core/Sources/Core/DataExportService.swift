@@ -84,7 +84,7 @@ public final class DataExportService: DataExporting {
     // MARK: - PDF
 
     /// Generates a real PDF document from debt rows using UIGraphicsPDFRenderer.
-    /// iOS-only — uses UIKit PDF rendering.
+    /// iOS-only - uses UIKit PDF rendering.
     public func exportAsPDF(rows: [ExportRow]) throws -> Data {
         #if canImport(UIKit)
         return try renderPDF(rows: rows)
@@ -209,7 +209,7 @@ public final class DataExportService: DataExporting {
             ]
             let footerText = LanguageManager.shared.localized("export.pdf.footer")
             let recordCountText = LanguageManager.shared.localized("export.pdf.recordCount")
-            (footerText + " — \(rows.count) " + recordCountText).draw(
+            (footerText + " - \(rows.count) " + recordCountText).draw(
                 at: CGPoint(x: margin, y: yOffset), withAttributes: footerAttrs
             )
         }

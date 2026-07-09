@@ -148,13 +148,13 @@ public enum KeychainError: Error, Sendable {
 public enum JailbreakDetector {
     private static let logger = Logger(subsystem: "com.vade.core", category: "security")
 
-    /// Passive jailbreak detection — does NOT block the app.
+    /// Passive jailbreak detection - does NOT block the app.
     /// Returns true if common jailbreak indicators are found.
     public static var isJailbroken: Bool {
         #if targetEnvironment(simulator)
             return false
         #else
-            // Only check for Cydia and MobileSubstrate — the most reliable jailbreak indicators.
+            // Only check for Cydia and MobileSubstrate - the most reliable jailbreak indicators.
             // /bin/bash, /usr/sbin/sshd exist on stock iOS rootfs and cause false positives.
             let paths = [
                 "/Applications/Cydia.app",

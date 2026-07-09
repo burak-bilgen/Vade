@@ -28,7 +28,7 @@ public protocol NotificationScheduling: Sendable {
 // MARK: - Notification Service
 
 /// Schedules local reminders for upcoming debt due dates.
-/// Manages the 64-pending-notification limit — only the nearest 64 are scheduled.
+/// Manages the 64-pending-notification limit - only the nearest 64 are scheduled.
 public final class NotificationService: NSObject, NotificationScheduling, @unchecked Sendable {
     private let logger = Logger(subsystem: "com.vade.core", category: "notifications")
     private let maxPendingLimit = 64

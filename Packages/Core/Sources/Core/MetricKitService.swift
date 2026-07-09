@@ -8,7 +8,7 @@ import MetricKit
 // MARK: - MetricKit Service
 
 /// Collects launch time, hang diagnostics, and performance metrics.
-/// Opt-in via Settings — user controls whether metrics are shared.
+/// Opt-in via Settings - user controls whether metrics are shared.
 public final class MetricKitService: NSObject, @unchecked Sendable {
     private let logger = Logger(subsystem: "com.vade.core", category: "metrics")
 

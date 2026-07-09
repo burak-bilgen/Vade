@@ -59,7 +59,7 @@ public struct EntranceAnimation: ViewModifier {
 }
 
 public extension View {
-    /// Adds a premium entrance animation — fades in + slides from direction.
+    /// Adds a premium entrance animation - fades in + slides from direction.
     func entrance(
         _ direction: EntranceDirection = .up,
         delay: Double = 0,
@@ -99,7 +99,7 @@ public struct StaggeredList<Item: Identifiable, Content: View>: View {
 
 // MARK: - Shimmer Loading
 
-/// A shimmering skeleton loading placeholder — animates a gradient across the shape.
+/// A shimmering skeleton loading placeholder - animates a gradient across the shape.
 public struct ShimmerView: View {
     let cornerRadius: CGFloat
     @State private var isAnimating = false

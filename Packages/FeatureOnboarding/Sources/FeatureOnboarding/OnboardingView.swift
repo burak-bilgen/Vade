@@ -198,7 +198,6 @@ public struct OnboardingView: View {
             
             // Transaction card simulation
             VStack(spacing: Spacing.m) {
-                // Card 1: Ahmet Borç Alacak
                 HStack(spacing: Spacing.m) {
                     Image(systemName: "arrow.down.left.circle.fill")
                         .font(.system(size: 28))
@@ -228,7 +227,6 @@ public struct OnboardingView: View {
                 .opacity(trackAnimate ? 1 : 0)
                 .animation(.spring(response: 0.6, dampingFraction: 0.76).delay(0.25), value: trackAnimate)
                 
-                // Card 2: Elif Borç Veren
                 HStack(spacing: Spacing.m) {
                     Image(systemName: "arrow.up.right.circle.fill")
                         .font(.system(size: 28))

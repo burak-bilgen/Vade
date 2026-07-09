@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Undo Toast View
 
 /// Displays an undo bar at the bottom with auto-dismiss.
-/// Used for delete operations — gives the user 5-10 seconds to undo.
+/// Used for delete operations - gives the user 5-10 seconds to undo.
 public struct UndoToastView: View {
     let message: LocalizedStringKey
     let undoLabel: LocalizedStringKey

@@ -79,14 +79,14 @@ enum TCMBParser {
         return value
     }
 
-    /// Exchange rates URL — crashes at launch if constant is malformed (caught in testing).
+    /// Exchange rates URL - crashes at launch if constant is malformed (caught in testing).
     static let exchangeRatesURL: URL = {
         guard let url = URL(string: tcmbURL) else {
             preconditionFailure("Invalid TCMB URL: \(tcmbURL)")
         }
         return url
     }()
-    /// Gold rates URL — crashes at launch if constant is malformed (caught in testing).
+    /// Gold rates URL - crashes at launch if constant is malformed (caught in testing).
     static let goldRatesURL: URL = {
         guard let url = URL(string: goldURL) else {
             preconditionFailure("Invalid gold URL: \(goldURL)")

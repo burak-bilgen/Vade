@@ -327,7 +327,7 @@ public extension DebtRecordModel {
 
         guard let kind = CurrencyKind(rawValue: rawKind) else {
             Logger(subsystem: "com.vade.data", category: "mapper")
-                .warning("[Mapper] Unknown CurrencyKind rawValue '\(rawKind)' for debt \(debtID) — falling back to .tryCoin")
+                .warning("[Mapper] Unknown CurrencyKind rawValue '\(rawKind)' for debt \(debtID) - falling back to .tryCoin")
             return DebtRecord(
                 id: debtID, personID: personID, amount: amount, kind: .tryCoin,
                 direction: DebtDirection(rawValue: rawDirection) ?? .receivable,
@@ -339,7 +339,7 @@ public extension DebtRecordModel {
         }
         guard let direction = DebtDirection(rawValue: rawDirection) else {
             Logger(subsystem: "com.vade.data", category: "mapper")
-                .warning("[Mapper] Unknown DebtDirection rawValue '\(rawDirection)' for debt \(debtID) — falling back to .receivable")
+                .warning("[Mapper] Unknown DebtDirection rawValue '\(rawDirection)' for debt \(debtID) - falling back to .receivable")
             return DebtRecord(
                 id: debtID, personID: personID, amount: amount, kind: kind,
                 direction: .receivable, note: note, dueDate: dueDate,
@@ -350,7 +350,7 @@ public extension DebtRecordModel {
         }
         guard let status = DebtStatus(rawValue: rawStatus) else {
             Logger(subsystem: "com.vade.data", category: "mapper")
-                .warning("[Mapper] Unknown DebtStatus rawValue '\(rawStatus)' for debt \(debtID) — falling back to .pending")
+                .warning("[Mapper] Unknown DebtStatus rawValue '\(rawStatus)' for debt \(debtID) - falling back to .pending")
             return DebtRecord(
                 id: debtID, personID: personID, amount: amount, kind: kind,
                 direction: direction, note: note, dueDate: dueDate,

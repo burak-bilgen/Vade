@@ -14,7 +14,7 @@ import Networking
 // MARK: - Coordinator Root View
 
 /// Owns the onboarding state as a proper SwiftUI View.
-/// @State MUST live in a View struct — the Coordinator class cannot host it.
+/// @State MUST live in a View struct - the Coordinator class cannot host it.
 public struct CoordinatorRootView: View {
     @AppStorage("vade.onboarding.done") private var onboardingDone = false
     @Environment(LanguageManager.self) private var languageManager

@@ -100,7 +100,7 @@ public struct PersonDetailView: View {
     private func contentView(_ vm: PersonDetailViewModel) -> some View {
         ScrollView {
             VStack(spacing: Spacing.l) {
-                // ✦ Balance header — Glassmorphism card
+                // ✦ Balance header - Glassmorphism card
                 VStack(spacing: Spacing.xs) {
                     Text("personDetail.balance.label")
                         .font(Typography.font(for: .label))
@@ -179,7 +179,7 @@ public struct PersonDetailView: View {
                     .entrance(.up, delay: 0.15)
                 }
 
-                // Debt count summary — staggered entrance
+                // Debt count summary - staggered entrance
                 HStack(spacing: Spacing.m) {
                     DebtSummaryChip(
                         count: vm.debts.filter { $0.status == .pending }.count,
@@ -219,7 +219,7 @@ public struct PersonDetailView: View {
                 .padding(.horizontal, Spacing.xl)
                 .entrance(.up, delay: 0.3)
 
-                // Timeline — staggered entrance
+                // Timeline - staggered entrance
                 if vm.debts.isEmpty {
                     EmptyStateView(
                         title: "personDetail.empty.title",
@@ -287,7 +287,7 @@ public struct PersonDetailView: View {
     }
 
     private func shareBalance(vm: PersonDetailViewModel) {
-        let text = "\(person.name) — \(vm.balance.formatted())"
+        let text = "\(person.name) - \(vm.balance.formatted())"
         let av = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = scene.windows.first,
@@ -455,7 +455,7 @@ private struct AddDebtSheet: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: Spacing.xl) {
-                // Amount input — premium style
+                // Amount input - premium style
                 VStack(spacing: Spacing.xxs) {
                     Text("debt.add.amountPlaceholder")
                         .font(Typography.font(for: .label))

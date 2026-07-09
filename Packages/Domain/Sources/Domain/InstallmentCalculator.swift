@@ -21,7 +21,6 @@ public struct InstallmentPlan: Sendable, Hashable {
 // MARK: - Installment Calculator
 
 /// Calculates equal installment payments with remainder applied to the last installment.
-/// Rule: kuruş artığı son taksite eklenir, toplam tam tutara eşit olur.
 public enum InstallmentCalculator {
 
     /// Splits `total` into `count` equal installments.

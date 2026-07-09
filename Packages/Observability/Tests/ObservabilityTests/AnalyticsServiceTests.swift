@@ -26,7 +26,7 @@ struct AnalyticsServiceTests {
         service.track(.analyticsOptOut(true))
         service.track(.dataDeleted)
 
-        // No assertion needed — if any mapping crashes, the test fails.
+        // No assertion needed - if any mapping crashes, the test fails.
         #expect(Bool(true))
     }
 
@@ -47,10 +47,10 @@ struct AnalyticsServiceTests {
         // No case accepts free-form String that could carry names/amounts/notes.
         // This test verifies the enum cases structurally.
 
-        // debtAdded only takes DebtKind (.cash, .foreignCurrency, .gold) — no amount/name
-        // paymentRecorded only takes PaymentType (.full, .partial) — no amount/name
-        // currencyChanged only takes CurrencyCode enum — no free-form string
-        // exportUsed only takes ExportFormat enum (.pdf, .csv) — no file content
+        // debtAdded only takes DebtKind (.cash, .foreignCurrency, .gold) - no amount/name
+        // paymentRecorded only takes PaymentType (.full, .partial) - no amount/name
+        // currencyChanged only takes CurrencyCode enum - no free-form string
+        // exportUsed only takes ExportFormat enum (.pdf, .csv) - no file content
 
         #expect(Bool(true))
     }
