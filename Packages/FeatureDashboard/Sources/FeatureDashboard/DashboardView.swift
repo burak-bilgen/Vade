@@ -564,7 +564,7 @@ public struct DashboardView: View {
                             .frame(width: 8, height: 8)
                             .shadow(color: statusColor, radius: 3)
                         
-                        Text(LocalizedStringKey("health.\(details.status.rawValue).title"))
+                        Text(LocalizedStringKey(details.titleKey))
                             .font(Typography.font(for: .bodyEmphasis))
                             .foregroundStyle(ColorTokens.textPrimary)
                     }
