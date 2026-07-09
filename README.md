@@ -112,10 +112,11 @@ struct DashboardView: View {
 }
 
 // ViewModel — business logic + state management
-@Observable
-final class DashboardViewModel {
+final class DashboardViewModel: ObservableObject {
+    @Published private(set) var persons: [Person] = []
     private let personRepo: FetchPersonsUseCase   // Protocol, not concrete
     
+    @MainActor
     func loadData() async {
         let persons = try? await personRepo.execute()
         // ... calculation logic
@@ -303,6 +304,9 @@ DesignSystem/
 - **4px grid** — `Spacing.xs = 4, .s = 8, .m = 12, .l = 16, .xl = 24, .xxl = 32`
 - **Custom font** — Jakarta Sans for headings, system SF for body
 - **No third-party UI library** — every component hand-crafted for consistency
+- **`.entrance()` modifier** — custom `ViewModifier` for entrance animations (`.fade`, `.scale`, `.up`, `.leading` with configurable delay/duration)
+- **`.premiumPress()` modifier** — button press animation with spring response and haptic feedback
+- **`.elevation()` modifier** — shadow levels (`level1`, `level2`, `level3`) matching Material Design 3
 
 ---
 
@@ -362,7 +366,7 @@ App (Vade)
 | 🇹🇷 Turkish | Complete (source language) |
 | 🇬🇧 English | Complete |
 
-- **272 localized strings** across the app
+- **271 localized strings** across the app
 - **`.xcstrings` format** — Xcode 15 native, compile-time validation
 - **LanguageManager** — custom runtime language switching (no app restart)
 - **All strings `locale:`-aware** — `String(localized:locale:)` with explicit locale propagation
