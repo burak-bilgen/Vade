@@ -18,86 +18,83 @@
 
 ---
 
+Vade is a debt tracking app for iOS that helps you manage who owes you and who you owe — across multiple currencies, physical gold, and with full iCloud sync. No backend, no servers, no subscription.
+
+---
+
+## 🎯 Features
+
+| | |
+|---|---|
+| 💰 **Multi-Currency** | TRY, USD, EUR, and physical gold (Gram, Quarter, Half, Full, Republic) |
+| 🔄 **iCloud Sync** | SwiftData + CloudKit — offline-first, no backend |
+| 📊 **Live Rates** | TCMB exchange rates with 30-min cache and offline fallback |
+| 🏅 **Physical Gold** | Auto-conversion from gram price to Çeyrek, Yarım, Tam, Cumhuriyet |
+| 📅 **Reminders** | Local notifications for due and overdue debts |
+| 🔐 **Privacy** | Face ID / Touch ID lock with background blur |
+| 📄 **Export** | CSV and PDF (PDFKit) |
+| 📱 **Widget** | Home screen widget via WidgetKit (systemSmall, systemMedium) |
+| ♿ **Accessibility** | VoiceOver, Dynamic Type, `.accessibilityLabel`/`Hint` |
+| 🌙 **Dark Design** | Premium dark-only UI with canvas animations |
+| 🌐 **Bilingual** | Turkish & English with runtime switching |
+| 📝 **Audit Trail** | Append-only immutable log for every mutation |
+
+---
+
 ## 📱 Screenshots
 
-### 👋 Onboarding Flow
+### 👋 Onboarding — Welcomes new users, explains tracking, currencies, and sync across 4 screens.
 
-<table>
-  <tr>
-    <td align="center" width="25%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding1.png" width="200" alt="Onboarding 1"><br>
-      <sub>Welcome</sub>
-    </td>
-    <td align="center" width="25%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding2.png" width="200" alt="Onboarding 2"><br>
-      <sub>Track</sub>
-    </td>
-    <td align="center" width="25%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding3.png" width="200" alt="Onboarding 3"><br>
-      <sub>Currencies</sub>
-    </td>
-    <td align="center" width="25%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding4.png" width="200" alt="Onboarding 4"><br>
-      <sub>iCloud Sync</sub>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding1.png" width="180" alt="Onboarding 1">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding2.png" width="180" alt="Onboarding 2">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding3.png" width="180" alt="Onboarding 3">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/onboarding4.png" width="180" alt="Onboarding 4">
+</p>
 
-### 🏠 Dashboard & Quick Actions
+### 🏠 Dashboard — See total balances, recent activity, and quick actions at a glance.
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/dashboard.png" width="200" alt="Dashboard"><br>
-      <sub>Dashboard</sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/quickAdd.png" width="200" alt="Quick Add"><br>
-      <sub>Quick Add</sub>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/dashboard.png" width="200" alt="Dashboard">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/quickAdd.png" width="200" alt="Quick Add">
+</p>
 
-### 👥 People Management
+### 👥 People — Track debts per person with full history.
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/people.png" width="200" alt="People"><br>
-      <sub>People List</sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/addPerson.png" width="200" alt="Add Person"><br>
-      <sub>Add Person</sub>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/people.png" width="200" alt="People List">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/addPerson.png" width="200" alt="Add Person">
+</p>
 
-### 📊 Analytics & Exchange Rates
+### 📊 Analytics — Charts, exchange rates, and debt payoff assistant.
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/statistics.png" width="200" alt="Statistics"><br>
-      <sub>Statistics</sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/exchangeRates.png" width="200" alt="Exchange Rates"><br>
-      <sub>Exchange Rates</sub>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/statistics.png" width="200" alt="Statistics">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/exchangeRates.png" width="200" alt="Exchange Rates">
+</p>
 
 ### ⚙️ Settings
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/settings.png" width="200" alt="Settings"><br>
-      <sub>Settings</sub>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github.com/burak-bilgen/Vade/blob/main/screenshots/settings.png" width="200" alt="Settings">
+</p>
+
+---
+
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/burak-bilgen/Vade.git
+cd Vade
+
+# Install Tuist (project generation)
+brew install tuist
+tuist generate
+
+open Vade.xcworkspace
+```
+
+Requires **Xcode 16+** and **iOS 18+ SDK**.
 
 ---
 
@@ -114,88 +111,32 @@
 | **View-First Architecture** | Views drive lifecycle, ViewModels handle business logic |
 | **Factory Pattern** | Coordinator creates view controllers and injects dependencies |
 
-```mermaid
-graph TD
-    Presentation[Presentation Layer<br/>SwiftUI Views + ViewModels] --> Domain[Domain Layer<br/>Pure Swift, No UI Dependencies]
-    Presentation --> Data[Data Layer<br/>SwiftData + CloudKit]
-    Data --> Domain
-    Domain --> Foundation
-```
-
-### 🔷 MVVM-C in Practice
-
-```swift
-// View (SwiftUI) — thin, no business logic
-struct DashboardView: View {
-    @State private var viewModel: DashboardViewModel?
-    
-    var body: some View {
-        content(vm)
-            .task { await vm.loadData() }
-    }
-}
-
-// ViewModel — business logic + state management
-final class DashboardViewModel: ObservableObject {
-    @Published private(set) var persons: [Person] = []
-    private let personRepo: FetchPersonsUseCase   // Protocol, not concrete
-    
-    @MainActor
-    func loadData() async {
-        let persons = try? await personRepo.execute()
-        // ... calculation logic
-    }
-}
-
-// Coordinator — navigation flows
-struct AppCoordinator: View {
-    @State private var showOnboarding = true
-    
-    var body: some View {
-        if showOnboarding {
-            OnboardingView(onComplete: { showOnboarding = false })
-        } else {
-            MainTabView()
-        }
-    }
-}
-```
-
 ### 🔷 12 Modular SPM Packages
 
 ```
 Packages/
 ├── Domain/           # Pure Swift models, enums, protocols — zero dependencies
 ├── Data/             # SwiftData repositories, CloudKit integration
+│   └── depends on: Domain
 ├── Core/             # LanguageManager, SecurityServices, Utilities
 ├── Networking/       # URLSession + async/await, XML parsing, caching
 ├── DesignSystem/     # Component library: ColorTokens, Typography, Components
-├── Observability/    # Analytics & logging abstraction
+│   └── depends on: Core
+├── Observability/    # Analytics & logging abstraction (OSLog + Firebase)
 ├── FeatureDashboard/ # Dashboard, charts, rates ticker
+│   └── depends on: Domain, Data, DesignSystem, Networking, Observability
 ├── FeatureDebtDetail/# Debt records, payment management, timeline
+│   └── depends on: Domain, Data, DesignSystem, Observability
 ├── FeatureOnboarding/# Onboarding flow (4-step wizard)
+│   └── depends on: DesignSystem, Core
 ├── FeatureSettings/  # Settings, data management, export
+│   └── depends on: DesignSystem, Core, Domain, Data, Observability
 ├── FeatureWidget/    # Home screen widget (WidgetKit)
+│   └── depends on: Core, Domain, Observability, DesignSystem
 └── Project.swift     # Tuist manifest
 ```
 
-**Why 12 packages?** Incremental build performance. Change one feature → only that package recompiles. Each package has isolated tests and zero unintended dependencies.
-
-### 🔷 Clean Architecture — Layer Separation
-
-```
-┌─────────────────────────────────┐
-│   Presentation (Feature*)       │
-│   SwiftUI Views, ViewModels     │
-├─────────────────────────────────┤
-│   Domain (Pure Swift)           │
-│   Entities, UseCase Protocols   │ ← No UIKit/ SwiftUI import
-├─────────────────────────────────┤
-│   Data                          │
-│   Repository Implementations    │
-│   @Model classes, CloudKit      │
-└─────────────────────────────────┘
-```
+**Why 12 packages?** Incremental build performance. Change one feature → only that package recompiles. Each package has isolated tests and zero unintended dependencies. The dependency graph is strictly acyclic — no circular imports, no surprises.
 
 ---
 
@@ -286,7 +227,7 @@ final class DebtRecordModel {
 | **Offline Mode** | Full offline functionality, background sync on reconnect |
 | **Audit Trail** | Every mutation recorded in append-only `AuditEntryModel` |
 
-**Why no backend?** Every user's data stays in their own iCloud. Zero server cost. Zero privacy liability. Zero maintenance.
+**Why no backend?** Every user's data stays in their own iCloud. Zero server cost, zero privacy liability, zero maintenance. No sign-up, no password, no vendor lock-in.
 
 ---
 
@@ -297,7 +238,6 @@ final class DebtRecordModel {
 | **Biometric Auth** | Face ID / Touch ID via `LAContext` |
 | **App Lock** | Scene-phase background blur |
 | **No Certificate Pinning** | ADR-003: Deliberate choice for network flexibility |
-| **No Backend** | User data never leaves their iCloud |
 
 ---
 
@@ -353,36 +293,6 @@ Networking/
 
 ---
 
-## 📦 Package Dependencies & Module Graph
-
-```
-App (Vade)
-├── FeatureDashboard
-│   ├── Domain, Data, DesignSystem, Networking, Observability
-├── FeatureDebtDetail
-│   ├── Domain, Data, DesignSystem, Observability
-├── FeatureOnboarding
-│   ├── DesignSystem, Core
-├── FeatureSettings
-│   ├── DesignSystem, Core, Domain, Data, Observability
-├── FeatureWidget
-│   ├── Core, Domain, Observability, DesignSystem
-├── Core
-│   ├── (Foundation-only, no UI)
-├── Domain
-│   ├── (Foundation-only, no UI)
-├── Data
-│   ├── Domain
-├── DesignSystem
-│   ├── Core
-├── Networking
-│   ├── Foundation
-└── Observability
-    └── OSLog + Firebase Analytics
-```
-
----
-
 ## 🌐 Localization
 
 | Language | Status |
@@ -394,25 +304,6 @@ App (Vade)
 - **`.xcstrings` format** — Xcode 15 native, compile-time validation
 - **LanguageManager** — custom runtime language switching (no app restart)
 - **All strings `locale:`-aware** — `String(localized:locale:)` with explicit locale propagation
-
----
-
-## 🎯 Features (Product)
-
-| | |
-|---|---|
-| 💰 **Multi-Currency** | TRY, USD, EUR, and physical gold (Gram, Quarter, Half, Full, Republic) |
-| 🔄 **iCloud Sync** | SwiftData + CloudKit — offline-first, no backend |
-| 📊 **Live Rates** | TCMB exchange rates with 30-min cache and offline fallback |
-| 🏅 **Physical Gold** | Auto-conversion from gram price to Çeyrek, Yarım, Tam, Cumhuriyet |
-| 📅 **Reminders** | Local notifications for due and overdue debts |
-| 🔐 **Privacy** | Face ID / Touch ID lock with background blur |
-| 📄 **Export** | CSV and PDF (PDFKit) |
-| 📱 **Widget** | Home screen widget via WidgetKit (systemSmall, systemMedium) |
-| ♿ **Accessibility** | VoiceOver, Dynamic Type, `.accessibilityLabel`/`Hint` |
-| 🌙 **Design** | Dark-only premium UI with canvas animations |
-| 🌐 **Bilingual** | Turkish & English with runtime switching |
-| 📝 **Audit Trail** | Append-only immutable log for every mutation |
 
 ---
 
@@ -442,42 +333,6 @@ App (Vade)
 
 ---
 
-## 📊 Code Quality Metrics
-
-```json
-{
-  "swift_version": "6.0",
-  "packages": 12,
-  "test_coverage": "86%+",
-  "localized_strings": 272,
-  "languages": ["Turkish", "English"],
-  "concurrency_model": "strict",
-  "architecture": ["MVVM-C", "Clean Architecture", "Modular"],
-  "ci": "GitHub Actions",
-  "project_gen": "Tuist",
-  "data_race_free": true
-}
-```
-
----
-
-## 🚀 Getting Started
-
-```bash
-git clone https://github.com/burak-bilgen/Vade.git
-cd Vade
-
-# Install Tuist (project generation)
-brew install tuist
-tuist generate
-
-open Vade.xcworkspace
-```
-
-Requires **Xcode 16+** and **iOS 18+ SDK**.
-
----
-
 ## 📄 License
 
-All rights reserved. Professional portfolio project.
+All rights reserved. Proprietary.
