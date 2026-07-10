@@ -181,14 +181,6 @@ Local persistence with SwiftData, automatic iCloud sync through CloudKit Private
 
 Why no backend? Every user's data stays in their own iCloud. Zero server cost, zero privacy liability, zero maintenance. No sign-up, no password, no vendor lock-in.
 
-## 🔐 Security
-
-| Feature | Implementation |
-|---------|---------------|
-| **Biometric Auth** | Face ID / Touch ID via LAContext |
-| **App Lock** | Scene-phase background blur |
-| **No Certificate Pinning** | ADR-003: deliberate choice for network flexibility |
-
 ## 🎨 Design System (In-House Component Library)
 
 Every component is hand-crafted — no third-party UI library used. Dark-only palette chosen specifically for financial apps, Jakarta Sans as a custom heading font, and a 4px grid system for consistent spacing.
