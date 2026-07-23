@@ -1,0 +1,54 @@
+{
+  "name": "swift-accessibility-skill",
+  "owner": {
+    "name": "Pasquale Vittoriosi"
+  },
+  "metadata": {
+    "description": "Platform accessibility guidance for SwiftUI, UIKit, and AppKit UI tasks and audits.",
+    "version": "0.2.0"
+  },
+  "plugins": [
+    {
+      "name": "swift-accessibility-skill",
+      "source": "./",
+      "description": "Platform accessibility guidance for SwiftUI, UIKit, and AppKit, including all 9 App Store Accessibility Nutrition Label categories.",
+      "version": "0.2.0",
+      "author": {
+        "name": "Pasquale Vittoriosi"
+      },
+      "repository": "https://github.com/PasqualeVittoriosi/swift-accessibility-skill",
+      "license": "MIT",
+      "category": "accessibility",
+      "tags": [
+        "accessibility",
+        "a11y",
+        "voiceover",
+        "screen-reader",
+        "dynamic-type",
+        "voice-control",
+        "switch-control",
+        "wcag",
+        "nutrition-labels",
+        "swiftui",
+        "uikit",
+        "appkit",
+        "ios",
+        "macos",
+        "watchos",
+        "tvos",
+        "visionos"
+      ],
+      "keywords": [
+        "swift",
+        "swiftui",
+        "uikit",
+        "appkit",
+        "accessibility",
+        "a11y",
+        "voiceover",
+        "wcag",
+        "nutrition-labels"
+      ]
+    }
+  ]
+}

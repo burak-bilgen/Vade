@@ -1,0 +1,5 @@
+{
+  "name": "background-execution",
+  "version": "1.0.0",
+  "description": "Reviews and writes Swift background-execution code: BGTaskScheduler, background URLSession, beginBackgroundTask assertions, silent/VoIP push, and background modes"
+}
